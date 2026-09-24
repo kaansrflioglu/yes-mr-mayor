@@ -1,0 +1,384 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/desk/Rulebook.gd" id="1_rule"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_book_bg"]
+bg_color = Color(0.13, 0.15, 0.2, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.75, 0.62, 0.28, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tab_active"]
+bg_color = Color(0.2, 0.24, 0.32, 1)
+border_width_bottom = 3
+border_color = Color(0.95, 0.8, 0.3, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rule_card"]
+bg_color = Color(0.17, 0.2, 0.27, 0.9)
+border_width_left = 2
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.4, 0.52, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_danger_card"]
+bg_color = Color(0.25, 0.14, 0.15, 0.9)
+border_width_left = 3
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.85, 0.3, 0.3, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_seal_card"]
+bg_color = Color(0.15, 0.22, 0.2, 0.9)
+border_width_left = 3
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.75, 0.45, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="Rulebook" type="PanelContainer"]
+custom_minimum_size = Vector2(420, 740)
+offset_right = 420.0
+offset_bottom = 740.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_book_bg")
+script = ExtResource("1_rule")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 14
+
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HeaderBar" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="Margin/VBox/HeaderBar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.95, 0.82, 0.35, 1)
+theme_override_font_sizes/font_size = 15
+text = "BELEDİYE MEVZUAT KİTAPÇIĞI"
+vertical_alignment = 1
+
+[node name="BtnClose" type="Button" parent="Margin/VBox/HeaderBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+text = "✕"
+
+[node name="TabBar" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="TabBtnZoning" type="Button" parent="Margin/VBox/TabBar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_active")
+text = "İmar & Kat"
+
+[node name="TabBtnSeals" type="Button" parent="Margin/VBox/TabBar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 11
+text = "Mühürler"
+
+[node name="TabBtnBlacklist" type="Button" parent="Margin/VBox/TabBar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 11
+text = "Kara Liste"
+
+[node name="TabBtnOrders" type="Button" parent="Margin/VBox/TabBar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 11
+text = "Genelgeler"
+
+[node name="HSeparator" type="HSeparator" parent="Margin/VBox"]
+layout_mode = 2
+
+[node name="ContentArea" type="Control" parent="Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PageZoning" type="ScrollContainer" parent="Margin/VBox/ContentArea"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ZoningVBox" type="VBoxContainer" parent="Margin/VBox/ContentArea/PageZoning"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="RuleRiverBox" type="PanelContainer" parent="Margin/VBox/ContentArea/PageZoning/ZoningVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_danger_card")
+
+[node name="M1" type="MarginContainer" parent="Margin/VBox/ContentArea/PageZoning/ZoningVBox/RuleRiverBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="L1" type="Label" parent="Margin/VBox/ContentArea/PageZoning/ZoningVBox/RuleRiverBox/M1"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.65, 0.65, 1)
+theme_override_font_sizes/font_size = 12
+text = "🌊 DERE YATAĞI HAVZASI: Azami 2 Kat.
+Şiddetli sel riski! Çok katlı konut ve ağır yapı KESİNLİKLE YASAKTIR."
+autowrap_mode = 3
+
+[node name="RuleHistoricBox" type="PanelContainer" parent="Margin/VBox/ContentArea/PageZoning/ZoningVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rule_card")
+
+[node name="M2" type="MarginContainer" parent="Margin/VBox/ContentArea/PageZoning/ZoningVBox/RuleHistoricBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="L2" type="Label" parent="Margin/VBox/ContentArea/PageZoning/ZoningVBox/RuleHistoricBox/M2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.95, 1)
+theme_override_font_sizes/font_size = 12
+text = "🏛️ TARİHİ MERKEZ: Azami 4 Kat.
+Tarihi dokuyu bozan yüksek yapı ve sanayi yasaktır."
+autowrap_mode = 3
+
+[node name="RuleCentralBox" type="PanelContainer" parent="Margin/VBox/ContentArea/PageZoning/ZoningVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rule_card")
+
+[node name="M3" type="MarginContainer" parent="Margin/VBox/ContentArea/PageZoning/ZoningVBox/RuleCentralBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="L3" type="Label" parent="Margin/VBox/ContentArea/PageZoning/ZoningVBox/RuleCentralBox/M3"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.95, 1)
+theme_override_font_sizes/font_size = 12
+text = "🏢 MERKEZ TİCARET: Azami 35 Kat.
+Yüksek yoğunluklu ticari ve konut plazaları serbesttir."
+autowrap_mode = 3
+
+[node name="RuleGreenBox" type="PanelContainer" parent="Margin/VBox/ContentArea/PageZoning/ZoningVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_danger_card")
+
+[node name="M4" type="MarginContainer" parent="Margin/VBox/ContentArea/PageZoning/ZoningVBox/RuleGreenBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="L4" type="Label" parent="Margin/VBox/ContentArea/PageZoning/ZoningVBox/RuleGreenBox/M4"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.95, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "🌳 YEŞİL KUŞAK & BOTANİK: Sıfır (0) Ticari Kat.
+Sadece halk parkı yapılabilir. Ticari inşaat KESİNLİKLE YASAKTIR."
+autowrap_mode = 3
+
+[node name="RuleIndustrialBox" type="PanelContainer" parent="Margin/VBox/ContentArea/PageZoning/ZoningVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rule_card")
+
+[node name="M5" type="MarginContainer" parent="Margin/VBox/ContentArea/PageZoning/ZoningVBox/RuleIndustrialBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="L5" type="Label" parent="Margin/VBox/ContentArea/PageZoning/ZoningVBox/RuleIndustrialBox/M5"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.95, 1)
+theme_override_font_sizes/font_size = 12
+text = "🏭 SANAYİ LİMANI: Azami 6 Kat.
+Ağır sanayi serbesttir; Çevre Kurulu vizesi zorunludur."
+autowrap_mode = 3
+
+[node name="RuleTaxBox" type="PanelContainer" parent="Margin/VBox/ContentArea/PageZoning/ZoningVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_danger_card")
+
+[node name="M6" type="MarginContainer" parent="Margin/VBox/ContentArea/PageZoning/ZoningVBox/RuleTaxBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="L6" type="Label" parent="Margin/VBox/ContentArea/PageZoning/ZoningVBox/RuleTaxBox/M6"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0.4, 1)
+theme_override_font_sizes/font_size = 12
+text = "💰 MALİ YÖNETMELİK: Vergi Borcu Zorunluluğu!
+Belediyeye vergi borcu olan şirketlere ruhsat verilemez (Borç = 0 ₺ şarttır)."
+autowrap_mode = 3
+
+[node name="PageSeals" type="ScrollContainer" parent="Margin/VBox/ContentArea"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SealsVBox" type="VBoxContainer" parent="Margin/VBox/ContentArea/PageSeals"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="RuleSealBox" type="PanelContainer" parent="Margin/VBox/ContentArea/PageSeals/SealsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_seal_card")
+
+[node name="SM1" type="MarginContainer" parent="Margin/VBox/ContentArea/PageSeals/SealsVBox/RuleSealBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="SL1" type="Label" parent="Margin/VBox/ContentArea/PageSeals/SealsVBox/RuleSealBox/SM1"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.95, 0.88, 1)
+theme_override_font_sizes/font_size = 12
+text = "🛡️ RESMİ BAKANLIK MÜHÜRÜ REHBERİ:
+✓ GEÇERLİ: 'T.C. ÇEVRE VE ŞEHİRCİLİK' yazmalı ve 2026 tarihli olmalıdır.
+✗ SAHTE: 'Bakanlıgı' veya 'Planing' gibi imla hataları olanlar SAHTEDİR!
+✗ GEÇERSİZ: 2026 öncesi (2022 vb.) tarihli mühürlerin süresi DOLMUŞTUR."
+autowrap_mode = 3
+
+[node name="PageBlacklist" type="ScrollContainer" parent="Margin/VBox/ContentArea"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BlacklistVBox" type="VBoxContainer" parent="Margin/VBox/ContentArea/PageBlacklist"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="RuleBlacklistBox" type="PanelContainer" parent="Margin/VBox/ContentArea/PageBlacklist/BlacklistVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_danger_card")
+
+[node name="BM1" type="MarginContainer" parent="Margin/VBox/ContentArea/PageBlacklist/BlacklistVBox/RuleBlacklistBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="BL1" type="Label" parent="Margin/VBox/ContentArea/PageBlacklist/BlacklistVBox/RuleBlacklistBox/BM1"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "🚫 İHALEDEN VE RUHSATTAN MEN EDİLEN KARA LİSTE:
+- Mega Yapı A.Ş. (MegaCorp Holdings)
+- Raylı Sistem Konsorsiyumu (Transit)
+- Titan Madencilik (Titan Mining)
+- Altın Dinopark Girişimi
+- Gölge Finans Paravan Ltd (Shadow Finance)
+- Eko-Kimya Petrokimya A.Ş. (EcoChem)
+
+KURAL: Bu şirketlerin başvuruları DERHAL REDDEDİLMELİDİR!"
+autowrap_mode = 3
+
+[node name="PageOrders" type="ScrollContainer" parent="Margin/VBox/ContentArea"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="OrdersVBox" type="VBoxContainer" parent="Margin/VBox/ContentArea/PageOrders"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="RuleOrdersBox" type="PanelContainer" parent="Margin/VBox/ContentArea/PageOrders/OrdersVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rule_card")
+
+[node name="OM1" type="MarginContainer" parent="Margin/VBox/ContentArea/PageOrders/OrdersVBox/RuleOrdersBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="OL1" type="Label" parent="Margin/VBox/ContentArea/PageOrders/OrdersVBox/RuleOrdersBox/OM1"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.5, 1)
+theme_override_font_sizes/font_size = 12
+text = "📢 BAŞKANLIK ACİL DURUM GENELGESİ:
+Son yağışlar ve sel tehlikesi nedeniyle Dere Yatağı Havzası'ndaki tüm çok katlı konut ve zemin ihlallerine SIFIR TOLERANS uygulanacaktır. Müfettiş denetimlerini eksiksiz yapın."
+autowrap_mode = 3

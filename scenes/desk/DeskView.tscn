@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://deskview001"]
+[gd_scene load_steps=16 format=3 uid="uid://deskview001"]
 
 [ext_resource type="Script" path="res://scripts/desk/DeskView.gd" id="1_desk"]
 [ext_resource type="PackedScene" path="res://scenes/hud/TopBarHUD.tscn" id="2_hud"]
 [ext_resource type="PackedScene" path="res://scenes/desk/SkylineView.tscn" id="3_sky"]
 [ext_resource type="PackedScene" path="res://scenes/desk/RedTelephone.tscn" id="4_phone"]
 [ext_resource type="PackedScene" path="res://scenes/hud/TwitchVoteOverlay.tscn" id="5_twitch"]
+[ext_resource type="PackedScene" path="res://scenes/desk/Rulebook.tscn" id="6_rulebook"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_desk_bg"]
 bg_color = Color(0.12, 0.14, 0.18, 1)
@@ -50,6 +51,46 @@ corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 shadow_color = Color(0, 0, 0, 0.35)
 shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inspect_btn"]
+bg_color = Color(0.2, 0.3, 0.45, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 5
+border_color = Color(0.35, 0.55, 0.8, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.35)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rule_btn"]
+bg_color = Color(0.25, 0.22, 0.15, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(0.85, 0.7, 0.25, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inspect_status"]
+bg_color = Color(0.1, 0.14, 0.22, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.65, 0.95, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.3)
+shadow_size = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_drawer"]
 bg_color = Color(0.14, 0.16, 0.2, 0.95)
@@ -111,10 +152,10 @@ offset_bottom = 440.0
 
 [node name="LeatherBlotter" type="Panel" parent="ShakeRoot"]
 layout_mode = 0
-offset_left = 480.0
-offset_top = 110.0
-offset_right = 1440.0
-offset_bottom = 1010.0
+offset_left = 460.0
+offset_top = 100.0
+offset_right = 1460.0
+offset_bottom = 1020.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_blotter")
 
 [node name="DocumentDropZone" type="Control" parent="ShakeRoot"]
@@ -127,32 +168,85 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
+[node name="Rulebook" parent="ShakeRoot" instance=ExtResource("6_rulebook")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 25.0
+offset_top = 110.0
+offset_right = 445.0
+offset_bottom = 850.0
+
+[node name="BtnToggleRulebook" type="Button" parent="ShakeRoot"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 25.0
+offset_top = 865.0
+offset_right = 320.0
+offset_bottom = 910.0
+theme_override_colors/font_color = Color(0.95, 0.85, 0.4, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_rule_btn")
+text = "📖 Mevzuat Kitapçığı (TAB)"
+
+[node name="InspectStatusPanel" type="PanelContainer" parent="ShakeRoot"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 480.0
+offset_top = 955.0
+offset_right = 1440.0
+offset_bottom = 1005.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_inspect_status")
+
+[node name="IM" type="MarginContainer" parent="ShakeRoot/InspectStatusPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+
+[node name="InspectStatusLabel" type="Label" parent="ShakeRoot/InspectStatusPanel/IM"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.85, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "İNCELEME MODU: Çelişen 2 bilgiyi seçin"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="StampRack" type="VBoxContainer" parent="ShakeRoot"]
 layout_mode = 0
 offset_left = 1490.0
-offset_top = 460.0
-offset_right = 1790.0
-offset_bottom = 680.0
-theme_override_constants/separation = 20
+offset_top = 430.0
+offset_right = 1810.0
+offset_bottom = 710.0
+theme_override_constants/separation = 14
 alignment = 1
 
 [node name="BtnStampApprove" type="Button" parent="ShakeRoot/StampRack"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 84)
+custom_minimum_size = Vector2(320, 76)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBoxFlat_stamp_green")
 text = "APPROVED"
 
 [node name="BtnStampReject" type="Button" parent="ShakeRoot/StampRack"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(300, 84)
+custom_minimum_size = Vector2(320, 76)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBoxFlat_stamp_red")
 text = "REJECTED"
+
+[node name="BtnInspectMode" type="Button" parent="ShakeRoot/StampRack"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 58)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_inspect_btn")
+text = "🔍 İNCELE (SPACE)"
 
 [node name="SafeDrawerPanel" type="PanelContainer" parent="ShakeRoot"]
 unique_name_in_owner = true
@@ -201,9 +295,9 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 160.0
-offset_top = 840.0
+offset_top = 925.0
 offset_right = 320.0
-offset_bottom = 980.0
+offset_bottom = 1065.0
 
 [node name="NextDayBox" type="PanelContainer" parent="ShakeRoot"]
 unique_name_in_owner = true

@@ -43,6 +43,11 @@ extends Resource
 @export var news_headline_approve_key: String = ""
 @export var news_headline_reject_key: String = ""
 
+## Deep Papers, Please style deduction fields:
+@export var application_data: Dictionary = {}
+@export var report_data: Dictionary = {}
+@export var violations: Array[Dictionary] = []
+
 
 ## Factory method to instantiate EventData from a Dictionary (e.g., loaded from events.json)
 static func from_dict(dict: Dictionary) -> EventData:
@@ -61,7 +66,50 @@ static func from_dict(dict: Dictionary) -> EventData:
 		
 	event.news_headline_approve_key = str(dict.get("news_headline_approve_key", ""))
 	event.news_headline_reject_key = str(dict.get("news_headline_reject_key", ""))
+
+	if dict.has("application_data") and dict["application_data"] is Dictionary:
+		event.application_data = dict["application_data"].duplicate(true)
+	else:
+		event.application_data = _generate_default_application(event)
+
+	if dict.has("report_data") and dict["report_data"] is Dictionary:
+		event.report_data = dict["report_data"].duplicate(true)
+	else:
+		event.report_data = _generate_default_report(event)
+
+	if dict.has("violations") and dict["violations"] is Array:
+		event.violations = []
+		for v in dict["violations"]:
+			if v is Dictionary:
+				event.violations.append(v.duplicate(true))
+	else:
+		event.violations = []
+
 	return event
+
+
+static func _generate_default_application(ev: EventData) -> Dictionary:
+	return {
+		"applicant_name_key": ev.applicant_key,
+		"project_title_key": ev.title_key,
+		"district_id": "DIST_CENTRAL",
+		"floors": 4,
+		"budget_stated": 50000,
+		"seal_id": "SEAL_MINISTRY_VALID",
+		"reg_code": "REG-1001",
+		"expiry_date": "2026-12-31"
+	}
+
+
+static func _generate_default_report(ev: EventData) -> Dictionary:
+	return {
+		"inspector_name_key": "INSP_KAYA",
+		"measured_floors": 4,
+		"hazard_level": "HAZARD_NONE",
+		"tax_debt": 0,
+		"soil_status": "SOIL_GRADE_A",
+		"notes_key": "EVT_004_INSP_NOTES"
+	}
 
 
 ## Serializes EventData into a standard Dictionary
@@ -76,7 +124,10 @@ func to_dict() -> Dictionary:
 		"effects_approve": effects_approve.duplicate(true),
 		"effects_reject": effects_reject.duplicate(true),
 		"news_headline_approve_key": news_headline_approve_key,
-		"news_headline_reject_key": news_headline_reject_key
+		"news_headline_reject_key": news_headline_reject_key,
+		"application_data": application_data.duplicate(true),
+		"report_data": report_data.duplicate(true),
+		"violations": violations.duplicate(true)
 	}
 
 
@@ -93,3 +144,28 @@ func get_applicant() -> String:
 func get_news_headline(approved: bool) -> String:
 	var key := news_headline_approve_key if approved else news_headline_reject_key
 	return tr(key) if not key.is_empty() else ""
+
+func has_violations() -> bool:
+	return not violations.is_empty()
+
+func get_violations_count() -> int:
+	return violations.size()
+
+## Checks if two inspected tokens constitute a known violation in this event
+func find_matching_violation(tag_a: String, tag_b: String) -> Dictionary:
+	var norm_a: String = tag_a.to_lower()
+	var norm_b: String = tag_b.to_lower()
+	for v in violations:
+		var targets: Array = v.get("tags", [])
+		var has_a: bool = false
+		var has_b: bool = false
+		for t in targets:
+			var target_str := str(t).to_lower()
+			if target_str == norm_a:
+				has_a = true
+			if target_str == norm_b:
+				has_b = true
+		if has_a and has_b:
+			return v
+	return {}
+

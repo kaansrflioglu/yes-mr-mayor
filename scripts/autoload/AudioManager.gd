@@ -111,6 +111,85 @@ func play_phone_ring() -> void:
 	_play_raw_wav(buffer, int(SAMPLE_RATE))
 
 
+## Plays investigative discovery chime when a valid discrepancy is uncovered
+func play_discrepancy_match() -> void:
+	var duration: float = 0.45
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	# Harmonic major triad chime (523 Hz C5, 659 Hz E5, 784 Hz G5, 1046 Hz C6)
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var progress: float = float(i) / float(samples)
+		var envelope: float = exp(-6.0 * progress)
+
+		var note1: float = sin(2.0 * PI * 523.25 * t)
+		var note2: float = sin(2.0 * PI * 659.25 * t)
+		var note3: float = sin(2.0 * PI * 783.99 * t)
+		var note4: float = sin(2.0 * PI * 1046.50 * t)
+		var chime: float = (note1 * 0.3 + note2 * 0.3 + note3 * 0.25 + note4 * 0.25) * envelope
+
+		var sample_f: float = clampf(chime * 0.7, -1.0, 1.0)
+		buffer.encode_s16(i * 2, int(sample_f * 32767.0))
+
+	_play_raw_wav(buffer, int(SAMPLE_RATE))
+
+
+## Plays low error buzz when inspection doesn't find a contradiction
+func play_discrepancy_fail() -> void:
+	var duration: float = 0.22
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var progress: float = float(i) / float(samples)
+		var envelope: float = exp(-12.0 * progress)
+		# Low square-ish buzz (120 Hz)
+		var buzz: float = (1.0 if sin(2.0 * PI * 120.0 * t) > 0.0 else -1.0) * 0.25
+		var sample_f: float = clampf(buzz * envelope, -1.0, 1.0)
+		buffer.encode_s16(i * 2, int(sample_f * 32767.0))
+
+	_play_raw_wav(buffer, int(SAMPLE_RATE))
+
+
+## Plays mechanical shutter/click when toggling inspection mode
+func play_inspect_toggle() -> void:
+	var duration: float = 0.12
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var progress: float = float(i) / float(samples)
+		var envelope: float = exp(-28.0 * progress)
+		var click: float = sin(2.0 * PI * 1400.0 * t) * envelope
+		var sample_f: float = clampf(click * 0.5, -1.0, 1.0)
+		buffer.encode_s16(i * 2, int(sample_f * 32767.0))
+
+	_play_raw_wav(buffer, int(SAMPLE_RATE))
+
+
+## Plays soft binder / rulebook page turn sound
+func play_page_flip() -> void:
+	var duration: float = 0.20
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var progress: float = float(i) / float(samples)
+		var envelope: float = sin(PI * progress)
+		var noise_val: float = randf_range(-0.3, 0.3) * envelope
+		var sample_int: int = int(clampf(noise_val, -1.0, 1.0) * 32767.0)
+		buffer.encode_s16(i * 2, sample_int)
+
+	_play_raw_wav(buffer, int(SAMPLE_RATE))
+
+
 ## Helper to build an AudioStreamWAV from raw 16-bit PCM bytes
 func _play_raw_wav(data: PackedByteArray, rate: int) -> void:
 	var stream := AudioStreamWAV.new()
@@ -130,3 +209,4 @@ func _get_available_player() -> AudioStreamPlayer:
 		if not player.playing:
 			return player
 	return _audio_players[0]
+
