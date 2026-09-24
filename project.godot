@@ -20,13 +20,13 @@ config/icon="res://icon.svg"
 GameManager="*res://scripts/autoload/GameManager.gd"
 EventManager="*res://scripts/autoload/EventManager.gd"
 LocalizationManager="*res://scripts/autoload/LocalizationManager.gd"
+AudioManager="*res://scripts/autoload/AudioManager.gd"
 
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/stretch/mode="canvas_items"
-window/stretch/aspect="keep"
 
 [internationalization]
 

@@ -1,7 +1,9 @@
-[gd_scene format=3 uid="uid://deskview001"]
+[gd_scene load_steps=11 format=3 uid="uid://deskview001"]
 
 [ext_resource type="Script" path="res://scripts/desk/DeskView.gd" id="1_desk"]
 [ext_resource type="PackedScene" path="res://scenes/hud/TopBarHUD.tscn" id="2_hud"]
+[ext_resource type="PackedScene" path="res://scenes/desk/SkylineView.tscn" id="3_sky"]
+[ext_resource type="PackedScene" path="res://scenes/desk/RedTelephone.tscn" id="4_phone"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_desk_bg"]
 bg_color = Color(0.12, 0.14, 0.18, 1)
@@ -100,6 +102,12 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_desk_bg")
 
+[node name="SkylineView" parent="ShakeRoot" instance=ExtResource("3_sky")]
+unique_name_in_owner = true
+layout_mode = 1
+offset_top = 72.0
+offset_bottom = 440.0
+
 [node name="LeatherBlotter" type="Panel" parent="ShakeRoot"]
 layout_mode = 0
 offset_left = 480.0
@@ -187,6 +195,14 @@ theme_override_colors/font_color = Color(0.65, 0.68, 0.75, 1)
 theme_override_font_sizes/font_size = 13
 text = "Click to pocket bribe"
 horizontal_alignment = 1
+
+[node name="RedTelephone" parent="ShakeRoot" instance=ExtResource("4_phone")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 160.0
+offset_top = 840.0
+offset_right = 320.0
+offset_bottom = 980.0
 
 [node name="NextDayBox" type="PanelContainer" parent="ShakeRoot"]
 unique_name_in_owner = true

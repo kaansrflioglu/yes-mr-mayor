@@ -1,0 +1,132 @@
+extends Node
+
+## AudioManager.gd - Central sound effects & atmospheric audio manager.
+## Provides procedural audio synthesis and playback for tactile physical feedback.
+
+const SAMPLE_RATE: float = 22050.0
+
+var _audio_players: Array[AudioStreamPlayer] = []
+const POOL_SIZE: int = 8
+
+
+func _ready() -> void:
+	for i in range(POOL_SIZE):
+		var player := AudioStreamPlayer.new()
+		player.bus = "Master"
+		add_child(player)
+		_audio_players.append(player)
+
+
+## Plays a heavy tactile physical stamp thud with ink slam punch
+func play_stamp_thud(approved: bool) -> void:
+	var duration: float = 0.22
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	var start_freq: float = 140.0 if approved else 110.0
+	var end_freq: float = 40.0
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var progress: float = float(i) / float(samples)
+		var freq: float = lerpf(start_freq, end_freq, progress * progress)
+		var envelope: float = exp(-18.0 * progress)
+
+		# Sine kick wave + noise crack
+		var sine_val: float = sin(2.0 * PI * freq * t)
+		var noise_val: float = randf_range(-0.4, 0.4) * (1.0 - progress)
+		var sample_f: float = clampf((sine_val * 0.75 + noise_val * 0.25) * envelope, -1.0, 1.0)
+
+		var sample_int: int = int(sample_f * 32767.0)
+		buffer.encode_s16(i * 2, sample_int)
+
+	_play_raw_wav(buffer, int(SAMPLE_RATE))
+
+
+## Plays crisp paper slide / shuffle rustle
+func play_paper_slide() -> void:
+	var duration: float = 0.28
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var progress: float = float(i) / float(samples)
+		var envelope: float = sin(PI * progress) * (1.0 - progress * 0.4)
+		var noise_val: float = randf_range(-0.35, 0.35) * envelope
+		var sample_int: int = int(clampf(noise_val, -1.0, 1.0) * 32767.0)
+		buffer.encode_s16(i * 2, sample_int)
+
+	_play_raw_wav(buffer, int(SAMPLE_RATE))
+
+
+## Plays metallic cash register rattle & coin drop for safe drawer
+func play_cash_register() -> void:
+	var duration: float = 0.35
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var progress: float = float(i) / float(samples)
+		var envelope: float = exp(-9.0 * progress)
+
+		# Dual high chime harmonics (1800 Hz & 2400 Hz)
+		var chime: float = (
+			sin(2.0 * PI * 1850.0 * t) * 0.5 + sin(2.0 * PI * 2450.0 * t) * 0.5
+		) * envelope
+
+		# Coin rattle burst at start
+		var rattle: float = 0.0
+		if progress < 0.15:
+			rattle = randf_range(-0.4, 0.4) * (1.0 - progress / 0.15)
+
+		var sample_f: float = clampf(chime * 0.7 + rattle * 0.3, -1.0, 1.0)
+		buffer.encode_s16(i * 2, int(sample_f * 32767.0))
+
+	_play_raw_wav(buffer, int(SAMPLE_RATE))
+
+
+## Plays vintage rotary telephone bell ring
+func play_phone_ring() -> void:
+	var duration: float = 0.45
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var progress: float = float(i) / float(samples)
+		# Rapid tremolo pulse (20 Hz)
+		var pulse: float = 1.0 if sin(2.0 * PI * 20.0 * t) > 0.0 else 0.2
+		var bell: float = (
+			sin(2.0 * PI * 853.0 * t) * 0.5 + sin(2.0 * PI * 960.0 * t) * 0.5
+		) * pulse * (1.0 - progress * 0.3)
+
+		var sample_int: int = int(clampf(bell * 0.45, -1.0, 1.0) * 32767.0)
+		buffer.encode_s16(i * 2, sample_int)
+
+	_play_raw_wav(buffer, int(SAMPLE_RATE))
+
+
+## Helper to build an AudioStreamWAV from raw 16-bit PCM bytes
+func _play_raw_wav(data: PackedByteArray, rate: int) -> void:
+	var stream := AudioStreamWAV.new()
+	stream.format = AudioStreamWAV.FORMAT_16_BITS
+	stream.mix_rate = rate
+	stream.stereo = false
+	stream.data = data
+
+	var player := _get_available_player()
+	if player:
+		player.stream = stream
+		player.play()
+
+
+func _get_available_player() -> AudioStreamPlayer:
+	for player in _audio_players:
+		if not player.playing:
+			return player
+	return _audio_players[0]

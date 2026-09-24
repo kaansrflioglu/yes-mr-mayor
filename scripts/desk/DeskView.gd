@@ -1,7 +1,7 @@
 extends Control
 
 ## DeskView.gd - Primary gameplay canvas for "Yes, Mr. Mayor!"
-## Handles document stamping, newspaper tabloid recap, game over cutscene, and daily loop.
+## Handles document stamping, backdrop skyline, audio feedback, and red emergency phone.
 
 const DOCUMENT_SCENE: PackedScene = preload("res://scenes/desk/DocumentItem.tscn")
 const DAY_SUMMARY_SCENE: PackedScene = preload("res://scenes/summary/DayEndSummary.tscn")
@@ -17,6 +17,8 @@ const GAME_OVER_SCENE: PackedScene = preload("res://scenes/summary/GameOverModal
 @onready var next_day_box: PanelContainer = %NextDayBox
 @onready var btn_next_day: Button = %BtnNextDay
 @onready var shift_info_label: Label = %ShiftInfoLabel
+@onready var red_telephone: Control = %RedTelephone
+@onready var skyline_view: Control = %SkylineView
 
 var active_document: Control = null
 var active_summary: Control = null
@@ -78,6 +80,9 @@ func _present_next_document() -> void:
 	doc_instance.setup_event(next_event)
 	GameManager.present_event(next_event)
 
+	# Audio feedback: Paper slide rustle
+	AudioManager.play_paper_slide()
+
 	var desk_center := Vector2(630, 160)
 	var spawn_pos := Vector2(-700, 350)
 	doc_instance.animate_slide_in(spawn_pos, desk_center, -0.015)
@@ -86,6 +91,10 @@ func _present_next_document() -> void:
 		if not GameManager.is_game_over:
 			_set_stamps_enabled(true)
 		is_processing_decision = false
+
+		# 35% chance to trigger red emergency phone ringing
+		if randf() < 0.35 and red_telephone != null:
+			red_telephone.ring_telephone()
 	)
 
 
@@ -103,6 +112,9 @@ func _execute_stamping(approved: bool) -> void:
 
 	is_processing_decision = true
 	_set_stamps_enabled(false)
+
+	# Audio feedback: Heavy physical stamp thud
+	AudioManager.play_stamp_thud(approved)
 
 	# 1. Micro-camera shake on desk
 	_trigger_camera_shake(0.25, 6.0)
@@ -147,6 +159,7 @@ func _trigger_camera_shake(duration: float, intensity: float) -> void:
 func _on_drawer_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		_animate_drawer_pull()
+		AudioManager.play_cash_register()
 		if active_document != null and not active_document.has_pocketed_bribe:
 			if GameManager.active_event and GameManager.active_event.bribe_offered > 0:
 				active_document.pocket_bribe()
