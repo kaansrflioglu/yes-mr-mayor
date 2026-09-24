@@ -1,0 +1,190 @@
+[gd_scene format=3 uid="uid://q3td61mq6fca"]
+
+[ext_resource type="Script" path="res://scripts/desk/DocumentItem.gd" id="1_doc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_paper"]
+bg_color = Color(0.98, 0.97, 0.94, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.85, 0.81, 0.74, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_color = Color(0, 0, 0, 0.32)
+shadow_size = 14
+shadow_offset = Vector2(0, 8)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_badge"]
+bg_color = Color(0.88, 0.9, 0.92, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bribe"]
+bg_color = Color(0.18, 0.16, 0.1, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.9, 0.75, 0.25, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bribe_btn"]
+bg_color = Color(0.85, 0.65, 0.15, 1)
+border_width_bottom = 2
+border_color = Color(0.65, 0.45, 0.08, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stamp"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.88, 0.22, 0.22, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="DocumentItem" type="PanelContainer"]
+custom_minimum_size = Vector2(660, 760)
+offset_right = 660.0
+offset_bottom = 760.0
+pivot_offset = Vector2(330, 380)
+theme_override_styles/panel = SubResource("StyleBoxFlat_paper")
+script = ExtResource("1_doc")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 36
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 36
+theme_override_constants/margin_bottom = 32
+
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HeaderBox" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="HeaderLabel" type="Label" parent="Margin/VBox/HeaderBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.2, 0.25, 0.35, 1)
+theme_override_font_sizes/font_size = 14
+text = "OFFICIAL MUNICIPAL PETITION"
+vertical_alignment = 1
+
+[node name="CategoryBadge" type="Label" parent="Margin/VBox/HeaderBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 24)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.25, 0.3, 0.38, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_badge")
+text = "ZONING"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sep1" type="HSeparator" parent="Margin/VBox"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.1, 0.12, 0.16, 1)
+theme_override_font_sizes/font_size = 24
+text = "Riverbed Housing Permit"
+autowrap_mode = 3
+
+[node name="ApplicantLabel" type="Label" parent="Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38, 0.42, 0.48, 1)
+theme_override_font_sizes/font_size = 15
+text = "Applicant: MegaCorp Holdings"
+
+[node name="Sep2" type="HSeparator" parent="Margin/VBox"]
+layout_mode = 2
+
+[node name="BodyTextLabel" type="Label" parent="Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 220)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.18, 0.2, 0.25, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_constants/line_spacing = 6
+text = "Petition description details go here..."
+autowrap_mode = 3
+
+[node name="BribeContainer" type="PanelContainer" parent="Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bribe")
+
+[node name="BribeMargin" type="MarginContainer" parent="Margin/VBox/BribeContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+
+[node name="BribeHBox" type="HBoxContainer" parent="Margin/VBox/BribeContainer/BribeMargin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="BribeIcon" type="Label" parent="Margin/VBox/BribeContainer/BribeMargin/BribeHBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "💼"
+
+[node name="BribeAmountLabel" type="Label" parent="Margin/VBox/BribeContainer/BribeMargin/BribeHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.88, 0.4, 1)
+theme_override_font_sizes/font_size = 16
+text = "Bribery Offer: $50,000"
+vertical_alignment = 1
+
+[node name="BtnPocketBribe" type="Button" parent="Margin/VBox/BribeContainer/BribeMargin/BribeHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.12, 0.1, 0.05, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_bribe_btn")
+text = "Pocket Cash"
+
+[node name="StampOverlay" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(320, 110)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+pivot_offset = Vector2(160, 55)
+theme_override_styles/panel = SubResource("StyleBoxFlat_stamp")
+
+[node name="StampLabel" type="Label" parent="StampOverlay"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.22, 0.22, 1)
+theme_override_font_sizes/font_size = 38
+text = "APPROVED"
+horizontal_alignment = 1
+vertical_alignment = 1

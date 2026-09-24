@@ -1,0 +1,154 @@
+[gd_scene format=3 uid="uid://topbarhud001"]
+
+[ext_resource type="Script" path="res://scripts/ui/TopBarHUD.gd" id="1_hud"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hud"]
+bg_color = Color(0.09, 0.11, 0.14, 0.94)
+border_width_bottom = 2
+border_color = Color(0.24, 0.28, 0.35, 1)
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_bg"]
+bg_color = Color(0.15, 0.18, 0.22, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_fill"]
+bg_color = Color(0.18, 0.65, 0.45, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_susp_fill"]
+bg_color = Color(0.85, 0.25, 0.2, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="TopBarHUD" type="PanelContainer"]
+custom_minimum_size = Vector2(1920, 72)
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 72.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hud")
+script = ExtResource("1_hud")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 8
+
+[node name="HBox" type="HBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="DayLabel" type="Label" parent="Margin/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.45, 1)
+theme_override_font_sizes/font_size = 20
+text = "Day: 1"
+vertical_alignment = 1
+
+[node name="Sep1" type="VSeparator" parent="Margin/HBox"]
+layout_mode = 2
+
+[node name="ApprovalBox" type="VBoxContainer" parent="Margin/HBox"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+alignment = 1
+
+[node name="ApprovalLabel" type="Label" parent="Margin/HBox/ApprovalBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Approval: 50.0%"
+
+[node name="ApprovalBar" type="ProgressBar" parent="Margin/HBox/ApprovalBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_bar_fill")
+value = 50.0
+show_percentage = false
+
+[node name="Sep2" type="VSeparator" parent="Margin/HBox"]
+layout_mode = 2
+
+[node name="BudgetLabel" type="Label" parent="Margin/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.9, 0.6, 1)
+theme_override_font_sizes/font_size = 18
+text = "City Budget: $100,000"
+vertical_alignment = 1
+
+[node name="Sep3" type="VSeparator" parent="Margin/HBox"]
+layout_mode = 2
+
+[node name="OffshoreLabel" type="Label" parent="Margin/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.75, 0.25, 1)
+theme_override_font_sizes/font_size = 18
+text = "Offshore Funds: $0"
+vertical_alignment = 1
+
+[node name="Sep4" type="VSeparator" parent="Margin/HBox"]
+layout_mode = 2
+
+[node name="SuspicionBox" type="VBoxContainer" parent="Margin/HBox"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+alignment = 1
+
+[node name="SuspicionLabel" type="Label" parent="Margin/HBox/SuspicionBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Federal Suspicion: 0.0%"
+
+[node name="SuspicionBar" type="ProgressBar" parent="Margin/HBox/SuspicionBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_susp_fill")
+value = 0.0
+show_percentage = false
+
+[node name="Spacer" type="Control" parent="Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LangBox" type="HBoxContainer" parent="Margin/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 2
+
+[node name="BtnEN" type="Button" parent="Margin/HBox/LangBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(42, 32)
+layout_mode = 2
+text = "EN"
+
+[node name="BtnTR" type="Button" parent="Margin/HBox/LangBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(42, 32)
+layout_mode = 2
+text = "TR"
+
+[node name="BtnES" type="Button" parent="Margin/HBox/LangBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(42, 32)
+layout_mode = 2
+text = "ES"
