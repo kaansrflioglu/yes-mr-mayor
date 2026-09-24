@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="EventData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/EventData.gd" id="1_eventdata"]
+
+[resource]
+script = ExtResource("1_eventdata")
+id = "EVT_001"
+category = "zoning"
+title_key = "EVT_001_TITLE"
+description_key = "EVT_001_DESC"
+applicant_key = "COMP_MEGACORP"
+bribe_offered = 50000
+effects_approve = {
+"budget": 25000,
+"city_visual_flag": "add_concrete_tower",
+"personal_wealth": 50000,
+"public_opinion": -15.0,
+"suspicion": 20.0
+}
+effects_reject = {
+"budget": 0,
+"city_visual_flag": "preserve_greenery",
+"personal_wealth": 0,
+"public_opinion": 5.0,
+"suspicion": -5.0
+}
+news_headline_approve_key = "EVT_001_NEWS_APP"
+news_headline_reject_key = "EVT_001_NEWS_REJ"

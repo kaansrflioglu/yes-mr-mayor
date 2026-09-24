@@ -1,0 +1,50 @@
+[
+  {
+    "id": "EVT_001",
+    "category": "zoning",
+    "title_key": "EVT_001_TITLE",
+    "description_key": "EVT_001_DESC",
+    "applicant_key": "COMP_MEGACORP",
+    "bribe_offered": 50000,
+    "effects_approve": {
+      "budget": 25000,
+      "personal_wealth": 50000,
+      "public_opinion": -15.0,
+      "suspicion": 20.0,
+      "city_visual_flag": "add_concrete_tower"
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 5.0,
+      "suspicion": -5.0,
+      "city_visual_flag": "preserve_greenery"
+    },
+    "news_headline_approve_key": "EVT_001_NEWS_APP",
+    "news_headline_reject_key": "EVT_001_NEWS_REJ"
+  },
+  {
+    "id": "EVT_002",
+    "category": "transit",
+    "title_key": "EVT_002_TITLE",
+    "description_key": "EVT_002_DESC",
+    "applicant_key": "COMP_TRANSIT",
+    "bribe_offered": 75000,
+    "effects_approve": {
+      "budget": -50000,
+      "personal_wealth": 75000,
+      "public_opinion": -10.0,
+      "suspicion": 25.0,
+      "city_visual_flag": "abandoned_metro_pit"
+    },
+    "effects_reject": {
+      "budget": -15000,
+      "personal_wealth": 0,
+      "public_opinion": 10.0,
+      "suspicion": -5.0,
+      "city_visual_flag": "clean_metro_station"
+    },
+    "news_headline_approve_key": "EVT_002_NEWS_APP",
+    "news_headline_reject_key": "EVT_002_NEWS_REJ"
+  }
+]
