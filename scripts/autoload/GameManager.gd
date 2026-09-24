@@ -200,6 +200,8 @@ func _evaluate_end_conditions() -> void:
 		_trigger_game_end("END_ARRESTED")
 	elif public_opinion <= 15.0:
 		_trigger_game_end("END_RIOT")
+	elif city_budget < -50000:
+		_trigger_game_end("END_BANKRUPT")
 	elif current_day > MAX_DAYS:
 		if public_opinion >= 50.0:
 			_trigger_game_end("END_REELECTED")
@@ -211,3 +213,12 @@ func _trigger_game_end(reason_key: String) -> void:
 	is_game_over = true
 	game_ended.emit(reason_key)
 	game_over.emit(reason_key)
+
+
+## Returns all event resolution records for a given day
+func get_history_for_day(day_num: int) -> Array[Dictionary]:
+	var records: Array[Dictionary] = []
+	for rec in daily_history:
+		if int(rec.get("day", 0)) == day_num:
+			records.append(rec)
+	return records

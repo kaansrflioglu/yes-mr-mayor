@@ -1,9 +1,11 @@
 extends Control
 
 ## DeskView.gd - Primary gameplay canvas for "Yes, Mr. Mayor!"
-## Handles tactile document stamping, drawer interactions, micro-camera shake, and shift loop.
+## Handles document stamping, newspaper tabloid recap, game over cutscene, and daily loop.
 
 const DOCUMENT_SCENE: PackedScene = preload("res://scenes/desk/DocumentItem.tscn")
+const DAY_SUMMARY_SCENE: PackedScene = preload("res://scenes/summary/DayEndSummary.tscn")
+const GAME_OVER_SCENE: PackedScene = preload("res://scenes/summary/GameOverModal.tscn")
 
 @onready var shake_root: Control = %ShakeRoot
 @onready var document_drop_zone: Control = %DocumentDropZone
@@ -17,6 +19,8 @@ const DOCUMENT_SCENE: PackedScene = preload("res://scenes/desk/DocumentItem.tscn
 @onready var shift_info_label: Label = %ShiftInfoLabel
 
 var active_document: Control = null
+var active_summary: Control = null
+var active_game_over: Control = null
 var is_processing_decision: bool = false
 var _shake_tween: Tween
 
@@ -27,6 +31,7 @@ func _ready() -> void:
 	btn_next_day.pressed.connect(_on_next_day_pressed)
 	safe_drawer_panel.gui_input.connect(_on_drawer_gui_input)
 
+	GameManager.game_over.connect(_on_game_over)
 	LocalizationManager.locale_changed.connect(_update_locale_texts)
 	_update_locale_texts("")
 
@@ -51,6 +56,9 @@ func _start_or_continue_shift() -> void:
 
 ## Draws and animates the next document onto the desk
 func _present_next_document() -> void:
+	if GameManager.is_game_over:
+		return
+
 	if active_document != null and is_instance_valid(active_document):
 		active_document.queue_free()
 		active_document = null
@@ -75,7 +83,8 @@ func _present_next_document() -> void:
 	doc_instance.animate_slide_in(spawn_pos, desk_center, -0.015)
 
 	doc_instance.slide_in_completed.connect(func():
-		_set_stamps_enabled(true)
+		if not GameManager.is_game_over:
+			_set_stamps_enabled(true)
 		is_processing_decision = false
 	)
 
@@ -108,6 +117,9 @@ func _execute_stamping(approved: bool) -> void:
 	# 4. Brief delay to let player savor the stamped document
 	await get_tree().create_timer(0.45).timeout
 
+	if GameManager.is_game_over:
+		return
+
 	# 5. Slide document offscreen to right
 	var exit_pos := Vector2(2100, 160)
 	active_document.animate_slide_out(exit_pos)
@@ -135,7 +147,6 @@ func _trigger_camera_shake(duration: float, intensity: float) -> void:
 func _on_drawer_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		_animate_drawer_pull()
-		# If document has unpocketed bribe, pocket it
 		if active_document != null and not active_document.has_pocketed_bribe:
 			if GameManager.active_event and GameManager.active_event.bribe_offered > 0:
 				active_document.pocket_bribe()
@@ -143,17 +154,64 @@ func _on_drawer_gui_input(event: InputEvent) -> void:
 
 func _animate_drawer_pull() -> void:
 	var tween := create_tween()
-	tween.tween_property(safe_drawer_panel, "position:y", safe_drawer_panel.position.y + 16.0, 0.1)
+	var target_y := safe_drawer_panel.position.y + 16.0
+	tween.tween_property(safe_drawer_panel, "position:y", target_y, 0.1)
 	tween.tween_property(safe_drawer_panel, "position:y", safe_drawer_panel.position.y, 0.15)
 
 
+## Quota of daily documents finished -> Deliver the Tabloid newspaper!
 func _on_daily_quota_completed() -> void:
 	_set_stamps_enabled(false)
-	next_day_box.visible = true
+
+	if active_summary != null and is_instance_valid(active_summary):
+		active_summary.queue_free()
+
+	var summary_instance := DAY_SUMMARY_SCENE.instantiate()
+	shake_root.add_child(summary_instance)
+	active_summary = summary_instance
+
+	summary_instance.populate_summary(GameManager.current_day)
+	summary_instance.animate_newspaper_delivery()
+	summary_instance.next_day_requested.connect(_on_next_day_pressed)
 
 
 func _on_next_day_pressed() -> void:
+	if active_summary != null and is_instance_valid(active_summary):
+		active_summary.queue_free()
+		active_summary = null
+
 	GameManager.advance_day()
+	EventManager.prepare_daily_queue(4)
+	_present_next_document()
+
+
+## Game over condition met (Arrest, Riot, Bankruptcy, Loss or Victory)
+func _on_game_over(reason_key: String) -> void:
+	_set_stamps_enabled(false)
+	is_processing_decision = true
+
+	if active_game_over != null and is_instance_valid(active_game_over):
+		active_game_over.queue_free()
+
+	var modal_instance := GAME_OVER_SCENE.instantiate()
+	add_child(modal_instance)
+	active_game_over = modal_instance
+
+	modal_instance.show_game_over(reason_key)
+	modal_instance.restart_requested.connect(_on_restart_mandate)
+
+
+func _on_restart_mandate() -> void:
+	if active_game_over != null and is_instance_valid(active_game_over):
+		active_game_over.queue_free()
+		active_game_over = null
+
+	if active_summary != null and is_instance_valid(active_summary):
+		active_summary.queue_free()
+		active_summary = null
+
+	GameManager.start_new_game()
+	EventManager.reset_deck()
 	EventManager.prepare_daily_queue(4)
 	_present_next_document()
 

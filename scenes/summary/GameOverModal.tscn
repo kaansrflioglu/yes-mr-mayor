@@ -1,0 +1,151 @@
+[gd_scene load_steps=5 format=3 uid="uid://gameovermodal001"]
+
+[ext_resource type="Script" path="res://scripts/ui/GameOverModal.gd" id="1_over"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_modal"]
+bg_color = Color(0.1, 0.12, 0.16, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.85, 0.25, 0.25, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.6)
+shadow_size = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stats_box"]
+bg_color = Color(0.06, 0.08, 0.11, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.25, 0.32, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_restart_btn"]
+bg_color = Color(0.15, 0.6, 0.38, 1)
+border_width_bottom = 3
+border_color = Color(0.1, 0.42, 0.26, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="GameOverModal" type="PanelContainer"]
+custom_minimum_size = Vector2(800, 640)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -320.0
+offset_right = 400.0
+offset_bottom = 320.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(400, 320)
+theme_override_styles/panel = SubResource("StyleBoxFlat_modal")
+script = ExtResource("1_over")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 36
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 36
+theme_override_constants/margin_bottom = 32
+
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="TitleLabel" type="Label" parent="Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.88, 0.95, 1)
+theme_override_font_sizes/font_size = 28
+text = "TERM TERMINATED"
+horizontal_alignment = 1
+
+[node name="ReasonHeader" type="Label" parent="Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.25, 0.25, 1)
+theme_override_font_sizes/font_size = 22
+text = "🚨 ADMINISTRATION COLLAPSED"
+horizontal_alignment = 1
+
+[node name="SepTop" type="HSeparator" parent="Margin/VBox"]
+layout_mode = 2
+
+[node name="NarrativeLabel" type="Label" parent="Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.9, 0.92, 0.96, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_constants/line_spacing = 6
+text = "Federal auditors raided city hall! You have been arrested for corruption."
+autowrap_mode = 3
+
+[node name="StatsBox" type="PanelContainer" parent="Margin/VBox"]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_stats_box")
+
+[node name="StatsMargin" type="MarginContainer" parent="Margin/VBox/StatsBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 16
+
+[node name="StatsVBox" type="VBoxContainer" parent="Margin/VBox/StatsBox/StatsMargin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="StatsHeader" type="Label" parent="Margin/VBox/StatsBox/StatsMargin/StatsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
+theme_override_font_sizes/font_size = 15
+text = "FINAL ADMINISTRATION RECORD"
+horizontal_alignment = 1
+
+[node name="DaysSurvivedLabel" type="Label" parent="Margin/VBox/StatsBox/StatsMargin/StatsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 1)
+theme_override_font_sizes/font_size = 15
+text = "Days in Office: 12 / 30"
+
+[node name="TreasuryLabel" type="Label" parent="Margin/VBox/StatsBox/StatsMargin/StatsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.9, 0.6, 1)
+theme_override_font_sizes/font_size = 15
+text = "Ending Treasury: $125,000"
+
+[node name="StashLabel" type="Label" parent="Margin/VBox/StatsBox/StatsMargin/StatsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0.3, 1)
+theme_override_font_sizes/font_size = 15
+text = "Personal Offshore Loot: $50,000"
+
+[node name="BtnRestart" type="Button" parent="Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 52)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_restart_btn")
+text = "Start New Mandate"

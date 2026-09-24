@@ -1,0 +1,196 @@
+[gd_scene load_steps=6 format=3 uid="uid://dayendsummary001"]
+
+[ext_resource type="Script" path="res://scripts/ui/DayEndSummary.gd" id="1_summary"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_newspaper"]
+bg_color = Color(0.96, 0.94, 0.9, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.2, 0.2, 0.2, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 24
+shadow_offset = Vector2(0, 12)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lead_box"]
+bg_color = Color(0.92, 0.89, 0.84, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.3, 0.3, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_report_box"]
+bg_color = Color(0.16, 0.18, 0.22, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_next"]
+bg_color = Color(0.12, 0.6, 0.35, 1)
+border_width_bottom = 3
+border_color = Color(0.08, 0.42, 0.24, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="DayEndSummary" type="PanelContainer"]
+custom_minimum_size = Vector2(860, 900)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -430.0
+offset_top = -450.0
+offset_right = 430.0
+offset_bottom = 450.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(430, 450)
+theme_override_styles/panel = SubResource("StyleBoxFlat_newspaper")
+script = ExtResource("1_summary")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 32
+
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="MastheadLabel" type="Label" parent="Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.1, 0.1, 0.1, 1)
+theme_override_font_sizes/font_size = 40
+text = "THE MUNICIPAL CHRONICLE"
+horizontal_alignment = 1
+
+[node name="IssueLabel" type="Label" parent="Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 14
+text = "Evening Satirical Edition • Day 1 Recap"
+horizontal_alignment = 1
+
+[node name="SepTop" type="HSeparator" parent="Margin/VBox"]
+layout_mode = 2
+
+[node name="HeadlineLeadBox" type="PanelContainer" parent="Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_lead_box")
+
+[node name="LeadMargin" type="MarginContainer" parent="Margin/VBox/HeadlineLeadBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
+
+[node name="LeadVBox" type="VBoxContainer" parent="Margin/VBox/HeadlineLeadBox/LeadMargin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HeadlineMain" type="Label" parent="Margin/VBox/HeadlineLeadBox/LeadMargin/LeadVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.08, 0.08, 0.08, 1)
+theme_override_font_sizes/font_size = 26
+theme_override_constants/line_spacing = 4
+text = "FLOOD SWEEPS LUXURY APARTMENTS! MAYOR SEEN ON PRIVATE JET."
+autowrap_mode = 3
+
+[node name="LeadSep" type="HSeparator" parent="Margin/VBox/HeadlineLeadBox/LeadMargin/LeadVBox"]
+layout_mode = 2
+
+[node name="HeadlineSub" type="Label" parent="Margin/VBox/HeadlineLeadBox/LeadMargin/LeadVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.28, 0.3, 0.34, 1)
+theme_override_font_sizes/font_size = 16
+text = "Transit union celebrates fair contracts; opposition blindsided."
+autowrap_mode = 3
+
+[node name="FinancialReportBox" type="PanelContainer" parent="Margin/VBox"]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_report_box")
+
+[node name="ReportMargin" type="MarginContainer" parent="Margin/VBox/FinancialReportBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 16
+
+[node name="ReportVBox" type="VBoxContainer" parent="Margin/VBox/FinancialReportBox/ReportMargin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="FinancialHeader" type="Label" parent="Margin/VBox/FinancialReportBox/ReportMargin/ReportVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
+theme_override_font_sizes/font_size = 16
+text = "SHIFT FINANCIAL BALANCE"
+horizontal_alignment = 1
+
+[node name="Grid" type="GridContainer" parent="Margin/VBox/FinancialReportBox/ReportMargin/ReportVBox"]
+layout_mode = 2
+columns = 2
+
+[node name="TreasuryLabel" type="Label" parent="Margin/VBox/FinancialReportBox/ReportMargin/ReportVBox/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.4, 0.9, 0.6, 1)
+theme_override_font_sizes/font_size = 16
+text = "Treasury: $125,000"
+
+[node name="OffshoreLabel" type="Label" parent="Margin/VBox/FinancialReportBox/ReportMargin/ReportVBox/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.8, 0.3, 1)
+theme_override_font_sizes/font_size = 16
+text = "Offshore Account: $50,000"
+
+[node name="ApprovalLabel" type="Label" parent="Margin/VBox/FinancialReportBox/ReportMargin/ReportVBox/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 1)
+theme_override_font_sizes/font_size = 16
+text = "Public Approval: 35.0%"
+
+[node name="SuspicionLabel" type="Label" parent="Margin/VBox/FinancialReportBox/ReportMargin/ReportVBox/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.9, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 16
+text = "Federal Suspicion: 20.0%"
+
+[node name="BtnNextDay" type="Button" parent="Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 56)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_next")
+text = "Start Day 2"
