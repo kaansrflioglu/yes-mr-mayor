@@ -46,5 +46,77 @@
     },
     "news_headline_approve_key": "EVT_002_NEWS_APP",
     "news_headline_reject_key": "EVT_002_NEWS_REJ"
+  },
+  {
+    "id": "EVT_003",
+    "category": "parks",
+    "title_key": "EVT_003_TITLE",
+    "description_key": "EVT_003_DESC",
+    "applicant_key": "COMP_DINOPARK",
+    "bribe_offered": 60000,
+    "effects_approve": {
+      "budget": -20000,
+      "personal_wealth": 60000,
+      "public_opinion": -5.0,
+      "suspicion": 15.0,
+      "city_visual_flag": "add_golden_dinosaur"
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 5.0,
+      "suspicion": 0.0,
+      "city_visual_flag": "community_park"
+    },
+    "news_headline_approve_key": "EVT_003_NEWS_APP",
+    "news_headline_reject_key": "EVT_003_NEWS_REJ"
+  },
+  {
+    "id": "EVT_004",
+    "category": "labor",
+    "title_key": "EVT_004_TITLE",
+    "description_key": "EVT_004_DESC",
+    "applicant_key": "COMP_UNION",
+    "bribe_offered": 0,
+    "effects_approve": {
+      "budget": -40000,
+      "personal_wealth": 0,
+      "public_opinion": 20.0,
+      "suspicion": -10.0,
+      "city_visual_flag": "clean_streets"
+    },
+    "effects_reject": {
+      "budget": 10000,
+      "personal_wealth": 0,
+      "public_opinion": -25.0,
+      "suspicion": 5.0,
+      "city_visual_flag": "garbage_piles"
+    },
+    "news_headline_approve_key": "EVT_004_NEWS_APP",
+    "news_headline_reject_key": "EVT_004_NEWS_REJ"
+  },
+  {
+    "id": "EVT_005",
+    "category": "environment",
+    "title_key": "EVT_005_TITLE",
+    "description_key": "EVT_005_DESC",
+    "applicant_key": "COMP_ECOCHEM",
+    "bribe_offered": 100000,
+    "effects_approve": {
+      "budget": 50000,
+      "personal_wealth": 100000,
+      "public_opinion": -30.0,
+      "suspicion": 35.0,
+      "city_visual_flag": "toxic_smog"
+    },
+    "effects_reject": {
+      "budget": -10000,
+      "personal_wealth": 0,
+      "public_opinion": 15.0,
+      "suspicion": -10.0,
+      "city_visual_flag": "blue_skies"
+    },
+    "news_headline_approve_key": "EVT_005_NEWS_APP",
+    "news_headline_reject_key": "EVT_005_NEWS_REJ"
   }
 ]

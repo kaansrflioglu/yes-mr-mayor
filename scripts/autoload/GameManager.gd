@@ -4,18 +4,21 @@ extends Node
 ## Manages day progression, core municipal metrics, event outcomes, and win/loss states.
 
 signal stats_updated
+signal stats_changed
 signal game_ended(reason_key: String)
+signal game_over(reason_key: String)
 signal day_started(day_number: int)
 signal day_ended(day_number: int)
 signal event_presented(event: EventData)
 signal event_resolved(event: EventData, approved: bool, bribe_taken: bool)
+signal event_decided(event_id: String, approved: bool)
 
 const MAX_DAYS: int = 30
 
 var current_day: int = 1
 var is_game_over: bool = false
 
-## Core gameplay metrics (Section 2)
+## Core gameplay metrics (Section 2 & Phase 1)
 var public_opinion: float = 50.0:
 	set(val):
 		public_opinion = clamp(val, 0.0, 100.0)
@@ -30,10 +33,23 @@ var suspicion_level: float = 0.0:
 	set(val):
 		suspicion_level = clamp(val, 0.0, 100.0)
 
+## Metric aliases aligned with PHASE_MAP.md
+var offshore_account: int:
+	get:
+		return personal_wealth
+	set(val):
+		personal_wealth = val
+
+var suspicion_meter: float:
+	get:
+		return suspicion_level
+	set(val):
+		suspicion_level = val
+
 ## City visual flags & world state flags
 var event_flags: Dictionary = {}
 
-## Event management
+## Event management & daily history
 var event_database: Array[EventData] = []
 var active_event: EventData = null
 var daily_history: Array[Dictionary] = []
@@ -53,7 +69,7 @@ func start_new_game() -> void:
 	suspicion_level = 0.0
 	event_flags.clear()
 	daily_history.clear()
-	stats_updated.emit()
+	_notify_stats_changed()
 	day_started.emit(current_day)
 
 
@@ -63,12 +79,12 @@ func load_events_database(path: String = "res://data/events.json") -> void:
 	if not FileAccess.file_exists(path):
 		push_warning("Events database not found at %s" % path)
 		return
-		
+
 	var file := FileAccess.open(path, FileAccess.READ)
 	if not file:
 		push_error("Failed to open events database: %s" % path)
 		return
-		
+
 	var content := file.get_as_text()
 	var json := JSON.new()
 	var parse_result := json.parse(content)
@@ -78,7 +94,7 @@ func load_events_database(path: String = "res://data/events.json") -> void:
 		]
 		push_error(err_msg)
 		return
-		
+
 	var data = json.data
 	if data is Array:
 		for item in data:
@@ -98,9 +114,12 @@ func resolve_event(event: EventData, approved: bool, took_bribe: bool) -> void:
 	if is_game_over:
 		return
 
-	var effects: Dictionary = event.effects_approve if approved else event.effects_reject
+	var effects: Dictionary = (
+		event.effects_approve if approved
+		else event.effects_reject
+	)
 	apply_resolution(effects)
-	
+
 	if took_bribe and event.bribe_offered > 0:
 		pocket_bribe(event.bribe_offered)
 
@@ -118,13 +137,14 @@ func resolve_event(event: EventData, approved: bool, took_bribe: bool) -> void:
 	daily_history.append(record)
 
 	event_resolved.emit(event, approved, took_bribe)
+	event_decided.emit(event.id, approved)
 
 
 ## Directly adds illicit cash to personal offshore safe and slightly raises suspicion
 func pocket_bribe(amount: int, suspicion_delta: float = 3.0) -> void:
 	personal_wealth += amount
 	suspicion_level += suspicion_delta
-	stats_updated.emit()
+	_notify_stats_changed()
 	_evaluate_end_conditions()
 
 
@@ -136,13 +156,25 @@ func apply_resolution(effects: Dictionary) -> void:
 		city_budget += int(effects["budget"])
 	if "personal_wealth" in effects:
 		personal_wealth += int(effects["personal_wealth"])
+	elif "offshore_account" in effects:
+		personal_wealth += int(effects["offshore_account"])
 	if "suspicion" in effects:
 		suspicion_level += float(effects["suspicion"])
+	elif "suspicion_meter" in effects:
+		suspicion_level += float(effects["suspicion_meter"])
 	if "city_visual_flag" in effects and not str(effects["city_visual_flag"]).is_empty():
 		event_flags[effects["city_visual_flag"]] = true
+	elif "city_flag" in effects and not str(effects["city_flag"]).is_empty():
+		event_flags[effects["city_flag"]] = true
 
-	stats_updated.emit()
+	_notify_stats_changed()
 	_evaluate_end_conditions()
+
+
+## Emits both stats_updated (DESIGN_DOCUMENT) and stats_changed (PHASE_MAP)
+func _notify_stats_changed() -> void:
+	stats_updated.emit()
+	stats_changed.emit()
 
 
 ## Advances to next day or triggers end condition
@@ -159,20 +191,23 @@ func advance_day() -> void:
 		day_started.emit(current_day)
 
 
-## Win / Loss evaluation (Section 2 & 6.1)
+## Win / Loss evaluation (Section 2 & Phase 3)
 func _evaluate_end_conditions() -> void:
 	if is_game_over:
 		return
 
 	if suspicion_level >= 100.0:
-		is_game_over = true
-		game_ended.emit("END_ARRESTED")
+		_trigger_game_end("END_ARRESTED")
 	elif public_opinion <= 15.0:
-		is_game_over = true
-		game_ended.emit("END_RIOT")
+		_trigger_game_end("END_RIOT")
 	elif current_day > MAX_DAYS:
-		is_game_over = true
 		if public_opinion >= 50.0:
-			game_ended.emit("END_REELECTED")
+			_trigger_game_end("END_REELECTED")
 		else:
-			game_ended.emit("END_LOST_ELECTION")
+			_trigger_game_end("END_LOST_ELECTION")
+
+
+func _trigger_game_end(reason_key: String) -> void:
+	is_game_over = true
+	game_ended.emit(reason_key)
+	game_over.emit(reason_key)
