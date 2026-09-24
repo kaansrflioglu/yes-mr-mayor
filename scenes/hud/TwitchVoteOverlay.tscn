@@ -1,0 +1,180 @@
+[gd_scene load_steps=7 format=3 uid="uid://twitchvoteoverlay001"]
+
+[ext_resource type="Script" path="res://scripts/ui/TwitchVoteOverlay.gd" id="1_overlay"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_overlay"]
+bg_color = Color(0.08, 0.09, 0.14, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45, 0.35, 0.75, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_bg"]
+bg_color = Color(0.14, 0.16, 0.22, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_app_fill"]
+bg_color = Color(0.18, 0.75, 0.35, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rej_fill"]
+bg_color = Color(0.85, 0.25, 0.25, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bri_fill"]
+bg_color = Color(0.95, 0.75, 0.2, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="TwitchVoteOverlay" type="PanelContainer"]
+custom_minimum_size = Vector2(340, 260)
+offset_right = 340.0
+offset_bottom = 270.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_overlay")
+script = ExtResource("1_overlay")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HeaderHBox" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="Margin/VBox/HeaderHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.7, 1, 1)
+theme_override_font_sizes/font_size = 15
+text = "Twitch Chat Polling"
+
+[node name="Spacer" type="Control" parent="Margin/VBox/HeaderHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BtnClose" type="Button" parent="Margin/VBox/HeaderHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "✕"
+
+[node name="StatusLabel" type="Label" parent="Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.65, 0.75, 1)
+theme_override_font_sizes/font_size = 12
+text = "Offline"
+
+[node name="ChannelHBox" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="ChannelInput" type="LineEdit" parent="Margin/VBox/ChannelHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+placeholder_text = "channel_name"
+
+[node name="BtnConnect" type="Button" parent="Margin/VBox/ChannelHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 28)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Connect"
+
+[node name="HSeparator" type="HSeparator" parent="Margin/VBox"]
+layout_mode = 2
+
+[node name="ApproveVBox" type="VBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="ApproveLabel" type="Label" parent="Margin/VBox/ApproveVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.85, 0.45, 1)
+theme_override_font_sizes/font_size = 12
+text = "Approve: 0.0%"
+
+[node name="ApproveBar" type="ProgressBar" parent="Margin/VBox/ApproveVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_app_fill")
+value = 0.0
+show_percentage = false
+
+[node name="RejectVBox" type="VBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="RejectLabel" type="Label" parent="Margin/VBox/RejectVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 12
+text = "Reject: 0.0%"
+
+[node name="RejectBar" type="ProgressBar" parent="Margin/VBox/RejectVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_rej_fill")
+value = 0.0
+show_percentage = false
+
+[node name="BribeVBox" type="VBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="BribeLabel" type="Label" parent="Margin/VBox/BribeVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0.3, 1)
+theme_override_font_sizes/font_size = 12
+text = "Bribe: 0.0%"
+
+[node name="BribeBar" type="ProgressBar" parent="Margin/VBox/BribeVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_bri_fill")
+value = 0.0
+show_percentage = false
+
+[node name="TotalVotesLabel" type="Label" parent="Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.75, 0.85, 1)
+theme_override_font_sizes/font_size = 12
+text = "Votes: 0"
+horizontal_alignment = 2

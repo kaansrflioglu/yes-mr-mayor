@@ -4,6 +4,8 @@ extends PanelContainer
 ## Displays municipal metrics, offshore funds, day counter, and language selector.
 ## Animates counter values dynamically with tweens.
 
+signal twitch_toggle_requested
+
 @onready var approval_bar: ProgressBar = %ApprovalBar
 @onready var approval_label: Label = %ApprovalLabel
 @onready var budget_label: Label = %BudgetLabel
@@ -15,6 +17,7 @@ extends PanelContainer
 @onready var btn_en: Button = %BtnEN
 @onready var btn_tr: Button = %BtnTR
 @onready var btn_es: Button = %BtnES
+@onready var btn_twitch: Button = %BtnTwitch
 
 var _displayed_budget: float = 100000.0
 var _displayed_wealth: float = 0.0
@@ -28,10 +31,12 @@ func _ready() -> void:
 	btn_en.pressed.connect(func(): LocalizationManager.set_locale("en"))
 	btn_tr.pressed.connect(func(): LocalizationManager.set_locale("tr"))
 	btn_es.pressed.connect(func(): LocalizationManager.set_locale("es"))
+	btn_twitch.pressed.connect(func(): twitch_toggle_requested.emit())
 
 	GameManager.stats_changed.connect(_on_stats_changed)
 	LocalizationManager.locale_changed.connect(_on_locale_changed)
 
+	btn_twitch.text = tr("UI_TWITCH_TOGGLE")
 	_sync_all_metrics(false)
 	_update_active_locale_button(LocalizationManager.get_current_locale())
 
@@ -41,6 +46,7 @@ func _on_stats_changed() -> void:
 
 
 func _on_locale_changed(_locale: String) -> void:
+	btn_twitch.text = tr("UI_TWITCH_TOGGLE")
 	_sync_all_metrics(false)
 	_update_active_locale_button(LocalizationManager.get_current_locale())
 

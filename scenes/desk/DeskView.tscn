@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://deskview001"]
+[gd_scene load_steps=12 format=3 uid="uid://deskview001"]
 
 [ext_resource type="Script" path="res://scripts/desk/DeskView.gd" id="1_desk"]
 [ext_resource type="PackedScene" path="res://scenes/hud/TopBarHUD.tscn" id="2_hud"]
 [ext_resource type="PackedScene" path="res://scenes/desk/SkylineView.tscn" id="3_sky"]
 [ext_resource type="PackedScene" path="res://scenes/desk/RedTelephone.tscn" id="4_phone"]
+[ext_resource type="PackedScene" path="res://scenes/hud/TwitchVoteOverlay.tscn" id="5_twitch"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_desk_bg"]
 bg_color = Color(0.12, 0.14, 0.18, 1)
@@ -253,3 +254,12 @@ text = "Next Day"
 
 [node name="TopBarHUD" parent="." instance=ExtResource("2_hud")]
 layout_mode = 1
+
+[node name="TwitchVoteOverlay" parent="." instance=ExtResource("5_twitch")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 1550.0
+offset_top = 80.0
+offset_right = 1890.0
+offset_bottom = 350.0

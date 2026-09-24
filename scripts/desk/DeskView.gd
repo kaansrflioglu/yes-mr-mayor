@@ -19,6 +19,8 @@ const GAME_OVER_SCENE: PackedScene = preload("res://scenes/summary/GameOverModal
 @onready var shift_info_label: Label = %ShiftInfoLabel
 @onready var red_telephone: Control = %RedTelephone
 @onready var skyline_view: Control = %SkylineView
+@onready var top_bar_hud: Control = $TopBarHUD
+@onready var twitch_overlay: Control = %TwitchVoteOverlay
 
 var active_document: Control = null
 var active_summary: Control = null
@@ -32,6 +34,7 @@ func _ready() -> void:
 	btn_stamp_reject.pressed.connect(_on_reject_pressed)
 	btn_next_day.pressed.connect(_on_next_day_pressed)
 	safe_drawer_panel.gui_input.connect(_on_drawer_gui_input)
+	top_bar_hud.twitch_toggle_requested.connect(func(): twitch_overlay.toggle_overlay())
 
 	GameManager.game_over.connect(_on_game_over)
 	LocalizationManager.locale_changed.connect(_update_locale_texts)
@@ -72,6 +75,7 @@ func _present_next_document() -> void:
 
 	next_day_box.visible = false
 	_set_stamps_enabled(false)
+	TwitchManager.reset_votes()
 
 	var doc_instance := DOCUMENT_SCENE.instantiate()
 	document_drop_zone.add_child(doc_instance)
