@@ -22,6 +22,7 @@ EventManager="*res://scripts/autoload/EventManager.gd"
 LocalizationManager="*res://scripts/autoload/LocalizationManager.gd"
 AudioManager="*res://scripts/autoload/AudioManager.gd"
 TwitchManager="*res://scripts/autoload/TwitchManager.gd"
+SettingsManager="*res://scripts/autoload/SettingsManager.gd"
 
 [display]
 

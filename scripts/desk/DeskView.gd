@@ -28,6 +28,7 @@ const GAME_OVER_SCENE: PackedScene = preload("res://scenes/summary/GameOverModal
 @onready var skyline_view: Control = %SkylineView
 @onready var top_bar_hud: Control = $TopBarHUD
 @onready var twitch_overlay: Control = %TwitchVoteOverlay
+@onready var settings_modal: Control = %SettingsModal
 
 var active_document: Control = null
 var active_summary: Control = null
@@ -48,7 +49,12 @@ func _ready() -> void:
 	btn_toggle_rulebook.pressed.connect(_toggle_rulebook)
 	btn_next_day.pressed.connect(_on_next_day_pressed)
 	safe_drawer_panel.gui_input.connect(_on_drawer_gui_input)
-	top_bar_hud.twitch_toggle_requested.connect(func(): twitch_overlay.toggle_overlay())
+	top_bar_hud.settings_toggle_requested.connect(_toggle_settings)
+	if settings_modal != null:
+		settings_modal.set_twitch_overlay_reference(twitch_overlay)
+		settings_modal.twitch_overlay_toggle_requested.connect(
+			func(): twitch_overlay.toggle_overlay()
+		)
 
 	rulebook.rule_tag_selected.connect(_on_rule_tag_selected)
 
@@ -69,6 +75,27 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.keycode == KEY_TAB:
 			_toggle_rulebook()
 			get_viewport().set_input_as_handled()
+		elif event.keycode == KEY_ESCAPE:
+			_handle_escape_key()
+			get_viewport().set_input_as_handled()
+
+
+func _handle_escape_key() -> void:
+	if settings_modal != null and settings_modal.is_open:
+		settings_modal.close()
+	elif rulebook != null and rulebook.is_open:
+		rulebook.toggle_rulebook()
+	else:
+		_toggle_settings()
+
+
+func _toggle_settings() -> void:
+	if settings_modal == null:
+		return
+	if settings_modal.is_open:
+		settings_modal.close()
+	else:
+		settings_modal.open()
 
 
 func _update_locale_texts(_loc: String) -> void:

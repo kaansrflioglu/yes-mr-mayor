@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" path="res://scenes/desk/RedTelephone.tscn" id="4_phone"]
 [ext_resource type="PackedScene" path="res://scenes/hud/TwitchVoteOverlay.tscn" id="5_twitch"]
 [ext_resource type="PackedScene" path="res://scenes/desk/Rulebook.tscn" id="6_rulebook"]
+[ext_resource type="PackedScene" path="res://scenes/ui/SettingsModal.tscn" id="7_settings"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_desk_bg"]
 bg_color = Color(0.12, 0.14, 0.18, 1)
@@ -357,3 +358,8 @@ offset_left = 1550.0
 offset_top = 80.0
 offset_right = 1890.0
 offset_bottom = 350.0
+
+[node name="SettingsModal" parent="." instance=ExtResource("7_settings")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1

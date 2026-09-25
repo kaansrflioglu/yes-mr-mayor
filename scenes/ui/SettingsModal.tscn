@@ -1,0 +1,563 @@
+[gd_scene load_steps=8 format=3 uid="uid://settingsmodal001"]
+
+[ext_resource type="Script" path="res://scripts/ui/SettingsModal.gd" id="1_modal"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_modal_panel"]
+bg_color = Color(0.11, 0.13, 0.17, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.85, 0.72, 0.3, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.6)
+shadow_size = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tab_btn"]
+bg_color = Color(0.16, 0.19, 0.25, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 2
+border_color = Color(0.32, 0.38, 0.48, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_section_card"]
+bg_color = Color(0.07, 0.08, 0.11, 0.92)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.24, 0.3, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lang_btn"]
+bg_color = Color(0.14, 0.17, 0.22, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(0.3, 0.36, 0.46, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_save"]
+bg_color = Color(0.14, 0.58, 0.34, 1)
+border_width_bottom = 3
+border_color = Color(0.08, 0.4, 0.22, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_reset"]
+bg_color = Color(0.25, 0.2, 0.18, 1)
+border_width_bottom = 2
+border_color = Color(0.45, 0.25, 0.2, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="SettingsModal" type="Control"]
+z_index = 60
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_modal")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.7)
+
+[node name="ModalPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(820, 600)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -410.0
+offset_top = -300.0
+offset_right = 410.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(410, 300)
+theme_override_styles/panel = SubResource("StyleBoxFlat_modal_panel")
+
+[node name="Margin" type="MarginContainer" parent="ModalPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 24
+
+[node name="VBox" type="VBoxContainer" parent="ModalPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HeaderBar" type="HBoxContainer" parent="ModalPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="ModalPanel/Margin/VBox/HeaderBar"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.45, 1)
+theme_override_font_sizes/font_size = 22
+text = "⚙️ MUNICIPAL SETTINGS"
+
+[node name="Spacer" type="Control" parent="ModalPanel/Margin/VBox/HeaderBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BtnHeaderClose" type="Button" parent="ModalPanel/Margin/VBox/HeaderBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "✕"
+
+[node name="SepHeader" type="HSeparator" parent="ModalPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="TabBar" type="HBoxContainer" parent="ModalPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="BtnTabAudio" type="Button" parent="ModalPanel/Margin/VBox/TabBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(230, 42)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_btn")
+text = "🔊 AUDIO"
+
+[node name="BtnTabDisplay" type="Button" parent="ModalPanel/Margin/VBox/TabBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(230, 42)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_btn")
+text = "🖥️ DISPLAY"
+
+[node name="BtnTabLanguage" type="Button" parent="ModalPanel/Margin/VBox/TabBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(170, 42)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_btn")
+text = "🌐 LANGUAGE"
+
+[node name="BtnTabTwitch" type="Button" parent="ModalPanel/Margin/VBox/TabBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(170, 42)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_btn")
+text = "📺 TWITCH"
+
+[node name="ContentContainer" type="MarginContainer" parent="ModalPanel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ContentAudio" type="VBoxContainer" parent="ModalPanel/Margin/VBox/ContentContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="CardMaster" type="PanelContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentAudio"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_section_card")
+
+[node name="M1" type="MarginContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentAudio/CardMaster"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 14
+
+[node name="VB1" type="VBoxContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentAudio/CardMaster/M1"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LabelMasterVol" type="Label" parent="ModalPanel/Margin/VBox/ContentContainer/ContentAudio/CardMaster/M1/VB1"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.92, 0.96, 1)
+theme_override_font_sizes/font_size = 15
+text = "Master Volume: 80%"
+
+[node name="HB1" type="HBoxContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentAudio/CardMaster/M1/VB1"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="SliderMaster" type="HSlider" parent="ModalPanel/Margin/VBox/ContentContainer/ContentAudio/CardMaster/M1/VB1/HB1"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+value = 80.0
+
+[node name="CheckMasterMute" type="CheckBox" parent="ModalPanel/Margin/VBox/ContentContainer/ContentAudio/CardMaster/M1/VB1/HB1"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Mute"
+
+[node name="CardSFX" type="PanelContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentAudio"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_section_card")
+
+[node name="M2" type="MarginContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentAudio/CardSFX"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 14
+
+[node name="VB2" type="VBoxContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentAudio/CardSFX/M2"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LabelSFXVol" type="Label" parent="ModalPanel/Margin/VBox/ContentContainer/ContentAudio/CardSFX/M2/VB2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.92, 0.96, 1)
+theme_override_font_sizes/font_size = 15
+text = "Sound Effects (SFX): 80%"
+
+[node name="HB2" type="HBoxContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentAudio/CardSFX/M2/VB2"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="SliderSFX" type="HSlider" parent="ModalPanel/Margin/VBox/ContentContainer/ContentAudio/CardSFX/M2/VB2/HB2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+value = 80.0
+
+[node name="CheckSFXMute" type="CheckBox" parent="ModalPanel/Margin/VBox/ContentContainer/ContentAudio/CardSFX/M2/VB2/HB2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Mute"
+
+[node name="TestSoundBox" type="HBoxContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentAudio"]
+layout_mode = 2
+
+[node name="BtnTestSound" type="Button" parent="ModalPanel/Margin/VBox/ContentContainer/ContentAudio/TestSoundBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(180, 38)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "🔔 Test Sound"
+
+[node name="ContentDisplay" type="VBoxContainer" parent="ModalPanel/Margin/VBox/ContentContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="CardMode" type="PanelContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentDisplay"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_section_card")
+
+[node name="DM1" type="MarginContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentDisplay/CardMode"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 14
+
+[node name="DVB1" type="VBoxContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentDisplay/CardMode/DM1"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LabelDisplayMode" type="Label" parent="ModalPanel/Margin/VBox/ContentContainer/ContentDisplay/CardMode/DM1/DVB1"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.92, 0.96, 1)
+theme_override_font_sizes/font_size = 15
+text = "Window Mode"
+
+[node name="OptionWindowMode" type="OptionButton" parent="ModalPanel/Margin/VBox/ContentContainer/ContentDisplay/CardMode/DM1/DVB1"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+item_count = 3
+popup/item_0/text = "Windowed"
+popup/item_0/id = 0
+popup/item_1/text = "Fullscreen"
+popup/item_1/id = 1
+popup/item_2/text = "Borderless Window"
+popup/item_2/id = 2
+
+[node name="CardRes" type="PanelContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentDisplay"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_section_card")
+
+[node name="DM2" type="MarginContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentDisplay/CardRes"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 14
+
+[node name="DVB2" type="VBoxContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentDisplay/CardRes/DM2"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LabelResolution" type="Label" parent="ModalPanel/Margin/VBox/ContentContainer/ContentDisplay/CardRes/DM2/DVB2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.92, 0.96, 1)
+theme_override_font_sizes/font_size = 15
+text = "Resolution (Windowed)"
+
+[node name="OptionResolution" type="OptionButton" parent="ModalPanel/Margin/VBox/ContentContainer/ContentDisplay/CardRes/DM2/DVB2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+
+[node name="CardVSync" type="PanelContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentDisplay"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_section_card")
+
+[node name="DM3" type="MarginContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentDisplay/CardVSync"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 14
+
+[node name="CheckVSync" type="CheckBox" parent="ModalPanel/Margin/VBox/ContentContainer/ContentDisplay/CardVSync/DM3"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+button_pressed = true
+text = "Vertical Sync (V-Sync)"
+
+[node name="ContentLanguage" type="VBoxContainer" parent="ModalPanel/Margin/VBox/ContentContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="CardLang" type="PanelContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentLanguage"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_section_card")
+
+[node name="LM1" type="MarginContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentLanguage/CardLang"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 18
+
+[node name="LVB1" type="VBoxContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentLanguage/CardLang/LM1"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="LabelLangHeader" type="Label" parent="ModalPanel/Margin/VBox/ContentContainer/ContentLanguage/CardLang/LM1/LVB1"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.95, 0.98, 1)
+theme_override_font_sizes/font_size = 16
+text = "Select Language / Dil Seçimi"
+
+[node name="LangGrid" type="HBoxContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentLanguage/CardLang/LM1/LVB1"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="BtnLangTR" type="Button" parent="ModalPanel/Margin/VBox/ContentContainer/ContentLanguage/CardLang/LM1/LVB1/LangGrid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxFlat_lang_btn")
+text = "🇹🇷  Türkçe"
+
+[node name="BtnLangEN" type="Button" parent="ModalPanel/Margin/VBox/ContentContainer/ContentLanguage/CardLang/LM1/LVB1/LangGrid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxFlat_lang_btn")
+text = "🇬🇧  English"
+
+[node name="BtnLangES" type="Button" parent="ModalPanel/Margin/VBox/ContentContainer/ContentLanguage/CardLang/LM1/LVB1/LangGrid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxFlat_lang_btn")
+text = "🇪🇸  Español"
+
+[node name="ContentTwitch" type="VBoxContainer" parent="ModalPanel/Margin/VBox/ContentContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="CardTwitchConnect" type="PanelContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentTwitch"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_section_card")
+
+[node name="TM1" type="MarginContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentTwitch/CardTwitchConnect"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 16
+
+[node name="TVB1" type="VBoxContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentTwitch/CardTwitchConnect/TM1"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="LabelTwitchTitle" type="Label" parent="ModalPanel/Margin/VBox/ContentContainer/ContentTwitch/CardTwitchConnect/TM1/TVB1"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.72, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "📺 TWITCH LIVE STREAM POLLING"
+
+[node name="LabelTwitchDesc" type="Label" parent="ModalPanel/Margin/VBox/ContentContainer/ContentTwitch/CardTwitchConnect/TM1/TVB1"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.9, 1)
+theme_override_font_sizes/font_size = 13
+text = "Enable real-time audience voting via Twitch chat commands (!approve, !reject, !bribe)."
+autowrap_mode = 3
+
+[node name="THB1" type="HBoxContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentTwitch/CardTwitchConnect/TM1/TVB1"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="LabelTwitchChannel" type="Label" parent="ModalPanel/Margin/VBox/ContentContainer/ContentTwitch/CardTwitchConnect/TM1/TVB1/THB1"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Channel:"
+
+[node name="TwitchChannelInput" type="LineEdit" parent="ModalPanel/Margin/VBox/ContentContainer/ContentTwitch/CardTwitchConnect/TM1/TVB1/THB1"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter channel name..."
+
+[node name="BtnTwitchConnect" type="Button" parent="ModalPanel/Margin/VBox/ContentContainer/ContentTwitch/CardTwitchConnect/TM1/TVB1/THB1"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 38)
+layout_mode = 2
+text = "Connect"
+
+[node name="TwitchStatusLabel" type="Label" parent="ModalPanel/Margin/VBox/ContentContainer/ContentTwitch/CardTwitchConnect/TM1/TVB1"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.7, 0.8, 1)
+theme_override_font_sizes/font_size = 13
+text = "Status: Offline"
+
+[node name="CardTwitchOverlay" type="PanelContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentTwitch"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_section_card")
+
+[node name="TM2" type="MarginContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentTwitch/CardTwitchOverlay"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 16
+
+[node name="TVB2" type="VBoxContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentTwitch/CardTwitchOverlay/TM2"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="LabelOverlayHeader" type="Label" parent="ModalPanel/Margin/VBox/ContentContainer/ContentTwitch/CardTwitchOverlay/TM2/TVB2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.95, 0.98, 1)
+theme_override_font_sizes/font_size = 15
+text = "Live Audience Voting Display"
+
+[node name="THB2" type="HBoxContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentTwitch/CardTwitchOverlay/TM2/TVB2"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="BtnToggleTwitchOverlay" type="Button" parent="ModalPanel/Margin/VBox/ContentContainer/ContentTwitch/CardTwitchOverlay/TM2/TVB2/THB2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 42)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "📺 Toggle Voting Overlay"
+
+[node name="OverlayStatusLabel" type="Label" parent="ModalPanel/Margin/VBox/ContentContainer/ContentTwitch/CardTwitchOverlay/TM2/TVB2/THB2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "Overlay: Hidden"
+
+[node name="SepFooter" type="HSeparator" parent="ModalPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="FooterBar" type="HBoxContainer" parent="ModalPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="BtnResetDefaults" type="Button" parent="ModalPanel/Margin/VBox/FooterBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(210, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.78, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_reset")
+text = "↺ Reset to Defaults"
+
+[node name="Spacer2" type="Control" parent="ModalPanel/Margin/VBox/FooterBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BtnSaveClose" type="Button" parent="ModalPanel/Margin/VBox/FooterBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(210, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_save")
+text = "✓ Save & Close"

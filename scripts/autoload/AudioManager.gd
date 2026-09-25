@@ -10,9 +10,16 @@ const POOL_SIZE: int = 8
 
 
 func _ready() -> void:
+	var sfx_idx := AudioServer.get_bus_index("SFX")
+	if sfx_idx == -1:
+		AudioServer.add_bus()
+		sfx_idx = AudioServer.get_bus_count() - 1
+		AudioServer.set_bus_name(sfx_idx, "SFX")
+		AudioServer.set_bus_send(sfx_idx, "Master")
+
 	for i in range(POOL_SIZE):
 		var player := AudioStreamPlayer.new()
-		player.bus = "Master"
+		player.bus = "SFX"
 		add_child(player)
 		_audio_players.append(player)
 

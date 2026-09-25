@@ -5,6 +5,7 @@ extends PanelContainer
 ## Animates counter values dynamically with tweens.
 
 signal twitch_toggle_requested
+signal settings_toggle_requested
 
 @onready var approval_bar: ProgressBar = %ApprovalBar
 @onready var approval_label: Label = %ApprovalLabel
@@ -14,10 +15,7 @@ signal twitch_toggle_requested
 @onready var suspicion_label: Label = %SuspicionLabel
 @onready var day_label: Label = %DayLabel
 
-@onready var btn_en: Button = %BtnEN
-@onready var btn_tr: Button = %BtnTR
-@onready var btn_es: Button = %BtnES
-@onready var btn_twitch: Button = %BtnTwitch
+@onready var btn_settings: Button = %BtnSettings
 
 var _displayed_budget: float = 100000.0
 var _displayed_wealth: float = 0.0
@@ -28,17 +26,13 @@ var _suspicion_tween: Tween
 
 
 func _ready() -> void:
-	btn_en.pressed.connect(func(): LocalizationManager.set_locale("en"))
-	btn_tr.pressed.connect(func(): LocalizationManager.set_locale("tr"))
-	btn_es.pressed.connect(func(): LocalizationManager.set_locale("es"))
-	btn_twitch.pressed.connect(func(): twitch_toggle_requested.emit())
+	btn_settings.pressed.connect(func(): settings_toggle_requested.emit())
 
 	GameManager.stats_changed.connect(_on_stats_changed)
 	LocalizationManager.locale_changed.connect(_on_locale_changed)
 
-	btn_twitch.text = tr("UI_TWITCH_TOGGLE")
+	_update_settings_button_text()
 	_sync_all_metrics(false)
-	_update_active_locale_button(LocalizationManager.get_current_locale())
 
 
 func _on_stats_changed() -> void:
@@ -46,15 +40,12 @@ func _on_stats_changed() -> void:
 
 
 func _on_locale_changed(_locale: String) -> void:
-	btn_twitch.text = tr("UI_TWITCH_TOGGLE")
+	_update_settings_button_text()
 	_sync_all_metrics(false)
-	_update_active_locale_button(LocalizationManager.get_current_locale())
 
 
-func _update_active_locale_button(current_loc: String) -> void:
-	btn_en.modulate = Color(1.0, 0.9, 0.4) if current_loc == "en" else Color(0.7, 0.7, 0.7)
-	btn_tr.modulate = Color(1.0, 0.9, 0.4) if current_loc == "tr" else Color(0.7, 0.7, 0.7)
-	btn_es.modulate = Color(1.0, 0.9, 0.4) if current_loc == "es" else Color(0.7, 0.7, 0.7)
+func _update_settings_button_text() -> void:
+	btn_settings.text = "⚙️ " + tr("UI_SETTINGS_TOOLTIP").split("(")[0].strip_edges()
 
 
 func _sync_all_metrics(animate: bool) -> void:
