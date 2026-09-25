@@ -101,7 +101,7 @@ static func _generate_default_application(ev: EventData) -> Dictionary:
 	}
 
 
-static func _generate_default_report(ev: EventData) -> Dictionary:
+static func _generate_default_report(_ev: EventData) -> Dictionary:
 	return {
 		"inspector_name_key": "INSP_KAYA",
 		"measured_floors": 4,
@@ -168,4 +168,3 @@ func find_matching_violation(tag_a: String, tag_b: String) -> Dictionary:
 		if has_a and has_b:
 			return v
 	return {}
-
