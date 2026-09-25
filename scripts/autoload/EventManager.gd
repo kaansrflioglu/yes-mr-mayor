@@ -104,3 +104,13 @@ func discard_event(event: EventData) -> void:
 ## Checks if any events are remaining in draw pile or daily queue
 func has_events() -> bool:
 	return not draw_pile.is_empty() or not discard_pile.is_empty()
+
+
+## Returns an event definition from library by its unique ID
+func get_event_by_id(event_id: String) -> EventData:
+	if all_events.is_empty():
+		load_events_from_json()
+	for ev in all_events:
+		if ev != null and ev.id == event_id:
+			return ev
+	return null

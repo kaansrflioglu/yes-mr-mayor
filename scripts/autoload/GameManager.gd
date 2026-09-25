@@ -69,6 +69,7 @@ func start_new_game() -> void:
 	suspicion_level = 0.0
 	event_flags.clear()
 	daily_history.clear()
+	active_event = null
 	_notify_stats_changed()
 	day_started.emit(current_day)
 
@@ -169,6 +170,11 @@ func apply_resolution(effects: Dictionary) -> void:
 
 	_notify_stats_changed()
 	_evaluate_end_conditions()
+
+
+## Public method to notify listeners of municipal metrics updates
+func notify_stats_changed() -> void:
+	_notify_stats_changed()
 
 
 ## Emits both stats_updated (DESIGN_DOCUMENT) and stats_changed (PHASE_MAP)
