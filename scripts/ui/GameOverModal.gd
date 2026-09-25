@@ -4,6 +4,7 @@ extends PanelContainer
 ## Displays narrative outcome, final tenure statistics, and mandate restart.
 
 signal restart_requested
+signal main_menu_requested
 
 @onready var title_label: Label = %TitleLabel
 @onready var reason_header: Label = %ReasonHeader
@@ -13,10 +14,13 @@ signal restart_requested
 @onready var treasury_label: Label = %TreasuryLabel
 @onready var stash_label: Label = %StashLabel
 @onready var btn_restart: Button = %BtnRestart
+@onready var btn_main_menu: Button = %BtnMainMenu if has_node("%BtnMainMenu") else null
 
 
 func _ready() -> void:
 	btn_restart.pressed.connect(func(): restart_requested.emit())
+	if btn_main_menu != null:
+		btn_main_menu.pressed.connect(func(): main_menu_requested.emit())
 
 
 ## Displays game over outcome based on reason key
@@ -42,7 +46,9 @@ func show_game_over(reason_key: String) -> void:
 	stash_label.text = tr("UI_FINAL_STASH").format({
 		"wealth": _format_money(GameManager.offshore_account)
 	})
-	btn_restart.text = tr("UI_RETRY")
+	btn_restart.text = tr("UI_GAME_OVER_RESTART")
+	if btn_main_menu != null:
+		btn_main_menu.text = tr("UI_GAME_OVER_MAIN_MENU")
 
 	_animate_entrance()
 

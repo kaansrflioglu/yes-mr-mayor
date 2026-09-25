@@ -31,6 +31,7 @@ const GAME_OVER_SCENE: PackedScene = preload("res://scenes/summary/GameOverModal
 @onready var settings_modal: Control = %SettingsModal
 @onready var pause_menu: Control = %PauseMenu
 @onready var save_load_modal: Control = %SaveLoadModal
+@onready var save_toast: Control = %SaveToast if has_node("%SaveToast") else null
 
 var active_document: Control = null
 var active_summary: Control = null
@@ -102,7 +103,7 @@ func _handle_escape_key() -> void:
 	elif save_load_modal != null and save_load_modal.is_open:
 		save_load_modal.close()
 	elif red_telephone != null and red_telephone.dialog_panel.visible:
-		red_telephone._on_hangup_pressed()
+		red_telephone.hang_up()
 	elif rulebook != null and rulebook.is_open:
 		rulebook.toggle_rulebook()
 	elif pause_menu != null and pause_menu.is_open:
@@ -502,6 +503,11 @@ func _on_daily_quota_completed() -> void:
 	if is_inspect_mode:
 		_toggle_inspect_mode()
 
+	# Autosave progress on shift completion
+	SaveLoadManager.save_game("autosave")
+	if save_toast != null:
+		save_toast.show_toast(GameManager.current_day)
+
 	if active_summary != null and is_instance_valid(active_summary):
 		active_summary.queue_free()
 
@@ -524,12 +530,14 @@ func _on_next_day_pressed() -> void:
 	_present_next_document()
 
 
-## Game over condition met
 func _on_game_over(reason_key: String) -> void:
 	_set_stamps_enabled(false)
 	is_processing_decision = true
 	if is_inspect_mode:
 		_toggle_inspect_mode()
+
+	# Clean up autosave so players cannot reload into a dead end
+	SaveLoadManager.handle_game_over_cleanup()
 
 	if active_game_over != null and is_instance_valid(active_game_over):
 		active_game_over.queue_free()
@@ -540,6 +548,13 @@ func _on_game_over(reason_key: String) -> void:
 
 	modal_instance.show_game_over(reason_key)
 	modal_instance.restart_requested.connect(_on_restart_mandate)
+	modal_instance.connect("main_menu_requested", Callable(self, "_on_game_over_main_menu"))
+
+
+func _on_game_over_main_menu() -> void:
+	var main_menu_path := "res://scenes/menu/MainMenu.tscn"
+	if ResourceLoader.exists(main_menu_path):
+		get_tree().change_scene_to_file(main_menu_path)
 
 
 func _on_restart_mandate() -> void:

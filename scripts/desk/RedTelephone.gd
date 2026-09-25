@@ -124,3 +124,8 @@ func _on_hangup_pressed() -> void:
 func reject_deal() -> void:
 	dialog_panel.visible = false
 	call_resolved.emit(false)
+
+
+## Public method to hang up the phone or close active dialog
+func hang_up() -> void:
+	reject_deal()

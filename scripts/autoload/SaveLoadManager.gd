@@ -86,6 +86,13 @@ func delete_save(slot_id: String) -> bool:
 	return true
 
 
+## Cleans up or clears the active autosave upon game over to avoid reload dead ends
+func handle_game_over_cleanup() -> void:
+	if has_save("autosave"):
+		delete_save("autosave")
+		print("[SaveLoadManager] Game over reached. Autosave slot cleared.")
+
+
 ## Reads and returns metadata for a single slot without requiring full game state deserialization
 func get_slot_metadata(slot_id: String) -> Dictionary:
 	var default_name := _get_default_slot_name(slot_id)

@@ -267,5 +267,8 @@ UI_HTP_TITLE_OFFSHORE,"SWISS VAULT & FEDERAL INVESTIGATION","İSVİÇRE HESABI &
 UI_HTP_BODY_OFFSHORE,"Some dossiers arrive stuffed with dirty cash envelopes. Pocketing bribes inflates your personal Swiss Offshore balance, but beware: excessive corruption triggers federal audits and early imprisonment!","Bazı dosyaların arasına rüşvet zarfları gizlenmiştir. Rüşveti kabul etmek kişisel İsviçre Kasanızı doldurur; ancak dikkat: aşırı yolsuzluk federal müfettişleri harekete geçirir ve hapisle sonuçlanabilir!","Algunos expedientes llegan con sobres de sobornos. Aceptar el dinero infla su cuenta bancaria suiza, pero cuidado: ¡la corrupción excesiva desata investigaciones federales y la cárcel!"
 UI_HTP_BTN_CLOSE,"✓ Understood, Mr. Mayor","✓ Anlaşıldı, Sayın Başkan","✓ Entendido, Señor Alcalde"
 UI_MAIN_NO_SAVE_PREVIEW,"No saved municipal records found","Kayıtlı belediye kaydı bulunamadı","No se encontraron registros municipales"
+UI_TOAST_AUTOSAVE,"💾 Progress Saved (Day {day})","💾 İlerleme Kaydedildi ({day}. Gün)","💾 Progreso Guardado (Día {day})"
+UI_GAME_OVER_RESTART,"↺ Restart Term","↺ Görevi Yeniden Başlat","↺ Reiniciar Mandato"
+UI_GAME_OVER_MAIN_MENU,"🏠 Main Menu","🏠 Ana Menü","🏠 Menú Principal"
 
 

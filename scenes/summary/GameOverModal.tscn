@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://gameovermodal001"]
+[gd_scene load_steps=6 format=3 uid="uid://gameovermodal001"]
 
 [ext_resource type="Script" path="res://scripts/ui/GameOverModal.gd" id="1_over"]
 
@@ -32,6 +32,15 @@ corner_radius_bottom_left = 6
 bg_color = Color(0.15, 0.6, 0.38, 1)
 border_width_bottom = 3
 border_color = Color(0.1, 0.42, 0.26, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_menu_btn"]
+bg_color = Color(0.2, 0.25, 0.34, 1)
+border_width_bottom = 3
+border_color = Color(0.12, 0.16, 0.22, 1)
 corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
@@ -140,12 +149,25 @@ theme_override_colors/font_color = Color(1, 0.8, 0.3, 1)
 theme_override_font_sizes/font_size = 15
 text = "Personal Offshore Loot: $50,000"
 
-[node name="BtnRestart" type="Button" parent="Margin/VBox"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(280, 52)
+[node name="ButtonsHBox" type="HBoxContainer" parent="Margin/VBox"]
 layout_mode = 2
-size_flags_horizontal = 4
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="BtnRestart" type="Button" parent="Margin/VBox/ButtonsHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 50)
+layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxFlat_restart_btn")
-text = "Start New Mandate"
+text = "↺ Restart Term"
+
+[node name="BtnMainMenu" type="Button" parent="Margin/VBox/ButtonsHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_menu_btn")
+text = "🏠 Main Menu"
