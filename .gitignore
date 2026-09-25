@@ -2,9 +2,6 @@
 .godot/
 /android/
 
-# Godot 4.3+ Text Resource UID Sidecars
-*.uid
-
 # Export & Build Artifacts
 build/
 bin/
