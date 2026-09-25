@@ -29,12 +29,15 @@ const GAME_OVER_SCENE: PackedScene = preload("res://scenes/summary/GameOverModal
 @onready var top_bar_hud: Control = $TopBarHUD
 @onready var twitch_overlay: Control = %TwitchVoteOverlay
 @onready var settings_modal: Control = %SettingsModal
+@onready var pause_menu: Control = %PauseMenu
+@onready var save_load_modal: Control = %SaveLoadModal
 
 var active_document: Control = null
 var active_summary: Control = null
 var active_game_over: Control = null
 var is_processing_decision: bool = false
 var _shake_tween: Tween
+var _was_paused_for_modal: bool = false
 
 # Inspection & Discrepancy state
 var is_inspect_mode: bool = false
@@ -49,12 +52,25 @@ func _ready() -> void:
 	btn_toggle_rulebook.pressed.connect(_toggle_rulebook)
 	btn_next_day.pressed.connect(_on_next_day_pressed)
 	safe_drawer_panel.gui_input.connect(_on_drawer_gui_input)
+
 	top_bar_hud.settings_toggle_requested.connect(_toggle_settings)
+	top_bar_hud.pause_toggle_requested.connect(_toggle_pause_menu)
+
 	if settings_modal != null:
 		settings_modal.set_twitch_overlay_reference(twitch_overlay)
 		settings_modal.twitch_overlay_toggle_requested.connect(
 			func(): twitch_overlay.toggle_overlay()
 		)
+		settings_modal.modal_closed.connect(_on_settings_modal_closed)
+
+	if pause_menu != null:
+		pause_menu.save_requested.connect(_on_pause_save_requested)
+		pause_menu.load_requested.connect(_on_pause_load_requested)
+		pause_menu.settings_requested.connect(_on_pause_settings_requested)
+
+	if save_load_modal != null:
+		save_load_modal.modal_closed.connect(_on_save_load_modal_closed)
+		save_load_modal.load_completed.connect(_on_game_load_completed)
 
 	rulebook.rule_tag_selected.connect(_on_rule_tag_selected)
 
@@ -83,10 +99,82 @@ func _unhandled_input(event: InputEvent) -> void:
 func _handle_escape_key() -> void:
 	if settings_modal != null and settings_modal.is_open:
 		settings_modal.close()
+	elif save_load_modal != null and save_load_modal.is_open:
+		save_load_modal.close()
+	elif red_telephone != null and red_telephone.dialog_panel.visible:
+		red_telephone._on_hangup_pressed()
 	elif rulebook != null and rulebook.is_open:
 		rulebook.toggle_rulebook()
+	elif pause_menu != null and pause_menu.is_open:
+		pause_menu.close()
 	else:
-		_toggle_settings()
+		_toggle_pause_menu()
+
+
+func _toggle_pause_menu() -> void:
+	if pause_menu == null:
+		return
+	if pause_menu.is_open:
+		pause_menu.close()
+	else:
+		_open_pause_menu()
+
+
+func _open_pause_menu() -> void:
+	if pause_menu != null:
+		pause_menu.open()
+
+
+func _on_pause_save_requested() -> void:
+	_was_paused_for_modal = true
+	pause_menu.close()
+	if save_load_modal != null:
+		save_load_modal.open_in_save_mode()
+
+
+func _on_pause_load_requested() -> void:
+	_was_paused_for_modal = true
+	pause_menu.close()
+	if save_load_modal != null:
+		save_load_modal.open_in_load_mode()
+
+
+func _on_pause_settings_requested() -> void:
+	_was_paused_for_modal = true
+	pause_menu.close()
+	if settings_modal != null:
+		settings_modal.open()
+
+
+func _on_save_load_modal_closed() -> void:
+	if _was_paused_for_modal:
+		_was_paused_for_modal = false
+		if pause_menu != null:
+			pause_menu.open()
+
+
+func _on_settings_modal_closed() -> void:
+	if _was_paused_for_modal:
+		_was_paused_for_modal = false
+		if pause_menu != null:
+			pause_menu.open()
+
+
+func _on_game_load_completed(_slot_id: String) -> void:
+	_was_paused_for_modal = false
+	if active_document != null and is_instance_valid(active_document):
+		active_document.queue_free()
+		active_document = null
+	if active_summary != null and is_instance_valid(active_summary):
+		active_summary.queue_free()
+		active_summary = null
+	if active_game_over != null and is_instance_valid(active_game_over):
+		active_game_over.queue_free()
+		active_game_over = null
+
+	next_day_box.visible = false
+	inspect_status_panel.visible = false
+	_start_or_continue_shift()
 
 
 func _toggle_settings() -> void:

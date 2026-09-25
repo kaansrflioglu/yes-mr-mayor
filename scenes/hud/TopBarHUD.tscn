@@ -159,6 +159,16 @@ layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 2
 
+[node name="BtnPause" type="Button" parent="Margin/HBox/SettingsBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(44, 36)
+layout_mode = 2
+tooltip_text = "Pause (ESC)"
+theme_override_colors/font_color = Color(1, 0.88, 0.45, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_settings_btn")
+text = "⏸️"
+
 [node name="BtnSettings" type="Button" parent="Margin/HBox/SettingsBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(115, 36)

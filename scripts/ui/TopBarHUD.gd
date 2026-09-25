@@ -6,6 +6,7 @@ extends PanelContainer
 
 signal twitch_toggle_requested
 signal settings_toggle_requested
+signal pause_toggle_requested
 
 @onready var approval_bar: ProgressBar = %ApprovalBar
 @onready var approval_label: Label = %ApprovalLabel
@@ -16,6 +17,7 @@ signal settings_toggle_requested
 @onready var day_label: Label = %DayLabel
 
 @onready var btn_settings: Button = %BtnSettings
+@onready var btn_pause: Button = %BtnPause
 
 var _displayed_budget: float = 100000.0
 var _displayed_wealth: float = 0.0
@@ -27,6 +29,8 @@ var _suspicion_tween: Tween
 
 func _ready() -> void:
 	btn_settings.pressed.connect(func(): settings_toggle_requested.emit())
+	if btn_pause != null:
+		btn_pause.pressed.connect(func(): pause_toggle_requested.emit())
 
 	GameManager.stats_changed.connect(_on_stats_changed)
 	LocalizationManager.locale_changed.connect(_on_locale_changed)

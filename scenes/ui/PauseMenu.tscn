@@ -1,0 +1,297 @@
+[gd_scene format=3 uid="uid://pausemenu001"]
+
+[ext_resource type="Script" path="res://scripts/ui/PauseMenu.gd" id="1_pause"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_menu_panel"]
+bg_color = Color(0.1, 0.12, 0.16, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.85, 0.72, 0.3, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.75)
+shadow_size = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_resume"]
+bg_color = Color(0.14, 0.58, 0.34, 1)
+border_width_bottom = 3
+border_color = Color(0.08, 0.4, 0.22, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_save"]
+bg_color = Color(0.22, 0.35, 0.52, 1)
+border_width_bottom = 3
+border_color = Color(0.12, 0.22, 0.36, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_load"]
+bg_color = Color(0.18, 0.42, 0.72, 1)
+border_width_bottom = 3
+border_color = Color(0.1, 0.26, 0.48, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_settings"]
+bg_color = Color(0.2, 0.24, 0.32, 1)
+border_width_bottom = 3
+border_color = Color(0.12, 0.15, 0.22, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_main_menu"]
+bg_color = Color(0.42, 0.3, 0.16, 1)
+border_width_bottom = 3
+border_color = Color(0.28, 0.18, 0.08, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_quit"]
+bg_color = Color(0.55, 0.18, 0.18, 1)
+border_width_bottom = 3
+border_color = Color(0.36, 0.1, 0.1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_confirm_panel"]
+bg_color = Color(0.11, 0.13, 0.18, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.85, 0.3, 0.3, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.8)
+shadow_size = 24
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_yes"]
+bg_color = Color(0.72, 0.2, 0.2, 1)
+border_width_bottom = 3
+border_color = Color(0.45, 0.1, 0.1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_no"]
+bg_color = Color(0.24, 0.28, 0.36, 1)
+border_width_bottom = 2
+border_color = Color(0.16, 0.19, 0.25, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="PauseMenu" type="Control"]
+visible = false
+z_index = 70
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pause")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.72)
+
+[node name="MenuPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(440, 520)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -260.0
+offset_right = 220.0
+offset_bottom = 260.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(220, 260)
+theme_override_styles/panel = SubResource("StyleBoxFlat_menu_panel")
+
+[node name="Margin" type="MarginContainer" parent="MenuPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 24
+
+[node name="VBox" type="VBoxContainer" parent="MenuPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="MenuPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.45, 1)
+theme_override_font_sizes/font_size = 22
+text = "⏸️ PAUSED"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MenuPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="BtnResume" type="Button" parent="MenuPanel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_resume")
+text = "▶️ Resume Game"
+
+[node name="BtnSave" type="Button" parent="MenuPanel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_save")
+text = "💾 Save Game"
+
+[node name="BtnLoad" type="Button" parent="MenuPanel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_load")
+text = "📂 Load Game"
+
+[node name="BtnSettings" type="Button" parent="MenuPanel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_settings")
+text = "⚙️ Settings"
+
+[node name="BtnMainMenu" type="Button" parent="MenuPanel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_main_menu")
+text = "🏠 Main Menu"
+
+[node name="BtnQuit" type="Button" parent="MenuPanel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_quit")
+text = "🚪 Quit to Desktop"
+
+[node name="ConfirmOverlay" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ConfirmBackdrop" type="ColorRect" parent="ConfirmOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.7)
+
+[node name="ConfirmPanel" type="PanelContainer" parent="ConfirmOverlay"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(500, 220)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -110.0
+offset_right = 250.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(250, 110)
+theme_override_styles/panel = SubResource("StyleBoxFlat_confirm_panel")
+
+[node name="Margin" type="MarginContainer" parent="ConfirmOverlay/ConfirmPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="ConfirmOverlay/ConfirmPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="ConfirmTitle" type="Label" parent="ConfirmOverlay/ConfirmPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.35, 1)
+theme_override_font_sizes/font_size = 18
+text = "Return to Main Menu?"
+
+[node name="ConfirmMessage" type="Label" parent="ConfirmOverlay/ConfirmPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.85, 0.88, 0.94, 1)
+theme_override_font_sizes/font_size = 14
+text = "Any unsaved progress will be lost."
+autowrap_mode = 2
+
+[node name="ButtonsHBox" type="HBoxContainer" parent="ConfirmOverlay/ConfirmPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="BtnConfirmYes" type="Button" parent="ConfirmOverlay/ConfirmPanel/Margin/VBox/ButtonsHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 36)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_yes")
+text = "Yes"
+
+[node name="BtnConfirmNo" type="Button" parent="ConfirmOverlay/ConfirmPanel/Margin/VBox/ButtonsHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 36)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_no")
+text = "Cancel"
