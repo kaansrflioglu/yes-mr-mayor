@@ -122,8 +122,13 @@ func _toggle_pause_menu() -> void:
 
 
 func _open_pause_menu() -> void:
-	if pause_menu != null:
-		pause_menu.open()
+	if pause_menu == null or pause_menu.is_open:
+		return
+	if settings_modal != null and settings_modal.is_open:
+		settings_modal.close()
+	if save_load_modal != null and save_load_modal.is_open:
+		save_load_modal.close()
+	pause_menu.open()
 
 
 func _on_pause_save_requested() -> void:
@@ -184,7 +189,10 @@ func _toggle_settings() -> void:
 	if settings_modal.is_open:
 		settings_modal.close()
 	else:
-		settings_modal.open()
+		if pause_menu != null and pause_menu.is_open:
+			_on_pause_settings_requested()
+		else:
+			_open_pause_menu()
 
 
 func _update_locale_texts(_loc: String) -> void:

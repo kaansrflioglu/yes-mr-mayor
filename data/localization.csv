@@ -270,5 +270,7 @@ UI_MAIN_NO_SAVE_PREVIEW,"No saved municipal records found","Kayıtlı belediye k
 UI_TOAST_AUTOSAVE,"💾 Progress Saved (Day {day})","💾 İlerleme Kaydedildi ({day}. Gün)","💾 Progreso Guardado (Día {day})"
 UI_GAME_OVER_RESTART,"↺ Restart Term","↺ Görevi Yeniden Başlat","↺ Reiniciar Mandato"
 UI_GAME_OVER_MAIN_MENU,"🏠 Main Menu","🏠 Ana Menü","🏠 Menú Principal"
+UI_HUD_MENU,"Menu","Menü","Menú"
+UI_HUD_MENU_TOOLTIP,"Menu / Pause (ESC)","Menü / Duraklat (ESC)","Menú / Pausa (ESC)"
 
 

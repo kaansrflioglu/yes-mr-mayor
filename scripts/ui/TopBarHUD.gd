@@ -28,7 +28,9 @@ var _suspicion_tween: Tween
 
 
 func _ready() -> void:
-	btn_settings.pressed.connect(func(): settings_toggle_requested.emit())
+	if btn_settings != null:
+		btn_settings.visible = false
+		btn_settings.pressed.connect(func(): settings_toggle_requested.emit())
 	if btn_pause != null:
 		btn_pause.pressed.connect(func(): pause_toggle_requested.emit())
 
@@ -49,7 +51,11 @@ func _on_locale_changed(_locale: String) -> void:
 
 
 func _update_settings_button_text() -> void:
-	btn_settings.text = "⚙️ " + tr("UI_SETTINGS_TOOLTIP").split("(")[0].strip_edges()
+	if btn_settings != null:
+		btn_settings.text = "⚙️ " + tr("UI_SETTINGS_TOOLTIP").split("(")[0].strip_edges()
+	if btn_pause != null:
+		btn_pause.text = "⏸️ " + tr("UI_HUD_MENU")
+		btn_pause.tooltip_text = tr("UI_HUD_MENU_TOOLTIP")
 
 
 func _sync_all_metrics(animate: bool) -> void:
