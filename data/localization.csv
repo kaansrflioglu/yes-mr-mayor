@@ -184,3 +184,9 @@ EVT_012_DESC,"Monaco Aero offers a fat bribe to seize the Municipal Hospital's e
 EVT_012_INSP_NOTES,"Structural weight exceeds roof limit by 18 tons. Noise disrupts ICU patients. Forged ministry authorization stamp.","Ağırlık çatı taşıma kapasitesini 18 ton aşıyor. Gürültü yoğun bakımı felç eder. Sahte mühür kullanılmış.","El peso excede el límite del techo por 18 toneladas. Ruido afecta UCI. Sello ministerial falsificado."
 EVT_012_NEWS_APP,"Oligarch helicopters buzz intensive care units; doctors walk out in protest!","Hastanenin çatısına kumar helikopterleri iniyor: Doktorlar istifa etti!","¡Helicópteros privados sobre terapia intensiva; médicos protestan!"
 EVT_012_NEWS_REJ,"Emergency trauma roof preserved for patients; billionaire's chopper turned away.","Başkan hastane çatısını korudu: Acil ambulans helikopterleri göreve devam ediyor.","Techo de urgencias protegido para pacientes; helicóptero privado rechazado."
+UI_HOTLINE_TITLE,"📞 PARTY BOSS (ENCRYPTED LINE)","📞 PARTİ PATRONU (ŞİFRELİ HAT)","📞 JEFE DEL PARTIDO (LÍNEA SEGURA)"
+UI_HOTLINE_MSG,"Listen, Mr. Mayor! Divert $30,000 from the municipal budget to our super PAC right now, and our senators will suppress 20% of your federal suspicion!","Dinle Sayın Başkan! Belediye bütçesinden 30.000 ₺'yi hemen gizli fonumuza aktar, senatörlerimiz hakkındaki müfettiş dosyasını %20 kapatsın!","¡Escuche, señor alcalde! Desvíe $30,000 del presupuesto a nuestro fondo ahora mismo y nuestros senadores reducirán un 20% de su sospecha federal."
+UI_HOTLINE_ACCEPT,"Wire $30,000 (Drop 20% Suspicion)","30.000 ₺ Gönder (%20 Şüphe Düşür)","Transferir $30,000 (Bajar 20% Sospecha)"
+UI_HOTLINE_HANGUP,"Hang Up (Reject Deal)","Telefonu Kapat (Teklifi Reddet)","Colgar (Rechazar Trato)"
+UI_HOTLINE_RING,"RINGS!","ÇALIYOR!","¡SUENA!"
+
