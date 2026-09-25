@@ -1,0 +1,614 @@
+[gd_scene load_steps=18 format=3 uid="uid://mainmenu001"]
+
+[ext_resource type="Script" path="res://scripts/menu/MainMenu.gd" id="1_menu"]
+[ext_resource type="PackedScene" uid="uid://saveloadmodal001" path="res://scenes/ui/SaveLoadModal.tscn" id="2_saveload"]
+[ext_resource type="PackedScene" uid="uid://settingsmodal001" path="res://scenes/ui/SettingsModal.tscn" id="3_settings"]
+[ext_resource type="PackedScene" path="res://scenes/menu/HowToPlayModal.tscn" id="4_htp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sky_horizon"]
+bg_color = Color(0.18, 0.12, 0.19, 0.9)
+corner_radius_top_left = 600
+corner_radius_top_right = 600
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bldg_dark"]
+bg_color = Color(0.06, 0.07, 0.1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_color = Color(0.15, 0.18, 0.25, 0.8)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bldg_mid"]
+bg_color = Color(0.09, 0.11, 0.16, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_color = Color(0.2, 0.25, 0.35, 0.8)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bldg_front"]
+bg_color = Color(0.05, 0.06, 0.08, 1)
+border_width_top = 2
+border_color = Color(0.28, 0.32, 0.42, 0.8)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_desk_rim"]
+bg_color = Color(0.12, 0.08, 0.06, 1)
+border_width_top = 3
+border_color = Color(0.78, 0.65, 0.3, 0.8)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_seal_badge"]
+bg_color = Color(0.12, 0.14, 0.2, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.85, 0.72, 0.3, 1)
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+shadow_color = Color(0, 0, 0, 0.6)
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_continue"]
+bg_color = Color(0.18, 0.32, 0.48, 0.95)
+border_width_left = 4
+border_width_bottom = 3
+border_color = Color(0.9, 0.78, 0.35, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_action"]
+bg_color = Color(0.13, 0.16, 0.22, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 3
+border_color = Color(0.28, 0.35, 0.48, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_quit"]
+bg_color = Color(0.22, 0.12, 0.14, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 3
+border_color = Color(0.55, 0.2, 0.22, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_confirm_panel"]
+bg_color = Color(0.11, 0.13, 0.17, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.85, 0.72, 0.3, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.8)
+shadow_size = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_yes"]
+bg_color = Color(0.72, 0.22, 0.22, 1)
+border_width_bottom = 3
+border_color = Color(0.48, 0.12, 0.12, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_no"]
+bg_color = Color(0.22, 0.26, 0.34, 1)
+border_width_bottom = 3
+border_color = Color(0.14, 0.16, 0.22, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+
+[node name="SkyBackground" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.07, 0.08, 0.13, 1)
+
+[node name="HorizonGlow" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -680.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_sky_horizon")
+
+[node name="SkylineLayer" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BldgFar1" type="Panel" parent="SkylineLayer"]
+layout_mode = 0
+offset_left = 110.0
+offset_top = 340.0
+offset_right = 260.0
+offset_bottom = 880.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bldg_dark")
+
+[node name="BldgFar2" type="Panel" parent="SkylineLayer"]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 260.0
+offset_right = 440.0
+offset_bottom = 880.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bldg_dark")
+
+[node name="BldgFar3" type="Panel" parent="SkylineLayer"]
+layout_mode = 0
+offset_left = 720.0
+offset_top = 220.0
+offset_right = 880.0
+offset_bottom = 880.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bldg_dark")
+
+[node name="BldgFar4" type="Panel" parent="SkylineLayer"]
+layout_mode = 0
+offset_left = 1380.0
+offset_top = 280.0
+offset_right = 1540.0
+offset_bottom = 880.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bldg_dark")
+
+[node name="BldgFar5" type="Panel" parent="SkylineLayer"]
+layout_mode = 0
+offset_left = 1620.0
+offset_top = 200.0
+offset_right = 1760.0
+offset_bottom = 880.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bldg_dark")
+
+[node name="BldgMid1" type="Panel" parent="SkylineLayer"]
+layout_mode = 0
+offset_left = 220.0
+offset_top = 420.0
+offset_right = 380.0
+offset_bottom = 880.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bldg_mid")
+
+[node name="BldgMid2" type="Panel" parent="SkylineLayer"]
+layout_mode = 0
+offset_left = 820.0
+offset_top = 360.0
+offset_right = 980.0
+offset_bottom = 880.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bldg_mid")
+
+[node name="BldgMid3" type="Panel" parent="SkylineLayer"]
+layout_mode = 0
+offset_left = 1240.0
+offset_top = 340.0
+offset_right = 1420.0
+offset_bottom = 880.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bldg_mid")
+
+[node name="BldgMid4" type="Panel" parent="SkylineLayer"]
+layout_mode = 0
+offset_left = 1500.0
+offset_top = 400.0
+offset_right = 1660.0
+offset_bottom = 880.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bldg_mid")
+
+[node name="WindowsGrid" type="Control" parent="SkylineLayer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Win1" type="ColorRect" parent="SkylineLayer/WindowsGrid"]
+layout_mode = 0
+offset_left = 340.0
+offset_top = 300.0
+offset_right = 352.0
+offset_bottom = 312.0
+color = Color(1, 0.85, 0.4, 0.8)
+
+[node name="Win2" type="ColorRect" parent="SkylineLayer/WindowsGrid"]
+layout_mode = 0
+offset_left = 370.0
+offset_top = 300.0
+offset_right = 382.0
+offset_bottom = 312.0
+color = Color(0.4, 0.8, 1, 0.75)
+
+[node name="Win3" type="ColorRect" parent="SkylineLayer/WindowsGrid"]
+layout_mode = 0
+offset_left = 750.0
+offset_top = 260.0
+offset_right = 762.0
+offset_bottom = 272.0
+color = Color(1, 0.85, 0.4, 0.85)
+
+[node name="Win4" type="ColorRect" parent="SkylineLayer/WindowsGrid"]
+layout_mode = 0
+offset_left = 790.0
+offset_top = 290.0
+offset_right = 802.0
+offset_bottom = 302.0
+color = Color(1, 0.85, 0.4, 0.8)
+
+[node name="Win5" type="ColorRect" parent="SkylineLayer/WindowsGrid"]
+layout_mode = 0
+offset_left = 840.0
+offset_top = 400.0
+offset_right = 852.0
+offset_bottom = 412.0
+color = Color(0.4, 0.85, 1, 0.75)
+
+[node name="Win6" type="ColorRect" parent="SkylineLayer/WindowsGrid"]
+layout_mode = 0
+offset_left = 1300.0
+offset_top = 380.0
+offset_right = 1312.0
+offset_bottom = 392.0
+color = Color(1, 0.85, 0.4, 0.8)
+
+[node name="Win7" type="ColorRect" parent="SkylineLayer/WindowsGrid"]
+layout_mode = 0
+offset_left = 1650.0
+offset_top = 240.0
+offset_right = 1662.0
+offset_bottom = 252.0
+color = Color(1, 0.4, 0.4, 0.9)
+
+[node name="Win8" type="ColorRect" parent="SkylineLayer/WindowsGrid"]
+layout_mode = 0
+offset_left = 1680.0
+offset_top = 270.0
+offset_right = 1692.0
+offset_bottom = 282.0
+color = Color(1, 0.85, 0.4, 0.85)
+
+[node name="BeaconAntenna" type="ColorRect" parent="SkylineLayer"]
+layout_mode = 0
+offset_left = 799.0
+offset_top = 180.0
+offset_right = 801.0
+offset_bottom = 220.0
+color = Color(0.8, 0.2, 0.2, 0.9)
+
+[node name="CityHaze" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -420.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.08, 0.09, 0.14, 0.5)
+
+[node name="MayoralDeskRim" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -220.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_desk_rim")
+
+[node name="CenterCanvas" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleBox" type="VBoxContainer" parent="CenterCanvas"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -500.0
+offset_top = 90.0
+offset_right = 500.0
+offset_bottom = 300.0
+grow_horizontal = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="HBoxSeal" type="HBoxContainer" parent="CenterCanvas/TitleBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="SealBadge" type="PanelContainer" parent="CenterCanvas/TitleBox/HBoxSeal"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_seal_badge")
+
+[node name="SealIcon" type="Label" parent="CenterCanvas/TitleBox/HBoxSeal/SealBadge"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "🏛️"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TitleLabel" type="Label" parent="CenterCanvas/TitleBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.86, 0.42, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.95)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_outline_size = 6
+theme_override_font_sizes/font_size = 46
+text = "YES, MR. MAYOR"
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="CenterCanvas/TitleBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.85, 0.92, 0.9)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 17
+text = "A Municipal Deduction & Morality Simulator"
+horizontal_alignment = 1
+
+[node name="MottoLabel" type="Label" parent="CenterCanvas/TitleBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.72, 0.85, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "T.C. BÜYÜKŞEHİR BELEDİYE BAŞKANLIĞI // OFFICE OF THE MAYOR"
+horizontal_alignment = 1
+
+[node name="ActionRack" type="VBoxContainer" parent="CenterCanvas"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -230.0
+offset_top = -120.0
+offset_right = 230.0
+offset_bottom = 350.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="ContinueBox" type="VBoxContainer" parent="CenterCanvas/ActionRack"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="BtnContinue" type="Button" parent="CenterCanvas/ActionRack/ContinueBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(460, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_continue")
+text = "▶ Continue Term"
+
+[node name="LabelContinuePreview" type="Label" parent="CenterCanvas/ActionRack/ContinueBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.82, 0.6, 0.9)
+theme_override_font_sizes/font_size = 12
+text = "No saved municipal records found"
+horizontal_alignment = 1
+
+[node name="BtnNewGame" type="Button" parent="CenterCanvas/ActionRack"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(460, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_action")
+text = "⭐ New Term"
+
+[node name="BtnLoadGame" type="Button" parent="CenterCanvas/ActionRack"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(460, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_action")
+text = "📂 Load Term"
+
+[node name="BtnHowToPlay" type="Button" parent="CenterCanvas/ActionRack"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(460, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_action")
+text = "📖 Municipal Manual"
+
+[node name="BtnSettings" type="Button" parent="CenterCanvas/ActionRack"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(460, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_action")
+text = "⚙️ Settings"
+
+[node name="BtnQuit" type="Button" parent="CenterCanvas/ActionRack"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(460, 46)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_quit")
+text = "🚪 Quit to Desktop"
+
+[node name="FooterBar" type="HBoxContainer" parent="CenterCanvas"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = -40.0
+offset_right = -32.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="VersionLabel" type="Label" parent="CenterCanvas/FooterBar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.55, 0.65, 0.75)
+theme_override_font_sizes/font_size = 13
+text = "v1.0.0-PROD • Municipal OS 2026 • Build 4.7.2"
+
+[node name="Spacer" type="Control" parent="CenterCanvas/FooterBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HintLabel" type="Label" parent="CenterCanvas/FooterBar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.55, 0.65, 0.75)
+theme_override_font_sizes/font_size = 13
+text = "[ESC] Back / Exit • [ENTER] Select"
+
+[node name="SaveLoadModal" parent="." instance=ExtResource("2_saveload")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="SettingsModal" parent="." instance=ExtResource("3_settings")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="HowToPlayModal" parent="." instance=ExtResource("4_htp")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="ConfirmOverlay" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ConfirmBackdrop" type="ColorRect" parent="ConfirmOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="ConfirmPanel" type="PanelContainer" parent="ConfirmOverlay"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(520, 220)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -110.0
+offset_right = 260.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(260, 110)
+theme_override_styles/panel = SubResource("StyleBoxFlat_confirm_panel")
+
+[node name="Margin" type="MarginContainer" parent="ConfirmOverlay/ConfirmPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 26
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 26
+theme_override_constants/margin_bottom = 22
+
+[node name="VBox" type="VBoxContainer" parent="ConfirmOverlay/ConfirmPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="ConfirmTitle" type="Label" parent="ConfirmOverlay/ConfirmPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.35, 1)
+theme_override_font_sizes/font_size = 18
+text = "Start New Term?"
+
+[node name="ConfirmMessage" type="Label" parent="ConfirmOverlay/ConfirmPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.85, 0.88, 0.94, 1)
+theme_override_font_sizes/font_size = 14
+text = "Starting a new term will begin from Day 1."
+autowrap_mode = 2
+
+[node name="ButtonsHBox" type="HBoxContainer" parent="ConfirmOverlay/ConfirmPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="BtnConfirmYes" type="Button" parent="ConfirmOverlay/ConfirmPanel/Margin/VBox/ButtonsHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 36)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_yes")
+text = "Yes"
+
+[node name="BtnConfirmNo" type="Button" parent="ConfirmOverlay/ConfirmPanel/Margin/VBox/ButtonsHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 36)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_no")
+text = "Cancel"
+
+[node name="TransitionOverlay" type="ColorRect" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)

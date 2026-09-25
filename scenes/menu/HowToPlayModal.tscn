@@ -1,0 +1,251 @@
+[gd_scene load_steps=8 format=3 uid="uid://howtoplaymodal001"]
+
+[ext_resource type="Script" path="res://scripts/menu/HowToPlayModal.gd" id="1_htp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_modal_panel"]
+bg_color = Color(0.1, 0.12, 0.16, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.85, 0.72, 0.3, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.7)
+shadow_size = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tab_btn"]
+bg_color = Color(0.15, 0.19, 0.26, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 2
+border_color = Color(0.3, 0.38, 0.5, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_content_box"]
+bg_color = Color(0.07, 0.08, 0.12, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.25, 0.3, 0.4, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tip_panel"]
+bg_color = Color(0.12, 0.22, 0.32, 0.8)
+border_width_left = 3
+border_color = Color(0.3, 0.65, 0.95, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_close"]
+bg_color = Color(0.18, 0.42, 0.72, 1)
+border_width_bottom = 3
+border_color = Color(0.1, 0.26, 0.48, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_header_x"]
+bg_color = Color(0.24, 0.28, 0.36, 1)
+border_width_bottom = 2
+border_color = Color(0.15, 0.18, 0.24, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="HowToPlayModal" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_htp")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.05, 0.08, 0.75)
+
+[node name="ModalPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(980, 650)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -490.0
+offset_top = -325.0
+offset_right = 490.0
+offset_bottom = 325.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(490, 325)
+theme_override_styles/panel = SubResource("StyleBoxFlat_modal_panel")
+
+[node name="Margin" type="MarginContainer" parent="ModalPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 22
+
+[node name="Layout" type="VBoxContainer" parent="ModalPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Header" type="HBoxContainer" parent="ModalPanel/Margin/Layout"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="ModalPanel/Margin/Layout/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.95, 0.85, 0.45, 1)
+theme_override_font_sizes/font_size = 20
+text = "📖 MUNICIPAL CODE & OPERATING MANUAL"
+
+[node name="BtnHeaderClose" type="Button" parent="ModalPanel/Margin/Layout/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_header_x")
+text = "✕"
+
+[node name="HSeparator" type="HSeparator" parent="ModalPanel/Margin/Layout"]
+layout_mode = 2
+
+[node name="TabBar" type="HBoxContainer" parent="ModalPanel/Margin/Layout"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnTabInspect" type="Button" parent="ModalPanel/Margin/Layout/TabBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_btn")
+text = "🔍 Dossier & Rules"
+
+[node name="BtnTabStamps" type="Button" parent="ModalPanel/Margin/Layout/TabBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_btn")
+text = "⚖️ Stamping & Ethics"
+
+[node name="BtnTabHotline" type="Button" parent="ModalPanel/Margin/Layout/TabBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_btn")
+text = "📞 The Red Hotline"
+
+[node name="BtnTabOffshore" type="Button" parent="ModalPanel/Margin/Layout/TabBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_btn")
+text = "💼 Offshore Account"
+
+[node name="ContentBox" type="PanelContainer" parent="ModalPanel/Margin/Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_content_box")
+
+[node name="Margin" type="MarginContainer" parent="ModalPanel/Margin/Layout/ContentBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="ModalPanel/Margin/Layout/ContentBox/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="SectionBadge" type="Label" parent="ModalPanel/Margin/Layout/ContentBox/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.72, 0.85, 0.9)
+theme_override_font_sizes/font_size = 12
+text = "SECTION 01 // AUDITING & DISCREPANCIES"
+
+[node name="SectionTitle" type="Label" parent="ModalPanel/Margin/Layout/ContentBox/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.5, 1)
+theme_override_font_sizes/font_size = 18
+text = "DOSSIER AUDIT & CONTRADICTION DETECTION"
+
+[node name="SectionDesc" type="Label" parent="ModalPanel/Margin/Layout/ContentBox/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.88, 0.92, 0.96, 1)
+theme_override_font_sizes/font_size = 15
+text = "Every applicant submits a municipal dossier. Inspect building height, soil grade, riverbed zones, authentic seals, and corruption blacklists against the Official Rulebook."
+autowrap_mode = 3
+
+[node name="Spacer" type="Control" parent="ModalPanel/Margin/Layout/ContentBox/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TipPanel" type="PanelContainer" parent="ModalPanel/Margin/Layout/ContentBox/Margin/VBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tip_panel")
+
+[node name="Margin" type="MarginContainer" parent="ModalPanel/Margin/Layout/ContentBox/Margin/VBox/TipPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 10
+
+[node name="TipLabel" type="Label" parent="ModalPanel/Margin/Layout/ContentBox/Margin/VBox/TipPanel/Margin"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.88, 1, 1)
+theme_override_font_sizes/font_size = 13
+text = "TIP: Counterfeit seals omit 'T.C.' or show years prior to 2026."
+autowrap_mode = 3
+
+[node name="HSeparator2" type="HSeparator" parent="ModalPanel/Margin/Layout"]
+layout_mode = 2
+
+[node name="Footer" type="HBoxContainer" parent="ModalPanel/Margin/Layout"]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="ModalPanel/Margin/Layout/Footer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BtnFooterClose" type="Button" parent="ModalPanel/Margin/Layout/Footer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 42)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_close")
+text = "✓ Understood, Mr. Mayor"

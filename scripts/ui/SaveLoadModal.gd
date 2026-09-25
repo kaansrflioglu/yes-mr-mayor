@@ -72,6 +72,13 @@ func _connect_events() -> void:
 		btn_delete.pressed.connect(func(): _on_slot_delete_pressed(slot_id))
 
 
+func open(mode: Mode = Mode.SAVE) -> void:
+	if mode == Mode.SAVE:
+		open_in_save_mode()
+	else:
+		open_in_load_mode()
+
+
 func open_in_save_mode() -> void:
 	current_mode = Mode.SAVE
 	title_label.text = tr("UI_SAVE_LOAD_TITLE_SAVE")
@@ -122,7 +129,7 @@ func refresh_slots() -> void:
 		_update_card_ui(card, slot_id, meta)
 
 
-func _update_card_ui(card: PanelContainer, slot_id: String, meta: Dictionary) -> void:
+func _update_card_ui(_card: PanelContainer, slot_id: String, meta: Dictionary) -> void:
 	var label_name := get_card_slot_name_label(slot_id)
 	var label_time := get_card_timestamp_label(slot_id)
 	var label_badge := get_card_alignment_badge(slot_id)
