@@ -1,0 +1,690 @@
+[gd_scene load_steps=12 format=3 uid="uid://saveloadmodal001"]
+
+[ext_resource type="Script" path="res://scripts/ui/SaveLoadModal.gd" id="1_modal"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_modal_panel"]
+bg_color = Color(0.1, 0.12, 0.16, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.85, 0.72, 0.3, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.7)
+shadow_size = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+bg_color = Color(0.13, 0.16, 0.22, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 2
+border_color = Color(0.28, 0.34, 0.44, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_action"]
+bg_color = Color(0.18, 0.42, 0.72, 1)
+border_width_bottom = 3
+border_color = Color(0.1, 0.26, 0.48, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_delete"]
+bg_color = Color(0.65, 0.18, 0.18, 1)
+border_width_bottom = 3
+border_color = Color(0.42, 0.1, 0.1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_close"]
+bg_color = Color(0.24, 0.28, 0.36, 1)
+border_width_bottom = 2
+border_color = Color(0.15, 0.18, 0.24, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_toast"]
+bg_color = Color(0.12, 0.48, 0.28, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.85, 0.5, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_confirm_panel"]
+bg_color = Color(0.11, 0.13, 0.18, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.85, 0.3, 0.3, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.8)
+shadow_size = 24
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_yes"]
+bg_color = Color(0.72, 0.2, 0.2, 1)
+border_width_bottom = 3
+border_color = Color(0.45, 0.1, 0.1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_no"]
+bg_color = Color(0.24, 0.28, 0.36, 1)
+border_width_bottom = 2
+border_color = Color(0.16, 0.19, 0.25, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="SaveLoadModal" type="Control"]
+visible = false
+z_index = 65
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_modal")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.72)
+
+[node name="ModalPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(880, 680)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -440.0
+offset_top = -340.0
+offset_right = 440.0
+offset_bottom = 340.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(440, 340)
+theme_override_styles/panel = SubResource("StyleBoxFlat_modal_panel")
+
+[node name="Margin" type="MarginContainer" parent="ModalPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 22
+
+[node name="VBox" type="VBoxContainer" parent="ModalPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="HeaderBar" type="HBoxContainer" parent="ModalPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="ModalPanel/Margin/VBox/HeaderBar"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.45, 1)
+theme_override_font_sizes/font_size = 22
+text = "💾 SAVE GAME"
+
+[node name="Spacer" type="Control" parent="ModalPanel/Margin/VBox/HeaderBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BtnHeaderClose" type="Button" parent="ModalPanel/Margin/VBox/HeaderBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_close")
+text = "✕"
+
+[node name="HSeparator" type="HSeparator" parent="ModalPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="SlotsContainer" type="VBoxContainer" parent="ModalPanel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="CardAutosave" type="PanelContainer" parent="ModalPanel/Margin/VBox/SlotsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="Margin" type="MarginContainer" parent="ModalPanel/Margin/VBox/SlotsContainer/CardAutosave"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 10
+
+[node name="HBox" type="HBoxContainer" parent="ModalPanel/Margin/VBox/SlotsContainer/CardAutosave/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="InfoVBox" type="VBoxContainer" parent="ModalPanel/Margin/VBox/SlotsContainer/CardAutosave/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="HeaderRow" type="HBoxContainer" parent="ModalPanel/Margin/VBox/SlotsContainer/CardAutosave/Margin/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="LabelSlotName" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardAutosave/Margin/HBox/InfoVBox/HeaderRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
+theme_override_font_sizes/font_size = 17
+text = "⚡ Autosave"
+
+[node name="LabelAlignment" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardAutosave/Margin/HBox/InfoVBox/HeaderRow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "[Lawful]"
+
+[node name="Spacer" type="Control" parent="ModalPanel/Margin/VBox/SlotsContainer/CardAutosave/Margin/HBox/InfoVBox/HeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LabelTimestamp" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardAutosave/Margin/HBox/InfoVBox/HeaderRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.72, 0.82, 1)
+theme_override_font_sizes/font_size = 13
+text = "2026-09-25 10:15:00"
+
+[node name="LabelEmpty" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardAutosave/Margin/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.55, 0.65, 1)
+theme_override_font_sizes/font_size = 14
+text = "[EMPTY SLOT]"
+
+[node name="StatsBox" type="HBoxContainer" parent="ModalPanel/Margin/VBox/SlotsContainer/CardAutosave/Margin/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="LabelDay" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardAutosave/Margin/HBox/InfoVBox/StatsBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Day 8"
+
+[node name="LabelBudget" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardAutosave/Margin/HBox/InfoVBox/StatsBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.85, 0.55, 1)
+theme_override_font_sizes/font_size = 14
+text = "💰 $145,000"
+
+[node name="LabelApproval" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardAutosave/Margin/HBox/InfoVBox/StatsBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.75, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "👥 68%"
+
+[node name="LabelSuspicion" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardAutosave/Margin/HBox/InfoVBox/StatsBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.45, 0.45, 1)
+theme_override_font_sizes/font_size = 14
+text = "🕵️ 15%"
+
+[node name="ActionsHBox" type="HBoxContainer" parent="ModalPanel/Margin/VBox/SlotsContainer/CardAutosave/Margin/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnAction" type="Button" parent="ModalPanel/Margin/VBox/SlotsContainer/CardAutosave/Margin/HBox/ActionsHBox"]
+custom_minimum_size = Vector2(130, 38)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_action")
+text = "💾 Save Here"
+
+[node name="BtnDelete" type="Button" parent="ModalPanel/Margin/VBox/SlotsContainer/CardAutosave/Margin/HBox/ActionsHBox"]
+custom_minimum_size = Vector2(80, 38)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_delete")
+text = "🗑️ Sil"
+
+[node name="CardSlot1" type="PanelContainer" parent="ModalPanel/Margin/VBox/SlotsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="Margin" type="MarginContainer" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot1"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 10
+
+[node name="HBox" type="HBoxContainer" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot1/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="InfoVBox" type="VBoxContainer" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot1/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="HeaderRow" type="HBoxContainer" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot1/Margin/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="LabelSlotName" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot1/Margin/HBox/InfoVBox/HeaderRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
+theme_override_font_sizes/font_size = 17
+text = "💾 Slot 1"
+
+[node name="LabelAlignment" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot1/Margin/HBox/InfoVBox/HeaderRow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "[Lawful]"
+
+[node name="Spacer" type="Control" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot1/Margin/HBox/InfoVBox/HeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LabelTimestamp" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot1/Margin/HBox/InfoVBox/HeaderRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.72, 0.82, 1)
+theme_override_font_sizes/font_size = 13
+text = "2026-09-25 10:15:00"
+
+[node name="LabelEmpty" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot1/Margin/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.55, 0.65, 1)
+theme_override_font_sizes/font_size = 14
+text = "[EMPTY SLOT]"
+
+[node name="StatsBox" type="HBoxContainer" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot1/Margin/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="LabelDay" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot1/Margin/HBox/InfoVBox/StatsBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Day 8"
+
+[node name="LabelBudget" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot1/Margin/HBox/InfoVBox/StatsBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.85, 0.55, 1)
+theme_override_font_sizes/font_size = 14
+text = "💰 $145,000"
+
+[node name="LabelApproval" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot1/Margin/HBox/InfoVBox/StatsBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.75, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "👥 68%"
+
+[node name="LabelSuspicion" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot1/Margin/HBox/InfoVBox/StatsBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.45, 0.45, 1)
+theme_override_font_sizes/font_size = 14
+text = "🕵️ 15%"
+
+[node name="ActionsHBox" type="HBoxContainer" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot1/Margin/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnAction" type="Button" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot1/Margin/HBox/ActionsHBox"]
+custom_minimum_size = Vector2(130, 38)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_action")
+text = "💾 Save Here"
+
+[node name="BtnDelete" type="Button" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot1/Margin/HBox/ActionsHBox"]
+custom_minimum_size = Vector2(80, 38)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_delete")
+text = "🗑️ Sil"
+
+[node name="CardSlot2" type="PanelContainer" parent="ModalPanel/Margin/VBox/SlotsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="Margin" type="MarginContainer" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot2"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 10
+
+[node name="HBox" type="HBoxContainer" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot2/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="InfoVBox" type="VBoxContainer" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot2/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="HeaderRow" type="HBoxContainer" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot2/Margin/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="LabelSlotName" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot2/Margin/HBox/InfoVBox/HeaderRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
+theme_override_font_sizes/font_size = 17
+text = "💾 Slot 2"
+
+[node name="LabelAlignment" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot2/Margin/HBox/InfoVBox/HeaderRow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "[Lawful]"
+
+[node name="Spacer" type="Control" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot2/Margin/HBox/InfoVBox/HeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LabelTimestamp" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot2/Margin/HBox/InfoVBox/HeaderRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.72, 0.82, 1)
+theme_override_font_sizes/font_size = 13
+text = "2026-09-25 10:15:00"
+
+[node name="LabelEmpty" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot2/Margin/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.55, 0.65, 1)
+theme_override_font_sizes/font_size = 14
+text = "[EMPTY SLOT]"
+
+[node name="StatsBox" type="HBoxContainer" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot2/Margin/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="LabelDay" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot2/Margin/HBox/InfoVBox/StatsBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Day 8"
+
+[node name="LabelBudget" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot2/Margin/HBox/InfoVBox/StatsBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.85, 0.55, 1)
+theme_override_font_sizes/font_size = 14
+text = "💰 $145,000"
+
+[node name="LabelApproval" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot2/Margin/HBox/InfoVBox/StatsBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.75, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "👥 68%"
+
+[node name="LabelSuspicion" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot2/Margin/HBox/InfoVBox/StatsBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.45, 0.45, 1)
+theme_override_font_sizes/font_size = 14
+text = "🕵️ 15%"
+
+[node name="ActionsHBox" type="HBoxContainer" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot2/Margin/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnAction" type="Button" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot2/Margin/HBox/ActionsHBox"]
+custom_minimum_size = Vector2(130, 38)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_action")
+text = "💾 Save Here"
+
+[node name="BtnDelete" type="Button" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot2/Margin/HBox/ActionsHBox"]
+custom_minimum_size = Vector2(80, 38)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_delete")
+text = "🗑️ Sil"
+
+[node name="CardSlot3" type="PanelContainer" parent="ModalPanel/Margin/VBox/SlotsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="Margin" type="MarginContainer" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot3"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 10
+
+[node name="HBox" type="HBoxContainer" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot3/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="InfoVBox" type="VBoxContainer" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot3/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="HeaderRow" type="HBoxContainer" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot3/Margin/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="LabelSlotName" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot3/Margin/HBox/InfoVBox/HeaderRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
+theme_override_font_sizes/font_size = 17
+text = "💾 Slot 3"
+
+[node name="LabelAlignment" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot3/Margin/HBox/InfoVBox/HeaderRow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "[Lawful]"
+
+[node name="Spacer" type="Control" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot3/Margin/HBox/InfoVBox/HeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LabelTimestamp" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot3/Margin/HBox/InfoVBox/HeaderRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.72, 0.82, 1)
+theme_override_font_sizes/font_size = 13
+text = "2026-09-25 10:15:00"
+
+[node name="LabelEmpty" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot3/Margin/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.55, 0.65, 1)
+theme_override_font_sizes/font_size = 14
+text = "[EMPTY SLOT]"
+
+[node name="StatsBox" type="HBoxContainer" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot3/Margin/HBox/InfoVBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="LabelDay" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot3/Margin/HBox/InfoVBox/StatsBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Day 8"
+
+[node name="LabelBudget" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot3/Margin/HBox/InfoVBox/StatsBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.85, 0.55, 1)
+theme_override_font_sizes/font_size = 14
+text = "💰 $145,000"
+
+[node name="LabelApproval" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot3/Margin/HBox/InfoVBox/StatsBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.75, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "👥 68%"
+
+[node name="LabelSuspicion" type="Label" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot3/Margin/HBox/InfoVBox/StatsBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.45, 0.45, 1)
+theme_override_font_sizes/font_size = 14
+text = "🕵️ 15%"
+
+[node name="ActionsHBox" type="HBoxContainer" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot3/Margin/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnAction" type="Button" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot3/Margin/HBox/ActionsHBox"]
+custom_minimum_size = Vector2(130, 38)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_action")
+text = "💾 Save Here"
+
+[node name="BtnDelete" type="Button" parent="ModalPanel/Margin/VBox/SlotsContainer/CardSlot3/Margin/HBox/ActionsHBox"]
+custom_minimum_size = Vector2(80, 38)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_delete")
+text = "🗑️ Sil"
+
+[node name="FooterBar" type="HBoxContainer" parent="ModalPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="ToastPanel" type="PanelContainer" parent="ModalPanel/Margin/VBox/FooterBar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_toast")
+
+[node name="ToastMargin" type="MarginContainer" parent="ModalPanel/Margin/VBox/FooterBar/ToastPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 6
+
+[node name="ToastLabel" type="Label" parent="ModalPanel/Margin/VBox/FooterBar/ToastPanel/ToastMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "💾 Save Completed!"
+
+[node name="BtnFooterClose" type="Button" parent="ModalPanel/Margin/VBox/FooterBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 36)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_close")
+text = "✕ Kapat"
+
+[node name="ConfirmOverlay" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ConfirmBackdrop" type="ColorRect" parent="ConfirmOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.7)
+
+[node name="ConfirmPanel" type="PanelContainer" parent="ConfirmOverlay"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(520, 220)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -110.0
+offset_right = 260.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(260, 110)
+theme_override_styles/panel = SubResource("StyleBoxFlat_confirm_panel")
+
+[node name="Margin" type="MarginContainer" parent="ConfirmOverlay/ConfirmPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="ConfirmOverlay/ConfirmPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="ConfirmTitle" type="Label" parent="ConfirmOverlay/ConfirmPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.35, 1)
+theme_override_font_sizes/font_size = 18
+text = "⚠️ Overwrite Save?"
+
+[node name="ConfirmMessage" type="Label" parent="ConfirmOverlay/ConfirmPanel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.85, 0.88, 0.94, 1)
+theme_override_font_sizes/font_size = 14
+text = "A save already exists in this slot. Do you want to overwrite it?"
+autowrap_mode = 2
+
+[node name="ButtonsHBox" type="HBoxContainer" parent="ConfirmOverlay/ConfirmPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="BtnConfirmYes" type="Button" parent="ConfirmOverlay/ConfirmPanel/Margin/VBox/ButtonsHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 36)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_yes")
+text = "Yes"
+
+[node name="BtnConfirmNo" type="Button" parent="ConfirmOverlay/ConfirmPanel/Margin/VBox/ButtonsHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 36)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_no")
+text = "Cancel"
