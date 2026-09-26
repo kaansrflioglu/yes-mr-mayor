@@ -61,30 +61,60 @@ func reset_deck() -> void:
 	draw_pile.shuffle()
 
 
-## Draws the next event from the active deck or reshuffles discard pile if empty
-func draw_next_event() -> EventData:
+## Checks if an event is valid for a given day according to its day_range
+func is_event_eligible_for_day(event: EventData, day: int) -> bool:
+	if event == null:
+		return false
+	if event.day_range.size() >= 2:
+		return day >= event.day_range[0] and day <= event.day_range[1]
+	return true
+
+
+## Draws the next candidate from draw pile, reshuffling discard pile if needed
+func _draw_candidate() -> EventData:
 	if draw_pile.is_empty():
 		if discard_pile.is_empty():
 			deck_exhausted.emit()
 			return null
-		# Reshuffle discard into draw pile
 		draw_pile = discard_pile.duplicate()
 		discard_pile.clear()
 		draw_pile.shuffle()
+	return draw_pile.pop_back()
 
-	var event: EventData = draw_pile.pop_back()
-	event_drawn.emit(event)
+
+## Draws the next event from the active deck or reshuffles discard pile if empty
+func draw_next_event() -> EventData:
+	var event: EventData = _draw_candidate()
+	if event != null:
+		event_drawn.emit(event)
 	return event
 
 
-## Prepares a daily quota of events for the shift
+## Prepares a daily quota of events for the shift, respecting day_range
 func prepare_daily_queue(quota: int = DEFAULT_DAILY_QUOTA) -> Array[EventData]:
 	daily_queue.clear()
-	for i in range(quota):
-		var evt := draw_next_event()
-		if evt != null:
-			daily_queue.append(evt)
-	daily_queue_prepared.emit(GameManager.current_day, daily_queue.size())
+	var current_day: int = GameManager.current_day
+	var temp_ineligible: Array[EventData] = []
+	
+	while daily_queue.size() < quota:
+		var candidate: EventData = _draw_candidate()
+		if candidate == null:
+			break
+		if is_event_eligible_for_day(candidate, current_day):
+			daily_queue.append(candidate)
+			event_drawn.emit(candidate)
+		else:
+			temp_ineligible.append(candidate)
+			# Guard to avoid infinite loop if all remaining cards are ineligible
+			if draw_pile.is_empty() and discard_pile.is_empty():
+				break
+	
+	# Return temporarily set aside events back into the draw pile
+	for ev in temp_ineligible:
+		draw_pile.append(ev)
+	draw_pile.shuffle()
+
+	daily_queue_prepared.emit(current_day, daily_queue.size())
 	return daily_queue
 
 
