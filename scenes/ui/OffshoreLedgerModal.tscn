@@ -1,0 +1,510 @@
+[gd_scene load_steps=9 format=3 uid="uid://offshoreledgermodal001"]
+
+[ext_resource type="Script" path="res://scripts/ui/OffshoreLedgerModal.gd" id="1_modal"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_modal_panel"]
+bg_color = Color(0.09, 0.11, 0.15, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.85, 0.72, 0.32, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0, 0, 0, 0.75)
+shadow_size = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_banner"]
+bg_color = Color(0.13, 0.16, 0.22, 1)
+border_width_left = 2
+border_width_top = 1
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.85, 0.72, 0.32, 0.7)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+bg_color = Color(0.12, 0.14, 0.19, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 2
+border_color = Color(0.25, 0.3, 0.4, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_gold"]
+bg_color = Color(0.72, 0.58, 0.16, 1)
+border_width_bottom = 3
+border_color = Color(0.48, 0.36, 0.08, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_disabled"]
+bg_color = Color(0.2, 0.22, 0.26, 0.7)
+border_width_bottom = 2
+border_color = Color(0.14, 0.15, 0.18, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_close"]
+bg_color = Color(0.22, 0.25, 0.32, 1)
+border_width_bottom = 2
+border_color = Color(0.14, 0.16, 0.22, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card_gold"]
+bg_color = Color(0.14, 0.15, 0.18, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 2
+border_color = Color(0.65, 0.52, 0.22, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="OffshoreLedgerModal" type="Control"]
+visible = false
+z_index = 70
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_modal")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.72)
+
+[node name="ModalPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(980, 680)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -490.0
+offset_top = -340.0
+offset_right = 490.0
+offset_bottom = 340.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(490, 340)
+theme_override_styles/panel = SubResource("StyleBoxFlat_modal_panel")
+
+[node name="Margin" type="MarginContainer" parent="ModalPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 22
+
+[node name="VBox" type="VBoxContainer" parent="ModalPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="HeaderBar" type="HBoxContainer" parent="ModalPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="HeaderVBox" type="VBoxContainer" parent="ModalPanel/Margin/VBox/HeaderBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="TitleLabel" type="Label" parent="ModalPanel/Margin/VBox/HeaderBar/HeaderVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.45, 1)
+theme_override_font_sizes/font_size = 22
+text = "💼 MAYOR'S PRIVATE OFFSHORE LEDGER"
+
+[node name="SubtitleLabel" type="Label" parent="ModalPanel/Margin/VBox/HeaderBar/HeaderVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.74, 0.82, 1)
+theme_override_font_sizes/font_size = 13
+text = "Illicit Slush Funds & Clandestine Services"
+
+[node name="BtnHeaderClose" type="Button" parent="ModalPanel/Margin/VBox/HeaderBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_close")
+text = "✕"
+
+[node name="BalanceBanner" type="PanelContainer" parent="ModalPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_banner")
+
+[node name="BannerMargin" type="MarginContainer" parent="ModalPanel/Margin/VBox/BalanceBanner"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 10
+
+[node name="BannerHBox" type="HBoxContainer" parent="ModalPanel/Margin/VBox/BalanceBanner/BannerMargin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="BannerIcon" type="Label" parent="ModalPanel/Margin/VBox/BalanceBanner/BannerMargin/BannerHBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "🔒 💵"
+
+[node name="StashedBalanceLabel" type="Label" parent="ModalPanel/Margin/VBox/BalanceBanner/BannerMargin/BannerHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_font_sizes/font_size = 20
+text = "Stashed Balance: $0"
+
+[node name="BannerHint" type="Label" parent="ModalPanel/Margin/VBox/BalanceBanner/BannerMargin/BannerHBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.7, 0.8, 1)
+theme_override_font_sizes/font_size = 13
+text = "Unmarked Swiss Bills (Safe Drawer)"
+
+[node name="ScrollChannels" type="ScrollContainer" parent="ModalPanel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="CardsVBox" type="VBoxContainer" parent="ModalPanel/Margin/VBox/ScrollChannels"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="CardFixer" type="PanelContainer" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="Margin" type="MarginContainer" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardFixer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 12
+
+[node name="HBox" type="HBoxContainer" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardFixer/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Icon" type="Label" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardFixer/Margin/HBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "⚖️"
+
+[node name="InfoVBox" type="VBoxContainer" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardFixer/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 3
+
+[node name="FixerTitle" type="Label" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardFixer/Margin/HBox/InfoVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.55, 1)
+theme_override_font_sizes/font_size = 16
+text = "Retain Elite Defense Fixer (Arthur Sterling)"
+
+[node name="FixerDesc" type="Label" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardFixer/Margin/HBox/InfoVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.82, 0.86, 1)
+theme_override_font_sizes/font_size = 13
+text = "Shred subpoena documents and stall federal auditors."
+autowrap_mode = 3
+
+[node name="FixerEffect" type="Label" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardFixer/Margin/HBox/InfoVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.85, 0.55, 1)
+theme_override_font_sizes/font_size = 12
+text = "Effect: -25.0% Federal Suspicion"
+
+[node name="ActionVBox" type="VBoxContainer" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardFixer/Margin/HBox"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="FixerCostLabel" type="Label" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardFixer/Margin/HBox/ActionVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.82, 0.35, 1)
+theme_override_font_sizes/font_size = 15
+text = "$40,000"
+horizontal_alignment = 1
+
+[node name="BtnBuyFixer" type="Button" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardFixer/Margin/HBox/ActionVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_gold")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_btn_disabled")
+text = "Retain Fixer"
+
+[node name="CardPR" type="PanelContainer" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="Margin" type="MarginContainer" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardPR"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 12
+
+[node name="HBox" type="HBoxContainer" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardPR/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Icon" type="Label" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardPR/Margin/HBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "📰"
+
+[node name="InfoVBox" type="VBoxContainer" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardPR/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 3
+
+[node name="PRTitle" type="Label" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardPR/Margin/HBox/InfoVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.55, 1)
+theme_override_font_sizes/font_size = 16
+text = "Astroturf Tabloid PR Campaign"
+
+[node name="PRDesc" type="Label" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardPR/Margin/HBox/InfoVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.82, 0.86, 1)
+theme_override_font_sizes/font_size = 13
+text = "Bribe newspaper editors to run flattering photo-ops of the Mayor."
+autowrap_mode = 3
+
+[node name="PREffect" type="Label" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardPR/Margin/HBox/InfoVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.75, 1, 1)
+theme_override_font_sizes/font_size = 12
+text = "Effect: +18.0% Public Opinion"
+
+[node name="ActionVBox" type="VBoxContainer" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardPR/Margin/HBox"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="PRCostLabel" type="Label" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardPR/Margin/HBox/ActionVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.82, 0.35, 1)
+theme_override_font_sizes/font_size = 15
+text = "$30,000"
+horizontal_alignment = 1
+
+[node name="BtnBuyPR" type="Button" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardPR/Margin/HBox/ActionVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_gold")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_btn_disabled")
+text = "Bribe Press"
+
+[node name="CardAudit" type="PanelContainer" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="Margin" type="MarginContainer" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardAudit"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 12
+
+[node name="HBox" type="HBoxContainer" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardAudit/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Icon" type="Label" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardAudit/Margin/HBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "🕵️"
+
+[node name="InfoVBox" type="VBoxContainer" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardAudit/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 3
+
+[node name="AuditTitle" type="Label" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardAudit/Margin/HBox/InfoVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.85, 0.55, 1)
+theme_override_font_sizes/font_size = 16
+text = "Purchase Audit Immunity Leak"
+
+[node name="AuditDesc" type="Label" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardAudit/Margin/HBox/InfoVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.82, 0.86, 1)
+theme_override_font_sizes/font_size = 13
+text = "Buy secret leaked list of upcoming ministry inspection targets."
+autowrap_mode = 3
+
+[node name="AuditEffect" type="Label" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardAudit/Margin/HBox/InfoVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.7, 0.25, 1)
+theme_override_font_sizes/font_size = 12
+text = "Effect: Reveals next 3 violations"
+
+[node name="ActionVBox" type="VBoxContainer" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardAudit/Margin/HBox"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="AuditCostLabel" type="Label" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardAudit/Margin/HBox/ActionVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.82, 0.35, 1)
+theme_override_font_sizes/font_size = 15
+text = "$60,000"
+horizontal_alignment = 1
+
+[node name="BtnBuyAudit" type="Button" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardAudit/Margin/HBox/ActionVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_gold")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_btn_disabled")
+text = "Buy Intel"
+
+[node name="CardLuxury" type="PanelContainer" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card_gold")
+
+[node name="Margin" type="MarginContainer" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardLuxury"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 12
+
+[node name="HBox" type="HBoxContainer" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardLuxury/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Icon" type="Label" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardLuxury/Margin/HBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "👑"
+
+[node name="InfoVBox" type="VBoxContainer" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardLuxury/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 3
+
+[node name="LuxuryTitle" type="Label" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardLuxury/Margin/HBox/InfoVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.45, 1)
+theme_override_font_sizes/font_size = 16
+text = "Mayoral Desk Luxury Assets"
+
+[node name="LuxuryDesc" type="Label" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardLuxury/Margin/HBox/InfoVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.85, 0.88, 1)
+theme_override_font_sizes/font_size = 13
+text = "Solid Gold Stamp, Havana Cigar Box, Yacht Brochure."
+autowrap_mode = 3
+
+[node name="LuxuryEffect" type="Label" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardLuxury/Margin/HBox/InfoVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.75, 0.95, 1)
+theme_override_font_sizes/font_size = 12
+text = "Effect: Permanent desk flair & secret endings"
+
+[node name="ActionVBox" type="VBoxContainer" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardLuxury/Margin/HBox"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="LuxuryCostLabel" type="Label" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardLuxury/Margin/HBox/ActionVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.82, 0.35, 1)
+theme_override_font_sizes/font_size = 15
+text = "$50,000"
+horizontal_alignment = 1
+
+[node name="BtnBuyLuxury" type="Button" parent="ModalPanel/Margin/VBox/ScrollChannels/CardsVBox/CardLuxury/Margin/HBox/ActionVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_gold")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_btn_disabled")
+text = "Unlock Gold Stamp"
+
+[node name="FooterBar" type="HBoxContainer" parent="ModalPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="StatusLabel" type="Label" parent="ModalPanel/Margin/VBox/FooterBar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+
+[node name="BtnFooterClose" type="Button" parent="ModalPanel/Margin/VBox/FooterBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(180, 42)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_close")
+text = "Lock Safe Drawer"

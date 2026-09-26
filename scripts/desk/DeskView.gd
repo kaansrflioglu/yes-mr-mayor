@@ -44,6 +44,7 @@ const GAME_OVER_SCENE: PackedScene = preload("res://scenes/summary/GameOverModal
 @onready var pause_menu: Control = %PauseMenu
 @onready var save_load_modal: Control = %SaveLoadModal
 @onready var save_toast: Control = %SaveToast if has_node("%SaveToast") else null
+@onready var offshore_ledger_modal: Control = %OffshoreLedgerModal if has_node("%OffshoreLedgerModal") else null
 
 # Inspection Focus & Stamina Mechanics (Milestone 1)
 const MAX_INSPECT_FOCUS: int = 4
@@ -756,6 +757,13 @@ func _on_drawer_gui_input(event: InputEvent) -> void:
 		if active_document != null and not active_document.has_pocketed_bribe:
 			if GameManager.active_event and GameManager.active_event.bribe_offered > 0:
 				active_document.pocket_bribe()
+		open_offshore_ledger()
+
+
+## Public method to open the Mayor's offshore safe ledger modal
+func open_offshore_ledger() -> void:
+	if offshore_ledger_modal != null and offshore_ledger_modal.has_method("open"):
+		offshore_ledger_modal.open()
 
 
 func _on_bribe_pocketed(amount: int) -> void:
