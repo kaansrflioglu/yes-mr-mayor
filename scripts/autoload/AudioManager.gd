@@ -118,6 +118,59 @@ func play_phone_ring() -> void:
 	_play_raw_wav(buffer, int(SAMPLE_RATE))
 
 
+## Plays frantic double-pulse high ring for urgent calls (Police, Engineer, Whistleblower)
+func play_phone_ring_urgent() -> void:
+	var duration: float = 0.40
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var progress: float = float(i) / float(samples)
+		var burst: float = 1.0 if sin(2.0 * PI * 35.0 * t) > 0.0 else 0.1
+		var bell: float = (
+			sin(2.0 * PI * 1050.0 * t) * 0.6 + sin(2.0 * PI * 1320.0 * t) * 0.4
+		) * burst * (1.0 - progress * 0.25)
+
+		var sample_int: int = int(clampf(bell * 0.5, -1.0, 1.0) * 32767.0)
+		buffer.encode_s16(i * 2, sample_int)
+
+	_play_raw_wav(buffer, int(SAMPLE_RATE))
+
+
+## Plays calm encrypted secure warble for discreet backroom calls (Party, Mafia, Press)
+func play_phone_ring_secure() -> void:
+	var duration: float = 0.38
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var progress: float = float(i) / float(samples)
+		var warble: float = 0.7 + sin(2.0 * PI * 12.0 * t) * 0.3
+		var tone: float = (
+			sin(2.0 * PI * 620.0 * t) * 0.55 + sin(2.0 * PI * 740.0 * t) * 0.45
+		) * warble * exp(-3.0 * progress)
+
+		var sample_int: int = int(clampf(tone * 0.45, -1.0, 1.0) * 32767.0)
+		buffer.encode_s16(i * 2, sample_int)
+
+	_play_raw_wav(buffer, int(SAMPLE_RATE))
+
+
+## Plays archetype-specific incoming hotline ringtone
+func play_phone_ring_archetype(archetype: String = "") -> void:
+	match archetype.to_lower():
+		"police_chief", "chief_engineer", "whistleblower":
+			play_phone_ring_urgent()
+		"party_boss", "mafia", "journalist":
+			play_phone_ring_secure()
+		_:
+			play_phone_ring()
+
+
 ## Plays investigative discovery chime when a valid discrepancy is uncovered
 func play_discrepancy_match() -> void:
 	var duration: float = 0.45
