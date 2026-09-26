@@ -24,6 +24,7 @@ AudioManager="*res://scripts/autoload/AudioManager.gd"
 TwitchManager="*res://scripts/autoload/TwitchManager.gd"
 SettingsManager="*res://scripts/autoload/SettingsManager.gd"
 SaveLoadManager="*res://scripts/autoload/SaveLoadManager.gd"
+DirectiveManager="*res://scripts/autoload/DirectiveManager.gd"
 
 [display]
 

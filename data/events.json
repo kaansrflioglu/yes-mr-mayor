@@ -79,7 +79,8 @@
     "day_range": [
       1,
       10
-    ]
+    ],
+    "is_federal_sting": false
   },
   {
     "id": "EVT_002",
@@ -143,7 +144,8 @@
     "day_range": [
       1,
       10
-    ]
+    ],
+    "is_federal_sting": false
   },
   {
     "id": "EVT_003",
@@ -216,7 +218,8 @@
     "day_range": [
       1,
       10
-    ]
+    ],
+    "is_federal_sting": false
   },
   {
     "id": "EVT_004",
@@ -263,7 +266,8 @@
     "day_range": [
       1,
       10
-    ]
+    ],
+    "is_federal_sting": false
   },
   {
     "id": "EVT_005",
@@ -339,7 +343,8 @@
     "day_range": [
       1,
       10
-    ]
+    ],
+    "is_federal_sting": true
   },
   {
     "id": "EVT_006",
@@ -412,7 +417,8 @@
     "day_range": [
       1,
       10
-    ]
+    ],
+    "is_federal_sting": false
   },
   {
     "id": "EVT_007",
@@ -459,7 +465,8 @@
     "day_range": [
       1,
       10
-    ]
+    ],
+    "is_federal_sting": false
   },
   {
     "id": "EVT_008",
@@ -531,7 +538,8 @@
     "day_range": [
       1,
       10
-    ]
+    ],
+    "is_federal_sting": false
   },
   {
     "id": "EVT_009",
@@ -578,7 +586,8 @@
     "day_range": [
       1,
       10
-    ]
+    ],
+    "is_federal_sting": false
   },
   {
     "id": "EVT_010",
@@ -659,7 +668,8 @@
     "day_range": [
       1,
       10
-    ]
+    ],
+    "is_federal_sting": false
   },
   {
     "id": "EVT_011",
@@ -706,7 +716,8 @@
     "day_range": [
       1,
       10
-    ]
+    ],
+    "is_federal_sting": false
   },
   {
     "id": "EVT_012",
@@ -771,7 +782,8 @@
     "day_range": [
       1,
       10
-    ]
+    ],
+    "is_federal_sting": false
   },
   {
     "id": "EVT_013",
@@ -846,7 +858,8 @@
       "unlocks_event_id": "EVT_144"
     },
     "news_headline_approve_key": "EVT_013_NEWS_APP",
-    "news_headline_reject_key": "EVT_013_NEWS_REJ"
+    "news_headline_reject_key": "EVT_013_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_014",
@@ -912,7 +925,8 @@
       "city_visual_flag": "clean_riverbed"
     },
     "news_headline_approve_key": "EVT_014_NEWS_APP",
-    "news_headline_reject_key": "EVT_014_NEWS_REJ"
+    "news_headline_reject_key": "EVT_014_NEWS_REJ",
+    "is_federal_sting": true
   },
   {
     "id": "EVT_015",
@@ -959,7 +973,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_015_NEWS_APP",
-    "news_headline_reject_key": "EVT_015_NEWS_REJ"
+    "news_headline_reject_key": "EVT_015_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_016",
@@ -1032,7 +1047,8 @@
       "city_visual_flag": "historic_bazaar_preserved"
     },
     "news_headline_approve_key": "EVT_016_NEWS_APP",
-    "news_headline_reject_key": "EVT_016_NEWS_REJ"
+    "news_headline_reject_key": "EVT_016_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_017",
@@ -1079,7 +1095,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_017_NEWS_APP",
-    "news_headline_reject_key": "EVT_017_NEWS_REJ"
+    "news_headline_reject_key": "EVT_017_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_018",
@@ -1144,7 +1161,8 @@
       "city_visual_flag": "green_reserve_defended"
     },
     "news_headline_approve_key": "EVT_018_NEWS_APP",
-    "news_headline_reject_key": "EVT_018_NEWS_REJ"
+    "news_headline_reject_key": "EVT_018_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_019",
@@ -1191,7 +1209,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_019_NEWS_APP",
-    "news_headline_reject_key": "EVT_019_NEWS_REJ"
+    "news_headline_reject_key": "EVT_019_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_020",
@@ -1255,7 +1274,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_020_NEWS_APP",
-    "news_headline_reject_key": "EVT_020_NEWS_REJ"
+    "news_headline_reject_key": "EVT_020_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_021",
@@ -1302,7 +1322,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_021_NEWS_APP",
-    "news_headline_reject_key": "EVT_021_NEWS_REJ"
+    "news_headline_reject_key": "EVT_021_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_022",
@@ -1376,7 +1397,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_022_NEWS_APP",
-    "news_headline_reject_key": "EVT_022_NEWS_REJ"
+    "news_headline_reject_key": "EVT_022_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_023",
@@ -1423,7 +1445,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_023_NEWS_APP",
-    "news_headline_reject_key": "EVT_023_NEWS_REJ"
+    "news_headline_reject_key": "EVT_023_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_024",
@@ -1504,7 +1527,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_024_NEWS_APP",
-    "news_headline_reject_key": "EVT_024_NEWS_REJ"
+    "news_headline_reject_key": "EVT_024_NEWS_REJ",
+    "is_federal_sting": true
   },
   {
     "id": "EVT_025",
@@ -1551,7 +1575,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_025_NEWS_APP",
-    "news_headline_reject_key": "EVT_025_NEWS_REJ"
+    "news_headline_reject_key": "EVT_025_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_026",
@@ -1625,7 +1650,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_026_NEWS_APP",
-    "news_headline_reject_key": "EVT_026_NEWS_REJ"
+    "news_headline_reject_key": "EVT_026_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_027",
@@ -1672,7 +1698,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_027_NEWS_APP",
-    "news_headline_reject_key": "EVT_027_NEWS_REJ"
+    "news_headline_reject_key": "EVT_027_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_028",
@@ -1745,7 +1772,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_028_NEWS_APP",
-    "news_headline_reject_key": "EVT_028_NEWS_REJ"
+    "news_headline_reject_key": "EVT_028_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_029",
@@ -1792,7 +1820,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_029_NEWS_APP",
-    "news_headline_reject_key": "EVT_029_NEWS_REJ"
+    "news_headline_reject_key": "EVT_029_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_030",
@@ -1865,7 +1894,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_030_NEWS_APP",
-    "news_headline_reject_key": "EVT_030_NEWS_REJ"
+    "news_headline_reject_key": "EVT_030_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_031",
@@ -1912,7 +1942,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_031_NEWS_APP",
-    "news_headline_reject_key": "EVT_031_NEWS_REJ"
+    "news_headline_reject_key": "EVT_031_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_032",
@@ -1985,7 +2016,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_032_NEWS_APP",
-    "news_headline_reject_key": "EVT_032_NEWS_REJ"
+    "news_headline_reject_key": "EVT_032_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_033",
@@ -2050,7 +2082,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_033_NEWS_APP",
-    "news_headline_reject_key": "EVT_033_NEWS_REJ"
+    "news_headline_reject_key": "EVT_033_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_034",
@@ -2140,7 +2173,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_034_NEWS_APP",
-    "news_headline_reject_key": "EVT_034_NEWS_REJ"
+    "news_headline_reject_key": "EVT_034_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_035",
@@ -2212,7 +2246,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_035_NEWS_APP",
-    "news_headline_reject_key": "EVT_035_NEWS_REJ"
+    "news_headline_reject_key": "EVT_035_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_036",
@@ -2259,7 +2294,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_036_NEWS_APP",
-    "news_headline_reject_key": "EVT_036_NEWS_REJ"
+    "news_headline_reject_key": "EVT_036_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_037",
@@ -2339,7 +2375,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_037_NEWS_APP",
-    "news_headline_reject_key": "EVT_037_NEWS_REJ"
+    "news_headline_reject_key": "EVT_037_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_038",
@@ -2386,7 +2423,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_038_NEWS_APP",
-    "news_headline_reject_key": "EVT_038_NEWS_REJ"
+    "news_headline_reject_key": "EVT_038_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_039",
@@ -2450,7 +2488,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_039_NEWS_APP",
-    "news_headline_reject_key": "EVT_039_NEWS_REJ"
+    "news_headline_reject_key": "EVT_039_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_040",
@@ -2497,7 +2536,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_040_NEWS_APP",
-    "news_headline_reject_key": "EVT_040_NEWS_REJ"
+    "news_headline_reject_key": "EVT_040_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_041",
@@ -2561,7 +2601,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_041_NEWS_APP",
-    "news_headline_reject_key": "EVT_041_NEWS_REJ"
+    "news_headline_reject_key": "EVT_041_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_042",
@@ -2608,7 +2649,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_042_NEWS_APP",
-    "news_headline_reject_key": "EVT_042_NEWS_REJ"
+    "news_headline_reject_key": "EVT_042_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_043",
@@ -2683,7 +2725,8 @@
       "unlocks_event_id": "EVT_148"
     },
     "news_headline_approve_key": "EVT_043_NEWS_APP",
-    "news_headline_reject_key": "EVT_043_NEWS_REJ"
+    "news_headline_reject_key": "EVT_043_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_044",
@@ -2730,7 +2773,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_044_NEWS_APP",
-    "news_headline_reject_key": "EVT_044_NEWS_REJ"
+    "news_headline_reject_key": "EVT_044_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_045",
@@ -2811,7 +2855,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_045_NEWS_APP",
-    "news_headline_reject_key": "EVT_045_NEWS_REJ"
+    "news_headline_reject_key": "EVT_045_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_046",
@@ -2858,7 +2903,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_046_NEWS_APP",
-    "news_headline_reject_key": "EVT_046_NEWS_REJ"
+    "news_headline_reject_key": "EVT_046_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_047",
@@ -2932,7 +2978,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_047_NEWS_APP",
-    "news_headline_reject_key": "EVT_047_NEWS_REJ"
+    "news_headline_reject_key": "EVT_047_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_048",
@@ -2979,7 +3026,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_048_NEWS_APP",
-    "news_headline_reject_key": "EVT_048_NEWS_REJ"
+    "news_headline_reject_key": "EVT_048_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_049",
@@ -3060,7 +3108,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_049_NEWS_APP",
-    "news_headline_reject_key": "EVT_049_NEWS_REJ"
+    "news_headline_reject_key": "EVT_049_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_050",
@@ -3107,7 +3156,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_050_NEWS_APP",
-    "news_headline_reject_key": "EVT_050_NEWS_REJ"
+    "news_headline_reject_key": "EVT_050_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_051",
@@ -3179,7 +3229,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_051_NEWS_APP",
-    "news_headline_reject_key": "EVT_051_NEWS_REJ"
+    "news_headline_reject_key": "EVT_051_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_052",
@@ -3226,7 +3277,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_052_NEWS_APP",
-    "news_headline_reject_key": "EVT_052_NEWS_REJ"
+    "news_headline_reject_key": "EVT_052_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_053",
@@ -3290,7 +3342,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_053_NEWS_APP",
-    "news_headline_reject_key": "EVT_053_NEWS_REJ"
+    "news_headline_reject_key": "EVT_053_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_054",
@@ -3363,7 +3416,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_054_NEWS_APP",
-    "news_headline_reject_key": "EVT_054_NEWS_REJ"
+    "news_headline_reject_key": "EVT_054_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_055",
@@ -3453,7 +3507,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_055_NEWS_APP",
-    "news_headline_reject_key": "EVT_055_NEWS_REJ"
+    "news_headline_reject_key": "EVT_055_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_056",
@@ -3526,7 +3581,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_056_NEWS_APP",
-    "news_headline_reject_key": "EVT_056_NEWS_REJ"
+    "news_headline_reject_key": "EVT_056_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_057",
@@ -3575,7 +3631,8 @@
       "unlocks_event_id": "EVT_150"
     },
     "news_headline_approve_key": "EVT_057_NEWS_APP",
-    "news_headline_reject_key": "EVT_057_NEWS_REJ"
+    "news_headline_reject_key": "EVT_057_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_058",
@@ -3639,7 +3696,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_058_NEWS_APP",
-    "news_headline_reject_key": "EVT_058_NEWS_REJ"
+    "news_headline_reject_key": "EVT_058_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_059",
@@ -3686,7 +3744,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_059_NEWS_APP",
-    "news_headline_reject_key": "EVT_059_NEWS_REJ"
+    "news_headline_reject_key": "EVT_059_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_060",
@@ -3750,7 +3809,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_060_NEWS_APP",
-    "news_headline_reject_key": "EVT_060_NEWS_REJ"
+    "news_headline_reject_key": "EVT_060_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_061",
@@ -3797,7 +3857,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_061_NEWS_APP",
-    "news_headline_reject_key": "EVT_061_NEWS_REJ"
+    "news_headline_reject_key": "EVT_061_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_062",
@@ -3871,7 +3932,8 @@
       "unlocks_event_id": "EVT_152"
     },
     "news_headline_approve_key": "EVT_062_NEWS_APP",
-    "news_headline_reject_key": "EVT_062_NEWS_REJ"
+    "news_headline_reject_key": "EVT_062_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_063",
@@ -3918,7 +3980,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_063_NEWS_APP",
-    "news_headline_reject_key": "EVT_063_NEWS_REJ"
+    "news_headline_reject_key": "EVT_063_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_064",
@@ -3982,7 +4045,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_064_NEWS_APP",
-    "news_headline_reject_key": "EVT_064_NEWS_REJ"
+    "news_headline_reject_key": "EVT_064_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_065",
@@ -4029,7 +4093,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_065_NEWS_APP",
-    "news_headline_reject_key": "EVT_065_NEWS_REJ"
+    "news_headline_reject_key": "EVT_065_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_066",
@@ -4102,7 +4167,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_066_NEWS_APP",
-    "news_headline_reject_key": "EVT_066_NEWS_REJ"
+    "news_headline_reject_key": "EVT_066_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_067",
@@ -4149,7 +4215,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_067_NEWS_APP",
-    "news_headline_reject_key": "EVT_067_NEWS_REJ"
+    "news_headline_reject_key": "EVT_067_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_068",
@@ -4221,7 +4288,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_068_NEWS_APP",
-    "news_headline_reject_key": "EVT_068_NEWS_REJ"
+    "news_headline_reject_key": "EVT_068_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_069",
@@ -4268,7 +4336,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_069_NEWS_APP",
-    "news_headline_reject_key": "EVT_069_NEWS_REJ"
+    "news_headline_reject_key": "EVT_069_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_070",
@@ -4349,7 +4418,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_070_NEWS_APP",
-    "news_headline_reject_key": "EVT_070_NEWS_REJ"
+    "news_headline_reject_key": "EVT_070_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_071",
@@ -4396,7 +4466,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_071_NEWS_APP",
-    "news_headline_reject_key": "EVT_071_NEWS_REJ"
+    "news_headline_reject_key": "EVT_071_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_072",
@@ -4460,7 +4531,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_072_NEWS_APP",
-    "news_headline_reject_key": "EVT_072_NEWS_REJ"
+    "news_headline_reject_key": "EVT_072_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_073",
@@ -4507,7 +4579,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_073_NEWS_APP",
-    "news_headline_reject_key": "EVT_073_NEWS_REJ"
+    "news_headline_reject_key": "EVT_073_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_074",
@@ -4587,7 +4660,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_074_NEWS_APP",
-    "news_headline_reject_key": "EVT_074_NEWS_REJ"
+    "news_headline_reject_key": "EVT_074_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_075",
@@ -4634,7 +4708,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_075_NEWS_APP",
-    "news_headline_reject_key": "EVT_075_NEWS_REJ"
+    "news_headline_reject_key": "EVT_075_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_076",
@@ -4707,7 +4782,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_076_NEWS_APP",
-    "news_headline_reject_key": "EVT_076_NEWS_REJ"
+    "news_headline_reject_key": "EVT_076_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_077",
@@ -4779,7 +4855,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_077_NEWS_APP",
-    "news_headline_reject_key": "EVT_077_NEWS_REJ"
+    "news_headline_reject_key": "EVT_077_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_078",
@@ -4860,7 +4937,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_078_NEWS_APP",
-    "news_headline_reject_key": "EVT_078_NEWS_REJ"
+    "news_headline_reject_key": "EVT_078_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_079",
@@ -4935,7 +5013,8 @@
       "unlocks_event_id": "EVT_154"
     },
     "news_headline_approve_key": "EVT_079_NEWS_APP",
-    "news_headline_reject_key": "EVT_079_NEWS_REJ"
+    "news_headline_reject_key": "EVT_079_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_080",
@@ -4982,7 +5061,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_080_NEWS_APP",
-    "news_headline_reject_key": "EVT_080_NEWS_REJ"
+    "news_headline_reject_key": "EVT_080_NEWS_REJ",
+    "is_federal_sting": true
   },
   {
     "id": "EVT_081",
@@ -5056,7 +5136,8 @@
       "unlocks_event_id": "EVT_156"
     },
     "news_headline_approve_key": "EVT_081_NEWS_APP",
-    "news_headline_reject_key": "EVT_081_NEWS_REJ"
+    "news_headline_reject_key": "EVT_081_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_082",
@@ -5103,7 +5184,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_082_NEWS_APP",
-    "news_headline_reject_key": "EVT_082_NEWS_REJ"
+    "news_headline_reject_key": "EVT_082_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_083",
@@ -5184,7 +5266,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_083_NEWS_APP",
-    "news_headline_reject_key": "EVT_083_NEWS_REJ"
+    "news_headline_reject_key": "EVT_083_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_084",
@@ -5231,7 +5314,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_084_NEWS_APP",
-    "news_headline_reject_key": "EVT_084_NEWS_REJ"
+    "news_headline_reject_key": "EVT_084_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_085",
@@ -5304,7 +5388,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_085_NEWS_APP",
-    "news_headline_reject_key": "EVT_085_NEWS_REJ"
+    "news_headline_reject_key": "EVT_085_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_086",
@@ -5351,7 +5436,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_086_NEWS_APP",
-    "news_headline_reject_key": "EVT_086_NEWS_REJ"
+    "news_headline_reject_key": "EVT_086_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_087",
@@ -5415,7 +5501,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_087_NEWS_APP",
-    "news_headline_reject_key": "EVT_087_NEWS_REJ"
+    "news_headline_reject_key": "EVT_087_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_088",
@@ -5462,7 +5549,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_088_NEWS_APP",
-    "news_headline_reject_key": "EVT_088_NEWS_REJ"
+    "news_headline_reject_key": "EVT_088_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_089",
@@ -5534,7 +5622,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_089_NEWS_APP",
-    "news_headline_reject_key": "EVT_089_NEWS_REJ"
+    "news_headline_reject_key": "EVT_089_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_090",
@@ -5581,7 +5670,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_090_NEWS_APP",
-    "news_headline_reject_key": "EVT_090_NEWS_REJ"
+    "news_headline_reject_key": "EVT_090_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_091",
@@ -5655,7 +5745,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_091_NEWS_APP",
-    "news_headline_reject_key": "EVT_091_NEWS_REJ"
+    "news_headline_reject_key": "EVT_091_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_092",
@@ -5702,7 +5793,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_092_NEWS_APP",
-    "news_headline_reject_key": "EVT_092_NEWS_REJ"
+    "news_headline_reject_key": "EVT_092_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_093",
@@ -5775,7 +5867,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_093_NEWS_APP",
-    "news_headline_reject_key": "EVT_093_NEWS_REJ"
+    "news_headline_reject_key": "EVT_093_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_094",
@@ -5822,7 +5915,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_094_NEWS_APP",
-    "news_headline_reject_key": "EVT_094_NEWS_REJ"
+    "news_headline_reject_key": "EVT_094_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_095",
@@ -5895,7 +5989,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_095_NEWS_APP",
-    "news_headline_reject_key": "EVT_095_NEWS_REJ"
+    "news_headline_reject_key": "EVT_095_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_096",
@@ -5976,7 +6071,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_096_NEWS_APP",
-    "news_headline_reject_key": "EVT_096_NEWS_REJ"
+    "news_headline_reject_key": "EVT_096_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_097",
@@ -6057,7 +6153,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_097_NEWS_APP",
-    "news_headline_reject_key": "EVT_097_NEWS_REJ"
+    "news_headline_reject_key": "EVT_097_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_098",
@@ -6131,7 +6228,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_098_NEWS_APP",
-    "news_headline_reject_key": "EVT_098_NEWS_REJ"
+    "news_headline_reject_key": "EVT_098_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_099",
@@ -6204,7 +6302,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_099_NEWS_APP",
-    "news_headline_reject_key": "EVT_099_NEWS_REJ"
+    "news_headline_reject_key": "EVT_099_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_100",
@@ -6285,7 +6384,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_100_NEWS_APP",
-    "news_headline_reject_key": "EVT_100_NEWS_REJ"
+    "news_headline_reject_key": "EVT_100_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_101",
@@ -6360,7 +6460,8 @@
       "unlocks_event_id": "EVT_158"
     },
     "news_headline_approve_key": "EVT_101_NEWS_APP",
-    "news_headline_reject_key": "EVT_101_NEWS_REJ"
+    "news_headline_reject_key": "EVT_101_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_102",
@@ -6407,7 +6508,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_102_NEWS_APP",
-    "news_headline_reject_key": "EVT_102_NEWS_REJ"
+    "news_headline_reject_key": "EVT_102_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_103",
@@ -6471,7 +6573,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_103_NEWS_APP",
-    "news_headline_reject_key": "EVT_103_NEWS_REJ"
+    "news_headline_reject_key": "EVT_103_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_104",
@@ -6518,7 +6621,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_104_NEWS_APP",
-    "news_headline_reject_key": "EVT_104_NEWS_REJ"
+    "news_headline_reject_key": "EVT_104_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_105",
@@ -6584,7 +6688,8 @@
       "unlocks_event_id": "EVT_162"
     },
     "news_headline_approve_key": "EVT_105_NEWS_APP",
-    "news_headline_reject_key": "EVT_105_NEWS_REJ"
+    "news_headline_reject_key": "EVT_105_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_106",
@@ -6631,7 +6736,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_106_NEWS_APP",
-    "news_headline_reject_key": "EVT_106_NEWS_REJ"
+    "news_headline_reject_key": "EVT_106_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_107",
@@ -6705,7 +6811,8 @@
       "unlocks_event_id": "EVT_160"
     },
     "news_headline_approve_key": "EVT_107_NEWS_APP",
-    "news_headline_reject_key": "EVT_107_NEWS_REJ"
+    "news_headline_reject_key": "EVT_107_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_108",
@@ -6752,7 +6859,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_108_NEWS_APP",
-    "news_headline_reject_key": "EVT_108_NEWS_REJ"
+    "news_headline_reject_key": "EVT_108_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_109",
@@ -6833,7 +6941,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_109_NEWS_APP",
-    "news_headline_reject_key": "EVT_109_NEWS_REJ"
+    "news_headline_reject_key": "EVT_109_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_110",
@@ -6880,7 +6989,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_110_NEWS_APP",
-    "news_headline_reject_key": "EVT_110_NEWS_REJ"
+    "news_headline_reject_key": "EVT_110_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_111",
@@ -6953,7 +7063,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_111_NEWS_APP",
-    "news_headline_reject_key": "EVT_111_NEWS_REJ"
+    "news_headline_reject_key": "EVT_111_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_112",
@@ -7000,7 +7111,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_112_NEWS_APP",
-    "news_headline_reject_key": "EVT_112_NEWS_REJ"
+    "news_headline_reject_key": "EVT_112_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_113",
@@ -7073,7 +7185,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_113_NEWS_APP",
-    "news_headline_reject_key": "EVT_113_NEWS_REJ"
+    "news_headline_reject_key": "EVT_113_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_114",
@@ -7120,7 +7233,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_114_NEWS_APP",
-    "news_headline_reject_key": "EVT_114_NEWS_REJ"
+    "news_headline_reject_key": "EVT_114_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_115",
@@ -7184,7 +7298,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_115_NEWS_APP",
-    "news_headline_reject_key": "EVT_115_NEWS_REJ"
+    "news_headline_reject_key": "EVT_115_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_116",
@@ -7231,7 +7346,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_116_NEWS_APP",
-    "news_headline_reject_key": "EVT_116_NEWS_REJ"
+    "news_headline_reject_key": "EVT_116_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_117",
@@ -7313,7 +7429,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_117_NEWS_APP",
-    "news_headline_reject_key": "EVT_117_NEWS_REJ"
+    "news_headline_reject_key": "EVT_117_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_118",
@@ -7360,7 +7477,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_118_NEWS_APP",
-    "news_headline_reject_key": "EVT_118_NEWS_REJ"
+    "news_headline_reject_key": "EVT_118_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_119",
@@ -7441,7 +7559,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_119_NEWS_APP",
-    "news_headline_reject_key": "EVT_119_NEWS_REJ"
+    "news_headline_reject_key": "EVT_119_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_120",
@@ -7522,7 +7641,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_120_NEWS_APP",
-    "news_headline_reject_key": "EVT_120_NEWS_REJ"
+    "news_headline_reject_key": "EVT_120_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_121",
@@ -7594,7 +7714,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_121_NEWS_APP",
-    "news_headline_reject_key": "EVT_121_NEWS_REJ"
+    "news_headline_reject_key": "EVT_121_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_122",
@@ -7675,7 +7796,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_122_NEWS_APP",
-    "news_headline_reject_key": "EVT_122_NEWS_REJ"
+    "news_headline_reject_key": "EVT_122_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_123",
@@ -7739,7 +7861,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_123_NEWS_APP",
-    "news_headline_reject_key": "EVT_123_NEWS_REJ"
+    "news_headline_reject_key": "EVT_123_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_124",
@@ -7786,7 +7909,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_124_NEWS_APP",
-    "news_headline_reject_key": "EVT_124_NEWS_REJ"
+    "news_headline_reject_key": "EVT_124_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_125",
@@ -7849,7 +7973,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_125_NEWS_APP",
-    "news_headline_reject_key": "EVT_125_NEWS_REJ"
+    "news_headline_reject_key": "EVT_125_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_126",
@@ -7896,7 +8021,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_126_NEWS_APP",
-    "news_headline_reject_key": "EVT_126_NEWS_REJ"
+    "news_headline_reject_key": "EVT_126_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_127",
@@ -7960,7 +8086,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_127_NEWS_APP",
-    "news_headline_reject_key": "EVT_127_NEWS_REJ"
+    "news_headline_reject_key": "EVT_127_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_128",
@@ -8007,7 +8134,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_128_NEWS_APP",
-    "news_headline_reject_key": "EVT_128_NEWS_REJ"
+    "news_headline_reject_key": "EVT_128_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_129",
@@ -8071,7 +8199,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_129_NEWS_APP",
-    "news_headline_reject_key": "EVT_129_NEWS_REJ"
+    "news_headline_reject_key": "EVT_129_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_130",
@@ -8118,7 +8247,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_130_NEWS_APP",
-    "news_headline_reject_key": "EVT_130_NEWS_REJ"
+    "news_headline_reject_key": "EVT_130_NEWS_REJ",
+    "is_federal_sting": true
   },
   {
     "id": "EVT_131",
@@ -8181,7 +8311,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_131_NEWS_APP",
-    "news_headline_reject_key": "EVT_131_NEWS_REJ"
+    "news_headline_reject_key": "EVT_131_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_132",
@@ -8245,7 +8376,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_132_NEWS_APP",
-    "news_headline_reject_key": "EVT_132_NEWS_REJ"
+    "news_headline_reject_key": "EVT_132_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_133",
@@ -8292,7 +8424,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_133_NEWS_APP",
-    "news_headline_reject_key": "EVT_133_NEWS_REJ"
+    "news_headline_reject_key": "EVT_133_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_134",
@@ -8363,7 +8496,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_134_NEWS_APP",
-    "news_headline_reject_key": "EVT_134_NEWS_REJ"
+    "news_headline_reject_key": "EVT_134_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_135",
@@ -8410,7 +8544,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_135_NEWS_APP",
-    "news_headline_reject_key": "EVT_135_NEWS_REJ"
+    "news_headline_reject_key": "EVT_135_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_136",
@@ -8481,7 +8616,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_136_NEWS_APP",
-    "news_headline_reject_key": "EVT_136_NEWS_REJ"
+    "news_headline_reject_key": "EVT_136_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_137",
@@ -8544,7 +8680,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_137_NEWS_APP",
-    "news_headline_reject_key": "EVT_137_NEWS_REJ"
+    "news_headline_reject_key": "EVT_137_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_138",
@@ -8591,7 +8728,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_138_NEWS_APP",
-    "news_headline_reject_key": "EVT_138_NEWS_REJ"
+    "news_headline_reject_key": "EVT_138_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_139",
@@ -8655,7 +8793,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_139_NEWS_APP",
-    "news_headline_reject_key": "EVT_139_NEWS_REJ"
+    "news_headline_reject_key": "EVT_139_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_140",
@@ -8702,7 +8841,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_140_NEWS_APP",
-    "news_headline_reject_key": "EVT_140_NEWS_REJ"
+    "news_headline_reject_key": "EVT_140_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_141",
@@ -8765,7 +8905,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_141_NEWS_APP",
-    "news_headline_reject_key": "EVT_141_NEWS_REJ"
+    "news_headline_reject_key": "EVT_141_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_142",
@@ -8836,7 +8977,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_142_NEWS_APP",
-    "news_headline_reject_key": "EVT_142_NEWS_REJ"
+    "news_headline_reject_key": "EVT_142_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_143",
@@ -8899,7 +9041,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_143_NEWS_APP",
-    "news_headline_reject_key": "EVT_143_NEWS_REJ"
+    "news_headline_reject_key": "EVT_143_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_144",
@@ -8946,7 +9089,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_144_NEWS_APP",
-    "news_headline_reject_key": "EVT_144_NEWS_REJ"
+    "news_headline_reject_key": "EVT_144_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_145",
@@ -9009,7 +9153,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_145_NEWS_APP",
-    "news_headline_reject_key": "EVT_145_NEWS_REJ"
+    "news_headline_reject_key": "EVT_145_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_146",
@@ -9056,7 +9201,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_146_NEWS_APP",
-    "news_headline_reject_key": "EVT_146_NEWS_REJ"
+    "news_headline_reject_key": "EVT_146_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_147",
@@ -9120,7 +9266,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_147_NEWS_APP",
-    "news_headline_reject_key": "EVT_147_NEWS_REJ"
+    "news_headline_reject_key": "EVT_147_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_148",
@@ -9167,7 +9314,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_148_NEWS_APP",
-    "news_headline_reject_key": "EVT_148_NEWS_REJ"
+    "news_headline_reject_key": "EVT_148_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_149",
@@ -9214,7 +9362,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_149_NEWS_APP",
-    "news_headline_reject_key": "EVT_149_NEWS_REJ"
+    "news_headline_reject_key": "EVT_149_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_150",
@@ -9277,7 +9426,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_150_NEWS_APP",
-    "news_headline_reject_key": "EVT_150_NEWS_REJ"
+    "news_headline_reject_key": "EVT_150_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_151",
@@ -9341,7 +9491,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_151_NEWS_APP",
-    "news_headline_reject_key": "EVT_151_NEWS_REJ"
+    "news_headline_reject_key": "EVT_151_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_152",
@@ -9388,7 +9539,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_152_NEWS_APP",
-    "news_headline_reject_key": "EVT_152_NEWS_REJ"
+    "news_headline_reject_key": "EVT_152_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_153",
@@ -9452,7 +9604,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_153_NEWS_APP",
-    "news_headline_reject_key": "EVT_153_NEWS_REJ"
+    "news_headline_reject_key": "EVT_153_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_154",
@@ -9499,7 +9652,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_154_NEWS_APP",
-    "news_headline_reject_key": "EVT_154_NEWS_REJ"
+    "news_headline_reject_key": "EVT_154_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_155",
@@ -9563,7 +9717,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_155_NEWS_APP",
-    "news_headline_reject_key": "EVT_155_NEWS_REJ"
+    "news_headline_reject_key": "EVT_155_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_156",
@@ -9610,7 +9765,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_156_NEWS_APP",
-    "news_headline_reject_key": "EVT_156_NEWS_REJ"
+    "news_headline_reject_key": "EVT_156_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_157",
@@ -9674,7 +9830,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_157_NEWS_APP",
-    "news_headline_reject_key": "EVT_157_NEWS_REJ"
+    "news_headline_reject_key": "EVT_157_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_158",
@@ -9721,7 +9878,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_158_NEWS_APP",
-    "news_headline_reject_key": "EVT_158_NEWS_REJ"
+    "news_headline_reject_key": "EVT_158_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_159",
@@ -9784,7 +9942,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_159_NEWS_APP",
-    "news_headline_reject_key": "EVT_159_NEWS_REJ"
+    "news_headline_reject_key": "EVT_159_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_160",
@@ -9831,7 +9990,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_160_NEWS_APP",
-    "news_headline_reject_key": "EVT_160_NEWS_REJ"
+    "news_headline_reject_key": "EVT_160_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_161",
@@ -9895,7 +10055,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_161_NEWS_APP",
-    "news_headline_reject_key": "EVT_161_NEWS_REJ"
+    "news_headline_reject_key": "EVT_161_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_162",
@@ -9942,7 +10103,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_162_NEWS_APP",
-    "news_headline_reject_key": "EVT_162_NEWS_REJ"
+    "news_headline_reject_key": "EVT_162_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_163",
@@ -10006,7 +10168,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_163_NEWS_APP",
-    "news_headline_reject_key": "EVT_163_NEWS_REJ"
+    "news_headline_reject_key": "EVT_163_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_164",
@@ -10053,7 +10216,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_164_NEWS_APP",
-    "news_headline_reject_key": "EVT_164_NEWS_REJ"
+    "news_headline_reject_key": "EVT_164_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_165",
@@ -10117,7 +10281,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_165_NEWS_APP",
-    "news_headline_reject_key": "EVT_165_NEWS_REJ"
+    "news_headline_reject_key": "EVT_165_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_166",
@@ -10164,7 +10329,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_166_NEWS_APP",
-    "news_headline_reject_key": "EVT_166_NEWS_REJ"
+    "news_headline_reject_key": "EVT_166_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_167",
@@ -10229,7 +10395,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_167_NEWS_APP",
-    "news_headline_reject_key": "EVT_167_NEWS_REJ"
+    "news_headline_reject_key": "EVT_167_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_168",
@@ -10276,7 +10443,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_168_NEWS_APP",
-    "news_headline_reject_key": "EVT_168_NEWS_REJ"
+    "news_headline_reject_key": "EVT_168_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_169",
@@ -10339,7 +10507,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_169_NEWS_APP",
-    "news_headline_reject_key": "EVT_169_NEWS_REJ"
+    "news_headline_reject_key": "EVT_169_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_170",
@@ -10386,7 +10555,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_170_NEWS_APP",
-    "news_headline_reject_key": "EVT_170_NEWS_REJ"
+    "news_headline_reject_key": "EVT_170_NEWS_REJ",
+    "is_federal_sting": true
   },
   {
     "id": "EVT_171",
@@ -10450,7 +10620,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_171_NEWS_APP",
-    "news_headline_reject_key": "EVT_171_NEWS_REJ"
+    "news_headline_reject_key": "EVT_171_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_172",
@@ -10497,7 +10668,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_172_NEWS_APP",
-    "news_headline_reject_key": "EVT_172_NEWS_REJ"
+    "news_headline_reject_key": "EVT_172_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_173",
@@ -10560,7 +10732,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_173_NEWS_APP",
-    "news_headline_reject_key": "EVT_173_NEWS_REJ"
+    "news_headline_reject_key": "EVT_173_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_174",
@@ -10624,7 +10797,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_174_NEWS_APP",
-    "news_headline_reject_key": "EVT_174_NEWS_REJ"
+    "news_headline_reject_key": "EVT_174_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_175",
@@ -10671,7 +10845,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_175_NEWS_APP",
-    "news_headline_reject_key": "EVT_175_NEWS_REJ"
+    "news_headline_reject_key": "EVT_175_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_176",
@@ -10734,7 +10909,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_176_NEWS_APP",
-    "news_headline_reject_key": "EVT_176_NEWS_REJ"
+    "news_headline_reject_key": "EVT_176_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_177",
@@ -10798,7 +10974,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_177_NEWS_APP",
-    "news_headline_reject_key": "EVT_177_NEWS_REJ"
+    "news_headline_reject_key": "EVT_177_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_178",
@@ -10845,7 +11022,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_178_NEWS_APP",
-    "news_headline_reject_key": "EVT_178_NEWS_REJ"
+    "news_headline_reject_key": "EVT_178_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_179",
@@ -10908,7 +11086,8 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_179_NEWS_APP",
-    "news_headline_reject_key": "EVT_179_NEWS_REJ"
+    "news_headline_reject_key": "EVT_179_NEWS_REJ",
+    "is_federal_sting": false
   },
   {
     "id": "EVT_180",
@@ -10973,6 +11152,7 @@
       "city_visual_flag": ""
     },
     "news_headline_approve_key": "EVT_180_NEWS_APP",
-    "news_headline_reject_key": "EVT_180_NEWS_REJ"
+    "news_headline_reject_key": "EVT_180_NEWS_REJ",
+    "is_federal_sting": false
   }
 ]

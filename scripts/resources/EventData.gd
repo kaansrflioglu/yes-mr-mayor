@@ -21,6 +21,9 @@ extends Resource
 ## Illicit cash bribe offered to the mayor (deposited into personal safe if pocketed)
 @export var bribe_offered: int = 0
 
+## True if this bribe is an undercover Federal Task Force sting trap!
+@export var is_federal_sting: bool = false
+
 ## Numerical & state impacts on approval
 ## Keys: "budget" (int), "personal_wealth" (int), "public_opinion" (float),
 ## "suspicion" (float), "city_visual_flag" (String)
@@ -66,6 +69,7 @@ static func from_dict(dict: Dictionary) -> EventData:
 	event.description_key = str(dict.get("description_key", ""))
 	event.applicant_key = str(dict.get("applicant_key", ""))
 	event.bribe_offered = int(dict.get("bribe_offered", 0))
+	event.is_federal_sting = bool(dict.get("is_federal_sting", false))
 	
 	if dict.has("effects_approve") and dict["effects_approve"] is Dictionary:
 		event.effects_approve = dict["effects_approve"].duplicate(true)
@@ -130,6 +134,7 @@ func to_dict() -> Dictionary:
 		"description_key": description_key,
 		"applicant_key": applicant_key,
 		"bribe_offered": bribe_offered,
+		"is_federal_sting": is_federal_sting,
 		"effects_approve": effects_approve.duplicate(true),
 		"effects_reject": effects_reject.duplicate(true),
 		"news_headline_approve_key": news_headline_approve_key,
@@ -138,6 +143,11 @@ func to_dict() -> Dictionary:
 		"report_data": report_data.duplicate(true),
 		"violations": violations.duplicate(true)
 	}
+
+
+## Returns true if this event's bribe is an active Federal sting operation
+func is_sting_operation() -> bool:
+	return is_federal_sting
 
 
 ## Strict i18n accessors using Godot's TranslationServer via tr()

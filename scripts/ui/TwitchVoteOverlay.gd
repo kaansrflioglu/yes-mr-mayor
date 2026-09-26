@@ -18,10 +18,25 @@ extends PanelContainer
 
 @onready var total_votes_label: Label = %TotalVotesLabel
 
+@onready var tool_votes_title_label: Label = %ToolVotesTitleLabel
+@onready var tool_uv_bar: ProgressBar = %ToolUvBar
+@onready var tool_uv_label: Label = %ToolUvLabel
+@onready var tool_phone_bar: ProgressBar = %ToolPhoneBar
+@onready var tool_phone_label: Label = %ToolPhoneLabel
+@onready var tool_coffee_bar: ProgressBar = %ToolCoffeeBar
+@onready var tool_coffee_label: Label = %ToolCoffeeLabel
+@onready var btn_execute_tool: Button = %BtnExecuteTool
+
 var _current_approve_pct: float = 0.0
 var _current_reject_pct: float = 0.0
 var _current_bribe_pct: float = 0.0
 var _current_total_votes: int = 0
+
+var _current_uv_pct: float = 0.0
+var _current_phone_pct: float = 0.0
+var _current_coffee_pct: float = 0.0
+var _current_tool_total: int = 0
+
 var _is_connected: bool = false
 var _active_channel: String = ""
 
@@ -30,8 +45,10 @@ func _ready() -> void:
 	btn_connect.pressed.connect(_on_connect_button_pressed)
 	btn_close.pressed.connect(hide_overlay)
 	channel_input.text_submitted.connect(func(_t: String): _on_connect_button_pressed())
+	btn_execute_tool.pressed.connect(_on_execute_tool_pressed)
 
 	TwitchManager.vote_updated.connect(_on_twitch_vote_updated)
+	TwitchManager.tool_vote_updated.connect(_on_tool_vote_updated)
 	TwitchManager.connection_status_changed.connect(_on_twitch_connection_changed)
 	LocalizationManager.locale_changed.connect(func(_loc: String): _refresh_ui_text())
 
@@ -91,11 +108,33 @@ func _on_twitch_connection_changed(connected: bool, channel: String) -> void:
 	_refresh_ui_text()
 
 
+func _on_execute_tool_pressed() -> void:
+	TwitchManager.execute_winning_tool()
+
+
+func _on_tool_vote_updated(
+	p_uv: float, p_phone: float, p_coffee: float, total: int
+) -> void:
+	_current_uv_pct = p_uv
+	_current_phone_pct = p_phone
+	_current_coffee_pct = p_coffee
+	_current_tool_total = total
+	_animate_tool_bars()
+
+
 func _animate_vote_bars() -> void:
 	var tw := create_tween().set_parallel(true)
 	tw.tween_property(approve_bar, "value", _current_approve_pct, 0.35)
 	tw.tween_property(reject_bar, "value", _current_reject_pct, 0.35)
 	tw.tween_property(bribe_bar, "value", _current_bribe_pct, 0.35)
+	_update_labels()
+
+
+func _animate_tool_bars() -> void:
+	var tw := create_tween().set_parallel(true)
+	tw.tween_property(tool_uv_bar, "value", _current_uv_pct, 0.35)
+	tw.tween_property(tool_phone_bar, "value", _current_phone_pct, 0.35)
+	tw.tween_property(tool_coffee_bar, "value", _current_coffee_pct, 0.35)
 	_update_labels()
 
 
@@ -113,10 +152,28 @@ func _update_labels() -> void:
 		"count": str(_current_total_votes)
 	})
 
+	if tool_uv_label != null:
+		tool_uv_label.text = tr("UI_TWITCH_TOOL_UV").format({
+			"pct": "%.1f" % _current_uv_pct
+		})
+	if tool_phone_label != null:
+		tool_phone_label.text = tr("UI_TWITCH_TOOL_PHONE").format({
+			"pct": "%.1f" % _current_phone_pct
+		})
+	if tool_coffee_label != null:
+		tool_coffee_label.text = tr("UI_TWITCH_TOOL_COFFEE").format({
+			"pct": "%.1f" % _current_coffee_pct
+		})
+
 
 func _refresh_ui_text() -> void:
 	title_label.text = tr("UI_TWITCH_TITLE")
 	channel_input.placeholder_text = tr("UI_TWITCH_CHANNEL_PLACEHOLDER")
+
+	if tool_votes_title_label != null:
+		tool_votes_title_label.text = tr("UI_TWITCH_TOOL_VOTES_TITLE")
+	if btn_execute_tool != null:
+		btn_execute_tool.text = tr("UI_TWITCH_TRIGGER_TOOL")
 
 	if _is_connected:
 		btn_connect.text = tr("UI_TWITCH_DISCONNECT")

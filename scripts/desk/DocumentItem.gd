@@ -386,9 +386,12 @@ func _update_uv_watermarks() -> void:
 
 	if uv_bribe_label != null and current_event.has_bribe():
 		uv_bribe_label.visible = true
-		if current_event.has_violations():
+		if current_event.is_federal_sting:
+			uv_bribe_label.text = tr("UI_UV_STING_BRIBE")
+			uv_bribe_label.modulate = Color(1.0, 0.15, 0.15, 1.0)
+		elif current_event.has_violations():
 			uv_bribe_label.text = tr("UI_UV_MARKED_BRIBE")
-			uv_bribe_label.modulate = Color(1.0, 0.35, 0.25, 1.0)
+			uv_bribe_label.modulate = Color(1.0, 0.45, 0.25, 1.0)
 		else:
 			uv_bribe_label.text = tr("UI_UV_CLEAN_BRIBE")
 			uv_bribe_label.modulate = Color(0.35, 0.9, 1.0, 1.0)

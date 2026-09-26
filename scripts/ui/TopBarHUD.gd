@@ -16,9 +16,11 @@ signal pause_toggle_requested
 @onready var suspicion_label: Label = %SuspicionLabel
 @onready var day_label: Label = %DayLabel
 @onready var clock_label: Label = %ClockLabel if has_node("%ClockLabel") else null
+@onready var directive_label: Label = %DirectiveLabel if has_node("%DirectiveLabel") else null
 
 @onready var btn_settings: Button = %BtnSettings
 @onready var btn_pause: Button = %BtnPause
+@onready var btn_twitch: Button = %BtnTwitch if has_node("%BtnTwitch") else null
 
 var _displayed_budget: float = 100000.0
 var _displayed_wealth: float = 0.0
@@ -34,6 +36,8 @@ func _ready() -> void:
 		btn_settings.pressed.connect(func(): settings_toggle_requested.emit())
 	if btn_pause != null:
 		btn_pause.pressed.connect(func(): pause_toggle_requested.emit())
+	if btn_twitch != null:
+		btn_twitch.pressed.connect(func(): twitch_toggle_requested.emit())
 
 	GameManager.stats_changed.connect(_on_stats_changed)
 	LocalizationManager.locale_changed.connect(_on_locale_changed)
@@ -145,3 +149,10 @@ func set_shift_time(formatted_time: String, is_overtime: bool) -> void:
 			clock_label.modulate = Color(1.0, 0.35, 0.35, 1.0)
 		else:
 			clock_label.modulate = Color(0.85, 0.92, 1.0, 1.0)
+
+
+## Updates the municipal executive directive label and tooltip
+func set_directive_text(title: String, tooltip: String = "") -> void:
+	if directive_label != null:
+		directive_label.text = "📜 " + title
+		directive_label.tooltip_text = tooltip

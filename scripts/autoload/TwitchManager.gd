@@ -4,6 +4,8 @@ extends Node
 ## Parses !approve, !reject, and !bribe commands from live stream chat.
 
 signal vote_updated(approve_pct: float, reject_pct: float, bribe_pct: float, total: int)
+signal tool_vote_updated(uv_pct: float, phone_pct: float, coffee_pct: float, total: int)
+signal tool_action_executed(tool_name: String)
 signal connection_status_changed(connected: bool, channel: String)
 signal chat_message_received(user: String, message: String)
 
@@ -17,6 +19,11 @@ var votes_approve: int = 0
 var votes_reject: int = 0
 var votes_bribe: int = 0
 var voters_logged: Dictionary = {}
+
+var votes_uv: int = 0
+var votes_phone: int = 0
+var votes_coffee: int = 0
+var tool_voters_logged: Dictionary = {}
 
 
 func _process(_delta: float) -> void:
@@ -96,6 +103,7 @@ func _parse_privmsg(line: String) -> void:
 
 	chat_message_received.emit(user, content)
 	register_chat_command(user, content)
+	register_tool_command(user, content)
 
 
 ## Registers vote command from a viewer
@@ -132,6 +140,76 @@ func register_chat_command(user: String, command: String) -> void:
 		votes_bribe += 1
 
 	_emit_vote_update()
+
+
+## Registers inspector tool vote from chat (!uv, !phone, !coffee, !inspect)
+func register_tool_command(user: String, command: String) -> void:
+	var cmd := command.to_lower().strip_edges()
+	var tool_type := ""
+
+	if cmd in ["!uv", "!blacklight", "!mor", "!morisik"]:
+		tool_type = "uv"
+	elif cmd in ["!phone", "!call", "!tipline", "!telefon", "!ihbar"]:
+		tool_type = "phone"
+	elif cmd in ["!coffee", "!espresso", "!kahve", "!stamina"]:
+		tool_type = "coffee"
+	elif cmd in ["!inspect", "!incele"]:
+		tool_type = "inspect"
+
+	if tool_type.is_empty():
+		return
+
+	if tool_voters_logged.has(user):
+		var prev_tool: String = tool_voters_logged[user]
+		if prev_tool == "uv":
+			votes_uv -= 1
+		elif prev_tool == "phone":
+			votes_phone -= 1
+		elif prev_tool == "coffee":
+			votes_coffee -= 1
+
+	tool_voters_logged[user] = tool_type
+	if tool_type == "uv":
+		votes_uv += 1
+	elif tool_type == "phone":
+		votes_phone += 1
+	elif tool_type == "coffee":
+		votes_coffee += 1
+
+	_emit_tool_vote_update()
+
+
+func _emit_tool_vote_update() -> void:
+	var total: int = votes_uv + votes_phone + votes_coffee
+	var p_uv: float = (float(votes_uv) / float(total) * 100.0) if total > 0 else 0.0
+	var p_ph: float = (float(votes_phone) / float(total) * 100.0) if total > 0 else 0.0
+	var p_cf: float = (float(votes_coffee) / float(total) * 100.0) if total > 0 else 0.0
+	tool_vote_updated.emit(p_uv, p_ph, p_cf, total)
+
+
+func get_winning_tool() -> String:
+	if votes_uv >= votes_phone and votes_uv >= votes_coffee:
+		return "uv" if votes_uv > 0 else "none"
+	if votes_phone >= votes_uv and votes_phone >= votes_coffee:
+		return "phone" if votes_phone > 0 else "none"
+	if votes_coffee >= votes_uv and votes_coffee >= votes_phone:
+		return "coffee" if votes_coffee > 0 else "none"
+	return "none"
+
+
+func execute_winning_tool() -> String:
+	var win_tool := get_winning_tool()
+	if win_tool != "none":
+		tool_action_executed.emit(win_tool)
+	return win_tool
+
+
+func reset_tool_votes() -> void:
+	votes_uv = 0
+	votes_phone = 0
+	votes_coffee = 0
+	tool_voters_logged.clear()
+	_emit_tool_vote_update()
 
 
 func _emit_vote_update() -> void:

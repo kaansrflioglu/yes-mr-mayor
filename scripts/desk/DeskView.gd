@@ -101,6 +101,13 @@ func _ready() -> void:
 
 	top_bar_hud.settings_toggle_requested.connect(_toggle_settings)
 	top_bar_hud.pause_toggle_requested.connect(_toggle_pause_menu)
+	if top_bar_hud.has_signal("twitch_toggle_requested"):
+		top_bar_hud.twitch_toggle_requested.connect(_toggle_twitch_overlay)
+
+	DirectiveManager.directive_activated.connect(_on_directive_activated)
+	TwitchManager.tool_action_executed.connect(_on_twitch_tool_action)
+	DirectiveManager.activate_directive_for_day(GameManager.current_day)
+	_update_directive_ui()
 
 	if settings_modal != null:
 		settings_modal.set_twitch_overlay_reference(twitch_overlay)
@@ -139,6 +146,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 		elif event.keycode == KEY_TAB:
 			_toggle_rulebook()
+			get_viewport().set_input_as_handled()
+		elif event.keycode == KEY_T:
+			_toggle_twitch_overlay()
 			get_viewport().set_input_as_handled()
 		elif event.keycode == KEY_ESCAPE:
 			_handle_escape_key()
@@ -278,6 +288,8 @@ func _start_or_continue_shift() -> void:
 		current_shift_minutes = SHIFT_START_MINUTES
 		is_overtime = false
 		_update_clock_ui()
+		DirectiveManager.activate_directive_for_day(GameManager.current_day)
+		_update_directive_ui()
 	_present_next_document()
 
 
@@ -303,6 +315,7 @@ func _present_next_document() -> void:
 	next_day_box.visible = false
 	_set_stamps_enabled(false)
 	TwitchManager.reset_votes()
+	TwitchManager.reset_tool_votes()
 
 	var doc_instance := DOCUMENT_SCENE.instantiate()
 	document_drop_zone.add_child(doc_instance)
@@ -310,6 +323,7 @@ func _present_next_document() -> void:
 
 	doc_instance.setup_event(next_event)
 	doc_instance.set_uv_blacklight(is_uv_active)
+	doc_instance.bribe_pocketed.connect(_on_bribe_pocketed)
 	GameManager.present_event(next_event)
 
 	# Connect inspection signals
@@ -640,47 +654,51 @@ func _execute_stamping(approved: bool) -> void:
 	var has_viol: bool = event.has_violations()
 	var took_bribe: bool = active_document.has_pocketed_bribe
 
+	var res_effects: Dictionary = {}
 	if approved:
 		if has_viol:
 			# Corrupt approval of violation
 			if took_bribe:
-				# Took bribe & approved fraud: Suspicion jumps, approval drops
-				GameManager.pocket_bribe(event.bribe_offered, 12.0)
-				GameManager.apply_resolution({
+				res_effects = {
 					"public_opinion": -15.0,
 					"suspicion": 15.0,
 					"budget": event.effects_approve.get("budget", 20000)
-				})
+				}
 			else:
 				# Negligent approval: approved illegal project without even taking bribe!
-				GameManager.apply_resolution({
+				res_effects = {
 					"public_opinion": -10.0,
 					"suspicion": 10.0,
 					"budget": event.effects_approve.get("budget", 15000)
-				})
+				}
 		else:
 			# Honest approval of clean petition: good for the city
-			GameManager.apply_resolution({
+			res_effects = {
 				"public_opinion": 12.0,
 				"budget": 20000,
 				"suspicion": -5.0
-			})
+			}
 	else:
 		# Rejected:
 		if has_viol:
 			# Valid rejection with cause: Player gets praised for sharp vigilance!
-			GameManager.apply_resolution({
+			res_effects = {
 				"public_opinion": 15.0,
 				"suspicion": -10.0,
 				"budget": 0
-			})
+			}
 		else:
 			# Wrongful rejection of completely legal petition: Citizens outraged
-			GameManager.apply_resolution({
+			res_effects = {
 				"public_opinion": -15.0,
 				"suspicion": 5.0,
 				"budget": 0
-			})
+			}
+
+	res_effects = DirectiveManager.apply_modifiers(
+		res_effects, event, approved, took_bribe
+	)
+	GameManager.apply_resolution(res_effects)
 
 	# Record history in GameManager
 	var headline_key: String = (
@@ -731,10 +749,64 @@ func _trigger_camera_shake(duration: float, intensity: float) -> void:
 func _on_drawer_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		_animate_drawer_pull()
-		AudioManager.play_cash_register()
 		if active_document != null and not active_document.has_pocketed_bribe:
 			if GameManager.active_event and GameManager.active_event.bribe_offered > 0:
 				active_document.pocket_bribe()
+
+
+func _on_bribe_pocketed(amount: int) -> void:
+	var event: EventData = GameManager.active_event
+	if event == null:
+		return
+
+	var is_sting: bool = event.is_federal_sting or DirectiveManager.is_sting_override()
+	if is_sting:
+		AudioManager.play_alarm_siren()
+		_trigger_camera_shake(0.5, 16.0)
+		GameManager.pocket_bribe(amount, 25.0)
+		inspect_status_panel.visible = true
+		inspect_status_label.text = "🚨 " + tr("UI_FEDERAL_STING_ALERT")
+	else:
+		AudioManager.play_cash_register()
+		var susp_mult: float = float(DirectiveManager.get_active_directive().get(
+			"suspicion_mult", 1.0
+		))
+		GameManager.pocket_bribe(amount, 3.0 * susp_mult)
+
+
+## Public method allowing DeskView or external tools to consult the Red Phone
+func consult_red_phone() -> bool:
+	if red_telephone != null and red_telephone.has_method("consult_inspector"):
+		return red_telephone.consult_inspector()
+	return false
+
+
+func _toggle_twitch_overlay() -> void:
+	if twitch_overlay != null and twitch_overlay.has_method("toggle_overlay"):
+		twitch_overlay.toggle_overlay()
+
+
+func _on_twitch_tool_action(tool_name: String) -> void:
+	match tool_name:
+		"uv":
+			toggle_uv_blacklight()
+		"phone":
+			consult_red_phone()
+		"coffee":
+			order_espresso()
+		"inspect":
+			_toggle_inspect_mode()
+
+
+func _update_directive_ui() -> void:
+	if top_bar_hud != null and top_bar_hud.has_method("set_directive_text"):
+		var title: String = DirectiveManager.get_active_title()
+		var desc: String = DirectiveManager.get_active_desc()
+		top_bar_hud.set_directive_text(title, desc)
+
+
+func _on_directive_activated(_directive: Dictionary) -> void:
+	_update_directive_ui()
 
 
 func _animate_drawer_pull() -> void:
@@ -822,6 +894,9 @@ func _on_restart_mandate() -> void:
 	current_shift_minutes = SHIFT_START_MINUTES
 	is_overtime = false
 	_update_clock_ui()
+	DirectiveManager.reset_state()
+	DirectiveManager.activate_directive_for_day(1)
+	_update_directive_ui()
 	_present_next_document()
 
 

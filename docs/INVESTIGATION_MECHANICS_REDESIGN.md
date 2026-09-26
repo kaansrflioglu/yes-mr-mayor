@@ -183,9 +183,9 @@ To avoid overwhelming development, these enhancements are categorized into three
 - [x] **Red Phone Inquiries:** Allow the player to click the Red Telephone to spend $1,000 and reveal 1 guaranteed violation.
 
 ### Milestone 3: Deep Meta & Narrative Twists (Full Replayability)
-- [ ] **Federal Sting Bribes:** Trapped envelopes with UV-detectable ink.
-- [ ] **Daily Executive Directives:** Morning modifier cards that alter rules for that day's shift.
-- [ ] **Twitch Chat "Inspector Vote":** Allow livestream viewers to spend channel points or vote on which desk tool the Mayor should use.
+- [x] **Federal Sting Bribes:** Trapped envelopes with UV-detectable ink.
+- [x] **Daily Executive Directives:** Morning modifier cards that alter rules for that day's shift.
+- [x] **Twitch Chat "Inspector Vote":** Allow livestream viewers to spend channel points or vote on which desk tool the Mayor should use.
 
 ---
 
