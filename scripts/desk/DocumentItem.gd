@@ -260,6 +260,38 @@ func mark_violation_found(violation: Dictionary) -> void:
 	violation_uncovered.emit(violation)
 
 
+## Highlights a suspicious field on the dossier (e.g. from whistleblower or engineer tip)
+func highlight_suspicious_field(field_tag: String = "") -> void:
+	var target_panel: PanelContainer = null
+	var norm_tag := field_tag.to_lower()
+
+	match norm_tag:
+		"app_applicant": target_panel = app_card_applicant
+		"app_district": target_panel = app_card_district
+		"app_floors": target_panel = app_card_floors
+		"app_budget": target_panel = app_card_budget
+		"app_seal": target_panel = app_card_seal
+		"app_expiry": target_panel = app_card_expiry
+		"rep_inspector": target_panel = rep_card_inspector
+		"rep_measured_floors": target_panel = rep_card_measured
+		"rep_hazard": target_panel = rep_card_hazard
+		"rep_tax_debt": target_panel = rep_card_tax
+		"rep_soil": target_panel = rep_card_soil
+		_:
+			target_panel = app_card_seal if app_card_seal != null else app_card_applicant
+
+	# If the field is on a hidden page, switch to side-by-side view
+	if norm_tag.begins_with("rep_") and report_page != null and not report_page.visible:
+		switch_dossier_tab(2)
+	elif norm_tag.begins_with("app_") and application_page != null and not application_page.visible:
+		switch_dossier_tab(2)
+
+	if target_panel != null:
+		var tween := create_tween().set_loops(3)
+		tween.tween_property(target_panel, "modulate", Color(1.5, 1.35, 0.35, 1.0), 0.22)
+		tween.tween_property(target_panel, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.22)
+
+
 func _on_pocket_bribe_pressed() -> void:
 	pocket_bribe()
 

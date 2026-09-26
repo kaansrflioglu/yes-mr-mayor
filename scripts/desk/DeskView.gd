@@ -521,6 +521,10 @@ func _on_inspector_tip_requested() -> void:
 	if not found_viol.is_empty():
 		if active_document != null and active_document.has_method("mark_violation_found"):
 			active_document.mark_violation_found(found_viol)
+		if active_document != null and active_document.has_method("highlight_suspicious_field"):
+			var tags: Array = found_viol.get("tags", [])
+			var first_tag: String = str(tags[0]) if not tags.is_empty() else ""
+			active_document.highlight_suspicious_field(first_tag)
 		var viol_name: String = tr(str(found_viol.get("name_key", "VIOL_HEIGHT_LIMIT")))
 		inspect_status_panel.visible = true
 		var msg_text: String = tr("UI_HOTLINE_TIP_FOUND").format({"violation": viol_name})

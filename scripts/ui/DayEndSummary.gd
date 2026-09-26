@@ -33,7 +33,30 @@ func populate_summary(day_num: int) -> void:
 
 	# Fetch shift history for today
 	var history: Array[Dictionary] = GameManager.get_history_for_day(day_num)
-	if history.is_empty():
+	var hotline_records: Array[Dictionary] = []
+	if GameManager != null and GameManager.has_method("get_hotline_history_for_day"):
+		hotline_records = GameManager.get_hotline_history_for_day(day_num)
+
+	if not hotline_records.is_empty():
+		var last_hotline: Dictionary = hotline_records[hotline_records.size() - 1]
+		var arch: String = str(last_hotline.get("archetype", ""))
+		var accepted: bool = bool(last_hotline.get("accepted", false))
+		var hotline_key: String = HotlineManager.get_hotline_headline_key(arch, accepted)
+		var hotline_text: String = tr(hotline_key)
+
+		if history.is_empty():
+			headline_main.text = hotline_text
+			headline_sub.text = tr("HOTLINE_NEWS_GENERIC")
+			headline_sub.visible = true
+		else:
+			var last_record: Dictionary = history[history.size() - 1]
+			var main_key: String = str(last_record.get("headline_key", ""))
+			headline_main.text = (
+				tr(main_key) if not main_key.is_empty() else tr("EVT_001_NEWS_APP")
+			)
+			headline_sub.text = "☎️ " + hotline_text
+			headline_sub.visible = true
+	elif history.is_empty():
 		headline_main.text = tr("EVT_001_NEWS_APP")
 		headline_sub.text = tr("EVT_002_NEWS_REJ")
 	else:

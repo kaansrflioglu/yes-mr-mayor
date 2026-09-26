@@ -59,6 +59,7 @@ var event_flags: Dictionary = {}
 var event_database: Array[EventData] = []
 var active_event: EventData = null
 var daily_history: Array[Dictionary] = []
+var hotline_history: Array[Dictionary] = []
 
 
 func _ready() -> void:
@@ -75,6 +76,7 @@ func start_new_game() -> void:
 	suspicion_level = 0.0
 	event_flags.clear()
 	daily_history.clear()
+	hotline_history.clear()
 	active_event = null
 	_notify_stats_changed()
 	day_started.emit(current_day)
@@ -238,3 +240,18 @@ func get_history_for_day(day_num: int) -> Array[Dictionary]:
 		if int(rec.get("day", 0)) == day_num:
 			records.append(rec)
 	return records
+
+
+## Records a resolved hotline call into daily records
+func record_hotline_call(record: Dictionary) -> void:
+	hotline_history.append(record)
+
+
+## Returns all hotline records for a given day
+func get_hotline_history_for_day(day_num: int) -> Array[Dictionary]:
+	var records: Array[Dictionary] = []
+	for rec in hotline_history:
+		if int(rec.get("day", 0)) == day_num:
+			records.append(rec)
+	return records
+

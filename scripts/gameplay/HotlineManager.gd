@@ -145,4 +145,43 @@ func resolve_call(call: HotlineCallData, accepted: bool, day: int) -> Dictionary
 		"effects": effects.duplicate(true)
 	}
 	call_history.append(entry)
+	if GameManager != null and GameManager.has_method("record_hotline_call"):
+		GameManager.record_hotline_call(entry)
 	return effects
+
+
+## Returns headline localization key for end-of-day tabloid based on call and outcome
+static func get_hotline_headline_key(archetype: String, accepted: bool) -> String:
+	match archetype.to_lower():
+		"party_boss":
+			return (
+				"HOTLINE_NEWS_PARTY_BOSS_APP" if accepted
+				else "HOTLINE_NEWS_PARTY_BOSS_REJ"
+			)
+		"police_chief":
+			return (
+				"HOTLINE_NEWS_POLICE_APP" if accepted
+				else "HOTLINE_NEWS_POLICE_REJ"
+			)
+		"mafia":
+			return (
+				"HOTLINE_NEWS_MAFIA_APP" if accepted
+				else "HOTLINE_NEWS_MAFIA_REJ"
+			)
+		"journalist":
+			return (
+				"HOTLINE_NEWS_PRESS_APP" if accepted
+				else "HOTLINE_NEWS_PRESS_REJ"
+			)
+		"chief_engineer":
+			return (
+				"HOTLINE_NEWS_ENGINEER_APP" if accepted
+				else "HOTLINE_NEWS_ENGINEER_REJ"
+			)
+		"whistleblower":
+			return (
+				"HOTLINE_NEWS_WHISTLE_APP" if accepted
+				else "HOTLINE_NEWS_WHISTLE_REJ"
+			)
+		_:
+			return "HOTLINE_NEWS_GENERIC"
