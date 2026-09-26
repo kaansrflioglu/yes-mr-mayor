@@ -51,14 +51,25 @@ func load_events_from_json(path: String = DEFAULT_EVENTS_PATH) -> bool:
 	return true
 
 
-## Resets draw pile with all loaded events and shuffles
+## Resets draw pile with all loaded events (excluding consequence events) and shuffles
 func reset_deck() -> void:
 	draw_pile.clear()
 	discard_pile.clear()
 	daily_queue.clear()
 	for ev in all_events:
-		draw_pile.append(ev)
+		if ev.category != "consequence":
+			draw_pile.append(ev)
 	draw_pile.shuffle()
+
+
+## Unlocks a consequence event into the active draw pile
+func unlock_event(event_id: String) -> void:
+	var ev: EventData = get_event_by_id(event_id)
+	if ev != null:
+		if not draw_pile.has(ev) and not daily_queue.has(ev) and not discard_pile.has(ev):
+			draw_pile.push_front(ev)
+			print("[EventManager] Unlocked consequence event into deck: %s" % event_id)
+
 
 
 ## Checks if an event is valid for a given day according to its day_range

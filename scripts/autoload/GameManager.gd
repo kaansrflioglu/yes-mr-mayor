@@ -167,6 +167,10 @@ func apply_resolution(effects: Dictionary) -> void:
 		event_flags[effects["city_visual_flag"]] = true
 	elif "city_flag" in effects and not str(effects["city_flag"]).is_empty():
 		event_flags[effects["city_flag"]] = true
+	if "unlocks_event_id" in effects and not str(effects["unlocks_event_id"]).is_empty():
+		var unlocked_id: String = str(effects["unlocks_event_id"])
+		if EventManager != null:
+			EventManager.unlock_event(unlocked_id)
 
 	_notify_stats_changed()
 	_evaluate_end_conditions()
