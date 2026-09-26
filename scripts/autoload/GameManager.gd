@@ -46,6 +46,12 @@ var suspicion_meter: float:
 	set(val):
 		suspicion_level = val
 
+var treasury: int:
+	get:
+		return city_budget
+	set(val):
+		city_budget = val
+
 ## City visual flags & world state flags
 var event_flags: Dictionary = {}
 

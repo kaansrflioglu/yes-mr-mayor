@@ -18,6 +18,15 @@ const GAME_OVER_SCENE: PackedScene = preload("res://scenes/summary/GameOverModal
 @onready var inspect_status_panel: PanelContainer = %InspectStatusPanel
 @onready var inspect_status_label: Label = %InspectStatusLabel
 
+@onready var focus_panel: PanelContainer = %FocusPanel if has_node("%FocusPanel") else null
+@onready var focus_label: Label = %FocusLabel if has_node("%FocusLabel") else null
+@onready var focus_icons_container: HBoxContainer = (
+	%FocusIconsContainer if has_node("%FocusIconsContainer") else null
+)
+@onready var btn_order_espresso: Button = (
+	%BtnOrderEspresso if has_node("%BtnOrderEspresso") else null
+)
+
 @onready var safe_drawer_panel: PanelContainer = %SafeDrawerPanel
 @onready var drawer_label: Label = %DrawerLabel
 @onready var drawer_hint: Label = %DrawerHint
@@ -32,6 +41,17 @@ const GAME_OVER_SCENE: PackedScene = preload("res://scenes/summary/GameOverModal
 @onready var pause_menu: Control = %PauseMenu
 @onready var save_load_modal: Control = %SaveLoadModal
 @onready var save_toast: Control = %SaveToast if has_node("%SaveToast") else null
+
+# Inspection Focus & Stamina Mechanics (Milestone 1)
+const MAX_INSPECT_FOCUS: int = 4
+const FALSE_INQUIRY_WARN_THRESHOLD: int = 2
+const FALSE_INQUIRY_PENALTY_THRESHOLD: int = 3
+const ESPRESSO_COST: int = 500
+const ESPRESSO_FOCUS_RESTORE: int = 2
+const ESPRESSO_SUSPICION_GAIN: float = 1.5
+
+var current_inspect_focus: int = MAX_INSPECT_FOCUS
+var consecutive_false_inquiries: int = 0
 
 var active_document: Control = null
 var active_summary: Control = null
@@ -53,6 +73,9 @@ func _ready() -> void:
 	btn_toggle_rulebook.pressed.connect(_toggle_rulebook)
 	btn_next_day.pressed.connect(_on_next_day_pressed)
 	safe_drawer_panel.gui_input.connect(_on_drawer_gui_input)
+
+	if btn_order_espresso != null:
+		btn_order_espresso.pressed.connect(_on_order_espresso_pressed)
 
 	top_bar_hud.settings_toggle_requested.connect(_toggle_settings)
 	top_bar_hud.pause_toggle_requested.connect(_toggle_pause_menu)
@@ -207,6 +230,7 @@ func _update_locale_texts(_loc: String) -> void:
 	shift_info_label.text = tr("UI_NO_MORE_DOCS")
 	if is_inspect_mode:
 		inspect_status_label.text = tr("UI_INSPECT_ACTIVE")
+	_update_focus_ui()
 
 
 func _update_reject_button_text() -> void:
@@ -230,6 +254,11 @@ func _start_or_continue_shift() -> void:
 func _present_next_document() -> void:
 	if GameManager.is_game_over:
 		return
+
+	# Reset focus and inquiries for new dossier
+	current_inspect_focus = MAX_INSPECT_FOCUS
+	consecutive_false_inquiries = 0
+	_update_focus_ui()
 
 	if active_document != null and is_instance_valid(active_document):
 		active_document.queue_free()
@@ -305,6 +334,71 @@ func _toggle_inspect_mode() -> void:
 		btn_inspect_mode.text = tr("UI_INSPECT_MODE")
 
 
+func _on_order_espresso_pressed() -> void:
+	order_espresso()
+
+
+func order_espresso() -> bool:
+	if current_inspect_focus >= MAX_INSPECT_FOCUS:
+		return false
+	if GameManager.treasury < ESPRESSO_COST:
+		return false
+
+	GameManager.treasury -= ESPRESSO_COST
+	var new_susp: float = GameManager.suspicion_level + ESPRESSO_SUSPICION_GAIN
+	GameManager.suspicion_level = clampf(new_susp, 0.0, 100.0)
+	current_inspect_focus = mini(current_inspect_focus + ESPRESSO_FOCUS_RESTORE, MAX_INSPECT_FOCUS)
+	GameManager.stats_changed.emit()
+
+	if AudioManager.has_method("play_coffee_sip"):
+		AudioManager.play_coffee_sip()
+	else:
+		AudioManager.play_inspect_toggle()
+
+	_update_focus_ui()
+	inspect_status_panel.visible = true
+	inspect_status_label.text = "☕ " + tr("UI_ESPRESSO_ORDERED")
+	return true
+
+
+func _update_focus_ui() -> void:
+	if focus_label != null:
+		focus_label.text = tr("UI_FOCUS_POINTS").format({
+			"current": current_inspect_focus,
+			"max": MAX_INSPECT_FOCUS
+		})
+
+	if focus_icons_container != null:
+		var pips := focus_icons_container.get_children()
+		for i in range(pips.size()):
+			if pips[i] is CanvasItem:
+				if i < current_inspect_focus:
+					pips[i].modulate = Color(1.0, 0.85, 0.35, 1.0)
+				else:
+					pips[i].modulate = Color(0.4, 0.45, 0.55, 0.3)
+
+	if btn_order_espresso != null:
+		btn_order_espresso.visible = (current_inspect_focus <= 1)
+		btn_order_espresso.disabled = (GameManager.treasury < ESPRESSO_COST)
+		btn_order_espresso.text = tr("UI_ORDER_ESPRESSO")
+		btn_order_espresso.tooltip_text = tr("UI_ORDER_ESPRESSO_TIP")
+
+
+## Public testing API wrapper: evaluate a pair of tokens
+func evaluate_discrepancy(token_a: String, token_b: String) -> void:
+	_evaluate_discrepancy(token_a, token_b)
+
+
+## Public testing API wrapper: refresh focus UI elements
+func update_focus_ui() -> void:
+	_update_focus_ui()
+
+
+## Public testing API wrapper: present the next document in queue
+func present_next_document() -> void:
+	_present_next_document()
+
+
 func _on_doc_data_selected(tag: String, label_preview: String) -> void:
 	_handle_inspect_selection(tag, label_preview)
 
@@ -344,10 +438,22 @@ func _evaluate_discrepancy(token_a: String, token_b: String) -> void:
 	if GameManager.active_event == null:
 		return
 
+	# Focus AP Limit Check
+	if current_inspect_focus <= 0:
+		AudioManager.play_discrepancy_fail()
+		inspect_status_panel.visible = true
+		inspect_status_label.text = "⚠️ " + tr("UI_INSPECT_FATIGUED")
+		_trigger_camera_shake(0.15, 3.0)
+		return
+
+	current_inspect_focus -= 1
+	_update_focus_ui()
+
 	var match_viol: Dictionary = GameManager.active_event.find_matching_violation(token_a, token_b)
 
 	if not match_viol.is_empty():
 		# DISCREPANCY DETECTED!
+		consecutive_false_inquiries = 0
 		AudioManager.play_discrepancy_match()
 		_trigger_camera_shake(0.2, 5.0)
 
@@ -361,9 +467,21 @@ func _evaluate_discrepancy(token_a: String, token_b: String) -> void:
 		_update_reject_button_text()
 	else:
 		# NO CONTRADICTION
+		consecutive_false_inquiries += 1
 		AudioManager.play_discrepancy_fail()
 		inspect_status_panel.visible = true
-		inspect_status_label.text = "✗ " + tr("UI_NO_DISCREPANCY")
+
+		if consecutive_false_inquiries >= FALSE_INQUIRY_PENALTY_THRESHOLD:
+			GameManager.apply_resolution({
+				"public_opinion": -2.0,
+				"suspicion": 2.0
+			})
+			_trigger_camera_shake(0.25, 6.0)
+			inspect_status_label.text = "❌ " + tr("UI_FALSE_ACCUSATION_PENALTY")
+		elif consecutive_false_inquiries == FALSE_INQUIRY_WARN_THRESHOLD:
+			inspect_status_label.text = "⚠️ " + tr("UI_FALSE_ACCUSATION_WARN")
+		else:
+			inspect_status_label.text = "✗ " + tr("UI_NO_DISCREPANCY")
 
 
 func _on_violation_uncovered(_violation: Dictionary) -> void:

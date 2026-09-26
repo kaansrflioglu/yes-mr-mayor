@@ -162,6 +162,27 @@ func play_discrepancy_fail() -> void:
 	_play_raw_wav(buffer, int(SAMPLE_RATE))
 
 
+## Plays warm coffee sip / gulp sound effect
+func play_coffee_sip() -> void:
+	var duration: float = 0.32
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var progress: float = float(i) / float(samples)
+		var envelope: float = sin(PI * progress) * exp(-3.5 * progress)
+		var freq1: float = lerpf(340.0, 180.0, progress)
+		var freq2: float = lerpf(680.0, 360.0, progress)
+		var wave: float = sin(2.0 * PI * freq1 * t) * 0.6 + sin(2.0 * PI * freq2 * t) * 0.4
+		var bubble_noise: float = randf_range(-0.15, 0.15) if progress < 0.35 else 0.0
+		var sample_f: float = clampf((wave + bubble_noise) * envelope * 0.75, -1.0, 1.0)
+		buffer.encode_s16(i * 2, int(sample_f * 32767.0))
+
+	_play_raw_wav(buffer, int(SAMPLE_RATE))
+
+
 ## Plays mechanical shutter/click when toggling inspection mode
 func play_inspect_toggle() -> void:
 	var duration: float = 0.12

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://deskview001"]
+[gd_scene load_steps=21 format=3 uid="uid://deskview001"]
 
 [ext_resource type="Script" path="res://scripts/desk/DeskView.gd" id="1_desk"]
 [ext_resource type="PackedScene" path="res://scenes/hud/TopBarHUD.tscn" id="2_hud"]
@@ -95,6 +95,32 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 shadow_color = Color(0, 0, 0, 0.3)
 shadow_size = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_focus_panel"]
+bg_color = Color(0.12, 0.16, 0.22, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(0.3, 0.45, 0.65, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_espresso_btn"]
+bg_color = Color(0.35, 0.22, 0.12, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(0.75, 0.52, 0.25, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_drawer"]
 bg_color = Color(0.14, 0.16, 0.2, 0.95)
@@ -219,10 +245,10 @@ vertical_alignment = 1
 [node name="StampRack" type="VBoxContainer" parent="ShakeRoot"]
 layout_mode = 0
 offset_left = 1490.0
-offset_top = 430.0
+offset_top = 370.0
 offset_right = 1810.0
-offset_bottom = 710.0
-theme_override_constants/separation = 14
+offset_bottom = 810.0
+theme_override_constants/separation = 12
 alignment = 1
 
 [node name="BtnStampApprove" type="Button" parent="ShakeRoot/StampRack"]
@@ -251,6 +277,71 @@ theme_override_colors/font_color = Color(0.85, 0.95, 1, 1)
 theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxFlat_inspect_btn")
 text = "🔍 İNCELE (SPACE)"
+
+[node name="FocusPanel" type="PanelContainer" parent="ShakeRoot/StampRack"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 68)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_focus_panel")
+
+[node name="FocusMargin" type="MarginContainer" parent="ShakeRoot/StampRack/FocusPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 8
+
+[node name="FocusVBox" type="VBoxContainer" parent="ShakeRoot/StampRack/FocusPanel/FocusMargin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="FocusHBox" type="HBoxContainer" parent="ShakeRoot/StampRack/FocusPanel/FocusMargin/FocusVBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="FocusLabel" type="Label" parent="ShakeRoot/StampRack/FocusPanel/FocusMargin/FocusVBox/FocusHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.85, 0.9, 0.96, 1)
+theme_override_font_sizes/font_size = 13
+text = "Zihinsel Odak: 4/4"
+vertical_alignment = 1
+
+[node name="FocusIconsContainer" type="HBoxContainer" parent="ShakeRoot/StampRack/FocusPanel/FocusMargin/FocusVBox/FocusHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Pip1" type="Label" parent="ShakeRoot/StampRack/FocusPanel/FocusMargin/FocusVBox/FocusHBox/FocusIconsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "☕"
+
+[node name="Pip2" type="Label" parent="ShakeRoot/StampRack/FocusPanel/FocusMargin/FocusVBox/FocusHBox/FocusIconsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "☕"
+
+[node name="Pip3" type="Label" parent="ShakeRoot/StampRack/FocusPanel/FocusMargin/FocusVBox/FocusHBox/FocusIconsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "☕"
+
+[node name="Pip4" type="Label" parent="ShakeRoot/StampRack/FocusPanel/FocusMargin/FocusVBox/FocusHBox/FocusIconsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "☕"
+
+[node name="BtnOrderEspresso" type="Button" parent="ShakeRoot/StampRack/FocusPanel/FocusMargin/FocusVBox"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.75, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_espresso_btn")
+text = "☕ Duble Espresso (500 ₺)"
 
 [node name="SafeDrawerPanel" type="PanelContainer" parent="ShakeRoot"]
 unique_name_in_owner = true
