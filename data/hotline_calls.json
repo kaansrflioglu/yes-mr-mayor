@@ -1,0 +1,392 @@
+[
+  {
+    "id": "CALL_PARTY_PAC",
+    "caller_archetype": "party_boss",
+    "caller_name_key": "CALLER_NAME_PARTY_BOSS",
+    "caller_title_key": "CALLER_TITLE_PARTY_BOSS",
+    "message_key": "CALL_PARTY_PAC_MSG",
+    "accept_btn_key": "CALL_PARTY_PAC_ACCEPT",
+    "reject_btn_key": "CALL_PARTY_PAC_REJECT",
+    "effects_accept": {
+      "budget": -30000,
+      "personal_wealth": 0,
+      "public_opinion": 0.0,
+      "suspicion": -20.0,
+      "reveal_violation": false
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 5.0,
+      "suspicion": 0.0,
+      "reveal_violation": false
+    },
+    "min_day": 1,
+    "max_day": 30,
+    "required_flag": ""
+  },
+  {
+    "id": "CALL_PARTY_PATRONAGE",
+    "caller_archetype": "party_boss",
+    "caller_name_key": "CALLER_NAME_PARTY_BOSS",
+    "caller_title_key": "CALLER_TITLE_PARTY_COMMITTEE",
+    "message_key": "CALL_PARTY_PATRONAGE_MSG",
+    "accept_btn_key": "CALL_PARTY_PATRONAGE_ACCEPT",
+    "reject_btn_key": "CALL_PARTY_PATRONAGE_REJECT",
+    "effects_accept": {
+      "budget": -12000,
+      "personal_wealth": 0,
+      "public_opinion": 0.0,
+      "suspicion": -15.0,
+      "reveal_violation": false
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 6.0,
+      "suspicion": 5.0,
+      "reveal_violation": false
+    },
+    "min_day": 5,
+    "max_day": 30,
+    "required_flag": ""
+  },
+  {
+    "id": "CALL_PARTY_EMERGENCY_RALLY",
+    "caller_archetype": "party_boss",
+    "caller_name_key": "CALLER_NAME_PARTY_BOSS",
+    "caller_title_key": "CALLER_TITLE_CAMPAIGN_CHAIR",
+    "message_key": "CALL_PARTY_RALLY_MSG",
+    "accept_btn_key": "CALL_PARTY_RALLY_ACCEPT",
+    "reject_btn_key": "CALL_PARTY_RALLY_REJECT",
+    "effects_accept": {
+      "budget": -25000,
+      "personal_wealth": 0,
+      "public_opinion": 20.0,
+      "suspicion": 0.0,
+      "reveal_violation": false
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": -8.0,
+      "suspicion": 0.0,
+      "reveal_violation": false
+    },
+    "min_day": 12,
+    "max_day": 30,
+    "required_flag": ""
+  },
+  {
+    "id": "CALL_POLICE_RAID",
+    "caller_archetype": "police_chief",
+    "caller_name_key": "CALLER_NAME_POLICE_CHIEF",
+    "caller_title_key": "CALLER_TITLE_POLICE_CHIEF",
+    "message_key": "CALL_POLICE_RAID_MSG",
+    "accept_btn_key": "CALL_POLICE_RAID_ACCEPT",
+    "reject_btn_key": "CALL_POLICE_RAID_REJECT",
+    "effects_accept": {
+      "budget": -15000,
+      "personal_wealth": 0,
+      "public_opinion": -10.0,
+      "suspicion": -10.0,
+      "reveal_violation": false
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 8.0,
+      "suspicion": 5.0,
+      "reveal_violation": false
+    },
+    "min_day": 3,
+    "max_day": 30,
+    "required_flag": ""
+  },
+  {
+    "id": "CALL_POLICE_COVERUP",
+    "caller_archetype": "police_chief",
+    "caller_name_key": "CALLER_NAME_POLICE_CHIEF",
+    "caller_title_key": "CALLER_TITLE_INTERNAL_AFFAIRS",
+    "message_key": "CALL_POLICE_COVERUP_MSG",
+    "accept_btn_key": "CALL_POLICE_COVERUP_ACCEPT",
+    "reject_btn_key": "CALL_POLICE_COVERUP_REJECT",
+    "effects_accept": {
+      "budget": -20000,
+      "personal_wealth": 0,
+      "public_opinion": -8.0,
+      "suspicion": -15.0,
+      "reveal_violation": false
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 12.0,
+      "suspicion": 10.0,
+      "reveal_violation": false
+    },
+    "min_day": 8,
+    "max_day": 30,
+    "required_flag": ""
+  },
+  {
+    "id": "CALL_POLICE_STING_LEAD",
+    "caller_archetype": "police_chief",
+    "caller_name_key": "CALLER_NAME_POLICE_CHIEF",
+    "caller_title_key": "CALLER_TITLE_SPECIAL_BRANCH",
+    "message_key": "CALL_POLICE_STING_MSG",
+    "accept_btn_key": "CALL_POLICE_STING_ACCEPT",
+    "reject_btn_key": "CALL_POLICE_STING_REJECT",
+    "effects_accept": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 0.0,
+      "suspicion": -15.0,
+      "reveal_violation": true
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 0.0,
+      "suspicion": 10.0,
+      "reveal_violation": false
+    },
+    "min_day": 6,
+    "max_day": 30,
+    "required_flag": ""
+  },
+  {
+    "id": "CALL_MAFIA_FIRE_INSPECT",
+    "caller_archetype": "mafia",
+    "caller_name_key": "CALLER_NAME_MAFIA_DON",
+    "caller_title_key": "CALLER_TITLE_MAFIA_CONSULTANT",
+    "message_key": "CALL_MAFIA_FIRE_MSG",
+    "accept_btn_key": "CALL_MAFIA_FIRE_ACCEPT",
+    "reject_btn_key": "CALL_MAFIA_FIRE_REJECT",
+    "effects_accept": {
+      "budget": 0,
+      "personal_wealth": 45000,
+      "public_opinion": -5.0,
+      "suspicion": 15.0,
+      "reveal_violation": false
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 10.0,
+      "suspicion": -5.0,
+      "reveal_violation": false
+    },
+    "min_day": 4,
+    "max_day": 30,
+    "required_flag": ""
+  },
+  {
+    "id": "CALL_MAFIA_PORT_TENDERS",
+    "caller_archetype": "mafia",
+    "caller_name_key": "CALLER_NAME_MAFIA_DON",
+    "caller_title_key": "CALLER_TITLE_FALCONE_SYNDICATE",
+    "message_key": "CALL_MAFIA_PORT_MSG",
+    "accept_btn_key": "CALL_MAFIA_PORT_ACCEPT",
+    "reject_btn_key": "CALL_MAFIA_PORT_REJECT",
+    "effects_accept": {
+      "budget": 0,
+      "personal_wealth": 60000,
+      "public_opinion": -12.0,
+      "suspicion": 20.0,
+      "reveal_violation": false
+    },
+    "effects_reject": {
+      "budget": -10000,
+      "personal_wealth": 0,
+      "public_opinion": 8.0,
+      "suspicion": 0.0,
+      "reveal_violation": false
+    },
+    "min_day": 10,
+    "max_day": 30,
+    "required_flag": ""
+  },
+  {
+    "id": "CALL_MAFIA_PROTECTION_PAYOFF",
+    "caller_archetype": "mafia",
+    "caller_name_key": "CALLER_NAME_MAFIA_DON",
+    "caller_title_key": "CALLER_TITLE_DISTRICT_PROTECTOR",
+    "message_key": "CALL_MAFIA_PROTECT_MSG",
+    "accept_btn_key": "CALL_MAFIA_PROTECT_ACCEPT",
+    "reject_btn_key": "CALL_MAFIA_PROTECT_REJECT",
+    "effects_accept": {
+      "budget": -35000,
+      "personal_wealth": 0,
+      "public_opinion": 15.0,
+      "suspicion": 10.0,
+      "reveal_violation": false
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": -15.0,
+      "suspicion": 0.0,
+      "reveal_violation": false
+    },
+    "min_day": 14,
+    "max_day": 30,
+    "required_flag": ""
+  },
+  {
+    "id": "CALL_TABLOID_BLACKMAIL",
+    "caller_archetype": "journalist",
+    "caller_name_key": "CALLER_NAME_REPORTER",
+    "caller_title_key": "CALLER_TITLE_CHIEF_INVESTIGATIVE",
+    "message_key": "CALL_TABLOID_BLACKMAIL_MSG",
+    "accept_btn_key": "CALL_TABLOID_BLACKMAIL_ACCEPT",
+    "reject_btn_key": "CALL_TABLOID_BLACKMAIL_REJECT",
+    "effects_accept": {
+      "budget": 0,
+      "personal_wealth": -25000,
+      "public_opinion": 0.0,
+      "suspicion": -15.0,
+      "reveal_violation": false
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": -18.0,
+      "suspicion": 10.0,
+      "reveal_violation": false
+    },
+    "min_day": 5,
+    "max_day": 30,
+    "required_flag": ""
+  },
+  {
+    "id": "CALL_TABLOID_SMEAR_RIVAL",
+    "caller_archetype": "journalist",
+    "caller_name_key": "CALLER_NAME_REPORTER",
+    "caller_title_key": "CALLER_TITLE_TABLOID_EDITOR",
+    "message_key": "CALL_TABLOID_SMEAR_MSG",
+    "accept_btn_key": "CALL_TABLOID_SMEAR_ACCEPT",
+    "reject_btn_key": "CALL_TABLOID_SMEAR_REJECT",
+    "effects_accept": {
+      "budget": -15000,
+      "personal_wealth": 0,
+      "public_opinion": -5.0,
+      "suspicion": -20.0,
+      "reveal_violation": false
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 3.0,
+      "suspicion": 5.0,
+      "reveal_violation": false
+    },
+    "min_day": 9,
+    "max_day": 30,
+    "required_flag": ""
+  },
+  {
+    "id": "CALL_ENGINEER_LIQUEFACTION",
+    "caller_archetype": "chief_engineer",
+    "caller_name_key": "CALLER_NAME_ENGINEER",
+    "caller_title_key": "CALLER_TITLE_CHIEF_ENGINEER",
+    "message_key": "CALL_ENGINEER_LIQUEFACTION_MSG",
+    "accept_btn_key": "CALL_ENGINEER_LIQUEFACTION_ACCEPT",
+    "reject_btn_key": "CALL_ENGINEER_LIQUEFACTION_REJECT",
+    "effects_accept": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 0.0,
+      "suspicion": -5.0,
+      "reveal_violation": true
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": -5.0,
+      "suspicion": 0.0,
+      "reveal_violation": false
+    },
+    "min_day": 1,
+    "max_day": 30,
+    "required_flag": ""
+  },
+  {
+    "id": "CALL_ENGINEER_CRACKED_BRIDGE",
+    "caller_archetype": "chief_engineer",
+    "caller_name_key": "CALLER_NAME_ENGINEER",
+    "caller_title_key": "CALLER_TITLE_INFRASTRUCTURE_DIRECTOR",
+    "message_key": "CALL_ENGINEER_BRIDGE_MSG",
+    "accept_btn_key": "CALL_ENGINEER_BRIDGE_ACCEPT",
+    "reject_btn_key": "CALL_ENGINEER_BRIDGE_REJECT",
+    "effects_accept": {
+      "budget": -20000,
+      "personal_wealth": 0,
+      "public_opinion": 15.0,
+      "suspicion": -5.0,
+      "reveal_violation": false
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": -25.0,
+      "suspicion": 0.0,
+      "reveal_violation": false
+    },
+    "min_day": 7,
+    "max_day": 30,
+    "required_flag": ""
+  },
+  {
+    "id": "CALL_WHISTLEBLOWER_FORGED_SEAL",
+    "caller_archetype": "whistleblower",
+    "caller_name_key": "CALLER_NAME_WHISTLEBLOWER",
+    "caller_title_key": "CALLER_TITLE_ARCHIVES_CLERK",
+    "message_key": "CALL_WHISTLEBLOWER_SEAL_MSG",
+    "accept_btn_key": "CALL_WHISTLEBLOWER_SEAL_ACCEPT",
+    "reject_btn_key": "CALL_WHISTLEBLOWER_SEAL_REJECT",
+    "effects_accept": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 0.0,
+      "suspicion": -5.0,
+      "reveal_violation": true
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 0.0,
+      "suspicion": 0.0,
+      "reveal_violation": false
+    },
+    "min_day": 1,
+    "max_day": 30,
+    "required_flag": ""
+  },
+  {
+    "id": "CALL_WHISTLEBLOWER_GHOST_COMPANY",
+    "caller_archetype": "whistleblower",
+    "caller_name_key": "CALLER_NAME_WHISTLEBLOWER",
+    "caller_title_key": "CALLER_TITLE_FINANCE_INSIDER",
+    "message_key": "CALL_WHISTLEBLOWER_GHOST_MSG",
+    "accept_btn_key": "CALL_WHISTLEBLOWER_GHOST_ACCEPT",
+    "reject_btn_key": "CALL_WHISTLEBLOWER_GHOST_REJECT",
+    "effects_accept": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 0.0,
+      "suspicion": -5.0,
+      "reveal_violation": true
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 0.0,
+      "suspicion": 5.0,
+      "reveal_violation": false
+    },
+    "min_day": 6,
+    "max_day": 30,
+    "required_flag": ""
+  }
+]
