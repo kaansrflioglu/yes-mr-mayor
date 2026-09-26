@@ -178,9 +178,9 @@ To avoid overwhelming development, these enhancements are categorized into three
 - [x] **Visual Focus Counter:** Display 3 coffee cup / stamp icons next to the Inspect Mode toggle.
 
 ### Milestone 2: Tactile Immersion (Core Polish)
-- [ ] **Shift Time Clock:** Add an 09:00–17:00 desk clock where each inspection consumes 15 minutes.
-- [ ] **UV Blacklight Tool:** Implement a toggleable shader/overlay revealing hidden watermarks on forged seals and dirty bribe envelopes.
-- [ ] **Red Phone Inquiries:** Allow the player to click the Red Telephone to spend $1,000 and reveal 1 guaranteed violation.
+- [x] **Shift Time Clock:** Add an 09:00–17:00 desk clock where each inspection consumes 15 minutes.
+- [x] **UV Blacklight Tool:** Implement a toggleable shader/overlay revealing hidden watermarks on forged seals and dirty bribe envelopes.
+- [x] **Red Phone Inquiries:** Allow the player to click the Red Telephone to spend $1,000 and reveal 1 guaranteed violation.
 
 ### Milestone 3: Deep Meta & Narrative Twists (Full Replayability)
 - [ ] **Federal Sting Bribes:** Trapped envelopes with UV-detectable ink.

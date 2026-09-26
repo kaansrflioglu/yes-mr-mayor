@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://q3td61mq6fca"]
+[gd_scene load_steps=13 format=3 uid="uid://q3td61mq6fca"]
 
 [ext_resource type="Script" path="res://scripts/desk/DocumentItem.gd" id="1_doc"]
 
@@ -113,6 +113,20 @@ corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uv_overlay"]
+bg_color = Color(0.42, 0.12, 0.65, 0.18)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.75, 0.35, 1, 0.85)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0.65, 0.15, 0.95, 0.25)
+shadow_size = 12
 
 [node name="DocumentItem" type="PanelContainer"]
 custom_minimum_size = Vector2(720, 800)
@@ -309,12 +323,23 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 6
 
-[node name="ExpiryLabel" type="Label" parent="Margin/VBox/PagesContainer/ApplicationPage/HBox2/AppCardExpiry/M_Exp"]
+[node name="ExpVBox" type="VBoxContainer" parent="Margin/VBox/PagesContainer/ApplicationPage/HBox2/AppCardExpiry/M_Exp"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="ExpiryLabel" type="Label" parent="Margin/VBox/PagesContainer/ApplicationPage/HBox2/AppCardExpiry/M_Exp/ExpVBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.18, 0.2, 0.28, 1)
 theme_override_font_sizes/font_size = 13
 text = "Expiry: 2026-12-31"
+autowrap_mode = 3
+
+[node name="UVExpiryLabel" type="Label" parent="Margin/VBox/PagesContainer/ApplicationPage/HBox2/AppCardExpiry/M_Exp/ExpVBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
 autowrap_mode = 3
 
 [node name="AppCardSeal" type="PanelContainer" parent="Margin/VBox/PagesContainer/ApplicationPage"]
@@ -329,12 +354,23 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 8
 
-[node name="SealLabel" type="Label" parent="Margin/VBox/PagesContainer/ApplicationPage/AppCardSeal/M_Seal"]
+[node name="SealVBox" type="VBoxContainer" parent="Margin/VBox/PagesContainer/ApplicationPage/AppCardSeal/M_Seal"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="SealLabel" type="Label" parent="Margin/VBox/PagesContainer/ApplicationPage/AppCardSeal/M_Seal/SealVBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.1, 0.45, 0.2, 1)
 theme_override_font_sizes/font_size = 13
 text = "Seal: Ministry of Urban Planning"
+autowrap_mode = 3
+
+[node name="UVSealLabel" type="Label" parent="Margin/VBox/PagesContainer/ApplicationPage/AppCardSeal/M_Seal/SealVBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
 autowrap_mode = 3
 
 [node name="BodyTextLabel" type="Label" parent="Margin/VBox/PagesContainer/ApplicationPage"]
@@ -531,6 +567,12 @@ theme_override_font_sizes/font_size = 15
 text = "Bribery Offer: $50,000"
 vertical_alignment = 1
 
+[node name="UVBribeLabel" type="Label" parent="Margin/VBox/BribeContainer/BribeMargin/BribeHBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+
 [node name="BtnPocketBribe" type="Button" parent="Margin/VBox/BribeContainer/BribeMargin/BribeHBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(130, 38)
@@ -558,3 +600,10 @@ theme_override_font_sizes/font_size = 38
 text = "APPROVED"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="UVOverlay" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_uv_overlay")

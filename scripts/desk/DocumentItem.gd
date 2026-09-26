@@ -64,16 +64,27 @@ signal violation_uncovered(violation: Dictionary)
 @onready var stamp_overlay: PanelContainer = %StampOverlay
 @onready var stamp_label: Label = %StampLabel
 
+# UV Blacklight
+@onready var uv_overlay: Control = %UVOverlay if has_node("%UVOverlay") else null
+@onready var uv_seal_label: Label = %UVSealLabel if has_node("%UVSealLabel") else null
+@onready var uv_bribe_label: Label = %UVBribeLabel if has_node("%UVBribeLabel") else null
+@onready var uv_expiry_label: Label = (
+	%UVExpiryLabel if has_node("%UVExpiryLabel") else null
+)
+
 var current_event: EventData = null
 var has_pocketed_bribe: bool = false
 var is_stamped: bool = false
 var is_inspect_mode: bool = false
+var is_uv_active: bool = false
 var discovered_violations: Array[Dictionary] = []
 
 
 func _ready() -> void:
 	stamp_overlay.visible = false
 	violation_alert_box.visible = false
+	if uv_overlay != null:
+		uv_overlay.visible = false
 	btn_pocket_bribe.pressed.connect(_on_pocket_bribe_pressed)
 
 	tab_btn_app.pressed.connect(func(): _switch_dossier_tab(0))
@@ -91,6 +102,7 @@ func setup_event(event: EventData) -> void:
 	stamp_overlay.visible = false
 	violation_alert_box.visible = false
 	discovered_violations.clear()
+	_update_uv_watermarks()
 
 	header_label.text = tr("UI_PETITION_HEADER")
 	category_badge.text = event.category.to_upper()
@@ -330,3 +342,59 @@ func _format_money(amount: int) -> String:
 		if count % 3 == 0 and i > 0:
 			out = "," + out
 	return out
+
+
+## Toggles tactical UV blacklight on the document
+func set_uv_blacklight(active: bool) -> void:
+	is_uv_active = active
+	if uv_overlay != null:
+		uv_overlay.visible = active
+	_update_uv_watermarks()
+
+
+## Updates UV ink markings based on event data
+func _update_uv_watermarks() -> void:
+	if not is_uv_active:
+		if uv_seal_label != null:
+			uv_seal_label.visible = false
+		if uv_bribe_label != null:
+			uv_bribe_label.visible = false
+		if uv_expiry_label != null:
+			uv_expiry_label.visible = false
+		return
+
+	if current_event == null:
+		return
+
+	var has_forged_seal: bool = false
+	var has_expired_permit: bool = false
+	for viol in current_event.violations:
+		var v_id: String = str(viol.get("id", ""))
+		if v_id == "VIOL_FORGED_SEAL":
+			has_forged_seal = true
+		elif v_id == "VIOL_PERMIT_EXPIRED":
+			has_expired_permit = true
+
+	if uv_seal_label != null:
+		uv_seal_label.visible = true
+		if has_forged_seal:
+			uv_seal_label.text = tr("UI_UV_FORGED_SEAL")
+			uv_seal_label.modulate = Color(1.0, 0.25, 0.45, 1.0)
+		else:
+			uv_seal_label.text = tr("UI_UV_AUTHENTIC_SEAL")
+			uv_seal_label.modulate = Color(0.25, 1.0, 0.65, 1.0)
+
+	if uv_bribe_label != null and current_event.has_bribe():
+		uv_bribe_label.visible = true
+		if current_event.has_violations():
+			uv_bribe_label.text = tr("UI_UV_MARKED_BRIBE")
+			uv_bribe_label.modulate = Color(1.0, 0.35, 0.25, 1.0)
+		else:
+			uv_bribe_label.text = tr("UI_UV_CLEAN_BRIBE")
+			uv_bribe_label.modulate = Color(0.35, 0.9, 1.0, 1.0)
+
+	if uv_expiry_label != null:
+		uv_expiry_label.visible = has_expired_permit
+		if has_expired_permit:
+			uv_expiry_label.text = tr("UI_UV_ALTERED_DATA")
+			uv_expiry_label.modulate = Color(1.0, 0.25, 0.45, 1.0)

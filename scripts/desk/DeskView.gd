@@ -26,6 +26,9 @@ const GAME_OVER_SCENE: PackedScene = preload("res://scenes/summary/GameOverModal
 @onready var btn_order_espresso: Button = (
 	%BtnOrderEspresso if has_node("%BtnOrderEspresso") else null
 )
+@onready var btn_toggle_uv: Button = (
+	%BtnToggleUV if has_node("%BtnToggleUV") else null
+)
 
 @onready var safe_drawer_panel: PanelContainer = %SafeDrawerPanel
 @onready var drawer_label: Label = %DrawerLabel
@@ -53,6 +56,19 @@ const ESPRESSO_SUSPICION_GAIN: float = 1.5
 var current_inspect_focus: int = MAX_INSPECT_FOCUS
 var consecutive_false_inquiries: int = 0
 
+# Shift Time Clock & Tactile Immersion Mechanics (Milestone 2)
+const SHIFT_START_MINUTES: int = 9 * 60 # 09:00 AM (540 mins)
+const SHIFT_END_MINUTES: int = 17 * 60   # 05:00 PM (1020 mins)
+const INSPECT_TIME_COST_MINUTES: int = 15
+const PHONE_INQUIRY_TIME_COST_MINUTES: int = 30
+const UV_TOGGLE_TIME_COST_MINUTES: int = 5
+const OVERTIME_FINE_PER_DOC: int = 5000
+const OVERTIME_APPROVAL_PENALTY_PER_DOC: float = 5.0
+
+var current_shift_minutes: int = SHIFT_START_MINUTES
+var is_overtime: bool = false
+var is_uv_active: bool = false
+
 var active_document: Control = null
 var active_summary: Control = null
 var active_game_over: Control = null
@@ -76,6 +92,12 @@ func _ready() -> void:
 
 	if btn_order_espresso != null:
 		btn_order_espresso.pressed.connect(_on_order_espresso_pressed)
+
+	if btn_toggle_uv != null:
+		btn_toggle_uv.pressed.connect(toggle_uv_blacklight)
+
+	if red_telephone != null and red_telephone.has_signal("inspector_tip_requested"):
+		red_telephone.inspector_tip_requested.connect(_on_inspector_tip_requested)
 
 	top_bar_hud.settings_toggle_requested.connect(_toggle_settings)
 	top_bar_hud.pause_toggle_requested.connect(_toggle_pause_menu)
@@ -111,6 +133,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode == KEY_SPACE:
 			_toggle_inspect_mode()
+			get_viewport().set_input_as_handled()
+		elif event.keycode == KEY_U:
+			toggle_uv_blacklight()
 			get_viewport().set_input_as_handled()
 		elif event.keycode == KEY_TAB:
 			_toggle_rulebook()
@@ -231,6 +256,9 @@ func _update_locale_texts(_loc: String) -> void:
 	if is_inspect_mode:
 		inspect_status_label.text = tr("UI_INSPECT_ACTIVE")
 	_update_focus_ui()
+	if btn_toggle_uv != null:
+		btn_toggle_uv.text = tr("UI_UV_ACTIVE") if is_uv_active else tr("UI_UV_TOOL")
+	_update_clock_ui()
 
 
 func _update_reject_button_text() -> void:
@@ -247,6 +275,9 @@ func _update_reject_button_text() -> void:
 func _start_or_continue_shift() -> void:
 	if EventManager.daily_queue.is_empty():
 		EventManager.prepare_daily_queue(4)
+		current_shift_minutes = SHIFT_START_MINUTES
+		is_overtime = false
+		_update_clock_ui()
 	_present_next_document()
 
 
@@ -278,6 +309,7 @@ func _present_next_document() -> void:
 	active_document = doc_instance
 
 	doc_instance.setup_event(next_event)
+	doc_instance.set_uv_blacklight(is_uv_active)
 	GameManager.present_event(next_event)
 
 	# Connect inspection signals
@@ -399,6 +431,94 @@ func present_next_document() -> void:
 	_present_next_document()
 
 
+## Advances the shift clock and updates display
+func advance_shift_time(minutes: int) -> void:
+	current_shift_minutes += minutes
+	if current_shift_minutes >= SHIFT_END_MINUTES and not is_overtime:
+		is_overtime = true
+		inspect_status_panel.visible = true
+		inspect_status_label.text = "⚠️ " + tr("UI_SHIFT_OVERTIME")
+		_trigger_camera_shake(0.2, 5.0)
+
+	if AudioManager.has_method("play_clock_tick"):
+		AudioManager.play_clock_tick()
+
+	_update_clock_ui()
+
+
+## Returns human-readable clock representation, e.g. "09:15 AM"
+func get_formatted_shift_time() -> String:
+	var total_m: int = current_shift_minutes
+	var hrs: int = (total_m / 60)
+	var mins: int = total_m % 60
+	var is_pm: bool = hrs >= 12
+	var display_hr: int = hrs
+	if display_hr > 12:
+		display_hr -= 12
+	var period: String = "PM" if is_pm else "AM"
+	var base_time: String = "%02d:%02d %s" % [display_hr, mins, period]
+	if is_overtime or current_shift_minutes >= SHIFT_END_MINUTES:
+		return base_time + " (!)"
+	return base_time
+
+
+func _update_clock_ui() -> void:
+	if top_bar_hud != null and top_bar_hud.has_method("set_shift_time"):
+		top_bar_hud.set_shift_time(get_formatted_shift_time(), is_overtime)
+
+
+## Toggles tactical UV blacklight on the active document
+func toggle_uv_blacklight() -> void:
+	is_uv_active = not is_uv_active
+	if AudioManager.has_method("play_uv_toggle"):
+		AudioManager.play_uv_toggle()
+	advance_shift_time(UV_TOGGLE_TIME_COST_MINUTES)
+
+	if btn_toggle_uv != null:
+		btn_toggle_uv.text = tr("UI_UV_ACTIVE") if is_uv_active else tr("UI_UV_TOOL")
+		btn_toggle_uv.modulate = (
+			Color(1.2, 0.8, 1.5, 1.0) if is_uv_active else Color.WHITE
+		)
+
+	if active_document != null and active_document.has_method("set_uv_blacklight"):
+		active_document.set_uv_blacklight(is_uv_active)
+
+
+## Handles tipline consultation tip from Senior Building Inspector
+func _on_inspector_tip_requested() -> void:
+	advance_shift_time(PHONE_INQUIRY_TIME_COST_MINUTES)
+	if GameManager.active_event == null:
+		return
+
+	var event: EventData = GameManager.active_event
+	var found_viol: Dictionary = {}
+	if event.has_violations():
+		for viol in event.violations:
+			var already_found: bool = false
+			if active_document != null and "discovered_violations" in active_document:
+				for d in active_document.discovered_violations:
+					if d.get("id") == viol.get("id"):
+						already_found = true
+						break
+			if not already_found:
+				found_viol = viol
+				break
+
+	if not found_viol.is_empty():
+		if active_document != null and active_document.has_method("mark_violation_found"):
+			active_document.mark_violation_found(found_viol)
+		var viol_name: String = tr(str(found_viol.get("name_key", "VIOL_HEIGHT_LIMIT")))
+		inspect_status_panel.visible = true
+		var msg_text: String = tr("UI_HOTLINE_TIP_FOUND").format({"violation": viol_name})
+		inspect_status_label.text = "☎️ " + msg_text
+		AudioManager.play_discrepancy_match()
+		_update_reject_button_text()
+	else:
+		inspect_status_panel.visible = true
+		inspect_status_label.text = "☎️ " + tr("UI_HOTLINE_TIP_CLEAN")
+		AudioManager.play_discrepancy_fail()
+
+
 func _on_doc_data_selected(tag: String, label_preview: String) -> void:
 	_handle_inspect_selection(tag, label_preview)
 
@@ -448,6 +568,7 @@ func _evaluate_discrepancy(token_a: String, token_b: String) -> void:
 
 	current_inspect_focus -= 1
 	_update_focus_ui()
+	advance_shift_time(INSPECT_TIME_COST_MINUTES)
 
 	var match_viol: Dictionary = GameManager.active_event.find_matching_violation(token_a, token_b)
 
@@ -653,6 +774,9 @@ func _on_next_day_pressed() -> void:
 
 	GameManager.advance_day()
 	EventManager.prepare_daily_queue(4)
+	current_shift_minutes = SHIFT_START_MINUTES
+	is_overtime = false
+	_update_clock_ui()
 	_present_next_document()
 
 
@@ -695,6 +819,9 @@ func _on_restart_mandate() -> void:
 	GameManager.start_new_game()
 	EventManager.reset_deck()
 	EventManager.prepare_daily_queue(4)
+	current_shift_minutes = SHIFT_START_MINUTES
+	is_overtime = false
+	_update_clock_ui()
 	_present_next_document()
 
 

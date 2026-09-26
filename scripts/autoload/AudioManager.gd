@@ -218,6 +218,68 @@ func play_page_flip() -> void:
 	_play_raw_wav(buffer, int(SAMPLE_RATE))
 
 
+## Plays mechanical office clock tick
+func play_clock_tick() -> void:
+	var duration: float = 0.06
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var progress: float = float(i) / float(samples)
+		var envelope: float = exp(-45.0 * progress)
+		var click: float = sin(2.0 * PI * 1850.0 * t) * envelope
+		var sample_f: float = clampf(click * 0.45, -1.0, 1.0)
+		buffer.encode_s16(i * 2, int(sample_f * 32767.0))
+
+	_play_raw_wav(buffer, int(SAMPLE_RATE))
+
+
+## Plays fluorescent UV tube hum & switch click
+func play_uv_toggle() -> void:
+	var duration: float = 0.2
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var progress: float = float(i) / float(samples)
+		var envelope: float = exp(-12.0 * progress)
+		var click: float = (
+			sin(2.0 * PI * 920.0 * t) * 0.4 if progress < 0.2 else 0.0
+		)
+		var hum: float = sin(2.0 * PI * 120.0 * t) * 0.35 * envelope
+		var sample_f: float = clampf((click + hum) * 0.7, -1.0, 1.0)
+		buffer.encode_s16(i * 2, int(sample_f * 32767.0))
+
+	_play_raw_wav(buffer, int(SAMPLE_RATE))
+
+
+## Plays rotary telephone dial pulse / tone
+func play_phone_dial() -> void:
+	var duration: float = 0.22
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var progress: float = float(i) / float(samples)
+		var envelope: float = exp(-14.0 * progress)
+		var dtmf: float = (
+			sin(2.0 * PI * 770.0 * t) * 0.5 + sin(2.0 * PI * 1336.0 * t) * 0.5
+		) * envelope
+		var ratchet: float = (
+			randf_range(-0.25, 0.25) * envelope if progress < 0.25 else 0.0
+		)
+		var sample_f: float = clampf((dtmf * 0.6 + ratchet * 0.4), -1.0, 1.0)
+		buffer.encode_s16(i * 2, int(sample_f * 32767.0))
+
+	_play_raw_wav(buffer, int(SAMPLE_RATE))
+
+
 ## Helper to build an AudioStreamWAV from raw 16-bit PCM bytes
 func _play_raw_wav(data: PackedByteArray, rate: int) -> void:
 	var stream := AudioStreamWAV.new()

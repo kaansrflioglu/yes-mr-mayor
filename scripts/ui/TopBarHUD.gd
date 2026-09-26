@@ -15,6 +15,7 @@ signal pause_toggle_requested
 @onready var suspicion_bar: ProgressBar = %SuspicionBar
 @onready var suspicion_label: Label = %SuspicionLabel
 @onready var day_label: Label = %DayLabel
+@onready var clock_label: Label = %ClockLabel if has_node("%ClockLabel") else null
 
 @onready var btn_settings: Button = %BtnSettings
 @onready var btn_pause: Button = %BtnPause
@@ -134,3 +135,13 @@ func _format_money(amount: int) -> String:
 		if count % 3 == 0 and i > 0:
 			out = "," + out
 	return sign_str + out
+
+
+## Updates the shift clock display and overtime highlight
+func set_shift_time(formatted_time: String, is_overtime: bool) -> void:
+	if clock_label != null:
+		clock_label.text = "🕒 " + formatted_time
+		if is_overtime:
+			clock_label.modulate = Color(1.0, 0.35, 0.35, 1.0)
+		else:
+			clock_label.modulate = Color(0.85, 0.92, 1.0, 1.0)

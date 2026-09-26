@@ -157,6 +157,9 @@ func get_news_headline(approved: bool) -> String:
 func has_violations() -> bool:
 	return not violations.is_empty()
 
+func has_bribe() -> bool:
+	return bribe_offered > 0
+
 func get_violations_count() -> int:
 	return violations.size()
 

@@ -4,6 +4,9 @@ extends Control
 ## Rings randomly for high-stakes split-second deals from party bosses.
 
 signal call_resolved(accepted: bool)
+signal inspector_tip_requested
+
+const CONSULT_FEE: int = 1000
 
 @onready var phone_button: Button = %PhoneButton
 @onready var ring_badge: Label = %RingBadge
@@ -14,6 +17,7 @@ signal call_resolved(accepted: bool)
 @onready var btn_hangup: Button = %BtnHangup
 
 var is_ringing: bool = false
+var is_consultation_mode: bool = false
 var _wobble_tween: Tween
 
 
@@ -28,10 +32,16 @@ func _ready() -> void:
 
 
 func _update_locale_texts() -> void:
-	caller_label.text = tr("UI_HOTLINE_TITLE")
-	message_label.text = tr("UI_HOTLINE_MSG")
-	btn_accept.text = tr("UI_HOTLINE_ACCEPT")
-	btn_hangup.text = tr("UI_HOTLINE_HANGUP")
+	if is_consultation_mode:
+		caller_label.text = tr("UI_HOTLINE_INQUIRY_TITLE")
+		message_label.text = tr("UI_HOTLINE_INQUIRY_MSG")
+		btn_accept.text = tr("UI_HOTLINE_BTN_INSPECT")
+		btn_hangup.text = tr("UI_HOTLINE_HANGUP")
+	else:
+		caller_label.text = tr("UI_HOTLINE_TITLE")
+		message_label.text = tr("UI_HOTLINE_MSG")
+		btn_accept.text = tr("UI_HOTLINE_ACCEPT")
+		btn_hangup.text = tr("UI_HOTLINE_HANGUP")
 	ring_badge.text = tr("UI_HOTLINE_RING")
 
 
@@ -39,6 +49,8 @@ func _update_locale_texts() -> void:
 func ring_telephone() -> void:
 	if is_ringing or dialog_panel.visible:
 		return
+
+	is_consultation_mode = false
 
 	is_ringing = true
 	ring_badge.visible = true
@@ -57,7 +69,10 @@ func _start_wobble_animation() -> void:
 
 
 func _on_phone_clicked() -> void:
-	answer_call()
+	if is_ringing:
+		answer_call()
+	else:
+		open_consultation_dialog()
 
 
 ## Public method to answer the ringing hotline
@@ -68,8 +83,17 @@ func answer_call() -> void:
 		if _wobble_tween and _wobble_tween.is_valid():
 			_wobble_tween.kill()
 		phone_button.rotation = 0.0
-
+		is_consultation_mode = false
 		_open_call_dialog()
+
+
+## Opens the tipline consultation dialog
+func open_consultation_dialog() -> void:
+	if dialog_panel.visible:
+		dialog_panel.visible = false
+		return
+	is_consultation_mode = true
+	_open_call_dialog()
 
 
 func _open_call_dialog() -> void:
@@ -102,7 +126,24 @@ func _ensure_dialog_on_screen() -> void:
 
 
 func _on_accept_pressed() -> void:
-	accept_deal()
+	if is_consultation_mode:
+		consult_inspector()
+	else:
+		accept_deal()
+
+
+## Public method to consult the Building Inspector for a guaranteed tip
+func consult_inspector() -> bool:
+	if GameManager.city_budget < CONSULT_FEE:
+		return false
+	dialog_panel.visible = false
+	is_consultation_mode = false
+	GameManager.city_budget -= CONSULT_FEE
+	GameManager.stats_changed.emit()
+	if AudioManager.has_method("play_phone_dial"):
+		AudioManager.play_phone_dial()
+	inspector_tip_requested.emit()
+	return true
 
 
 ## Public method to accept the party boss deal
