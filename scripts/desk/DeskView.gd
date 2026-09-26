@@ -349,6 +349,9 @@ func _present_next_document() -> void:
 			_set_stamps_enabled(true)
 		is_processing_decision = false
 
+		# Check Audit Immunity Leak intel
+		_check_audit_intel_leak(next_event)
+
 		# 35% chance to trigger red emergency phone ringing
 		if randf() < 0.35 and red_telephone != null:
 			red_telephone.ring_telephone()
@@ -645,8 +648,14 @@ func _execute_stamping(approved: bool) -> void:
 	if is_inspect_mode:
 		_toggle_inspect_mode()
 
-	# Audio feedback: Heavy physical stamp thud
-	AudioManager.play_stamp_thud(approved)
+	# Audio feedback: Gold stamp clang or heavy physical stamp thud
+	if GameManager != null and GameManager.event_flags.get("FLAG_GOLD_STAMP_UNLOCKED", false):
+		if AudioManager != null and AudioManager.has_method("play_gold_stamp"):
+			AudioManager.play_gold_stamp()
+		else:
+			AudioManager.play_stamp_thud(approved)
+	else:
+		AudioManager.play_stamp_thud(approved)
 
 	# Micro-camera shake on desk
 	_trigger_camera_shake(0.25, 6.0)
@@ -764,6 +773,40 @@ func _on_drawer_gui_input(event: InputEvent) -> void:
 func open_offshore_ledger() -> void:
 	if offshore_ledger_modal != null and offshore_ledger_modal.has_method("open"):
 		offshore_ledger_modal.open()
+
+
+## Checks if Audit Immunity Leak intel is active and reveals violations on incoming documents
+func _check_audit_intel_leak(event: EventData) -> void:
+	if event == null:
+		return
+	var charges: int = int(GameManager.event_flags.get("AUDIT_LEAK_REMAINING", 0))
+	if charges <= 0:
+		return
+	if not event.has_violations():
+		return
+
+	# Consume 1 charge for this violating document
+	charges -= 1
+	GameManager.event_flags["AUDIT_LEAK_REMAINING"] = charges
+	GameManager.notify_stats_changed()
+
+	# Auto-reveal first hidden violation
+	var found_viol: Dictionary = event.violations[0]
+	if active_document != null and active_document.has_method("mark_violation_found"):
+		active_document.mark_violation_found(found_viol)
+	if active_document != null and active_document.has_method("highlight_suspicious_field"):
+		var tags: Array = found_viol.get("tags", [])
+		var first_tag: String = str(tags[0]) if not tags.is_empty() else ""
+		active_document.highlight_suspicious_field(first_tag)
+
+	inspect_status_panel.visible = true
+	var viol_name: String = tr(str(found_viol.get("name_key", "VIOL_HEIGHT_LIMIT")))
+	inspect_status_label.text = "🕵️ " + tr("UI_AUDIT_LEAK_TRIGGERED").format({
+		"violation": viol_name,
+		"remaining": charges
+	})
+	AudioManager.play_discrepancy_match()
+	_update_reject_button_text()
 
 
 func _on_bribe_pocketed(amount: int) -> void:

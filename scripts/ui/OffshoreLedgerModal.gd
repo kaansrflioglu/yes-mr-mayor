@@ -11,6 +11,36 @@ signal pr_campaign_purchased(cost: int, opinion_gain: float, scandal_triggered: 
 signal audit_leak_purchased(cost: int)
 signal luxury_item_purchased(item_id: String, cost: int)
 
+const LUXURY_CATALOG: Array[Dictionary] = [
+	{
+		"id": "cigar_box",
+		"cost": 15000,
+		"flag": "FLAG_CIGAR_BOX_UNLOCKED",
+		"title_key": "UI_LUXURY_CIGAR_TITLE",
+		"desc_key": "UI_LUXURY_CIGAR_DESC",
+		"effect_key": "UI_LUXURY_CIGAR_EFFECT",
+		"icon": "🚬"
+	},
+	{
+		"id": "yacht_brochure",
+		"cost": 25000,
+		"flag": "FLAG_YACHT_BROCHURE_UNLOCKED",
+		"title_key": "UI_LUXURY_YACHT_TITLE",
+		"desc_key": "UI_LUXURY_YACHT_DESC",
+		"effect_key": "UI_LUXURY_YACHT_EFFECT",
+		"icon": "🛥️"
+	},
+	{
+		"id": "gold_stamp",
+		"cost": 50000,
+		"flag": "FLAG_GOLD_STAMP_UNLOCKED",
+		"title_key": "UI_LUXURY_GOLD_TITLE",
+		"desc_key": "UI_LUXURY_GOLD_DESC",
+		"effect_key": "UI_LUXURY_GOLD_EFFECT",
+		"icon": "👑"
+	}
+]
+
 @onready var backdrop: ColorRect = %Backdrop
 @onready var modal_panel: PanelContainer = %ModalPanel
 @onready var title_label: Label = %TitleLabel
@@ -40,6 +70,7 @@ signal luxury_item_purchased(item_id: String, cost: int)
 @onready var btn_buy_audit: Button = %BtnBuyAudit
 
 # Card 4: Desk Luxury
+@onready var luxury_icon: Label = %LuxuryIcon if has_node("%LuxuryIcon") else null
 @onready var luxury_title: Label = %LuxuryTitle
 @onready var luxury_desc: Label = %LuxuryDesc
 @onready var luxury_effect: Label = %LuxuryEffect
@@ -57,7 +88,8 @@ var _status_tween: Tween = null
 var current_fixer_cost: int = 40000
 var current_pr_cost: int = 30000
 var current_audit_cost: int = 60000
-var current_luxury_cost: int = 50000
+var current_luxury_cost: int = 15000
+var active_luxury_item: Dictionary = {}
 
 
 func _ready() -> void:
@@ -138,11 +170,20 @@ func _on_stats_changed() -> void:
 		_refresh_button_states()
 
 
+## Returns the next unpurchased vanity asset, or empty Dictionary if all acquired
+func get_next_luxury_item() -> Dictionary:
+	var flags: Dictionary = GameManager.event_flags if GameManager != null else {}
+	for item in LUXURY_CATALOG:
+		if not flags.get(item["flag"], false):
+			return item
+	return {}
+
+
 ## Calculates day-scaling costs according to OFFSHORE_SPENDING_MECHANICS.md
 func _calculate_dynamic_costs() -> void:
 	var day: int = GameManager.current_day if GameManager != null else 1
 
-	# Fixer: scales from $35,000 up to $65,000 as day progresses (Day 1: $35k -> Day 30: $65k)
+	# Fixer: scales from $35,000 up to $65,000 as day progresses
 	var day_factor: float = clampf(float(day - 1) / 29.0, 0.0, 1.0)
 	current_fixer_cost = int(35000 + day_factor * 30000)
 
@@ -152,8 +193,12 @@ func _calculate_dynamic_costs() -> void:
 	# Audit Intel: flat $60,000
 	current_audit_cost = 60000
 
-	# Luxury item: Solid Gold Stamp is $50,000
-	current_luxury_cost = 50000
+	# Luxury item cost depends on current progressive catalog item
+	active_luxury_item = get_next_luxury_item()
+	if not active_luxury_item.is_empty():
+		current_luxury_cost = int(active_luxury_item.get("cost", 50000))
+	else:
+		current_luxury_cost = 0
 
 
 func _update_locale_texts() -> void:
@@ -173,23 +218,49 @@ func _update_locale_texts() -> void:
 	# PR card
 	pr_title.text = tr("UI_OFFSHORE_PR_TITLE")
 	pr_desc.text = tr("UI_OFFSHORE_PR_DESC")
-	pr_effect.text = tr("UI_OFFSHORE_PR_EFFECT")
+	var susp: float = GameManager.suspicion_level if GameManager != null else 0.0
+	if susp >= 75.0:
+		pr_effect.text = tr("UI_OFFSHORE_PR_EFFECT") + " ⚠️ (20% SCANDAL RISK!)"
+		pr_effect.add_theme_color_override("font_color", Color(1.0, 0.45, 0.4, 1.0))
+	else:
+		pr_effect.text = tr("UI_OFFSHORE_PR_EFFECT")
+		pr_effect.add_theme_color_override("font_color", Color(0.35, 0.75, 1.0, 1.0))
+
 	pr_cost_label.text = _format_money(current_pr_cost)
 	btn_buy_pr.text = tr("UI_OFFSHORE_PR_BTN").format({"cost": _format_money(current_pr_cost)})
 
 	# Audit card
+	var audit_active_count: int = int(GameManager.event_flags.get("AUDIT_LEAK_REMAINING", 0)) if GameManager != null else 0
 	audit_title.text = tr("UI_OFFSHORE_AUDIT_TITLE")
 	audit_desc.text = tr("UI_OFFSHORE_AUDIT_DESC")
-	audit_effect.text = tr("UI_OFFSHORE_AUDIT_EFFECT")
+	if audit_active_count > 0:
+		audit_effect.text = tr("UI_OFFSHORE_AUDIT_ACTIVE") + " (%d docs left)" % audit_active_count
+		audit_effect.add_theme_color_override("font_color", Color(0.4, 0.9, 0.5, 1.0))
+		btn_buy_audit.text = tr("UI_OFFSHORE_AUDIT_ACTIVE")
+	else:
+		audit_effect.text = tr("UI_OFFSHORE_AUDIT_EFFECT")
+		audit_effect.add_theme_color_override("font_color", Color(0.95, 0.7, 0.25, 1.0))
+		btn_buy_audit.text = tr("UI_OFFSHORE_AUDIT_BTN").format({"cost": _format_money(current_audit_cost)})
 	audit_cost_label.text = _format_money(current_audit_cost)
-	btn_buy_audit.text = tr("UI_OFFSHORE_AUDIT_BTN").format({"cost": _format_money(current_audit_cost)})
 
 	# Luxury card
-	luxury_title.text = tr("UI_OFFSHORE_LUXURY_TITLE")
-	luxury_desc.text = tr("UI_OFFSHORE_LUXURY_DESC")
-	luxury_effect.text = tr("UI_OFFSHORE_LUXURY_EFFECT")
-	luxury_cost_label.text = _format_money(current_luxury_cost)
-	btn_buy_luxury.text = tr("UI_OFFSHORE_LUXURY_BTN")
+	active_luxury_item = get_next_luxury_item()
+	if not active_luxury_item.is_empty():
+		if luxury_icon:
+			luxury_icon.text = str(active_luxury_item.get("icon", "👑"))
+		luxury_title.text = tr(str(active_luxury_item.get("title_key", "UI_OFFSHORE_LUXURY_TITLE")))
+		luxury_desc.text = tr(str(active_luxury_item.get("desc_key", "UI_OFFSHORE_LUXURY_DESC")))
+		luxury_effect.text = tr(str(active_luxury_item.get("effect_key", "UI_OFFSHORE_LUXURY_EFFECT")))
+		luxury_cost_label.text = _format_money(current_luxury_cost)
+		btn_buy_luxury.text = tr("UI_LUXURY_BUY_BTN").format({"cost": _format_money(current_luxury_cost)})
+	else:
+		if luxury_icon:
+			luxury_icon.text = "👑"
+		luxury_title.text = tr("UI_LUXURY_ALL_UNLOCKED")
+		luxury_desc.text = tr("UI_LUXURY_ALL_DESC")
+		luxury_effect.text = tr("UI_LUXURY_ALL_EFFECT")
+		luxury_cost_label.text = "✓"
+		btn_buy_luxury.text = tr("UI_LUXURY_MAXED")
 
 
 func _refresh_balance_display() -> void:
@@ -201,8 +272,15 @@ func _refresh_button_states() -> void:
 	var wealth: int = GameManager.personal_wealth if GameManager != null else 0
 	btn_buy_fixer.disabled = (wealth < current_fixer_cost)
 	btn_buy_pr.disabled = (wealth < current_pr_cost)
-	btn_buy_audit.disabled = (wealth < current_audit_cost)
-	btn_buy_luxury.disabled = (wealth < current_luxury_cost)
+
+	var audit_active_count: int = int(GameManager.event_flags.get("AUDIT_LEAK_REMAINING", 0)) if GameManager != null else 0
+	btn_buy_audit.disabled = (wealth < current_audit_cost or audit_active_count > 0)
+
+	active_luxury_item = get_next_luxury_item()
+	if active_luxury_item.is_empty():
+		btn_buy_luxury.disabled = true
+	else:
+		btn_buy_luxury.disabled = (wealth < current_luxury_cost)
 
 
 # --- Purchase Action Handlers ---
@@ -220,10 +298,13 @@ func _on_buy_fixer_pressed() -> void:
 		GameManager.suspicion_level = maxf(0.0, GameManager.suspicion_level - suspicion_drop)
 		GameManager.notify_stats_changed()
 
-	if AudioManager != null and AudioManager.has_method("play_cash_register"):
+	# Audio: electric paper shredder chewing subpoenas
+	if AudioManager != null and AudioManager.has_method("play_paper_shredder"):
+		AudioManager.play_paper_shredder()
+	elif AudioManager != null and AudioManager.has_method("play_cash_register"):
 		AudioManager.play_cash_register()
 
-	_show_feedback(tr("UI_OFFSHORE_SUCCESS"), Color(0.4, 0.9, 0.5, 1.0))
+	_show_feedback(tr("UI_OFFSHORE_SUCCESS") + " (-25% Suspicion)", Color(0.4, 0.9, 0.5, 1.0))
 	fixer_purchased.emit(current_fixer_cost, suspicion_drop)
 	_refresh_balance_display()
 	_refresh_button_states()
@@ -238,7 +319,7 @@ func _on_buy_pr_pressed() -> void:
 	GameManager.personal_wealth -= current_pr_cost
 	var suspicion: float = GameManager.suspicion_level if GameManager != null else 0.0
 
-	# 20% scandal chance if suspicion > 75%
+	# 20% scandal chance if suspicion >= 75%
 	var scandal_triggered: bool = false
 	if suspicion >= 75.0 and randf() < 0.20:
 		scandal_triggered = true
@@ -252,9 +333,12 @@ func _on_buy_pr_pressed() -> void:
 		if GameManager != null:
 			GameManager.public_opinion = minf(100.0, GameManager.public_opinion + opinion_gain)
 			GameManager.notify_stats_changed()
-		_show_feedback(tr("UI_OFFSHORE_SUCCESS"), Color(0.4, 0.9, 0.5, 1.0))
+		_show_feedback(tr("UI_OFFSHORE_SUCCESS") + " (+18% Opinion)", Color(0.4, 0.9, 0.5, 1.0))
 
-	if AudioManager != null and AudioManager.has_method("play_cash_register"):
+	# Audio: camera flash paparazzi click
+	if AudioManager != null and AudioManager.has_method("play_camera_flash"):
+		AudioManager.play_camera_flash()
+	elif AudioManager != null and AudioManager.has_method("play_cash_register"):
 		AudioManager.play_cash_register()
 
 	pr_campaign_purchased.emit(current_pr_cost, 18.0, scandal_triggered)
@@ -280,30 +364,42 @@ func _on_buy_audit_pressed() -> void:
 	if AudioManager != null and AudioManager.has_method("play_cash_register"):
 		AudioManager.play_cash_register()
 
-	_show_feedback(tr("UI_OFFSHORE_SUCCESS"), Color(0.4, 0.9, 0.5, 1.0))
+	_show_feedback(tr("UI_OFFSHORE_SUCCESS") + " (3 Documents Intel)", Color(0.4, 0.9, 0.5, 1.0))
 	audit_leak_purchased.emit(current_audit_cost)
-	_refresh_balance_display()
+	_update_locale_texts()
 	_refresh_button_states()
 
 
 func _on_buy_luxury_pressed() -> void:
+	active_luxury_item = get_next_luxury_item()
+	if active_luxury_item.is_empty():
+		return
+
+	var cost: int = int(active_luxury_item.get("cost", 50000))
 	var wealth: int = GameManager.personal_wealth if GameManager != null else 0
-	if wealth < current_luxury_cost:
+	if wealth < cost:
 		_show_feedback(tr("UI_OFFSHORE_INSUFFICIENT"), Color(0.9, 0.3, 0.3, 1.0))
 		return
 
-	# Gold Stamp vanity item
-	GameManager.personal_wealth -= current_luxury_cost
-	if GameManager != null:
-		GameManager.event_flags["FLAG_GOLD_STAMP_UNLOCKED"] = true
+	var flag_key: String = str(active_luxury_item.get("flag", ""))
+	var item_id: String = str(active_luxury_item.get("id", ""))
+
+	GameManager.personal_wealth -= cost
+	if GameManager != null and not flag_key.is_empty():
+		GameManager.event_flags[flag_key] = true
 		GameManager.notify_stats_changed()
 
-	if AudioManager != null and AudioManager.has_method("play_cash_register"):
+	# Audio feedback: resonant gold stamp clang if gold stamp, else cash rattle
+	if item_id == "gold_stamp" and AudioManager != null and AudioManager.has_method("play_gold_stamp"):
+		AudioManager.play_gold_stamp()
+	elif AudioManager != null and AudioManager.has_method("play_cash_register"):
 		AudioManager.play_cash_register()
 
-	_show_feedback(tr("UI_OFFSHORE_SUCCESS"), Color(0.4, 0.9, 0.5, 1.0))
-	luxury_item_purchased.emit("gold_stamp", current_luxury_cost)
-	_refresh_balance_display()
+	_show_feedback(tr("UI_OFFSHORE_SUCCESS") + " (%s)" % tr(str(active_luxury_item.get("title_key", ""))), Color(0.4, 0.9, 0.5, 1.0))
+	luxury_item_purchased.emit(item_id, cost)
+
+	_calculate_dynamic_costs()
+	_update_locale_texts()
 	_refresh_button_states()
 
 

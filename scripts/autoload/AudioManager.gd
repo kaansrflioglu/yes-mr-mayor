@@ -372,6 +372,74 @@ func play_directive_stamp() -> void:
 	_play_raw_wav(buffer, int(SAMPLE_RATE))
 
 
+## Plays electric document shredder motor chew and paper tear for Fixer
+func play_paper_shredder() -> void:
+	var duration: float = 0.44
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var progress: float = float(i) / float(samples)
+		var envelope: float = sin(PI * progress) * (1.0 - progress * 0.3)
+		# Motor buzz (sawtooth-like at 68 Hz)
+		var motor: float = (fmod(t * 68.0, 1.0) - 0.5) * 0.4
+		# Paper shredding tearing chatter (noise modulated at 16 Hz)
+		var chatter: float = 1.0 if sin(2.0 * PI * 16.0 * t) > 0.0 else 0.4
+		var tear: float = randf_range(-0.5, 0.5) * chatter * envelope
+		var sample_f: float = clampf(motor * 0.5 + tear * 0.5, -1.0, 1.0)
+		buffer.encode_s16(i * 2, int(sample_f * 32767.0))
+
+	_play_raw_wav(buffer, int(SAMPLE_RATE))
+
+
+## Plays mechanical camera shutter click and high capacitor flash burst for PR Astroturf
+func play_camera_flash() -> void:
+	var duration: float = 0.32
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var progress: float = float(i) / float(samples)
+		# Dual shutter click at t=0 and t=0.06
+		var click1: float = randf_range(-0.6, 0.6) * exp(-120.0 * t)
+		var click2: float = randf_range(-0.5, 0.5) * exp(-100.0 * maxf(0.0, t - 0.06)) if t >= 0.06 else 0.0
+		# Flash capacitor whine/pop
+		var flash: float = sin(2.0 * PI * (2400.0 - 1200.0 * progress) * t) * exp(-10.0 * progress) * 0.35
+		var sample_f: float = clampf(click1 + click2 + flash, -1.0, 1.0)
+		buffer.encode_s16(i * 2, int(sample_f * 32767.0))
+
+	_play_raw_wav(buffer, int(SAMPLE_RATE))
+
+
+## Plays heavy 24K solid gold metallic stamp clang with rich brass resonance
+func play_gold_stamp() -> void:
+	var duration: float = 0.52
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var progress: float = float(i) / float(samples)
+		var envelope: float = exp(-8.0 * progress)
+		# Deep heavy bass thud
+		var bass: float = sin(2.0 * PI * 92.0 * t) * exp(-22.0 * progress) * 0.6
+		# Golden bell/chime harmonics (1350 Hz & 2180 Hz)
+		var gold_ring: float = (
+			sin(2.0 * PI * 1350.0 * t) * 0.55 + sin(2.0 * PI * 2180.0 * t) * 0.45
+		) * envelope * 0.5
+		# Metallic surface impact snap
+		var snap: float = randf_range(-0.3, 0.3) * exp(-45.0 * progress)
+		var sample_f: float = clampf(bass + gold_ring + snap, -1.0, 1.0)
+		buffer.encode_s16(i * 2, int(sample_f * 32767.0))
+
+	_play_raw_wav(buffer, int(SAMPLE_RATE))
+
+
 ## Helper to build an AudioStreamWAV from raw 16-bit PCM bytes
 func _play_raw_wav(data: PackedByteArray, rate: int) -> void:
 	var stream := AudioStreamWAV.new()
