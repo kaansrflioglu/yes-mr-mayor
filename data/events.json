@@ -2091,5 +2091,1389 @@
     },
     "news_headline_approve_key": "EVT_034_NEWS_APP",
     "news_headline_reject_key": "EVT_034_NEWS_REJ"
+  },
+  {
+    "id": "EVT_035",
+    "category": "transit",
+    "day_range": [
+      3,
+      15
+    ],
+    "title_key": "EVT_035_TITLE",
+    "description_key": "EVT_035_DESC",
+    "applicant_key": "COMP_TRANSIT",
+    "bribe_offered": 85000,
+    "application_data": {
+      "applicant_name_key": "COMP_TRANSIT",
+      "project_title_key": "EVT_035_TITLE",
+      "district_id": "DIST_CENTRAL",
+      "floors": 1,
+      "budget_stated": 2500000,
+      "seal_id": "SEAL_MINISTRY_FAKE",
+      "reg_code": "RTC-9901",
+      "expiry_date": "2026-11-30"
+    },
+    "report_data": {
+      "inspector_name_key": "INSP_KAYA",
+      "measured_floors": 1,
+      "hazard_level": "HAZARD_NONE",
+      "tax_debt": 95000,
+      "soil_status": "SOIL_GRADE_A",
+      "notes_key": "EVT_035_INSP_NOTES"
+    },
+    "violations": [
+      {
+        "id": "VIOL_BLACKLIST",
+        "name_key": "VIOL_BLACKLIST",
+        "tags": [
+          "app_applicant",
+          "rule_blacklist_guide"
+        ]
+      },
+      {
+        "id": "VIOL_FORGED_SEAL",
+        "name_key": "VIOL_FORGED_SEAL",
+        "tags": [
+          "app_seal",
+          "rule_seal_guide"
+        ]
+      },
+      {
+        "id": "VIOL_TAX_DEBT",
+        "name_key": "VIOL_TAX_DEBT",
+        "tags": [
+          "rep_tax_debt",
+          "rule_tax_guide"
+        ]
+      }
+    ],
+    "effects_approve": {
+      "budget": -40000,
+      "personal_wealth": 85000,
+      "public_opinion": -20,
+      "suspicion": 24,
+      "city_visual_flag": "overpriced_transit_pit"
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 16,
+      "suspicion": -8,
+      "city_visual_flag": ""
+    },
+    "news_headline_approve_key": "EVT_035_NEWS_APP",
+    "news_headline_reject_key": "EVT_035_NEWS_REJ"
+  },
+  {
+    "id": "EVT_036",
+    "category": "transit",
+    "day_range": [
+      3,
+      15
+    ],
+    "title_key": "EVT_036_TITLE",
+    "description_key": "EVT_036_DESC",
+    "applicant_key": "COMP_MUNI_TRAM",
+    "bribe_offered": 0,
+    "application_data": {
+      "applicant_name_key": "COMP_MUNI_TRAM",
+      "project_title_key": "EVT_036_TITLE",
+      "district_id": "DIST_HISTORIC",
+      "floors": 1,
+      "budget_stated": 180000,
+      "seal_id": "SEAL_CHAMBER_VALID",
+      "reg_code": "TRM-2026-14",
+      "expiry_date": "2026-12-31"
+    },
+    "report_data": {
+      "inspector_name_key": "INSP_SELIN",
+      "measured_floors": 1,
+      "hazard_level": "HAZARD_NONE",
+      "tax_debt": 0,
+      "soil_status": "SOIL_GRADE_A",
+      "notes_key": "EVT_036_INSP_NOTES"
+    },
+    "violations": [],
+    "effects_approve": {
+      "budget": -18000,
+      "personal_wealth": 0,
+      "public_opinion": 16,
+      "suspicion": -4,
+      "city_visual_flag": "clean_electric_tram"
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": -15,
+      "suspicion": 3,
+      "city_visual_flag": ""
+    },
+    "news_headline_approve_key": "EVT_036_NEWS_APP",
+    "news_headline_reject_key": "EVT_036_NEWS_REJ"
+  },
+  {
+    "id": "EVT_037",
+    "category": "infrastructure",
+    "day_range": [
+      3,
+      15
+    ],
+    "title_key": "EVT_037_TITLE",
+    "description_key": "EVT_037_DESC",
+    "applicant_key": "COMP_ECOCHEM",
+    "bribe_offered": 80000,
+    "application_data": {
+      "applicant_name_key": "COMP_ECOCHEM",
+      "project_title_key": "EVT_037_TITLE",
+      "district_id": "DIST_RIVERBED",
+      "floors": 1,
+      "budget_stated": 900000,
+      "seal_id": "SEAL_MINISTRY_FAKE",
+      "reg_code": "ECH-5520",
+      "expiry_date": "2026-10-15"
+    },
+    "report_data": {
+      "inspector_name_key": "INSP_GRAVES",
+      "measured_floors": 1,
+      "hazard_level": "HAZARD_HIGH_TOXIC",
+      "tax_debt": 75000,
+      "soil_status": "SOIL_CRITICAL_UNSTABLE",
+      "notes_key": "EVT_037_INSP_NOTES"
+    },
+    "violations": [
+      {
+        "id": "VIOL_BLACKLIST",
+        "name_key": "VIOL_BLACKLIST",
+        "tags": [
+          "app_applicant",
+          "rule_blacklist_guide"
+        ]
+      },
+      {
+        "id": "VIOL_TOXIC_HAZARD",
+        "name_key": "VIOL_TOXIC_HAZARD",
+        "tags": [
+          "rep_hazard",
+          "rule_zoning_river"
+        ]
+      },
+      {
+        "id": "VIOL_FORGED_SEAL",
+        "name_key": "VIOL_FORGED_SEAL",
+        "tags": [
+          "app_seal",
+          "rule_seal_guide"
+        ]
+      },
+      {
+        "id": "VIOL_TAX_DEBT",
+        "name_key": "VIOL_TAX_DEBT",
+        "tags": [
+          "rep_tax_debt",
+          "rule_tax_guide"
+        ]
+      }
+    ],
+    "effects_approve": {
+      "budget": 35000,
+      "personal_wealth": 80000,
+      "public_opinion": -26,
+      "suspicion": 26,
+      "city_visual_flag": "toxic_river_glow"
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 18,
+      "suspicion": -8,
+      "city_visual_flag": ""
+    },
+    "news_headline_approve_key": "EVT_037_NEWS_APP",
+    "news_headline_reject_key": "EVT_037_NEWS_REJ"
+  },
+  {
+    "id": "EVT_038",
+    "category": "infrastructure",
+    "day_range": [
+      3,
+      15
+    ],
+    "title_key": "EVT_038_TITLE",
+    "description_key": "EVT_038_DESC",
+    "applicant_key": "COMP_WATER_BOARD",
+    "bribe_offered": 0,
+    "application_data": {
+      "applicant_name_key": "COMP_WATER_BOARD",
+      "project_title_key": "EVT_038_TITLE",
+      "district_id": "DIST_CENTRAL",
+      "floors": 1,
+      "budget_stated": 220000,
+      "seal_id": "SEAL_MINISTRY_VALID",
+      "reg_code": "WTR-2026-05",
+      "expiry_date": "2026-12-31"
+    },
+    "report_data": {
+      "inspector_name_key": "INSP_KAYA",
+      "measured_floors": 1,
+      "hazard_level": "HAZARD_NONE",
+      "tax_debt": 0,
+      "soil_status": "SOIL_GRADE_A",
+      "notes_key": "EVT_038_INSP_NOTES"
+    },
+    "violations": [],
+    "effects_approve": {
+      "budget": -22000,
+      "personal_wealth": 0,
+      "public_opinion": 16,
+      "suspicion": -5,
+      "city_visual_flag": "pure_water_network"
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": -18,
+      "suspicion": 4,
+      "city_visual_flag": ""
+    },
+    "news_headline_approve_key": "EVT_038_NEWS_APP",
+    "news_headline_reject_key": "EVT_038_NEWS_REJ"
+  },
+  {
+    "id": "EVT_039",
+    "category": "transit",
+    "day_range": [
+      4,
+      15
+    ],
+    "title_key": "EVT_039_TITLE",
+    "description_key": "EVT_039_DESC",
+    "applicant_key": "COMP_APEX_TOLLWAY",
+    "bribe_offered": 70000,
+    "application_data": {
+      "applicant_name_key": "COMP_APEX_TOLLWAY",
+      "project_title_key": "EVT_039_TITLE",
+      "district_id": "DIST_RESIDENTIAL",
+      "floors": 2,
+      "budget_stated": 1400000,
+      "seal_id": "SEAL_EXPIRED_2022",
+      "reg_code": "TLW-8812",
+      "expiry_date": "2022-09-15"
+    },
+    "report_data": {
+      "inspector_name_key": "INSP_SELIN",
+      "measured_floors": 2,
+      "hazard_level": "HAZARD_NONE",
+      "tax_debt": 65000,
+      "soil_status": "SOIL_GRADE_A",
+      "notes_key": "EVT_039_INSP_NOTES"
+    },
+    "violations": [
+      {
+        "id": "VIOL_EXPIRED_SEAL",
+        "name_key": "VIOL_EXPIRED_SEAL",
+        "tags": [
+          "app_seal",
+          "rule_seal_guide"
+        ]
+      },
+      {
+        "id": "VIOL_TAX_DEBT",
+        "name_key": "VIOL_TAX_DEBT",
+        "tags": [
+          "rep_tax_debt",
+          "rule_tax_guide"
+        ]
+      }
+    ],
+    "effects_approve": {
+      "budget": 30000,
+      "personal_wealth": 70000,
+      "public_opinion": -22,
+      "suspicion": 22,
+      "city_visual_flag": "toll_booths_installed"
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 16,
+      "suspicion": -6,
+      "city_visual_flag": ""
+    },
+    "news_headline_approve_key": "EVT_039_NEWS_APP",
+    "news_headline_reject_key": "EVT_039_NEWS_REJ"
+  },
+  {
+    "id": "EVT_040",
+    "category": "transit",
+    "day_range": [
+      3,
+      15
+    ],
+    "title_key": "EVT_040_TITLE",
+    "description_key": "EVT_040_DESC",
+    "applicant_key": "COMP_CITY_TRANSIT",
+    "bribe_offered": 0,
+    "application_data": {
+      "applicant_name_key": "COMP_CITY_TRANSIT",
+      "project_title_key": "EVT_040_TITLE",
+      "district_id": "DIST_RESIDENTIAL",
+      "floors": 1,
+      "budget_stated": 350000,
+      "seal_id": "SEAL_MINISTRY_VALID",
+      "reg_code": "BUS-2026-77",
+      "expiry_date": "2026-12-31"
+    },
+    "report_data": {
+      "inspector_name_key": "INSP_GRAVES",
+      "measured_floors": 1,
+      "hazard_level": "HAZARD_NONE",
+      "tax_debt": 0,
+      "soil_status": "SOIL_GRADE_A",
+      "notes_key": "EVT_040_INSP_NOTES"
+    },
+    "violations": [],
+    "effects_approve": {
+      "budget": -25000,
+      "personal_wealth": 0,
+      "public_opinion": 18,
+      "suspicion": -5,
+      "city_visual_flag": "hybrid_bus_fleet"
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": -16,
+      "suspicion": 3,
+      "city_visual_flag": ""
+    },
+    "news_headline_approve_key": "EVT_040_NEWS_APP",
+    "news_headline_reject_key": "EVT_040_NEWS_REJ"
+  },
+  {
+    "id": "EVT_041",
+    "category": "infrastructure",
+    "day_range": [
+      4,
+      15
+    ],
+    "title_key": "EVT_041_TITLE",
+    "description_key": "EVT_041_DESC",
+    "applicant_key": "COMP_GRID_POWER",
+    "bribe_offered": 50000,
+    "application_data": {
+      "applicant_name_key": "COMP_GRID_POWER",
+      "project_title_key": "EVT_041_TITLE",
+      "district_id": "DIST_RESIDENTIAL",
+      "floors": 3,
+      "budget_stated": 480000,
+      "seal_id": "SEAL_MINISTRY_FAKE",
+      "reg_code": "VTX-3019",
+      "expiry_date": "2026-10-31"
+    },
+    "report_data": {
+      "inspector_name_key": "INSP_KAYA",
+      "measured_floors": 3,
+      "hazard_level": "HAZARD_HIGH_TOXIC",
+      "tax_debt": 40000,
+      "soil_status": "SOIL_GRADE_B",
+      "notes_key": "EVT_041_INSP_NOTES"
+    },
+    "violations": [
+      {
+        "id": "VIOL_FORGED_SEAL",
+        "name_key": "VIOL_FORGED_SEAL",
+        "tags": [
+          "app_seal",
+          "rule_seal_guide"
+        ]
+      },
+      {
+        "id": "VIOL_TAX_DEBT",
+        "name_key": "VIOL_TAX_DEBT",
+        "tags": [
+          "rep_tax_debt",
+          "rule_tax_guide"
+        ]
+      }
+    ],
+    "effects_approve": {
+      "budget": 20000,
+      "personal_wealth": 50000,
+      "public_opinion": -18,
+      "suspicion": 20,
+      "city_visual_flag": "school_transformer_buzz"
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 14,
+      "suspicion": -6,
+      "city_visual_flag": ""
+    },
+    "news_headline_approve_key": "EVT_041_NEWS_APP",
+    "news_headline_reject_key": "EVT_041_NEWS_REJ"
+  },
+  {
+    "id": "EVT_042",
+    "category": "transit",
+    "day_range": [
+      4,
+      15
+    ],
+    "title_key": "EVT_042_TITLE",
+    "description_key": "EVT_042_DESC",
+    "applicant_key": "COMP_CYCLING_FED",
+    "bribe_offered": 0,
+    "application_data": {
+      "applicant_name_key": "COMP_CYCLING_FED",
+      "project_title_key": "EVT_042_TITLE",
+      "district_id": "DIST_GREEN",
+      "floors": 1,
+      "budget_stated": 75000,
+      "seal_id": "SEAL_MINISTRY_VALID",
+      "reg_code": "CYC-2026-12",
+      "expiry_date": "2026-12-31"
+    },
+    "report_data": {
+      "inspector_name_key": "INSP_SELIN",
+      "measured_floors": 1,
+      "hazard_level": "HAZARD_NONE",
+      "tax_debt": 0,
+      "soil_status": "SOIL_GRADE_A",
+      "notes_key": "EVT_042_INSP_NOTES"
+    },
+    "violations": [],
+    "effects_approve": {
+      "budget": -8000,
+      "personal_wealth": 0,
+      "public_opinion": 15,
+      "suspicion": -4,
+      "city_visual_flag": "bicycle_greenway_opened"
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": -12,
+      "suspicion": 2,
+      "city_visual_flag": ""
+    },
+    "news_headline_approve_key": "EVT_042_NEWS_APP",
+    "news_headline_reject_key": "EVT_042_NEWS_REJ"
+  },
+  {
+    "id": "EVT_043",
+    "category": "transit",
+    "day_range": [
+      5,
+      15
+    ],
+    "title_key": "EVT_043_TITLE",
+    "description_key": "EVT_043_DESC",
+    "applicant_key": "COMP_TRANSIT",
+    "bribe_offered": 90000,
+    "application_data": {
+      "applicant_name_key": "COMP_TRANSIT",
+      "project_title_key": "EVT_043_TITLE",
+      "district_id": "DIST_GREEN",
+      "floors": 2,
+      "budget_stated": 3200000,
+      "seal_id": "SEAL_MINISTRY_VALID",
+      "reg_code": "RTC-8802",
+      "expiry_date": "2026-10-31"
+    },
+    "report_data": {
+      "inspector_name_key": "INSP_GRAVES",
+      "measured_floors": 2,
+      "hazard_level": "HAZARD_NONE",
+      "tax_debt": 85000,
+      "soil_status": "SOIL_GRADE_A",
+      "notes_key": "EVT_043_INSP_NOTES"
+    },
+    "violations": [
+      {
+        "id": "VIOL_BLACKLIST",
+        "name_key": "VIOL_BLACKLIST",
+        "tags": [
+          "app_applicant",
+          "rule_blacklist_guide"
+        ]
+      },
+      {
+        "id": "VIOL_GREEN_BELT",
+        "name_key": "VIOL_GREEN_BELT",
+        "tags": [
+          "app_district",
+          "rule_zoning_green",
+          "app_floors"
+        ]
+      },
+      {
+        "id": "VIOL_TAX_DEBT",
+        "name_key": "VIOL_TAX_DEBT",
+        "tags": [
+          "rep_tax_debt",
+          "rule_tax_guide"
+        ]
+      }
+    ],
+    "effects_approve": {
+      "budget": 45000,
+      "personal_wealth": 90000,
+      "public_opinion": -26,
+      "suspicion": 28,
+      "city_visual_flag": "diesel_train_in_park"
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 18,
+      "suspicion": -8,
+      "city_visual_flag": ""
+    },
+    "news_headline_approve_key": "EVT_043_NEWS_APP",
+    "news_headline_reject_key": "EVT_043_NEWS_REJ"
+  },
+  {
+    "id": "EVT_044",
+    "category": "infrastructure",
+    "day_range": [
+      4,
+      15
+    ],
+    "title_key": "EVT_044_TITLE",
+    "description_key": "EVT_044_DESC",
+    "applicant_key": "COMP_CIVIC_WORKS",
+    "bribe_offered": 0,
+    "application_data": {
+      "applicant_name_key": "COMP_CIVIC_WORKS",
+      "project_title_key": "EVT_044_TITLE",
+      "district_id": "DIST_RIVERBED",
+      "floors": 1,
+      "budget_stated": 280000,
+      "seal_id": "SEAL_CHAMBER_VALID",
+      "reg_code": "PW-2026-44",
+      "expiry_date": "2026-12-31"
+    },
+    "report_data": {
+      "inspector_name_key": "INSP_KAYA",
+      "measured_floors": 1,
+      "hazard_level": "HAZARD_NONE",
+      "tax_debt": 0,
+      "soil_status": "SOIL_GRADE_A",
+      "notes_key": "EVT_044_INSP_NOTES"
+    },
+    "violations": [],
+    "effects_approve": {
+      "budget": -28000,
+      "personal_wealth": 0,
+      "public_opinion": 16,
+      "suspicion": -5,
+      "city_visual_flag": "stormwater_basin_built"
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": -16,
+      "suspicion": 3,
+      "city_visual_flag": ""
+    },
+    "news_headline_approve_key": "EVT_044_NEWS_APP",
+    "news_headline_reject_key": "EVT_044_NEWS_REJ"
+  },
+  {
+    "id": "EVT_045",
+    "category": "infrastructure",
+    "day_range": [
+      5,
+      15
+    ],
+    "title_key": "EVT_045_TITLE",
+    "description_key": "EVT_045_DESC",
+    "applicant_key": "COMP_TITAN",
+    "bribe_offered": 75000,
+    "application_data": {
+      "applicant_name_key": "COMP_TITAN",
+      "project_title_key": "EVT_045_TITLE",
+      "district_id": "DIST_INDUSTRIAL",
+      "floors": 8,
+      "budget_stated": 1800000,
+      "seal_id": "SEAL_EXPIRED_2022",
+      "reg_code": "TTN-5120",
+      "expiry_date": "2022-11-10"
+    },
+    "report_data": {
+      "inspector_name_key": "INSP_SELIN",
+      "measured_floors": 8,
+      "hazard_level": "HAZARD_NONE",
+      "tax_debt": 120000,
+      "soil_status": "SOIL_GRADE_A",
+      "notes_key": "EVT_045_INSP_NOTES"
+    },
+    "violations": [
+      {
+        "id": "VIOL_BLACKLIST",
+        "name_key": "VIOL_BLACKLIST",
+        "tags": [
+          "app_applicant",
+          "rule_blacklist_guide"
+        ]
+      },
+      {
+        "id": "VIOL_HEIGHT_LIMIT",
+        "name_key": "VIOL_HEIGHT_LIMIT",
+        "tags": [
+          "app_floors",
+          "rule_zoning_industrial",
+          "rep_measured_floors"
+        ]
+      },
+      {
+        "id": "VIOL_EXPIRED_SEAL",
+        "name_key": "VIOL_EXPIRED_SEAL",
+        "tags": [
+          "app_seal",
+          "rule_seal_guide"
+        ]
+      },
+      {
+        "id": "VIOL_TAX_DEBT",
+        "name_key": "VIOL_TAX_DEBT",
+        "tags": [
+          "rep_tax_debt",
+          "rule_tax_guide"
+        ]
+      }
+    ],
+    "effects_approve": {
+      "budget": 35000,
+      "personal_wealth": 75000,
+      "public_opinion": -22,
+      "suspicion": 24,
+      "city_visual_flag": "coal_dust_harbor"
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 16,
+      "suspicion": -8,
+      "city_visual_flag": ""
+    },
+    "news_headline_approve_key": "EVT_045_NEWS_APP",
+    "news_headline_reject_key": "EVT_045_NEWS_REJ"
+  },
+  {
+    "id": "EVT_046",
+    "category": "infrastructure",
+    "day_range": [
+      4,
+      15
+    ],
+    "title_key": "EVT_046_TITLE",
+    "description_key": "EVT_046_DESC",
+    "applicant_key": "COMP_GEO_HEAT",
+    "bribe_offered": 0,
+    "application_data": {
+      "applicant_name_key": "COMP_GEO_HEAT",
+      "project_title_key": "EVT_046_TITLE",
+      "district_id": "DIST_INDUSTRIAL",
+      "floors": 2,
+      "budget_stated": 190000,
+      "seal_id": "SEAL_MINISTRY_VALID",
+      "reg_code": "GEO-2026-90",
+      "expiry_date": "2026-12-31"
+    },
+    "report_data": {
+      "inspector_name_key": "INSP_GRAVES",
+      "measured_floors": 2,
+      "hazard_level": "HAZARD_NONE",
+      "tax_debt": 0,
+      "soil_status": "SOIL_GRADE_A",
+      "notes_key": "EVT_046_INSP_NOTES"
+    },
+    "violations": [],
+    "effects_approve": {
+      "budget": -19000,
+      "personal_wealth": 0,
+      "public_opinion": 16,
+      "suspicion": -4,
+      "city_visual_flag": "district_heating_grid"
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": -14,
+      "suspicion": 2,
+      "city_visual_flag": ""
+    },
+    "news_headline_approve_key": "EVT_046_NEWS_APP",
+    "news_headline_reject_key": "EVT_046_NEWS_REJ"
+  },
+  {
+    "id": "EVT_047",
+    "category": "infrastructure",
+    "day_range": [
+      5,
+      15
+    ],
+    "title_key": "EVT_047_TITLE",
+    "description_key": "EVT_047_DESC",
+    "applicant_key": "COMP_SLUDGE_CORP",
+    "bribe_offered": 60000,
+    "application_data": {
+      "applicant_name_key": "COMP_SLUDGE_CORP",
+      "project_title_key": "EVT_047_TITLE",
+      "district_id": "DIST_RIVERBED",
+      "floors": 3,
+      "budget_stated": 500000,
+      "seal_id": "SEAL_MINISTRY_FAKE",
+      "reg_code": "NX-7714",
+      "expiry_date": "2026-08-30"
+    },
+    "report_data": {
+      "inspector_name_key": "INSP_KAYA",
+      "measured_floors": 3,
+      "hazard_level": "HAZARD_CRITICAL_FLOOD",
+      "tax_debt": 0,
+      "soil_status": "SOIL_CRITICAL_UNSTABLE",
+      "notes_key": "EVT_047_INSP_NOTES"
+    },
+    "violations": [
+      {
+        "id": "VIOL_FLOOD_ZONE",
+        "name_key": "VIOL_FLOOD_ZONE",
+        "tags": [
+          "app_district",
+          "rule_zoning_river",
+          "rep_hazard"
+        ]
+      },
+      {
+        "id": "VIOL_HEIGHT_LIMIT",
+        "name_key": "VIOL_HEIGHT_LIMIT",
+        "tags": [
+          "app_floors",
+          "rule_zoning_river",
+          "rep_measured_floors"
+        ]
+      },
+      {
+        "id": "VIOL_FORGED_SEAL",
+        "name_key": "VIOL_FORGED_SEAL",
+        "tags": [
+          "app_seal",
+          "rule_seal_guide"
+        ]
+      }
+    ],
+    "effects_approve": {
+      "budget": 25000,
+      "personal_wealth": 60000,
+      "public_opinion": -20,
+      "suspicion": 22,
+      "city_visual_flag": "sludge_basin_stench"
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 14,
+      "suspicion": -6,
+      "city_visual_flag": ""
+    },
+    "news_headline_approve_key": "EVT_047_NEWS_APP",
+    "news_headline_reject_key": "EVT_047_NEWS_REJ"
+  },
+  {
+    "id": "EVT_048",
+    "category": "infrastructure",
+    "day_range": [
+      4,
+      15
+    ],
+    "title_key": "EVT_048_TITLE",
+    "description_key": "EVT_048_DESC",
+    "applicant_key": "COMP_URBAN_LIGHT",
+    "bribe_offered": 0,
+    "application_data": {
+      "applicant_name_key": "COMP_URBAN_LIGHT",
+      "project_title_key": "EVT_048_TITLE",
+      "district_id": "DIST_RESIDENTIAL",
+      "floors": 1,
+      "budget_stated": 85000,
+      "seal_id": "SEAL_MINISTRY_VALID",
+      "reg_code": "LGT-2026-33",
+      "expiry_date": "2026-12-31"
+    },
+    "report_data": {
+      "inspector_name_key": "INSP_SELIN",
+      "measured_floors": 1,
+      "hazard_level": "HAZARD_NONE",
+      "tax_debt": 0,
+      "soil_status": "SOIL_GRADE_A",
+      "notes_key": "EVT_048_INSP_NOTES"
+    },
+    "violations": [],
+    "effects_approve": {
+      "budget": -9000,
+      "personal_wealth": 0,
+      "public_opinion": 14,
+      "suspicion": -4,
+      "city_visual_flag": "led_streetlights_bright"
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": -12,
+      "suspicion": 2,
+      "city_visual_flag": ""
+    },
+    "news_headline_approve_key": "EVT_048_NEWS_APP",
+    "news_headline_reject_key": "EVT_048_NEWS_REJ"
+  },
+  {
+    "id": "EVT_049",
+    "category": "transit",
+    "day_range": [
+      5,
+      15
+    ],
+    "title_key": "EVT_049_TITLE",
+    "description_key": "EVT_049_DESC",
+    "applicant_key": "COMP_TRANSIT",
+    "bribe_offered": 95000,
+    "application_data": {
+      "applicant_name_key": "COMP_TRANSIT",
+      "project_title_key": "EVT_049_TITLE",
+      "district_id": "DIST_HISTORIC",
+      "floors": 7,
+      "budget_stated": 4500000,
+      "seal_id": "SEAL_MINISTRY_FAKE",
+      "reg_code": "RTC-7721",
+      "expiry_date": "2026-09-15"
+    },
+    "report_data": {
+      "inspector_name_key": "INSP_GRAVES",
+      "measured_floors": 7,
+      "hazard_level": "HAZARD_NONE",
+      "tax_debt": 115000,
+      "soil_status": "SOIL_GRADE_B",
+      "notes_key": "EVT_049_INSP_NOTES"
+    },
+    "violations": [
+      {
+        "id": "VIOL_BLACKLIST",
+        "name_key": "VIOL_BLACKLIST",
+        "tags": [
+          "app_applicant",
+          "rule_blacklist_guide"
+        ]
+      },
+      {
+        "id": "VIOL_HEIGHT_LIMIT",
+        "name_key": "VIOL_HEIGHT_LIMIT",
+        "tags": [
+          "app_floors",
+          "rule_zoning_historic",
+          "rep_measured_floors"
+        ]
+      },
+      {
+        "id": "VIOL_FORGED_SEAL",
+        "name_key": "VIOL_FORGED_SEAL",
+        "tags": [
+          "app_seal",
+          "rule_seal_guide"
+        ]
+      },
+      {
+        "id": "VIOL_TAX_DEBT",
+        "name_key": "VIOL_TAX_DEBT",
+        "tags": [
+          "rep_tax_debt",
+          "rule_tax_guide"
+        ]
+      }
+    ],
+    "effects_approve": {
+      "budget": 40000,
+      "personal_wealth": 95000,
+      "public_opinion": -28,
+      "suspicion": 30,
+      "city_visual_flag": "concrete_monorail_historic"
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 18,
+      "suspicion": -8,
+      "city_visual_flag": ""
+    },
+    "news_headline_approve_key": "EVT_049_NEWS_APP",
+    "news_headline_reject_key": "EVT_049_NEWS_REJ"
+  },
+  {
+    "id": "EVT_050",
+    "category": "transit",
+    "day_range": [
+      4,
+      15
+    ],
+    "title_key": "EVT_050_TITLE",
+    "description_key": "EVT_050_DESC",
+    "applicant_key": "COMP_ACCESSIBLE_TRANS",
+    "bribe_offered": 0,
+    "application_data": {
+      "applicant_name_key": "COMP_ACCESSIBLE_TRANS",
+      "project_title_key": "EVT_050_TITLE",
+      "district_id": "DIST_CENTRAL",
+      "floors": 1,
+      "budget_stated": 60000,
+      "seal_id": "SEAL_CHAMBER_VALID",
+      "reg_code": "ACC-2026-08",
+      "expiry_date": "2026-12-31"
+    },
+    "report_data": {
+      "inspector_name_key": "INSP_KAYA",
+      "measured_floors": 1,
+      "hazard_level": "HAZARD_NONE",
+      "tax_debt": 0,
+      "soil_status": "SOIL_GRADE_A",
+      "notes_key": "EVT_050_INSP_NOTES"
+    },
+    "violations": [],
+    "effects_approve": {
+      "budget": -7000,
+      "personal_wealth": 0,
+      "public_opinion": 15,
+      "suspicion": -4,
+      "city_visual_flag": "accessible_curbs_built"
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": -15,
+      "suspicion": 2,
+      "city_visual_flag": ""
+    },
+    "news_headline_approve_key": "EVT_050_NEWS_APP",
+    "news_headline_reject_key": "EVT_050_NEWS_REJ"
+  },
+  {
+    "id": "EVT_051",
+    "category": "infrastructure",
+    "day_range": [
+      5,
+      15
+    ],
+    "title_key": "EVT_051_TITLE",
+    "description_key": "EVT_051_DESC",
+    "applicant_key": "COMP_SHADOW",
+    "bribe_offered": 85000,
+    "application_data": {
+      "applicant_name_key": "COMP_SHADOW",
+      "project_title_key": "EVT_051_TITLE",
+      "district_id": "DIST_RESIDENTIAL",
+      "floors": 3,
+      "budget_stated": 750000,
+      "seal_id": "SEAL_MINISTRY_FAKE",
+      "reg_code": "SHD-2201",
+      "expiry_date": "2026-09-30"
+    },
+    "report_data": {
+      "inspector_name_key": "INSP_SELIN",
+      "measured_floors": 3,
+      "hazard_level": "HAZARD_NONE",
+      "tax_debt": 105000,
+      "soil_status": "SOIL_GRADE_B",
+      "notes_key": "EVT_051_INSP_NOTES"
+    },
+    "violations": [
+      {
+        "id": "VIOL_BLACKLIST",
+        "name_key": "VIOL_BLACKLIST",
+        "tags": [
+          "app_applicant",
+          "rule_blacklist_guide"
+        ]
+      },
+      {
+        "id": "VIOL_FORGED_SEAL",
+        "name_key": "VIOL_FORGED_SEAL",
+        "tags": [
+          "app_seal",
+          "rule_seal_guide"
+        ]
+      },
+      {
+        "id": "VIOL_TAX_DEBT",
+        "name_key": "VIOL_TAX_DEBT",
+        "tags": [
+          "rep_tax_debt",
+          "rule_tax_guide"
+        ]
+      }
+    ],
+    "effects_approve": {
+      "budget": 35000,
+      "personal_wealth": 85000,
+      "public_opinion": -24,
+      "suspicion": 26,
+      "city_visual_flag": "diesel_smoke_suburbs"
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 16,
+      "suspicion": -8,
+      "city_visual_flag": ""
+    },
+    "news_headline_approve_key": "EVT_051_NEWS_APP",
+    "news_headline_reject_key": "EVT_051_NEWS_REJ"
+  },
+  {
+    "id": "EVT_052",
+    "category": "transit",
+    "day_range": [
+      4,
+      15
+    ],
+    "title_key": "EVT_052_TITLE",
+    "description_key": "EVT_052_DESC",
+    "applicant_key": "COMP_RAIL_COMMISSION",
+    "bribe_offered": 0,
+    "application_data": {
+      "applicant_name_key": "COMP_RAIL_COMMISSION",
+      "project_title_key": "EVT_052_TITLE",
+      "district_id": "DIST_RESIDENTIAL",
+      "floors": 2,
+      "budget_stated": 130000,
+      "seal_id": "SEAL_CHAMBER_VALID",
+      "reg_code": "RLC-2026-19",
+      "expiry_date": "2026-12-31"
+    },
+    "report_data": {
+      "inspector_name_key": "INSP_GRAVES",
+      "measured_floors": 2,
+      "hazard_level": "HAZARD_NONE",
+      "tax_debt": 0,
+      "soil_status": "SOIL_GRADE_A",
+      "notes_key": "EVT_052_INSP_NOTES"
+    },
+    "violations": [],
+    "effects_approve": {
+      "budget": -13000,
+      "personal_wealth": 0,
+      "public_opinion": 16,
+      "suspicion": -4,
+      "city_visual_flag": "station_overpass_built"
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": -16,
+      "suspicion": 3,
+      "city_visual_flag": ""
+    },
+    "news_headline_approve_key": "EVT_052_NEWS_APP",
+    "news_headline_reject_key": "EVT_052_NEWS_REJ"
+  },
+  {
+    "id": "EVT_053",
+    "category": "infrastructure",
+    "day_range": [
+      5,
+      15
+    ],
+    "title_key": "EVT_053_TITLE",
+    "description_key": "EVT_053_DESC",
+    "applicant_key": "COMP_ASBESTOS_WAIVER",
+    "bribe_offered": 40000,
+    "application_data": {
+      "applicant_name_key": "COMP_ASBESTOS_WAIVER",
+      "project_title_key": "EVT_053_TITLE",
+      "district_id": "DIST_INDUSTRIAL",
+      "floors": 2,
+      "budget_stated": 300000,
+      "seal_id": "SEAL_EXPIRED_2022",
+      "reg_code": "HDS-1090",
+      "expiry_date": "2022-04-18"
+    },
+    "report_data": {
+      "inspector_name_key": "INSP_KAYA",
+      "measured_floors": 2,
+      "hazard_level": "HAZARD_HIGH_TOXIC",
+      "tax_debt": 45000,
+      "soil_status": "SOIL_GRADE_B",
+      "notes_key": "EVT_053_INSP_NOTES"
+    },
+    "violations": [
+      {
+        "id": "VIOL_EXPIRED_SEAL",
+        "name_key": "VIOL_EXPIRED_SEAL",
+        "tags": [
+          "app_seal",
+          "rule_seal_guide"
+        ]
+      },
+      {
+        "id": "VIOL_TAX_DEBT",
+        "name_key": "VIOL_TAX_DEBT",
+        "tags": [
+          "rep_tax_debt",
+          "rule_tax_guide"
+        ]
+      }
+    ],
+    "effects_approve": {
+      "budget": 15000,
+      "personal_wealth": 40000,
+      "public_opinion": -22,
+      "suspicion": 22,
+      "city_visual_flag": "asbestos_dump_harbor"
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 15,
+      "suspicion": -6,
+      "city_visual_flag": ""
+    },
+    "news_headline_approve_key": "EVT_053_NEWS_APP",
+    "news_headline_reject_key": "EVT_053_NEWS_REJ"
+  },
+  {
+    "id": "EVT_054",
+    "category": "transit",
+    "day_range": [
+      5,
+      15
+    ],
+    "title_key": "EVT_054_TITLE",
+    "description_key": "EVT_054_DESC",
+    "applicant_key": "COMP_MEGACORP",
+    "bribe_offered": 75000,
+    "application_data": {
+      "applicant_name_key": "COMP_MEGACORP",
+      "project_title_key": "EVT_054_TITLE",
+      "district_id": "DIST_HISTORIC",
+      "floors": 5,
+      "budget_stated": 1200000,
+      "seal_id": "SEAL_MINISTRY_VALID",
+      "reg_code": "MC-4491",
+      "expiry_date": "2026-11-15"
+    },
+    "report_data": {
+      "inspector_name_key": "INSP_SELIN",
+      "measured_floors": 5,
+      "hazard_level": "HAZARD_NONE",
+      "tax_debt": 140000,
+      "soil_status": "SOIL_GRADE_A",
+      "notes_key": "EVT_054_INSP_NOTES"
+    },
+    "violations": [
+      {
+        "id": "VIOL_BLACKLIST",
+        "name_key": "VIOL_BLACKLIST",
+        "tags": [
+          "app_applicant",
+          "rule_blacklist_guide"
+        ]
+      },
+      {
+        "id": "VIOL_HEIGHT_LIMIT",
+        "name_key": "VIOL_HEIGHT_LIMIT",
+        "tags": [
+          "app_floors",
+          "rule_zoning_historic",
+          "rep_measured_floors"
+        ]
+      },
+      {
+        "id": "VIOL_TAX_DEBT",
+        "name_key": "VIOL_TAX_DEBT",
+        "tags": [
+          "rep_tax_debt",
+          "rule_tax_guide"
+        ]
+      }
+    ],
+    "effects_approve": {
+      "budget": 30000,
+      "personal_wealth": 75000,
+      "public_opinion": -20,
+      "suspicion": 24,
+      "city_visual_flag": "cobblestone_ruined"
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 16,
+      "suspicion": -8,
+      "city_visual_flag": ""
+    },
+    "news_headline_approve_key": "EVT_054_NEWS_APP",
+    "news_headline_reject_key": "EVT_054_NEWS_REJ"
+  },
+  {
+    "id": "EVT_055",
+    "category": "infrastructure",
+    "day_range": [
+      5,
+      15
+    ],
+    "title_key": "EVT_055_TITLE",
+    "description_key": "EVT_055_DESC",
+    "applicant_key": "COMP_ECOCHEM",
+    "bribe_offered": 80000,
+    "application_data": {
+      "applicant_name_key": "COMP_ECOCHEM",
+      "project_title_key": "EVT_055_TITLE",
+      "district_id": "DIST_RIVERBED",
+      "floors": 3,
+      "budget_stated": 880000,
+      "seal_id": "SEAL_MINISTRY_FAKE",
+      "reg_code": "ECH-6632",
+      "expiry_date": "2026-10-20"
+    },
+    "report_data": {
+      "inspector_name_key": "INSP_GRAVES",
+      "measured_floors": 3,
+      "hazard_level": "HAZARD_CRITICAL_FLOOD",
+      "tax_debt": 80000,
+      "soil_status": "SOIL_CRITICAL_UNSTABLE",
+      "notes_key": "EVT_055_INSP_NOTES"
+    },
+    "violations": [
+      {
+        "id": "VIOL_BLACKLIST",
+        "name_key": "VIOL_BLACKLIST",
+        "tags": [
+          "app_applicant",
+          "rule_blacklist_guide"
+        ]
+      },
+      {
+        "id": "VIOL_FLOOD_ZONE",
+        "name_key": "VIOL_FLOOD_ZONE",
+        "tags": [
+          "app_district",
+          "rule_zoning_river",
+          "rep_hazard"
+        ]
+      },
+      {
+        "id": "VIOL_HEIGHT_LIMIT",
+        "name_key": "VIOL_HEIGHT_LIMIT",
+        "tags": [
+          "app_floors",
+          "rule_zoning_river",
+          "rep_measured_floors"
+        ]
+      },
+      {
+        "id": "VIOL_FORGED_SEAL",
+        "name_key": "VIOL_FORGED_SEAL",
+        "tags": [
+          "app_seal",
+          "rule_seal_guide"
+        ]
+      },
+      {
+        "id": "VIOL_TAX_DEBT",
+        "name_key": "VIOL_TAX_DEBT",
+        "tags": [
+          "rep_tax_debt",
+          "rule_tax_guide"
+        ]
+      }
+    ],
+    "effects_approve": {
+      "budget": 35000,
+      "personal_wealth": 80000,
+      "public_opinion": -26,
+      "suspicion": 28,
+      "city_visual_flag": "gas_pipe_flare"
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 18,
+      "suspicion": -8,
+      "city_visual_flag": ""
+    },
+    "news_headline_approve_key": "EVT_055_NEWS_APP",
+    "news_headline_reject_key": "EVT_055_NEWS_REJ"
+  },
+  {
+    "id": "EVT_056",
+    "category": "transit",
+    "day_range": [
+      5,
+      15
+    ],
+    "title_key": "EVT_056_TITLE",
+    "description_key": "EVT_056_DESC",
+    "applicant_key": "COMP_OLIGARCH",
+    "bribe_offered": 85000,
+    "application_data": {
+      "applicant_name_key": "COMP_OLIGARCH",
+      "project_title_key": "EVT_056_TITLE",
+      "district_id": "DIST_GREEN",
+      "floors": 3,
+      "budget_stated": 2100000,
+      "seal_id": "SEAL_MINISTRY_FAKE",
+      "reg_code": "MA-7708",
+      "expiry_date": "2026-10-31"
+    },
+    "report_data": {
+      "inspector_name_key": "INSP_KAYA",
+      "measured_floors": 3,
+      "hazard_level": "HAZARD_NONE",
+      "tax_debt": 65000,
+      "soil_status": "SOIL_GRADE_A",
+      "notes_key": "EVT_056_INSP_NOTES"
+    },
+    "violations": [
+      {
+        "id": "VIOL_GREEN_BELT",
+        "name_key": "VIOL_GREEN_BELT",
+        "tags": [
+          "app_district",
+          "rule_zoning_green",
+          "app_floors"
+        ]
+      },
+      {
+        "id": "VIOL_FORGED_SEAL",
+        "name_key": "VIOL_FORGED_SEAL",
+        "tags": [
+          "app_seal",
+          "rule_seal_guide"
+        ]
+      },
+      {
+        "id": "VIOL_TAX_DEBT",
+        "name_key": "VIOL_TAX_DEBT",
+        "tags": [
+          "rep_tax_debt",
+          "rule_tax_guide"
+        ]
+      }
+    ],
+    "effects_approve": {
+      "budget": 40000,
+      "personal_wealth": 85000,
+      "public_opinion": -25,
+      "suspicion": 26,
+      "city_visual_flag": "heliport_forest_cleared"
+    },
+    "effects_reject": {
+      "budget": 0,
+      "personal_wealth": 0,
+      "public_opinion": 16,
+      "suspicion": -6,
+      "city_visual_flag": ""
+    },
+    "news_headline_approve_key": "EVT_056_NEWS_APP",
+    "news_headline_reject_key": "EVT_056_NEWS_REJ"
   }
 ]
