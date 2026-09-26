@@ -30,10 +30,15 @@ func show_game_over(reason_key: String) -> void:
 	narrative_label.text = tr(reason_key)
 	stats_header.text = tr("UI_FINAL_STATS")
 
-	var is_victory: bool = (reason_key == "END_REELECTED")
-	if is_victory:
+	if reason_key == "END_REELECTED":
 		reason_header.text = "🏆 MANDATE EXTENDED: 4 MORE YEARS"
 		reason_header.set("theme_override_colors/font_color", Color(1.0, 0.85, 0.25, 1))
+	elif reason_key == "END_FLED_TO_CAYMANS":
+		reason_header.text = "🌴 " + tr("UI_ENDING_CAYMANS_HEADER")
+		reason_header.set("theme_override_colors/font_color", Color(0.35, 0.85, 1.0, 1))
+	elif reason_key == "END_BRIBE_LEAK_SCANDAL":
+		reason_header.text = "🚨 " + tr("UI_ENDING_SCANDAL_HEADER")
+		reason_header.set("theme_override_colors/font_color", Color(0.95, 0.25, 0.25, 1))
 	else:
 		reason_header.text = "🚨 ADMINISTRATION COLLAPSED"
 		reason_header.set("theme_override_colors/font_color", Color(0.95, 0.25, 0.25, 1))

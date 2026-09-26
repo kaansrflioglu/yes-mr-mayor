@@ -45,6 +45,9 @@ const GAME_OVER_SCENE: PackedScene = preload("res://scenes/summary/GameOverModal
 @onready var save_load_modal: Control = %SaveLoadModal
 @onready var save_toast: Control = %SaveToast if has_node("%SaveToast") else null
 @onready var offshore_ledger_modal: Control = %OffshoreLedgerModal if has_node("%OffshoreLedgerModal") else null
+@onready var cigar_box_prop: Control = %CigarBoxProp if has_node("%CigarBoxProp") else null
+@onready var yacht_brochure_prop: Control = %YachtBrochureProp if has_node("%YachtBrochureProp") else null
+@onready var gold_stamp_badge: Control = %GoldStampBadge if has_node("%GoldStampBadge") else null
 
 # Inspection Focus & Stamina Mechanics (Milestone 1)
 const MAX_INSPECT_FOCUS: int = 4
@@ -134,6 +137,9 @@ func _ready() -> void:
 
 	next_day_box.visible = false
 	inspect_status_panel.visible = false
+	if GameManager != null and GameManager.has_signal("stats_changed"):
+		GameManager.stats_changed.connect(_update_luxury_props)
+	_update_luxury_props()
 	_start_or_continue_shift()
 
 
@@ -807,6 +813,17 @@ func _check_audit_intel_leak(event: EventData) -> void:
 	})
 	AudioManager.play_discrepancy_match()
 	_update_reject_button_text()
+
+
+## Updates visual luxury props on the mayoral desk based on unlocked event flags
+func _update_luxury_props() -> void:
+	var flags: Dictionary = GameManager.event_flags if GameManager != null else {}
+	if cigar_box_prop != null:
+		cigar_box_prop.visible = bool(flags.get("FLAG_CIGAR_BOX_UNLOCKED", false))
+	if yacht_brochure_prop != null:
+		yacht_brochure_prop.visible = bool(flags.get("FLAG_YACHT_BROCHURE_UNLOCKED", false))
+	if gold_stamp_badge != null:
+		gold_stamp_badge.visible = bool(flags.get("FLAG_GOLD_STAMP_UNLOCKED", false))
 
 
 func _on_bribe_pocketed(amount: int) -> void:

@@ -221,7 +221,9 @@ func _evaluate_end_conditions() -> void:
 	elif city_budget < -50000:
 		_trigger_game_end("END_BANKRUPT")
 	elif current_day > MAX_DAYS:
-		if public_opinion >= 50.0:
+		if personal_wealth >= 250000:
+			_trigger_game_end("END_FLED_TO_CAYMANS")
+		elif public_opinion >= 50.0:
 			_trigger_game_end("END_REELECTED")
 		else:
 			_trigger_game_end("END_LOST_ELECTION")
@@ -231,6 +233,11 @@ func _trigger_game_end(reason_key: String) -> void:
 	is_game_over = true
 	game_ended.emit(reason_key)
 	game_over.emit(reason_key)
+
+
+## Triggers immediate game end due to illicit bribe leak scandal
+func trigger_bribe_leak_scandal() -> void:
+	_trigger_game_end("END_BRIBE_LEAK_SCANDAL")
 
 
 ## Returns all event resolution records for a given day
