@@ -463,7 +463,7 @@ func advance_shift_time(minutes: int) -> void:
 ## Returns human-readable clock representation, e.g. "09:15 AM"
 func get_formatted_shift_time() -> String:
 	var total_m: int = current_shift_minutes
-	var hrs: int = (total_m / 60)
+	var hrs: int = int(float(total_m) / 60.0)
 	var mins: int = total_m % 60
 	var is_pm: bool = hrs >= 12
 	var display_hr: int = hrs

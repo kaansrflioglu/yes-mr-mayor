@@ -90,10 +90,10 @@ func test_reveal_violation_mechanics() -> void:
 	phone.inspector_tip_requested.connect(func(): tip_requested[0] = true)
 
 	# Create a call with reveal_violation: true
-	var call := HotlineCallData.new()
-	call.id = "CALL_TEST_WHISTLEBLOWER"
-	call.caller_archetype = "whistleblower"
-	call.effects_accept = {
+	var call_data := HotlineCallData.new()
+	call_data.id = "CALL_TEST_WHISTLEBLOWER"
+	call_data.caller_archetype = "whistleblower"
+	call_data.effects_accept = {
 		"budget": 0,
 		"personal_wealth": 0,
 		"public_opinion": 0.0,
@@ -101,7 +101,7 @@ func test_reveal_violation_mechanics() -> void:
 		"reveal_violation": true
 	}
 
-	phone.ring_telephone(call)
+	phone.ring_telephone(call_data)
 	phone.answer_call()
 	phone.accept_deal()
 

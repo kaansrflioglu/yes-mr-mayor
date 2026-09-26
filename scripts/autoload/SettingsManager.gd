@@ -152,8 +152,8 @@ func _apply_resolution_and_center() -> void:
 	var screen_size := DisplayServer.screen_get_size(screen_idx)
 	if screen_size.x > resolution.x and screen_size.y > resolution.y:
 		var target_pos := Vector2i(
-			(screen_size.x - resolution.x) / 2,
-			(screen_size.y - resolution.y) / 2
+			int(float(screen_size.x - resolution.x) / 2.0),
+			int(float(screen_size.y - resolution.y) / 2.0)
 		)
 		DisplayServer.window_set_position(target_pos)
 

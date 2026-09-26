@@ -151,7 +151,7 @@ func apply_modifiers(
 	effects: Dictionary,
 	event: EventData,
 	approved: bool,
-	took_bribe: bool
+	_took_bribe: bool
 ) -> Dictionary:
 	var result: Dictionary = effects.duplicate(true)
 	var dir := get_active_directive()

@@ -46,13 +46,13 @@ func load_calls_from_json(path: String = DEFAULT_CALLS_PATH) -> bool:
 ## Filters calls available on a given day with active event flags
 func get_eligible_calls(day: int, event_flags: Dictionary = {}) -> Array[HotlineCallData]:
 	var eligible: Array[HotlineCallData] = []
-	for call in all_calls:
-		if not call.is_available_on_day(day):
+	for call_data in all_calls:
+		if not call_data.is_available_on_day(day):
 			continue
-		if not call.required_flag.is_empty():
-			if not event_flags.get(call.required_flag, false):
+		if not call_data.required_flag.is_empty():
+			if not event_flags.get(call_data.required_flag, false):
 				continue
-		eligible.append(call)
+		eligible.append(call_data)
 	return eligible
 
 
@@ -123,13 +123,13 @@ static func get_archetype_badge_data(archetype: String) -> Dictionary:
 
 
 ## Resolves effects of accepting or rejecting a hotline call
-func resolve_call(call: HotlineCallData, accepted: bool, day: int) -> Dictionary:
-	if call == null:
+func resolve_call(call_data: HotlineCallData, accepted: bool, day: int) -> Dictionary:
+	if call_data == null:
 		return {}
 
 	var effects: Dictionary = (
-		call.effects_accept if accepted
-		else call.effects_reject
+		call_data.effects_accept if accepted
+		else call_data.effects_reject
 	)
 
 	# Apply through GameManager
@@ -139,8 +139,8 @@ func resolve_call(call: HotlineCallData, accepted: bool, day: int) -> Dictionary
 	# Record in history
 	var entry: Dictionary = {
 		"day": day,
-		"call_id": call.id,
-		"archetype": call.caller_archetype,
+		"call_id": call_data.id,
+		"archetype": call_data.caller_archetype,
 		"accepted": accepted,
 		"effects": effects.duplicate(true)
 	}

@@ -68,19 +68,19 @@ func test_resource_model_roundtrip() -> void:
 		"required_flag": "FLAG_TEST"
 	}
 
-	var call := HotlineCallData.from_dict(test_dict)
-	var serialized := call.to_dict()
+	var call_data := HotlineCallData.from_dict(test_dict)
+	var serialized := call_data.to_dict()
 
 	var ok: bool = (
-		call.id == "CALL_TEST_ROUNDTRIP" and
-		call.caller_archetype == "party_boss" and
+		call_data.id == "CALL_TEST_ROUNDTRIP" and
+		call_data.caller_archetype == "party_boss" and
 		serialized["id"] == "CALL_TEST_ROUNDTRIP" and
 		serialized["effects_accept"]["budget"] == -10000 and
-		call.has_reveal_violation(true) and
-		not call.has_reveal_violation(false) and
-		call.is_available_on_day(5) and
-		not call.is_available_on_day(2) and
-		not call.is_available_on_day(21)
+		call_data.has_reveal_violation(true) and
+		not call_data.has_reveal_violation(false) and
+		call_data.is_available_on_day(5) and
+		not call_data.is_available_on_day(2) and
+		not call_data.is_available_on_day(21)
 	)
 
 	if ok:
@@ -174,12 +174,12 @@ func test_day_range_filtering() -> void:
 	var day_30_calls: int = 0
 
 	for item in calls_array:
-		var call := HotlineCallData.from_dict(item)
-		if call.is_available_on_day(1):
+		var call_data := HotlineCallData.from_dict(item)
+		if call_data.is_available_on_day(1):
 			day_1_calls += 1
-		if call.is_available_on_day(15):
+		if call_data.is_available_on_day(15):
 			day_15_calls += 1
-		if call.is_available_on_day(30):
+		if call_data.is_available_on_day(30):
 			day_30_calls += 1
 
 	print("  -> Day 1 active calls: %d | Day 15: %d | Day 30: %d" % [
@@ -202,9 +202,9 @@ func test_special_mechanics_flags() -> void:
 
 	var reveal_calls: Array[String] = []
 	for item in calls_array:
-		var call := HotlineCallData.from_dict(item)
-		if call.has_reveal_violation(true):
-			reveal_calls.append(call.id)
+		var call_data := HotlineCallData.from_dict(item)
+		if call_data.has_reveal_violation(true):
+			reveal_calls.append(call_data.id)
 
 	print("  -> Calls with reveal_violation on accept: %s" % str(reveal_calls))
 	# Engineer and Whistleblower & Police Sting calls have reveal_violation
@@ -224,17 +224,17 @@ func test_i18n_translation_keys() -> void:
 
 	var missing_keys: Array[String] = []
 	for item in calls_array:
-		var call := HotlineCallData.from_dict(item)
+		var call_data := HotlineCallData.from_dict(item)
 		var keys_to_test := [
-			call.caller_name_key,
-			call.caller_title_key,
-			call.message_key,
-			call.accept_btn_key,
-			call.reject_btn_key
+			call_data.caller_name_key,
+			call_data.caller_title_key,
+			call_data.message_key,
+			call_data.accept_btn_key,
+			call_data.reject_btn_key
 		]
 		for k in keys_to_test:
 			if k.is_empty():
-				missing_keys.append("Call %s has empty key" % call.id)
+				missing_keys.append("Call %s has empty key" % call_data.id)
 			elif not LocalizationManager.SUPPORTED_LOCALES.is_empty():
 				# Check through tr() directly
 				var translated: String = tr(k)

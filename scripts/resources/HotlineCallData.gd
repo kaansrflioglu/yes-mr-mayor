@@ -37,24 +37,24 @@ extends Resource
 
 ## Factory method to instantiate HotlineCallData from a Dictionary (e.g. from hotline_calls.json)
 static func from_dict(dict: Dictionary) -> HotlineCallData:
-	var call := HotlineCallData.new()
-	call.id = str(dict.get("id", ""))
-	call.caller_archetype = str(dict.get("caller_archetype", ""))
-	call.caller_name_key = str(dict.get("caller_name_key", ""))
-	call.caller_title_key = str(dict.get("caller_title_key", ""))
-	call.message_key = str(dict.get("message_key", ""))
-	call.accept_btn_key = str(dict.get("accept_btn_key", ""))
-	call.reject_btn_key = str(dict.get("reject_btn_key", ""))
+	var call_data := HotlineCallData.new()
+	call_data.id = str(dict.get("id", ""))
+	call_data.caller_archetype = str(dict.get("caller_archetype", ""))
+	call_data.caller_name_key = str(dict.get("caller_name_key", ""))
+	call_data.caller_title_key = str(dict.get("caller_title_key", ""))
+	call_data.message_key = str(dict.get("message_key", ""))
+	call_data.accept_btn_key = str(dict.get("accept_btn_key", ""))
+	call_data.reject_btn_key = str(dict.get("reject_btn_key", ""))
 
 	if dict.has("effects_accept") and dict["effects_accept"] is Dictionary:
-		call.effects_accept = dict["effects_accept"].duplicate(true)
+		call_data.effects_accept = dict["effects_accept"].duplicate(true)
 	if dict.has("effects_reject") and dict["effects_reject"] is Dictionary:
-		call.effects_reject = dict["effects_reject"].duplicate(true)
+		call_data.effects_reject = dict["effects_reject"].duplicate(true)
 
-	call.min_day = int(dict.get("min_day", 1))
-	call.max_day = int(dict.get("max_day", 30))
-	call.required_flag = str(dict.get("required_flag", ""))
-	return call
+	call_data.min_day = int(dict.get("min_day", 1))
+	call_data.max_day = int(dict.get("max_day", 30))
+	call_data.required_flag = str(dict.get("required_flag", ""))
+	return call_data
 
 
 ## Serializes HotlineCallData into a standard Dictionary
