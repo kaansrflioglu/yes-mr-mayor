@@ -53,6 +53,18 @@ corner_radius_bottom_left = 8
 shadow_color = Color(0, 0, 0, 0.3)
 shadow_size = 12
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_keycap"]
+bg_color = Color(0, 0, 0, 0.45)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.35)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stamp_green"]
 bg_color = Color(0.12, 0.65, 0.35, 1)
 border_width_left = 3
@@ -308,6 +320,28 @@ theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBoxFlat_stamp_green")
 text = "APPROVED"
 
+[node name="ApproveKeycap" type="PanelContainer" parent="ShakeRoot/StampRack/BtnStampApprove"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 14.0
+offset_top = -15.0
+offset_right = 44.0
+offset_bottom = 15.0
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_keycap")
+
+[node name="KeycapLabel" type="Label" parent="ShakeRoot/StampRack/BtnStampApprove/ApproveKeycap"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.95)
+theme_override_font_sizes/font_size = 14
+text = "A"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="BtnStampReject" type="Button" parent="ShakeRoot/StampRack"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(320, 76)
@@ -316,6 +350,28 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBoxFlat_stamp_red")
 text = "REJECTED"
+
+[node name="RejectKeycap" type="PanelContainer" parent="ShakeRoot/StampRack/BtnStampReject"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 14.0
+offset_top = -15.0
+offset_right = 44.0
+offset_bottom = 15.0
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_keycap")
+
+[node name="KeycapLabel" type="Label" parent="ShakeRoot/StampRack/BtnStampReject/RejectKeycap"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.95)
+theme_override_font_sizes/font_size = 14
+text = "D"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="BtnInspectMode" type="Button" parent="ShakeRoot/StampRack"]
 unique_name_in_owner = true

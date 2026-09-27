@@ -369,6 +369,24 @@ theme_override_font_sizes/font_size = 15
 button_pressed = true
 text = "Vertical Sync (V-Sync)"
 
+[node name="CardHotkeys" type="PanelContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentDisplay"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_section_card")
+
+[node name="DM4" type="MarginContainer" parent="ModalPanel/Margin/VBox/ContentContainer/ContentDisplay/CardHotkeys"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 14
+
+[node name="CheckHotkeyHints" type="CheckBox" parent="ModalPanel/Margin/VBox/ContentContainer/ContentDisplay/CardHotkeys/DM4"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+button_pressed = true
+text = "Show Keyboard Hotkey Hints"
+
 [node name="ContentLanguage" type="VBoxContainer" parent="ModalPanel/Margin/VBox/ContentContainer"]
 unique_name_in_owner = true
 visible = false

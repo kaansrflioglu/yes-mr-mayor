@@ -36,6 +36,7 @@ signal twitch_overlay_toggle_requested
 @onready var label_resolution: Label = %LabelResolution
 @onready var option_resolution: OptionButton = %OptionResolution
 @onready var check_vsync: CheckBox = %CheckVSync
+@onready var check_hotkey_hints: CheckBox = %CheckHotkeyHints if has_node("%CheckHotkeyHints") else null
 
 # Language controls
 @onready var label_lang_header: Label = %LabelLangHeader
@@ -99,6 +100,8 @@ func _setup_signals() -> void:
 	option_window_mode.item_selected.connect(_on_window_mode_selected)
 	option_resolution.item_selected.connect(_on_resolution_selected)
 	check_vsync.toggled.connect(_on_vsync_toggled)
+	if check_hotkey_hints != null:
+		check_hotkey_hints.toggled.connect(_on_hotkey_hints_toggled)
 
 	# Language cards
 	btn_lang_tr.pressed.connect(func(): _select_language("tr"))
@@ -186,6 +189,8 @@ func _sync_ui_from_settings() -> void:
 			break
 
 	check_vsync.button_pressed = SettingsManager.vsync
+	if check_hotkey_hints != null:
+		check_hotkey_hints.button_pressed = SettingsManager.show_hotkey_hints
 
 	# Language sync
 	_update_lang_button_highlights(LocalizationManager.get_current_locale())
@@ -216,6 +221,8 @@ func _update_locale_texts() -> void:
 
 	label_resolution.text = tr("UI_RESOLUTION")
 	check_vsync.text = tr("UI_VSYNC")
+	if check_hotkey_hints != null:
+		check_hotkey_hints.text = tr("UI_SHOW_HOTKEY_HINTS")
 
 	label_lang_header.text = tr("UI_TAB_LANGUAGE")
 	btn_reset_defaults.text = tr("UI_BTN_RESET_DEFAULTS")
@@ -296,6 +303,10 @@ func _on_resolution_selected(idx: int) -> void:
 
 func _on_vsync_toggled(toggled: bool) -> void:
 	SettingsManager.set_vsync(toggled)
+
+
+func _on_hotkey_hints_toggled(enabled: bool) -> void:
+	SettingsManager.set_show_hotkey_hints(enabled)
 
 
 func _select_language(loc: String) -> void:

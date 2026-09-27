@@ -55,6 +55,7 @@ signal violation_uncovered(violation: Dictionary)
 @onready var bribe_container: PanelContainer = %BribeContainer
 @onready var bribe_amount_label: Label = %BribeAmountLabel
 @onready var btn_pocket_bribe: Button = %BtnPocketBribe
+@onready var bribe_keycap: Control = %BribeKeycap if has_node("%BribeKeycap") else null
 
 # Violation Alert Stamp
 @onready var violation_alert_box: PanelContainer = %ViolationAlertBox
@@ -87,6 +88,8 @@ func _ready() -> void:
 	if uv_overlay != null:
 		uv_overlay.visible = false
 	btn_pocket_bribe.pressed.connect(_on_pocket_bribe_pressed)
+	if SettingsManager != null:
+		set_keycap_hint_visible(SettingsManager.show_hotkey_hints)
 
 	tab_btn_app.pressed.connect(func(): _switch_dossier_tab(0))
 	tab_btn_rep.pressed.connect(func(): _switch_dossier_tab(1))
@@ -249,6 +252,11 @@ func _on_field_clicked(panel: PanelContainer, tag: String) -> void:
 
 func set_inspect_mode(active: bool) -> void:
 	is_inspect_mode = active
+
+
+func set_keycap_hint_visible(is_visible: bool) -> void:
+	if bribe_keycap != null:
+		bribe_keycap.visible = is_visible
 
 
 ## Called when player finds a legitimate discrepancy

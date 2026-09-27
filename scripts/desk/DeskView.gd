@@ -12,6 +12,8 @@ const GAME_OVER_SCENE: PackedScene = preload("res://scenes/summary/GameOverModal
 @onready var document_drop_zone: Control = %DocumentDropZone
 @onready var btn_stamp_approve: Button = %BtnStampApprove
 @onready var btn_stamp_reject: Button = %BtnStampReject
+@onready var approve_keycap: Control = %ApproveKeycap if has_node("%ApproveKeycap") else null
+@onready var reject_keycap: Control = %RejectKeycap if has_node("%RejectKeycap") else null
 @onready var btn_inspect_mode: Button = %BtnInspectMode
 @onready var rulebook: Control = %Rulebook
 @onready var btn_toggle_rulebook: Button = %BtnToggleRulebook
@@ -140,6 +142,10 @@ func _ready() -> void:
 	if GameManager != null and GameManager.has_signal("stats_changed"):
 		GameManager.stats_changed.connect(_update_luxury_props)
 	_update_luxury_props()
+	if SettingsManager != null:
+		if SettingsManager.has_signal("hotkey_hints_toggled"):
+			SettingsManager.hotkey_hints_toggled.connect(func(_val): _update_hotkey_badges_visibility())
+		_update_hotkey_badges_visibility()
 	_start_or_continue_shift()
 
 	if AudioManager != null and AudioManager.has_method("set_bgm_context"):
@@ -280,7 +286,33 @@ func _handle_bribe_shortcut() -> void:
 	_animate_drawer_pull()
 	if active_document != null and not active_document.has_pocketed_bribe:
 		if GameManager.active_event != null and GameManager.active_event.bribe_offered > 0:
+			if "btn_pocket_bribe" in active_document and active_document.btn_pocket_bribe != null:
+				_animate_button_slam(active_document.btn_pocket_bribe)
 			active_document.pocket_bribe()
+
+
+func _update_hotkey_badges_visibility() -> void:
+	var visible_hints: bool = SettingsManager.show_hotkey_hints if SettingsManager != null else true
+	if approve_keycap != null:
+		approve_keycap.visible = visible_hints
+	if reject_keycap != null:
+		reject_keycap.visible = visible_hints
+	if active_document != null and active_document.has_method("set_keycap_hint_visible"):
+		active_document.set_keycap_hint_visible(visible_hints)
+
+
+func _animate_button_slam(btn: Button) -> void:
+	if btn == null or not is_instance_valid(btn):
+		return
+	var pivot_orig := btn.pivot_offset
+	btn.pivot_offset = btn.size * 0.5
+	var tween := create_tween()
+	tween.tween_property(btn, "scale", Vector2(0.95, 0.95), 0.05).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_property(btn, "scale", Vector2(1.0, 1.0), 0.12).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.finished.connect(func():
+		if is_instance_valid(btn):
+			btn.pivot_offset = pivot_orig
+	)
 
 
 func _flip_dossier_page(forward: bool) -> void:
@@ -461,6 +493,8 @@ func _present_next_document() -> void:
 
 	doc_instance.setup_event(next_event)
 	doc_instance.set_uv_blacklight(is_uv_active)
+	if doc_instance.has_method("set_keycap_hint_visible") and SettingsManager != null:
+		doc_instance.set_keycap_hint_visible(SettingsManager.show_hotkey_hints)
 	doc_instance.bribe_pocketed.connect(_on_bribe_pocketed)
 	GameManager.present_event(next_event)
 
@@ -774,10 +808,12 @@ func _on_violation_uncovered(_violation: Dictionary) -> void:
 
 
 func _on_approve_pressed() -> void:
+	_animate_button_slam(btn_stamp_approve)
 	_execute_stamping(true)
 
 
 func _on_reject_pressed() -> void:
+	_animate_button_slam(btn_stamp_reject)
 	_execute_stamping(false)
 
 

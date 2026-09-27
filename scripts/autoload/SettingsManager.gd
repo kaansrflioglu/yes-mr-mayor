@@ -7,6 +7,7 @@ extends Node
 signal settings_applied
 signal volume_changed(bus_name: String, volume: float, muted: bool)
 signal display_changed(mode: int, resolution: Vector2i, vsync: bool)
+signal hotkey_hints_toggled(enabled: bool)
 
 const CONFIG_PATH: String = "user://settings.cfg"
 
@@ -35,6 +36,9 @@ var bgm_muted: bool = false
 var window_mode: int = WindowMode.WINDOWED
 var resolution: Vector2i = Vector2i(1920, 1080)
 var vsync: bool = true
+
+# Accessibility settings
+var show_hotkey_hints: bool = true
 
 # Locale
 var current_locale: String = "tr"
@@ -195,6 +199,13 @@ func apply_all_settings() -> void:
 	settings_applied.emit()
 
 
+## Sets visibility of keyboard hotkey hint badges
+func set_show_hotkey_hints(enabled: bool) -> void:
+	show_hotkey_hints = enabled
+	hotkey_hints_toggled.emit(show_hotkey_hints)
+	save_settings()
+
+
 ## Saves preferences to user://settings.cfg
 func save_settings() -> void:
 	var config := ConfigFile.new()
@@ -209,6 +220,8 @@ func save_settings() -> void:
 	config.set_value("display", "resolution_x", resolution.x)
 	config.set_value("display", "resolution_y", resolution.y)
 	config.set_value("display", "vsync", vsync)
+
+	config.set_value("accessibility", "show_hotkey_hints", show_hotkey_hints)
 
 	config.set_value("localization", "locale", current_locale)
 	config.save(CONFIG_PATH)
@@ -236,6 +249,8 @@ func load_settings() -> void:
 	resolution = Vector2i(res_x, res_y)
 	vsync = config.get_value("display", "vsync", true)
 
+	show_hotkey_hints = config.get_value("accessibility", "show_hotkey_hints", true)
+
 	current_locale = config.get_value("localization", "locale", "tr")
 
 
@@ -250,6 +265,8 @@ func reset_to_defaults() -> void:
 	window_mode = WindowMode.WINDOWED
 	resolution = Vector2i(1920, 1080)
 	vsync = true
+	show_hotkey_hints = true
+	hotkey_hints_toggled.emit(true)
 	current_locale = "tr"
 	apply_all_settings()
 	save_settings()

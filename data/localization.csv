@@ -1413,4 +1413,4 @@ UI_LUXURY_ALL_UNLOCKED,"Mayoral Luxury Suite Complete","Başkanlık Lüks Koleks
 UI_LUXURY_ALL_DESC,"Your mayoral desk is adorned with the finest corrupt extravagances.","Makam masanız rüşvetin ve lüksün en seçkin parçalarıyla donatıldı.","Su despacho luce los lujos más selectos de la corrupción."
 UI_LUXURY_ALL_EFFECT,"Effect: Maximum Corrupt Aristocrat Status","Etki: Zirve Yozlaşmış Aristokrat Unvanı","Efecto: Estatus Máximo de Aristócrata Corrupto"
 UI_LUXURY_MAXED,"Acquired 👑","Tümü Alındı 👑","Completado 👑"
-UI_AUDIT_LEAK_TRIGGERED,"Audit Leak: Confidential Inspector Target Highlighted! ({remaining} left)","Müfettiş İstihbaratı: Hedefteki İhlalli Evrak İşaretlendi! ({remaining} kaldı)","¡Filtración: Objetivo de inspección confidencial marcado! (Quedan {remaining})"
+UI_AUDIT_LEAK_TRIGGERED,"Audit Leak: Confidential Inspector Target Highlighted! ({remaining} left)","Müfettiş İstihbaratı: Hedefteki İhlalli Evrak İşaretlendi! ({remaining} kaldı)","¡Filtración: Objetivo de inspección confidencial marcado! (Quedan {remaining})"UI_SHOW_HOTKEY_HINTS,"Show Keyboard Hotkey Hints","Klavye Tuş İpuçlarını Göster","Mostrar atajos de teclado"
