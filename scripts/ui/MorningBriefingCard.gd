@@ -3,9 +3,6 @@ extends PanelContainer
 ## MorningBriefingCard.gd - Secretary's sticky Post-It memo for the morning ritual.
 ## Displays day-specific narrative context, weather/union warnings, and active municipal directives.
 
-signal bell_ring_requested
-signal coffee_sip_requested
-
 @onready var pin_icon: Label = %PinIcon if has_node("%PinIcon") else null
 @onready var memo_date_label: Label = %MemoDateLabel if has_node("%MemoDateLabel") else null
 @onready var memo_from_label: Label = %MemoFromLabel if has_node("%MemoFromLabel") else null
