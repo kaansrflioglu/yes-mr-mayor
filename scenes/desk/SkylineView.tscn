@@ -1,6 +1,7 @@
-[gd_scene load_steps=17 format=3 uid="uid://skylineview001"]
+[gd_scene load_steps=18 format=3 uid="uid://skylineview001"]
 
 [ext_resource type="Script" path="res://scripts/desk/SkylineView.gd" id="1_sky"]
+[ext_resource type="Script" path="res://scripts/desk/PoliceFlasher.gd" id="2_flasher"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sun"]
 bg_color = Color(1, 0.95, 0.6, 0.85)
@@ -564,6 +565,7 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_neon_casino")
 
 [node name="CasinoSign" type="Label" parent="LayerMidground/PropNeonCasino"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 1240.0
 offset_top = 50.0
@@ -758,6 +760,7 @@ offset_right = 795.0
 offset_bottom = 20.0
 mouse_filter = 2
 color = Color(1, 0.1, 0.1, 0.9)
+script = ExtResource("2_flasher")
 
 [node name="BlueLight" type="ColorRect" parent="LayerForeground/PropPoliceSiege"]
 unique_name_in_owner = true
@@ -768,6 +771,29 @@ offset_right = 850.0
 offset_bottom = 20.0
 mouse_filter = 2
 color = Color(0.1, 0.35, 1, 0.9)
+script = ExtResource("2_flasher")
+
+[node name="RedLight2" type="ColorRect" parent="LayerForeground/PropPoliceSiege"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1070.0
+offset_top = 8.0
+offset_right = 1095.0
+offset_bottom = 20.0
+mouse_filter = 2
+color = Color(1, 0.1, 0.1, 0.9)
+script = ExtResource("2_flasher")
+
+[node name="BlueLight2" type="ColorRect" parent="LayerForeground/PropPoliceSiege"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 1125.0
+offset_top = 8.0
+offset_right = 1150.0
+offset_bottom = 20.0
+mouse_filter = 2
+color = Color(0.1, 0.35, 1, 0.9)
+script = ExtResource("2_flasher")
 
 [node name="WindowMullions" type="Control" parent="."]
 layout_mode = 1

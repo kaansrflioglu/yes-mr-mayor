@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://testrunnerskylinephase2001"]
+
+[ext_resource type="Script" path="res://tests/test_skyline_phase2_node.gd" id="1_skytest2"]
+
+[node name="TestRunnerSkylinePhase2" type="Node"]
+script = ExtResource("1_skytest2")
