@@ -78,6 +78,7 @@ var is_stamped: bool = false
 var is_inspect_mode: bool = false
 var is_uv_active: bool = false
 var discovered_violations: Array[Dictionary] = []
+var current_tab_idx: int = 0
 
 
 func _ready() -> void:
@@ -165,6 +166,7 @@ func setup_event(event: EventData) -> void:
 
 
 func switch_dossier_tab(tab_idx: int) -> void:
+	current_tab_idx = tab_idx
 	AudioManager.play_page_flip()
 	if tab_idx == 0:
 		application_page.visible = true
@@ -185,6 +187,16 @@ func switch_dossier_tab(tab_idx: int) -> void:
 	tab_btn_app.set("theme_override_colors/font_color", col_app)
 	tab_btn_rep.set("theme_override_colors/font_color", col_rep)
 	tab_btn_both.set("theme_override_colors/font_color", col_both)
+
+
+func flip_next_page() -> void:
+	var next_idx: int = (current_tab_idx + 1) % 3
+	switch_dossier_tab(next_idx)
+
+
+func flip_prev_page() -> void:
+	var prev_idx: int = (current_tab_idx - 1 + 3) % 3
+	switch_dossier_tab(prev_idx)
 
 
 func _switch_dossier_tab(tab_idx: int) -> void:

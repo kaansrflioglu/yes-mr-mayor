@@ -147,22 +147,148 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed and not event.echo:
-		if event.keycode == KEY_SPACE:
-			_toggle_inspect_mode()
+	if event.is_action_pressed("ui_cancel") or (event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_ESCAPE):
+		_handle_escape_key()
+		get_viewport().set_input_as_handled()
+		return
+
+	# If any high-level modal is open, do not process desk gameplay hotkeys
+	if _is_any_modal_open():
+		return
+
+	# Twitch overlay toggle
+	if event.is_action_pressed("mayor_twitch"):
+		_toggle_twitch_overlay()
+		get_viewport().set_input_as_handled()
+		return
+
+	# Rulebook toggle
+	if event.is_action_pressed("mayor_rulebook"):
+		_toggle_rulebook()
+		get_viewport().set_input_as_handled()
+		return
+
+	# Rulebook quick-tab shortcuts (1-4)
+	if rulebook != null and rulebook.is_open:
+		if event.is_action_pressed("mayor_rulebook_tab_1"):
+			rulebook.switch_tab(0)
 			get_viewport().set_input_as_handled()
-		elif event.keycode == KEY_U:
-			toggle_uv_blacklight()
+			return
+		elif event.is_action_pressed("mayor_rulebook_tab_2"):
+			rulebook.switch_tab(1)
 			get_viewport().set_input_as_handled()
-		elif event.keycode == KEY_TAB:
-			_toggle_rulebook()
+			return
+		elif event.is_action_pressed("mayor_rulebook_tab_3"):
+			rulebook.switch_tab(2)
 			get_viewport().set_input_as_handled()
-		elif event.keycode == KEY_T:
-			_toggle_twitch_overlay()
+			return
+		elif event.is_action_pressed("mayor_rulebook_tab_4"):
+			rulebook.switch_tab(3)
 			get_viewport().set_input_as_handled()
-		elif event.keycode == KEY_ESCAPE:
-			_handle_escape_key()
-			get_viewport().set_input_as_handled()
+			return
+
+	# Red Telephone shortcut (Answer / Hang up / Consultation)
+	if event.is_action_pressed("mayor_telephone"):
+		_handle_telephone_shortcut()
+		get_viewport().set_input_as_handled()
+		return
+
+	# Morning Coffee / AP refill
+	if event.is_action_pressed("mayor_coffee"):
+		_on_order_espresso_pressed()
+		get_viewport().set_input_as_handled()
+		return
+
+	# UV Blacklight tactical toggle
+	if event.is_action_pressed("mayor_uv"):
+		toggle_uv_blacklight()
+		get_viewport().set_input_as_handled()
+		return
+
+	# Discrepancy inspection toggle
+	if event.is_action_pressed("mayor_inspect"):
+		_toggle_inspect_mode()
+		get_viewport().set_input_as_handled()
+		return
+
+	# Dossier Page Flipping (Q / E)
+	if event.is_action_pressed("mayor_page_prev"):
+		_flip_dossier_page(false)
+		get_viewport().set_input_as_handled()
+		return
+	elif event.is_action_pressed("mayor_page_next"):
+		_flip_dossier_page(true)
+		get_viewport().set_input_as_handled()
+		return
+
+	# Core Mayoral Actions (Approve / Reject / Bribe)
+	if not _is_desk_action_allowed():
+		return
+
+	if event.is_action_pressed("mayor_approve"):
+		_on_approve_pressed()
+		get_viewport().set_input_as_handled()
+		return
+	elif event.is_action_pressed("mayor_reject"):
+		_on_reject_pressed()
+		get_viewport().set_input_as_handled()
+		return
+	elif event.is_action_pressed("mayor_bribe"):
+		_handle_bribe_shortcut()
+		get_viewport().set_input_as_handled()
+		return
+
+
+func _is_any_modal_open() -> bool:
+	if settings_modal != null and settings_modal.is_open:
+		return true
+	if save_load_modal != null and save_load_modal.is_open:
+		return true
+	if pause_menu != null and pause_menu.is_open:
+		return true
+	if offshore_ledger_modal != null and offshore_ledger_modal.visible:
+		return true
+	return false
+
+
+func _is_desk_action_allowed() -> bool:
+	if _is_any_modal_open():
+		return false
+	if rulebook != null and rulebook.is_open:
+		return false
+	if red_telephone != null and red_telephone.dialog_panel.visible:
+		return false
+	if is_processing_decision or active_document == null or GameManager.active_event == null:
+		return false
+	if btn_stamp_approve == null or not btn_stamp_approve.is_inside_tree() or btn_stamp_approve.disabled:
+		return false
+	return true
+
+
+func _handle_telephone_shortcut() -> void:
+	if red_telephone == null:
+		return
+	if red_telephone.is_ringing:
+		red_telephone.answer_call()
+	elif red_telephone.dialog_panel.visible:
+		red_telephone.hang_up()
+	else:
+		red_telephone.open_consultation_dialog()
+
+
+func _handle_bribe_shortcut() -> void:
+	_animate_drawer_pull()
+	if active_document != null and not active_document.has_pocketed_bribe:
+		if GameManager.active_event != null and GameManager.active_event.bribe_offered > 0:
+			active_document.pocket_bribe()
+
+
+func _flip_dossier_page(forward: bool) -> void:
+	if active_document != null and is_instance_valid(active_document):
+		if forward:
+			active_document.flip_next_page()
+		else:
+			active_document.flip_prev_page()
 
 
 func _handle_escape_key() -> void:
@@ -170,6 +296,8 @@ func _handle_escape_key() -> void:
 		settings_modal.close()
 	elif save_load_modal != null and save_load_modal.is_open:
 		save_load_modal.close()
+	elif offshore_ledger_modal != null and offshore_ledger_modal.visible:
+		offshore_ledger_modal.close()
 	elif red_telephone != null and red_telephone.dialog_panel.visible:
 		red_telephone.hang_up()
 	elif rulebook != null and rulebook.is_open:
