@@ -13,10 +13,15 @@ extends PanelContainer
 
 var _current_day: int = 1
 var _memos_database: Dictionary = {}
+var _initial_position: Vector2 = Vector2.ZERO
+var _initial_rotation: float = -1.5
+var _slide_tween: Tween = null
 
 
 func _ready() -> void:
 	rotation_degrees = -1.5
+	_initial_position = position
+	_initial_rotation = rotation_degrees
 	_load_memos_data()
 	if LocalizationManager != null and LocalizationManager.has_signal("locale_changed"):
 		LocalizationManager.locale_changed.connect(_on_locale_changed)
@@ -121,17 +126,28 @@ func _get_fallback_memo_text(day: int) -> String:
 
 
 func slide_in() -> void:
+	if _slide_tween and _slide_tween.is_valid():
+		_slide_tween.kill()
 	visible = true
+	if _initial_position != Vector2.ZERO:
+		position = _initial_position
+	elif position != Vector2.ZERO:
+		_initial_position = position
+	rotation_degrees = _initial_rotation
 	modulate.a = 0.0
 	scale = Vector2(0.88, 0.88)
-	var tween := create_tween().set_parallel(true)
-	tween.tween_property(self, "modulate:a", 1.0, 0.28)
-	tween.tween_property(self, "scale", Vector2.ONE, 0.32).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_slide_tween = create_tween().set_parallel(true)
+	_slide_tween.tween_property(self, "modulate:a", 1.0, 0.28)
+	_slide_tween.tween_property(self, "scale", Vector2.ONE, 0.32).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 
 func slide_out() -> Tween:
-	var tween := create_tween().set_parallel(true)
-	tween.tween_property(self, "position:y", position.y - 300.0, 0.32).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-	tween.tween_property(self, "rotation_degrees", rotation_degrees - 4.0, 0.32)
-	tween.tween_property(self, "modulate:a", 0.0, 0.28)
-	return tween
+	if _slide_tween and _slide_tween.is_valid():
+		_slide_tween.kill()
+	if _initial_position == Vector2.ZERO and position != Vector2.ZERO:
+		_initial_position = position
+	_slide_tween = create_tween().set_parallel(true)
+	_slide_tween.tween_property(self, "position:y", position.y - 300.0, 0.32).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	_slide_tween.tween_property(self, "rotation_degrees", rotation_degrees - 4.0, 0.32)
+	_slide_tween.tween_property(self, "modulate:a", 0.0, 0.28)
+	return _slide_tween
