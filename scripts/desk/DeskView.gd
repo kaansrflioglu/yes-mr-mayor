@@ -104,6 +104,9 @@ var current_desk_state: DeskState = DeskState.STATE_PROCESSING_EVENTS
 @onready var desk_coffee_mug: Button = (
 	%DeskCoffeeMug if has_node("%DeskCoffeeMug") else null
 )
+@onready var coffee_steam_label: Label = (
+	%CoffeeSteamLabel if has_node("%CoffeeSteamLabel") else null
+)
 
 # Inspection & Discrepancy state
 var is_inspect_mode: bool = false
@@ -1304,9 +1307,21 @@ func _on_coffee_mug_pressed() -> void:
 		AudioManager.play_coffee_clink()
 
 	if desk_coffee_mug != null:
-		var tween := create_tween()
-		tween.tween_property(desk_coffee_mug, "scale", Vector2(1.12, 1.12), 0.1)
-		tween.tween_property(desk_coffee_mug, "scale", Vector2.ONE, 0.15)
+		# Pleasant sip tilt and bounce animation
+		var tween := create_tween().set_parallel(true)
+		tween.tween_property(desk_coffee_mug, "scale", Vector2(1.15, 1.15), 0.12).set_trans(Tween.TRANS_BACK)
+		tween.tween_property(desk_coffee_mug, "rotation", -0.08, 0.12)
+		if coffee_steam_label != null:
+			# Steam fades away smoothly on sip
+			tween.tween_property(coffee_steam_label, "modulate:a", 0.0, 0.15)
+
+		var chain_tween := create_tween()
+		chain_tween.tween_interval(0.18)
+		chain_tween.tween_property(desk_coffee_mug, "scale", Vector2.ONE, 0.2).set_trans(Tween.TRANS_ELASTIC)
+		chain_tween.parallel().tween_property(desk_coffee_mug, "rotation", 0.0, 0.2)
+		if coffee_steam_label != null:
+			# Steam slowly fades back in as coffee stays warm
+			chain_tween.parallel().tween_property(coffee_steam_label, "modulate:a", 1.0, 0.6)
 
 	# Refill / set starting focus to max
 	current_inspect_focus = MAX_INSPECT_FOCUS

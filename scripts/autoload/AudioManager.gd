@@ -309,6 +309,43 @@ func play_coffee_sip() -> void:
 	_play_raw_wav(buffer, int(SAMPLE_RATE))
 
 
+## Plays crisp metallic chime of a polished brass desk reception service bell
+func play_desk_bell() -> void:
+	var duration: float = 0.75
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	# Metallic brass harmonics: Fundamental (2093 Hz C7), Overtones (2793 Hz F7, 4186 Hz C8, 5587 Hz F8)
+	var f0: float = 2093.0
+	var f1: float = 2793.8
+	var f2: float = 4186.0
+	var f3: float = 5587.6
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var progress: float = float(i) / float(samples)
+		var strike: float = minf(1.0, float(i) / (SAMPLE_RATE * 0.003))
+		var envelope_fund: float = exp(-4.5 * progress) * strike
+		var envelope_high: float = exp(-9.0 * progress) * strike
+
+		var v0: float = sin(2.0 * PI * f0 * t) * 0.45 * envelope_fund
+		var v1: float = sin(2.0 * PI * f1 * t) * 0.28 * envelope_fund
+		var v2: float = sin(2.0 * PI * f2 * t) * 0.18 * envelope_high
+		var v3: float = sin(2.0 * PI * f3 * t) * 0.12 * envelope_high
+
+		# Initial metallic contact click / chime tap
+		var tap: float = 0.0
+		if progress < 0.02:
+			tap = randf_range(-0.15, 0.15) * (1.0 - progress / 0.02)
+
+		var chime: float = (v0 + v1 + v2 + v3 + tap) * 0.85
+		var sample_f: float = clampf(chime, -1.0, 1.0)
+		buffer.encode_s16(i * 2, int(sample_f * 32767.0))
+
+	_play_raw_wav(buffer, int(SAMPLE_RATE))
+
+
 ## Plays mechanical shutter/click when toggling inspection mode
 func play_inspect_toggle() -> void:
 	var duration: float = 0.12

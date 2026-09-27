@@ -307,6 +307,20 @@ theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_coffee_btn")
 text = "☕ SABAH KAHVESİ (ODAK)"
 
+[node name="CoffeeSteamLabel" type="Label" parent="ShakeRoot/MorningRitualContainer/RitualActionsHBox/DeskCoffeeMug"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -28.0
+offset_top = 4.0
+offset_right = -8.0
+offset_bottom = 26.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 13
+text = "♨️"
+
 [node name="DeskBellButton" type="Button" parent="ShakeRoot/MorningRitualContainer/RitualActionsHBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(270, 52)

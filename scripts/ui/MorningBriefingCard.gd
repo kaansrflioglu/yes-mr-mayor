@@ -134,6 +134,7 @@ func slide_in() -> void:
 
 func slide_out() -> Tween:
 	var tween := create_tween().set_parallel(true)
-	tween.tween_property(self, "position:y", position.y - 140.0, 0.3).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-	tween.tween_property(self, "modulate:a", 0.0, 0.25)
+	tween.tween_property(self, "position:y", position.y - 300.0, 0.32).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	tween.tween_property(self, "rotation_degrees", rotation_degrees - 4.0, 0.32)
+	tween.tween_property(self, "modulate:a", 0.0, 0.28)
 	return tween
