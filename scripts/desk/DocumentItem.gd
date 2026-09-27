@@ -296,9 +296,9 @@ func set_inspect_mode(active: bool) -> void:
 	is_inspect_mode = active
 
 
-func set_keycap_hint_visible(is_visible: bool) -> void:
+func set_keycap_hint_visible(hint_visible: bool) -> void:
 	if bribe_keycap != null:
-		bribe_keycap.visible = is_visible
+		bribe_keycap.visible = hint_visible
 
 
 ## Called when player finds a legitimate discrepancy
