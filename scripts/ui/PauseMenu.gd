@@ -54,6 +54,19 @@ func _connect_signals() -> void:
 
 	btn_confirm_yes.pressed.connect(_on_confirm_yes_pressed)
 	btn_confirm_no.pressed.connect(_on_confirm_no_pressed)
+	_setup_focus_navigation()
+
+
+func _setup_focus_navigation() -> void:
+	var btns: Array[Button] = [btn_resume, btn_save, btn_load, btn_settings, btn_main_menu, btn_quit]
+	for i in range(btns.size()):
+		var b := btns[i]
+		if b != null:
+			b.focus_mode = Control.FOCUS_ALL
+			var next_b := btns[(i + 1) % btns.size()]
+			var prev_b := btns[(i - 1 + btns.size()) % btns.size()]
+			b.focus_neighbor_bottom = next_b.get_path()
+			b.focus_neighbor_top = prev_b.get_path()
 
 
 func open() -> void:
@@ -75,6 +88,9 @@ func open() -> void:
 	tween.tween_property(menu_panel, "scale", Vector2.ONE, 0.22).set_trans(
 		Tween.TRANS_BACK
 	).set_ease(Tween.EASE_OUT)
+
+	if btn_resume != null:
+		btn_resume.grab_focus()
 
 
 func close() -> void:

@@ -150,6 +150,7 @@ func _ready() -> void:
 
 	if AudioManager != null and AudioManager.has_method("set_bgm_context"):
 		AudioManager.set_bgm_context("desk", 1.0)
+	_setup_focus_navigation()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -157,6 +158,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		_handle_escape_key()
 		get_viewport().set_input_as_handled()
 		return
+
+	# Gamepad / Keyboard navigation auto-focus when idle
+	if event is InputEventJoypadButton or event is InputEventJoypadMotion:
+		var focused := get_viewport().gui_get_focus_owner()
+		if focused == null:
+			grab_default_focus()
 
 	# If any high-level modal is open, do not process desk gameplay hotkeys
 	if _is_any_modal_open():
@@ -313,6 +320,85 @@ func _animate_button_slam(btn: Button) -> void:
 		if is_instance_valid(btn):
 			btn.pivot_offset = pivot_orig
 	)
+
+
+func grab_default_focus() -> void:
+	if btn_stamp_approve != null and is_instance_valid(btn_stamp_approve) and not btn_stamp_approve.disabled:
+		btn_stamp_approve.grab_focus()
+
+
+func _setup_focus_navigation() -> void:
+	var focus_box := StyleBoxFlat.new()
+	focus_box.draw_center = false
+	focus_box.border_width_left = 3
+	focus_box.border_width_top = 3
+	focus_box.border_width_right = 3
+	focus_box.border_width_bottom = 3
+	focus_box.border_color = Color(1.0, 0.85, 0.35, 1.0)
+	focus_box.corner_radius_top_left = 6
+	focus_box.corner_radius_top_right = 6
+	focus_box.corner_radius_bottom_right = 6
+	focus_box.corner_radius_bottom_left = 6
+
+	var desk_buttons: Array[Button] = [
+		btn_stamp_approve,
+		btn_stamp_reject,
+		btn_inspect_mode,
+		btn_toggle_uv,
+		btn_toggle_rulebook
+	]
+	if btn_order_espresso != null:
+		desk_buttons.append(btn_order_espresso)
+	if btn_next_day != null:
+		desk_buttons.append(btn_next_day)
+
+	for b in desk_buttons:
+		if b != null and is_instance_valid(b):
+			b.focus_mode = Control.FOCUS_ALL
+			b.add_theme_stylebox_override("focus", focus_box)
+
+	# Vertical StampRack navigation chain
+	if btn_stamp_approve != null and btn_stamp_reject != null:
+		btn_stamp_approve.focus_neighbor_bottom = btn_stamp_reject.get_path()
+		btn_stamp_reject.focus_neighbor_top = btn_stamp_approve.get_path()
+
+	if btn_stamp_reject != null and btn_inspect_mode != null:
+		btn_stamp_reject.focus_neighbor_bottom = btn_inspect_mode.get_path()
+		btn_inspect_mode.focus_neighbor_top = btn_stamp_reject.get_path()
+
+	if btn_inspect_mode != null and btn_toggle_uv != null:
+		btn_inspect_mode.focus_neighbor_bottom = btn_toggle_uv.get_path()
+		btn_toggle_uv.focus_neighbor_top = btn_inspect_mode.get_path()
+
+	if btn_toggle_uv != null and btn_toggle_rulebook != null:
+		btn_toggle_uv.focus_neighbor_bottom = btn_toggle_rulebook.get_path()
+		btn_toggle_rulebook.focus_neighbor_top = btn_toggle_uv.get_path()
+
+	if btn_toggle_rulebook != null and btn_order_espresso != null:
+		btn_toggle_rulebook.focus_neighbor_bottom = btn_order_espresso.get_path()
+		btn_order_espresso.focus_neighbor_top = btn_toggle_rulebook.get_path()
+
+	_connect_document_focus_neighbors(focus_box)
+
+
+func _connect_document_focus_neighbors(custom_box: StyleBox = null) -> void:
+	if active_document == null or not is_instance_valid(active_document):
+		return
+
+	if active_document.has_method("setup_focus_mode"):
+		active_document.setup_focus_mode(custom_box)
+
+	var doc_bribe: Button = active_document.get_node_or_null("%BtnPocketBribe") as Button
+	var doc_tab_both: Button = active_document.get_node_or_null("%TabBtnBoth") as Button
+	var target_left: Control = doc_bribe if (doc_bribe != null and doc_bribe.visible and not doc_bribe.disabled) else doc_tab_both
+
+	if target_left != null and is_instance_valid(target_left):
+		if btn_stamp_approve != null:
+			btn_stamp_approve.focus_neighbor_left = target_left.get_path()
+		if btn_stamp_reject != null:
+			btn_stamp_reject.focus_neighbor_left = target_left.get_path()
+		if btn_stamp_approve != null:
+			target_left.focus_neighbor_right = btn_stamp_approve.get_path()
 
 
 func _flip_dossier_page(forward: bool) -> void:
@@ -522,6 +608,7 @@ func _present_next_document() -> void:
 
 		# Check Audit Immunity Leak intel
 		_check_audit_intel_leak(next_event)
+		_connect_document_focus_neighbors()
 
 		# 35% chance to trigger red emergency phone ringing
 		if randf() < 0.35 and red_telephone != null:

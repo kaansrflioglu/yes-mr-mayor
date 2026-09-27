@@ -56,6 +56,42 @@ func _ready() -> void:
 	_update_locale_texts()
 	LocalizationManager.locale_changed.connect(func(_l): _update_locale_texts())
 	_switch_tab(0)
+	setup_focus_mode()
+
+
+func setup_focus_mode() -> void:
+	var fb := StyleBoxFlat.new()
+	fb.draw_center = false
+	fb.border_width_left = 2
+	fb.border_width_top = 2
+	fb.border_width_right = 2
+	fb.border_width_bottom = 2
+	fb.border_color = Color(0.95, 0.8, 0.25, 1.0)
+	fb.corner_radius_top_left = 4
+	fb.corner_radius_top_right = 4
+	fb.corner_radius_bottom_right = 4
+	fb.corner_radius_bottom_left = 4
+
+	var rb_btns: Array[Button] = [tab_btn_zoning, tab_btn_seals, tab_btn_blacklist, tab_btn_orders, btn_close]
+	for b in rb_btns:
+		if b != null and is_instance_valid(b):
+			b.focus_mode = Control.FOCUS_ALL
+			b.add_theme_stylebox_override("focus", fb)
+
+	tab_btn_zoning.focus_neighbor_right = tab_btn_seals.get_path()
+	tab_btn_zoning.focus_neighbor_left = btn_close.get_path()
+
+	tab_btn_seals.focus_neighbor_left = tab_btn_zoning.get_path()
+	tab_btn_seals.focus_neighbor_right = tab_btn_blacklist.get_path()
+
+	tab_btn_blacklist.focus_neighbor_left = tab_btn_seals.get_path()
+	tab_btn_blacklist.focus_neighbor_right = tab_btn_orders.get_path()
+
+	tab_btn_orders.focus_neighbor_left = tab_btn_blacklist.get_path()
+	tab_btn_orders.focus_neighbor_right = btn_close.get_path()
+
+	btn_close.focus_neighbor_left = tab_btn_orders.get_path()
+	btn_close.focus_neighbor_right = tab_btn_zoning.get_path()
 
 
 func _update_locale_texts() -> void:
@@ -95,6 +131,8 @@ func toggle_rulebook() -> void:
 	visible = is_open
 	AudioManager.play_page_flip()
 	visibility_toggled.emit(is_open)
+	if is_open and tab_btn_zoning != null:
+		tab_btn_zoning.grab_focus()
 
 
 func set_inspect_mode(active: bool) -> void:

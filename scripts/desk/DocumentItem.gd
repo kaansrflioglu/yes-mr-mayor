@@ -97,6 +97,48 @@ func _ready() -> void:
 
 	_setup_all_inspectables()
 	_switch_dossier_tab(0)
+	setup_focus_mode()
+
+
+func setup_focus_mode(custom_focus_box: StyleBox = null) -> void:
+	var focus_box: StyleBox = custom_focus_box
+	if focus_box == null:
+		var fb := StyleBoxFlat.new()
+		fb.draw_center = false
+		fb.border_width_left = 2
+		fb.border_width_top = 2
+		fb.border_width_right = 2
+		fb.border_width_bottom = 2
+		fb.border_color = Color(1.0, 0.85, 0.35, 1.0)
+		fb.corner_radius_top_left = 4
+		fb.corner_radius_top_right = 4
+		fb.corner_radius_bottom_right = 4
+		fb.corner_radius_bottom_left = 4
+		focus_box = fb
+
+	var doc_btns: Array[Button] = [tab_btn_app, tab_btn_rep, tab_btn_both]
+	if btn_pocket_bribe != null:
+		doc_btns.append(btn_pocket_bribe)
+
+	for b in doc_btns:
+		if b != null and is_instance_valid(b):
+			b.focus_mode = Control.FOCUS_ALL
+			b.add_theme_stylebox_override("focus", focus_box)
+
+	tab_btn_app.focus_neighbor_right = tab_btn_rep.get_path()
+	tab_btn_app.focus_neighbor_left = tab_btn_both.get_path()
+
+	tab_btn_rep.focus_neighbor_left = tab_btn_app.get_path()
+	tab_btn_rep.focus_neighbor_right = tab_btn_both.get_path()
+
+	tab_btn_both.focus_neighbor_left = tab_btn_rep.get_path()
+	tab_btn_both.focus_neighbor_right = tab_btn_app.get_path()
+
+	if btn_pocket_bribe != null:
+		tab_btn_app.focus_neighbor_bottom = btn_pocket_bribe.get_path()
+		tab_btn_rep.focus_neighbor_bottom = btn_pocket_bribe.get_path()
+		tab_btn_both.focus_neighbor_bottom = btn_pocket_bribe.get_path()
+		btn_pocket_bribe.focus_neighbor_top = tab_btn_app.get_path()
 
 
 func setup_event(event: EventData) -> void:
