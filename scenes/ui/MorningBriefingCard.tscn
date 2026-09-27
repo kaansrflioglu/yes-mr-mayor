@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://morning_briefing_card_001"]
+[gd_scene load_steps=6 format=3 uid="uid://morning_briefing_card_001"]
 
 [ext_resource type="Script" path="res://scripts/ui/MorningBriefingCard.gd" id="1_card"]
 
@@ -16,6 +16,10 @@ corner_radius_bottom_left = 6
 shadow_color = Color(0, 0, 0, 0.28)
 shadow_size = 14
 shadow_offset = Vector2(3, 6)
+
+[sub_resource type="SystemFont" id="SystemFont_handwritten"]
+font_names = PackedStringArray("Ink Free", "Segoe Print", "Caveat", "Comic Sans MS", "Casual", "sans-serif")
+subpixel_positioning = 1
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pin"]
 bg_color = Color(0.85, 0.2, 0.2, 0.9)
@@ -80,8 +84,9 @@ text = "Day 1 • 08:30 AM"
 [node name="MemoFromLabel" type="Label" parent="Margin/VBox/HeaderHBox/TitleVBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.45, 0.4, 0.3, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_fonts/font = SubResource("SystemFont_handwritten")
+theme_override_colors/font_color = Color(0.35, 0.3, 0.25, 1)
+theme_override_font_sizes/font_size = 13
 text = "From: Clarissa (Executive Secretary)"
 
 [node name="HSeparator" type="HSeparator" parent="Margin/VBox"]
@@ -92,9 +97,10 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.18, 0.15, 0.12, 1)
-theme_override_constants/line_spacing = 4
-theme_override_font_sizes/font_size = 14
+theme_override_fonts/font = SubResource("SystemFont_handwritten")
+theme_override_colors/font_color = Color(0.12, 0.15, 0.28, 0.95)
+theme_override_constants/line_spacing = 5
+theme_override_font_sizes/font_size = 15
 text = "Good morning, Mr. Mayor! Environmental auditors are in town today. The Governor's office called twice before 8 AM. Be careful with river permits!"
 autowrap_mode = 2
 

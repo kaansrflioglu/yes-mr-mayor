@@ -21,6 +21,12 @@ var _memos_database: Dictionary = {}
 func _ready() -> void:
 	rotation_degrees = -1.5
 	_load_memos_data()
+	if LocalizationManager != null and LocalizationManager.has_signal("locale_changed"):
+		LocalizationManager.locale_changed.connect(_on_locale_changed)
+
+
+func _on_locale_changed(_new_locale: String) -> void:
+	setup_briefing(_current_day)
 
 
 func _load_memos_data() -> void:

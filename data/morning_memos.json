@@ -1,0 +1,512 @@
+{
+  "1": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "First Day in Office",
+      "text": "Good morning, Mr. Mayor! Fresh coffee is on your desk. The morning docket is assembled and waiting room doors will open when you ring the bell. Let's make this city proud!"
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Görevdeki İlk Gün",
+      "text": "Günaydın Sayın Başkanım! Taze kahveniz masanızda hazır. Sabah evrakları derlendi; siz resepsiyon zilini çaldığınızda bekleme salonunun kapıları açılacak. Bu şehri gururlandıralım!"
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Primer Día en el Cargo",
+      "text": "¡Buenos días, Señor Alcalde! El café recién hecho está en su escritorio. El expediente matutino está listo y la sala de espera abrirá cuando toque el timbre. ¡Hagamos que la ciudad esté orgullosa!"
+    }
+  },
+  "2": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "City Council Whispers",
+      "text": "Mr. Mayor, rumors from council hall suggest several district councilors are watching your permit approvals closely. Keep an eye on zoning compliance today."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Belediye Meclisi Kulisleri",
+      "text": "Sayın Başkanım, meclis koridorlarındaki fısıltılara göre bazı ilçe meclis üyeleri imar izinlerini yakından inceliyor. Bugünkü imar uygunluklarına dikkat edin."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Rumores del Concejo",
+      "text": "Señor Alcalde, los concejales de distrito están vigilando de cerca sus aprobaciones de permisos. Preste especial atención a las normas de zonificación hoy."
+    }
+  },
+  "3": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Ecology Ministry Auditors in Town",
+      "text": "Auditors from the Ministry of Ecology are dining across the street. The Governor's office called twice before 8 AM. Be careful with river permits! Violations grant 2x Approval if rejected, but 2x Suspicion if approved."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Çevre Bakanlığı Müfettişleri Şehirde",
+      "text": "Ekoloji ve Çevre Bakanlığı müfettişleri karşı caddede yemek yiyor! Vali yardımcısı sabah 8'den önce iki kez aradı. Nehir kenarı ruhsatlarına çok dikkat edin! Çevre ihlallerini reddetmek 2 kat Onay, onaylamak ise 2 kat Şüphe getirir."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Inspectores del Ministerio de Ecología",
+      "text": "¡Los auditores del Ministerio de Ecología están almorzando cruzando la calle! La oficina del Gobernador llamó dos veces antes de las 8 AM. Cuidado con los permisos del río: rechazarlos da doble aprobación, pero aprobarlos duplica la sospecha."
+    }
+  },
+  "4": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Harbor Development Petitions",
+      "text": "The Port Authority submitted several fast-track commercial petitions. Shipping magnates have deep pockets, but dockworkers are watchful."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Liman Genişleme Başvuruları",
+      "text": "Liman İdaresi acil ticari izin başvuruları sundu. Armatörlerin cepleri oldukça dolu, ancak dok işçileri gözlerini üzerinizden ayırmıyor."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Peticiones Portuarias",
+      "text": "La Autoridad Portuaria envió varias solicitudes comerciales urgentes. Los magnates navieros tienen bolsillos profundos, pero los estibadores están atentos."
+    }
+  },
+  "5": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "End of Week Pressure",
+      "text": "Friday lobby groups are packing the corridor. Expect generous envelopes slipped between floor plans, but remember: the press office reads the logs on Monday."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Hafta Sonu Yoğunluğu",
+      "text": "Cuma lobicileri koridoru doldurmuş durumda. Mimari planların arasına gizlenmiş kabarık zarflar gelebilir; unutmayın, basın bürosu pazartesi kayıtları inceliyor."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Presión de Fin de Semana",
+      "text": "Los grupos de interés abarrotan el pasillo. Espere sobres generosos entre los planos arquitectónicos, pero recuerde: la prensa revisa los registros el lunes."
+    }
+  },
+  "6": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Weekend Public Safety Review",
+      "text": "The Chief of Police dropped by earlier. Weekend street event applications are high; ensure emergency exits and safety quotas are strictly respected."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Hafta Sonu Kamu Güvenliği",
+      "text": "Emniyet Müdürü sabah erkenden uğradı. Hafta sonu sokak etkinliği başvuruları çok fazla; acil çıkış ve güvenlik kotalarına harfiyen uyulduğundan emin olun."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Seguridad Pública de Fin de Semana",
+      "text": "El Jefe de Policía pasó temprano. Hay muchas solicitudes para eventos callejeros; asegúrese de que las salidas de emergencia y cuotas de seguridad se cumplan."
+    }
+  },
+  "7": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Sanitation Union Strike Threat",
+      "text": "Sanitation union representatives are picketing on the east lawn. Any decision affecting public works, waste facilities, or civic wages will have immediate, amplified public opinion impact."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Temizlik İşçileri Grev Uyarısı",
+      "text": "Temizlik işçileri sendikası doğu bahçesinde pankart açtı! Kamu hizmetlerini, çöp tesislerini veya maaşları etkileyen her türlü karar halkın onayını anında ve iki kat sert etkileyecektir."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Huelga de Trabajadores de Limpieza",
+      "text": "Los representantes del sindicato de limpieza están protestando en el jardín este. Cualquier decisión sobre obras públicas o salarios tendrá un impacto inmediato y amplificado en la opinión pública."
+    }
+  },
+  "8": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Municipal Budget Crisis Looming",
+      "text": "The Treasury Comptroller left an urgent red memo: municipal bond interest is due! Revenue requirements are 50% higher today. We need revenue, but mind the public outcry."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Belediye Bütçe Krizi Eşiğinde",
+      "text": "Hazine Müsteşarı kırmızı zarflı bir not bıraktı: Belediye tahvillerinin vadesi geldi! Gelir gereksinimleri bugün %50 daha yüksek. Kasaya nakit lazım ama halkın tepkisini de gözetin."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Crisis Presupuestaria Municipal",
+      "text": "El Contralor del Tesoro dejó una nota roja urgente: ¡vencen los bonos municipales! Los costos e ingresos aumentan un 50% hoy. Necesitamos recaudación sin provocar protestas."
+    }
+  },
+  "9": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Investigative Reporters Spotted",
+      "text": "Two reporters from the Daily Chronicle were caught snooping near the municipal shredder room. Double-check paperwork stamps today."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Araştırmacı Gazeteciler Kapıda",
+      "text": "Daily Chronicle gazetesinden iki muhabir evrak imha odasının yakınında yakalandı. Bugün mühürlediğiniz her evrakı iki kez kontrol edin."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Periodistas en el Edificio",
+      "text": "Dos reporteros del Daily Chronicle fueron vistos cerca de la trituradora. Revise meticulosamente cada sello de los expedientes hoy."
+    }
+  },
+  "10": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "District 4 Rezoning Petitions",
+      "text": "Real estate developers from District 4 want high-density residential towers approved. Watch out for fabricated fire escape certifications."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "4. Bölge İmar Değişiklikleri",
+      "text": "4. Bölge müteahhitleri yüksek katlı lüks kuleler dikmek istiyor. Sahte yangın merdiveni ve deprem raporlarına karşı gözünüzü dört açın."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Zonificación del Distrito 4",
+      "text": "Los promotores inmobiliarios del Distrito 4 quieren torres de alta densidad. Cuidado con certificaciones falsificadas de seguridad contra incendios."
+    }
+  },
+  "11": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Encrypted Hotline Inquiry",
+      "text": "An anonymous caller on the red telephone left a cryptic tip about offshore shell companies registered under civic subcontractors. Use the red phone if in doubt."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Kırmızı Hat İhbarı",
+      "text": "Kırmızı telefon hattına belediye taşeronlarının kıyı ötesi paravan şirketleri hakkında şifreli bir ihbar geldi. Şüpheli evraklarda kırmızı telefonu kullanmaktan çekinmeyin."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Aviso en la Línea Roja",
+      "text": "Un informante anónimo dejó pistas sobre empresas fantasma de subcontratistas municipales. Use el teléfono rojo si tiene dudas con algún solicitante."
+    }
+  },
+  "12": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Federal Subpoena Rumors",
+      "text": "Federal subpoena rumors are flying. Shredder is oiled and ready! Bribe offers in dossiers are 25% higher today, but all suspicion gains increase by +5%. Stay vigilant!"
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Federal Soruşturma Dedikoduları",
+      "text": "Federal savcılık soruşturma dedikoduları ortalıkta uçuşuyor. Evrak imha makinesi yağlandı ve hazır! Rüşvet teklifleri %25 daha yüksek, ancak kazanılan şüphe de +%5 artıyor. Çok dikkatli olun!"
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Rumores de Citación Federal",
+      "text": "Vuelan rumores de una citación federal. ¡La trituradora está lista! Los sobornos son 25% más altos hoy, pero la sospecha aumenta un +5%. ¡Manténgase alerta!"
+    }
+  },
+  "13": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Historic Preservation Society Meeting",
+      "text": "The Heritage Trust sent an impassioned plea: protecting century-old neoclassical facades will delight the cultural elite, even if developers complain."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Tarihi Miras Derneği Talepleri",
+      "text": "Tarihi Eserleri Koruma Vakfı mektup gönderdi: Asırlık neoklasik binaları korumak müteahhitleri kızdırsa da kültür çevrelerinin desteğini kazandıracaktır."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Preservación Histórica",
+      "text": "La Sociedad del Patrimonio pide proteger las fachadas neoclásicas centenarias. Complacerá a la élite cultural, aunque los constructores se quejen."
+    }
+  },
+  "14": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Anti-Corruption Taskforce",
+      "text": "State prosecutors launched an unannounced Anti-Corruption Audit. Any illicit kickbacks or bribes pocketed today carry extreme suspicion penalties!"
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Yolsuzlukla Mücadele Denetimi",
+      "text": "Devlet başsavcılığı haber vermeksizin Yolsuzlukla Mücadele Teftişi başlattı. Bugün cebe atılacak herhangi bir rüşvet veya komisyon feci şüphe cezası getirecektir!"
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Operativo Anticorrupción",
+      "text": "La fiscalía inició una inspección sorpresa anticorrupción. ¡Cualquier soborno o comisión que acepte hoy acarreará sanciones de sospecha extremas!"
+    }
+  },
+  "15": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Mid-Mandate Milestone",
+      "text": "Halfway through the month, Mr. Mayor! The city treasury is holding, but political tensions in the plaza are simmering. Keep a steady hand on the stamps."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Dönem Ortası Değerlendirmesi",
+      "text": "Ayın tam ortasına geldik Sayın Başkanım! Belediye kasası ayakta duruyor ancak meydandaki siyasi tansiyon yükseliyor. Mühürleri basarken eliniz titremesin."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Mitad de Mandato",
+      "text": "¡Mitad de mes, Señor Alcalde! Las arcas municipales resisten, pero la tensión política aumenta en la plaza. Mantenga un pulso firme con los sellos."
+    }
+  },
+  "16": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Transit Authority Overhaul",
+      "text": "The Metro Transit Board is demanding emergency track repairs. Approval of transit infrastructure earns great civic trust today."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Toplu Taşıma Revizyonu",
+      "text": "Metro İdaresi acil ray yenileme ödeneği talep ediyor. Toplu taşıma ve raylı sistem projelerine verilecek onaylar bugün halk nezdinde büyük güven tazeleyecektir."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Modernización del Transporte",
+      "text": "La junta del metro exige reparaciones urgentes. Aprobar proyectos de transporte público generará una enorme confianza ciudadana hoy."
+    }
+  },
+  "17": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Industrial Smog Alert",
+      "text": "Air quality monitors near the factory district hit hazardous levels. Watch out for backdated emissions waivers slipped into utility requests."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Sanayi Dumanı ve Sis Alarmı",
+      "text": "Fabrikalar bölgesindeki hava kalitesi tehlikeli seviyeye indi. Altyapı evraklarının arasına sıkıştırılmış geriye dönük emisyon muafiyetlerine dikkat!"
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Alerta de Contaminación Industrial",
+      "text": "La calidad del aire en la zona fabril alcanzó niveles críticos. Cuidado con exenciones de emisiones con fechas alteradas en las solicitudes."
+    }
+  },
+  "18": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Record Heatwave in City Hall",
+      "text": "Heatwave! The air conditioning in City Hall is broken. Mayor's Focus AP regenerates slower; espresso runs cost twice as much. Keep cool and sip coffee!"
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Belediye Sarayında Sıcak Dalgası",
+      "text": "Kavurucu sıcak dalgası! Belediye sarayının kliması bozuldu. Zihinsel Odak (AP) çok daha yavaş toparlanıyor ve kahve masrafları ikiye katlandı. Serin kalmaya çalışın!"
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Ola de Calor en el Ayuntamiento",
+      "text": "¡Ola de calor extrema! El aire acondicionado se rompió. El enfoque del Alcalde se recupera más lento y el café cuesta el doble. ¡Mantenga la calma y beba café!"
+    }
+  },
+  "19": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Water Reservoir Depletion",
+      "text": "Reservoir levels dropped past critical capacity. Commercial car wash and water park permits should be rejected unless you want dry taps tomorrow."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Su Barajlarında Kritik Seviye",
+      "text": "Barajlardaki su seviyesi kritik eşiğin altına indi. Yarın evlerde suların kesilmesini istemiyorsanız oto yıkama ve aqua park ruhsatlarını geri çevirin."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Reserva de Agua en Mínimos",
+      "text": "Los embalses están en niveles críticos. Rechace permisos para parques acuáticos o lavaderos de autos si no quiere que falte agua mañana."
+    }
+  },
+  "20": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Police Benevolent Association",
+      "text": "The Police Union gala invitations have arrived. Rejecting police facility requests today will irritate law enforcement and raise suspicion levels."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Polis Teşkilatı Yardım Derneği",
+      "text": "Polis Derneği balo davetiyeleri geldi. Güvenlik teşkilatının bina ve bütçe taleplerini reddetmek kolluk kuvvetlerini kızdırıp şüpheyi artırabilir."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Asociación Policial",
+      "text": "Llegaron las invitaciones de la gala policial. Rechazar solicitudes de comisarías hoy irritará a los agentes y aumentará la sospecha."
+    }
+  },
+  "21": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Luxury Casino License Lobbying",
+      "text": "Offshore casino syndicates submitted lucrative neon strip proposals. The kickback offers are astronomical, but civil unrest may ignite."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Lüks Kumarhane Şeridi Baskısı",
+      "text": "Offshore kumarhane konsorsiyumu devasa neon şerit projeleri sundu. Teklif edilen rüşvetler astronomik düzeyde ancak halk ayaklanabilir."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Licencias para Casinos de Lujo",
+      "text": "Consorcios de casinos presentaron propuestas para una franja de neón. Los sobornos son astronómicos, pero el descontento social podría estallar."
+    }
+  },
+  "22": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Silicon Quarter Tax Exemption",
+      "text": "Tech startups and biotech laboratories are applying for municipal tax breaks. Good for modern city prestige, bad for immediate budget needs."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Teknopark Vergi Muafiyetleri",
+      "text": "Yazılım şirketleri ve biyoteknoloji laboratuvarları vergi muafiyeti talep ediyor. Şehrin modern imajı için harika, ancak anlık bütçe için zorlayıcı."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Exenciones para el Distrito Tecnológico",
+      "text": "Empresas tecnológicas solicitan exenciones fiscales municipales. Excelente para el prestigio moderno, pero duro para la recaudación inmediata."
+    }
+  },
+  "23": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Customs Smuggling Allegations",
+      "text": "Warehouse permits on the waterfront are suspect. Federal agents suspect counterfeit building materials are flooding in."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Gümrük Kaçakçılığı Şüpheleri",
+      "text": "Rıhtımdaki antrepo ve depo izinleri oldukça şüpheli. Müfettişler kalitesiz ve sahte inşaat malzemelerinin şehre sokulduğundan şüpheleniyor."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Contrabando en la Aduana",
+      "text": "Los permisos de almacenes portuarios son sospechosos. Agentes federales investigan la entrada de materiales de construcción falsificados."
+    }
+  },
+  "24": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Opposition Candidate Campaign Launch",
+      "text": "Your political rival opened a massive campaign office downtown. Every misstep or denied public grant will be used in tomorrow's attack ads."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Muhalefet Adayı Sahaya İndi",
+      "text": "Siyasi rakibiniz şehir merkezinde devasa bir seçim bürosu açtı. Atacağınız her hatalı imza yarınki televizyon reklamlarında aleyhinize kullanılacak."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Campaña del Candidato Opositor",
+      "text": "Su rival político inauguró su sede de campaña. Cualquier tropiezo o ayuda pública denegada se usará mañana en anuncios de ataque."
+    }
+  },
+  "25": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Protests on City Hall Steps",
+      "text": "Civic activists are chanting on the steps demanding transparency. Public opinion swings will be 25% sharper for the next few days."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Belediye Merdivenlerinde Eylem",
+      "text": "Şeffaflık talep eden sivil toplum örgütleri belediye merdivenlerinde eylem yapıyor. Önümüzdeki günlerde halk onayı dalgalanmaları %25 daha sert olacak."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Manifestaciones en las Escalinatas",
+      "text": "Activistas exigen transparencia frente al ayuntamiento. Las oscilaciones de opinión pública serán un 25% más bruscas en los próximos días."
+    }
+  },
+  "26": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Grand Philanthropy Gala",
+      "text": "The annual Mayor's Charity Banquet takes place tonight. A clean record on community center permits will ensure generous philanthropic support."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Büyük Yardım Galası Bu Gece",
+      "text": "Geleneksel Belediye Yardım Galası bu akşam düzenleniyor. Toplum merkezi ve kreş izinlerindeki temiz siciliniz, cömert bağışları garantileyecektir."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Gala Benéfica Municipal",
+      "text": "La cena anual de caridad es esta noche. Mantener un historial limpio con centros comunitarios garantizará un gran respaldo financiero."
+    }
+  },
+  "27": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "The Tabloid Expose",
+      "text": "The evening tabloid is running a feature headline on suspicious zoning exceptions. Ensure your drawer safe is locked tight!"
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Gazete Manşetleri Alarm Veriyor",
+      "text": "Akşam gazetesi şüpheli imar istisnaları hakkında manşetten haber yapmaya hazırlanıyor. Gizli kasanızın kilitli olduğundan emin olun!"
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Escándalo en Portada",
+      "text": "El tabloide vespertino publicará un reportaje sobre excepciones urbanísticas sospechosas. ¡Asegúrese de que la caja fuerte esté cerrada!"
+    }
+  },
+  "28": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Election Sprint in 48 Hours",
+      "text": "Election in 48 hours! Pollsters say you're leading by 2%. All public opinion gains and losses are doubled! Every single decision counts double."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Seçime Son 48 Saat!",
+      "text": "Seçime yalnızca 48 saat kaldı! Anketörler %2 ile önde olduğunuzu söylüyor. Tüm halk onayı kazanç ve kayıpları ikiye katlandı! Her bir karar iki kat değerli."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Sprint Electoral: Faltan 48 Horas",
+      "text": "¡Elecciones en 48 horas! Las encuestas indican que lidera por solo 2%. ¡Todas las ganancias y pérdidas de opinión pública se duplican! Cada decisión es decisiva."
+    }
+  },
+  "29": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Eve of Election Midnight Calls",
+      "text": "The Governor called three times after midnight. Both political parties have lawyers on standby. Avoid any blatant discrepancies today."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Seçim Arifesi Gece Telefonları",
+      "text": "Vali gece yarısından sonra üç kez aradı. Her iki partinin avukat ordusu adliyede bekliyor. Bugün bariz usulsüzlüklerden kesinlikle kaçının."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Víspera Electoral: Llamadas Nocturnas",
+      "text": "El Gobernador llamó tres veces de madrugada. Ambos partidos tienen abogados listos. Evite discrepancias evidentes hoy."
+    }
+  },
+  "30": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Election Day Final Docket",
+      "text": "This is it, Mr. Mayor! The ballot boxes are opening across all districts. Process these final municipal petitions with honor and seal your political legacy!"
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Büyük Seçim Günü ve Son Evraklar",
+      "text": "İşte beklenen gün geldi Sayın Başkanım! Sandıklar tüm ilçelerde açılıyor. Bu son başvuruları onurunuzla tamamlayın ve siyasi mirasınızı taçlandırın!"
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Día de Elecciones: Expediente Final",
+      "text": "¡Llegó el gran día, Señor Alcalde! Las urnas están abriendo en toda la ciudad. ¡Procese estas últimas solicitudes con honor y selle su legado político!"
+    }
+  }
+}
