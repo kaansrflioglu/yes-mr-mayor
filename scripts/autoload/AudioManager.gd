@@ -8,20 +8,74 @@ const SAMPLE_RATE: float = 22050.0
 var _audio_players: Array[AudioStreamPlayer] = []
 const POOL_SIZE: int = 8
 
+var _clock_player: AudioStreamPlayer = null
+var _lamp_hum_player: AudioStreamPlayer = null
+var _city_exterior_player: AudioStreamPlayer = null
+var _ambience_initialized: bool = false
+var _ambience_active: bool = true
+var _clock_tick_enabled: bool = true
+var _lamp_hum_enabled: bool = true
+var _city_rumble_enabled: bool = true
+
 
 func _ready() -> void:
-	var sfx_idx := AudioServer.get_bus_index("SFX")
-	if sfx_idx == -1:
-		AudioServer.add_bus()
-		sfx_idx = AudioServer.get_bus_count() - 1
-		AudioServer.set_bus_name(sfx_idx, "SFX")
-		AudioServer.set_bus_send(sfx_idx, "Master")
+	_setup_audio_buses()
 
 	for i in range(POOL_SIZE):
 		var player := AudioStreamPlayer.new()
 		player.bus = "SFX"
 		add_child(player)
 		_audio_players.append(player)
+
+	_init_ambience_loops()
+
+
+func _setup_audio_buses() -> void:
+	_ensure_bus("SFX", "Master", 0.0)
+	_ensure_bus_limiter("SFX")
+
+	_ensure_bus("BGM", "Master", -12.0)
+	_ensure_bus_lowpass("BGM")
+
+	_ensure_bus("Ambience", "Master", -16.0)
+	_ensure_bus("DeskAmbience", "Ambience", -2.0)
+	_ensure_bus("CityExterior", "Ambience", -4.0)
+
+
+func _ensure_bus(bus_name: String, send_to: String = "Master", vol_db: float = 0.0) -> int:
+	var idx := AudioServer.get_bus_index(bus_name)
+	if idx == -1:
+		AudioServer.add_bus()
+		idx = AudioServer.get_bus_count() - 1
+		AudioServer.set_bus_name(idx, bus_name)
+		AudioServer.set_bus_send(idx, send_to)
+		AudioServer.set_bus_volume_db(idx, vol_db)
+	return idx
+
+
+func _ensure_bus_limiter(bus_name: String) -> void:
+	var idx := AudioServer.get_bus_index(bus_name)
+	if idx == -1:
+		return
+	for i in range(AudioServer.get_bus_effect_count(idx)):
+		if AudioServer.get_bus_effect(idx, i) is AudioEffectLimiter:
+			return
+	var limiter := AudioEffectLimiter.new()
+	limiter.ceiling_db = -0.1
+	limiter.threshold_db = 0.0
+	AudioServer.add_bus_effect(idx, limiter)
+
+
+func _ensure_bus_lowpass(bus_name: String) -> void:
+	var idx := AudioServer.get_bus_index(bus_name)
+	if idx == -1:
+		return
+	for i in range(AudioServer.get_bus_effect_count(idx)):
+		if AudioServer.get_bus_effect(idx, i) is AudioEffectLowPassFilter:
+			return
+	var lpf := AudioEffectLowPassFilter.new()
+	lpf.cutoff_hz = 20000.0
+	AudioServer.add_bus_effect(idx, lpf)
 
 
 ## Plays a heavy tactile physical stamp thud with ink slam punch
@@ -271,19 +325,19 @@ func play_page_flip() -> void:
 	_play_raw_wav(buffer, int(SAMPLE_RATE))
 
 
-## Plays mechanical office clock tick
+## Plays tactile mechanical office clock tick
 func play_clock_tick() -> void:
-	var duration: float = 0.06
+	var duration: float = 0.12
 	var samples: int = int(SAMPLE_RATE * duration)
 	var buffer := PackedByteArray()
 	buffer.resize(samples * 2)
 
 	for i in range(samples):
 		var t: float = float(i) / SAMPLE_RATE
-		var progress: float = float(i) / float(samples)
-		var envelope: float = exp(-45.0 * progress)
-		var click: float = sin(2.0 * PI * 1850.0 * t) * envelope
-		var sample_f: float = clampf(click * 0.45, -1.0, 1.0)
+		var click: float = sin(2.0 * PI * 1550.0 * t) * exp(-120.0 * t) * 0.55
+		var body: float = sin(2.0 * PI * 520.0 * t) * exp(-40.0 * t) * 0.35
+		var noise: float = randf_range(-0.2, 0.2) * exp(-150.0 * t)
+		var sample_f: float = clampf((click + body + noise) * 0.70, -1.0, 1.0)
 		buffer.encode_s16(i * 2, int(sample_f * 32767.0))
 
 	_play_raw_wav(buffer, int(SAMPLE_RATE))
@@ -459,4 +513,224 @@ func _get_available_player() -> AudioStreamPlayer:
 		if not player.playing:
 			return player
 	return _audio_players[0]
+
+
+## Initializes the 3 persistent ambience loop players: Clock Tick, Lamp Hum, and City Exterior
+func _init_ambience_loops() -> void:
+	if _ambience_initialized:
+		return
+	_ambience_initialized = true
+
+	# 1. Steady mechanical wall clock ticking (60 BPM / 1 tick per sec)
+	_clock_player = AudioStreamPlayer.new()
+	_clock_player.name = "ClockTickLoop"
+	_clock_player.bus = "DeskAmbience"
+	_clock_player.stream = generate_clock_tick_stream()
+	add_child(_clock_player)
+
+	# 2. Low 50Hz hum of vintage fluorescent ceiling lights
+	_lamp_hum_player = AudioStreamPlayer.new()
+	_lamp_hum_player.name = "LampHumLoop"
+	_lamp_hum_player.bus = "DeskAmbience"
+	_lamp_hum_player.stream = generate_lamp_hum_stream()
+	add_child(_lamp_hum_player)
+
+	# 3. Dynamic window / exterior city traffic rumble
+	_city_exterior_player = AudioStreamPlayer.new()
+	_city_exterior_player.name = "CityExteriorLoop"
+	_city_exterior_player.bus = "CityExterior"
+	_city_exterior_player.stream = generate_city_rumble_stream()
+	add_child(_city_exterior_player)
+
+	start_office_ambience()
+
+
+## Starts or resumes all enabled office ambience loops
+func start_office_ambience() -> void:
+	_ambience_active = true
+	if _clock_player and _clock_tick_enabled and not _clock_player.playing:
+		_clock_player.play()
+	if _lamp_hum_player and _lamp_hum_enabled and not _lamp_hum_player.playing:
+		_lamp_hum_player.play()
+	if _city_exterior_player and _city_rumble_enabled and not _city_exterior_player.playing:
+		_city_exterior_player.play()
+
+
+## Stops all office ambience loops
+func stop_office_ambience() -> void:
+	_ambience_active = false
+	if _clock_player and _clock_player.playing:
+		_clock_player.stop()
+	if _lamp_hum_player and _lamp_hum_player.playing:
+		_lamp_hum_player.stop()
+	if _city_exterior_player and _city_exterior_player.playing:
+		_city_exterior_player.stop()
+
+
+## Toggles overall ambience state
+func set_ambience_active(active: bool) -> void:
+	if active:
+		start_office_ambience()
+	else:
+		stop_office_ambience()
+
+
+## Returns true if ambience is currently active
+func is_ambience_playing() -> bool:
+	return _ambience_active
+
+
+## Enables or disables the clock tick loop
+func set_clock_tick_enabled(enabled: bool) -> void:
+	_clock_tick_enabled = enabled
+	if not _clock_player:
+		return
+	if enabled and _ambience_active and not _clock_player.playing:
+		_clock_player.play()
+	elif not enabled and _clock_player.playing:
+		_clock_player.stop()
+
+
+## Enables or disables the fluorescent lamp hum loop
+func set_lamp_hum_enabled(enabled: bool) -> void:
+	_lamp_hum_enabled = enabled
+	if not _lamp_hum_player:
+		return
+	if enabled and _ambience_active and not _lamp_hum_player.playing:
+		_lamp_hum_player.play()
+	elif not enabled and _lamp_hum_player.playing:
+		_lamp_hum_player.stop()
+
+
+## Enables or disables the exterior city rumble loop
+func set_city_rumble_enabled(enabled: bool) -> void:
+	_city_rumble_enabled = enabled
+	if not _city_exterior_player:
+		return
+	if enabled and _ambience_active and not _city_exterior_player.playing:
+		_city_exterior_player.play()
+	elif not enabled and _city_exterior_player.playing:
+		_city_exterior_player.stop()
+
+
+## Sets linear volume for Ambience bus (0.0 to 1.0)
+func set_ambience_volume(linear_vol: float) -> void:
+	var idx := AudioServer.get_bus_index("Ambience")
+	if idx != -1:
+		if linear_vol <= 0.001:
+			AudioServer.set_bus_mute(idx, true)
+		else:
+			AudioServer.set_bus_mute(idx, false)
+			AudioServer.set_bus_volume_db(idx, linear_to_db(linear_vol))
+
+
+func is_clock_tick_enabled() -> bool:
+	return _clock_tick_enabled
+
+
+func is_lamp_hum_enabled() -> bool:
+	return _lamp_hum_enabled
+
+
+func is_city_rumble_enabled() -> bool:
+	return _city_rumble_enabled
+
+
+## Generates a seamless 2-beat rhythmic wall clock tick audio stream (60 BPM)
+func generate_clock_tick_stream() -> AudioStreamWAV:
+	var duration: float = 2.0
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var sample_f: float = 0.0
+
+		# Beat 1: "Tick" at t = 0.0s (Crisp, higher pitch)
+		if t < 0.12:
+			var click: float = sin(2.0 * PI * 1650.0 * t) * exp(-140.0 * t)
+			var wood: float = sin(2.0 * PI * 580.0 * t) * exp(-45.0 * t)
+			var noise: float = randf_range(-0.25, 0.25) * exp(-180.0 * t)
+			sample_f = (click * 0.55 + wood * 0.35 + noise * 0.10) * 0.40
+		# Beat 2: "Tock" at t = 1.0s (Warmer, lower pitch)
+		elif t >= 1.0 and t < 1.12:
+			var t_rel: float = t - 1.0
+			var click: float = sin(2.0 * PI * 1320.0 * t_rel) * exp(-140.0 * t_rel)
+			var wood: float = sin(2.0 * PI * 480.0 * t_rel) * exp(-45.0 * t_rel)
+			var noise: float = randf_range(-0.25, 0.25) * exp(-180.0 * t_rel)
+			sample_f = (click * 0.55 + wood * 0.35 + noise * 0.10) * 0.36
+
+		var sample_int: int = int(clampf(sample_f, -1.0, 1.0) * 32767.0)
+		buffer.encode_s16(i * 2, sample_int)
+
+	var stream := AudioStreamWAV.new()
+	stream.format = AudioStreamWAV.FORMAT_16_BITS
+	stream.mix_rate = int(SAMPLE_RATE)
+	stream.stereo = false
+	stream.data = buffer
+	stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+	stream.loop_begin = 0
+	stream.loop_end = samples
+	return stream
+
+
+## Generates a seamless 50Hz fluorescent lamp hum audio stream (perfect phase alignment)
+func generate_lamp_hum_stream() -> AudioStreamWAV:
+	var duration: float = 1.0  # Exactly 50 cycles of 50 Hz
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		# 50Hz fundamental + 100Hz/150Hz/350Hz vintage ballast harmonics
+		var h1: float = sin(2.0 * PI * 50.0 * t) * 0.45
+		var h2: float = sin(2.0 * PI * 100.0 * t) * 0.32
+		var h3: float = sin(2.0 * PI * 150.0 * t) * 0.16
+		var h7: float = sin(2.0 * PI * 350.0 * t) * 0.07
+		var wobble: float = 1.0 + 0.04 * sin(2.0 * PI * 3.0 * t)
+		var hum: float = (h1 + h2 + h3 + h7) * wobble * 0.06
+
+		var sample_int: int = int(clampf(hum, -1.0, 1.0) * 32767.0)
+		buffer.encode_s16(i * 2, sample_int)
+
+	var stream := AudioStreamWAV.new()
+	stream.format = AudioStreamWAV.FORMAT_16_BITS
+	stream.mix_rate = int(SAMPLE_RATE)
+	stream.stereo = false
+	stream.data = buffer
+	stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+	stream.loop_begin = 0
+	stream.loop_end = samples
+	return stream
+
+
+## Generates a seamless muffled city traffic rumble audio stream
+func generate_city_rumble_stream() -> AudioStreamWAV:
+	var duration: float = 3.0  # Frequencies are exact multiples of 1/3 Hz
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var r1: float = sin(2.0 * PI * 54.0 * t) * 0.45
+		var r2: float = sin(2.0 * PI * 78.0 * t) * 0.35
+		var r3: float = sin(2.0 * PI * 114.0 * t) * 0.20
+		var swell: float = 0.85 + 0.15 * sin(2.0 * PI * (1.0 / 3.0) * t)
+		var rumble: float = (r1 + r2 + r3) * swell * 0.08
+
+		var sample_int: int = int(clampf(rumble, -1.0, 1.0) * 32767.0)
+		buffer.encode_s16(i * 2, sample_int)
+
+	var stream := AudioStreamWAV.new()
+	stream.format = AudioStreamWAV.FORMAT_16_BITS
+	stream.mix_rate = int(SAMPLE_RATE)
+	stream.stereo = false
+	stream.data = buffer
+	stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+	stream.loop_begin = 0
+	stream.loop_end = samples
+	return stream
 

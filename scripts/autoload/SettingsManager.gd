@@ -45,12 +45,22 @@ func _ready() -> void:
 
 
 func _ensure_audio_buses() -> void:
-	var sfx_idx := AudioServer.get_bus_index("SFX")
-	if sfx_idx == -1:
+	_ensure_bus("SFX", "Master", 0.0)
+	_ensure_bus("BGM", "Master", -12.0)
+	_ensure_bus("Ambience", "Master", -16.0)
+	_ensure_bus("DeskAmbience", "Ambience", -2.0)
+	_ensure_bus("CityExterior", "Ambience", -4.0)
+
+
+func _ensure_bus(bus_name: String, send_to: String = "Master", vol_db: float = 0.0) -> int:
+	var idx := AudioServer.get_bus_index(bus_name)
+	if idx == -1:
 		AudioServer.add_bus()
-		sfx_idx = AudioServer.get_bus_count() - 1
-		AudioServer.set_bus_name(sfx_idx, "SFX")
-		AudioServer.set_bus_send(sfx_idx, "Master")
+		idx = AudioServer.get_bus_count() - 1
+		AudioServer.set_bus_name(idx, bus_name)
+		AudioServer.set_bus_send(idx, send_to)
+		AudioServer.set_bus_volume_db(idx, vol_db)
+	return idx
 
 
 ## Sets linear master volume (0.0 to 1.0)
