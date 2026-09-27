@@ -2,7 +2,7 @@ extends Control
 
 ## SkylineView.gd - Dynamic panoramic city window behind the mayor's desk.
 ## Features 4 CanvasGroup layers, reactive CPU particles, dynamic lighting,
-## looping emergency flashers, and world-state reactivity.
+## looping emergency flashers, elevated monorail transit, and day/night rush hour transitions.
 
 # -----------------------------------------------------------------------------
 # 1. CanvasGroup Layers (Layer Matrix)
@@ -31,13 +31,14 @@ extends Control
 @onready var chimney_smoke_particles: CPUParticles2D = %ChimneySmokeParticles
 
 # -----------------------------------------------------------------------------
-# 4. Midground Layer Props & Lighting
+# 4. Midground Layer Props, Lighting & Monorail
 # -----------------------------------------------------------------------------
 @onready var prop_green_park: Control = %PropGreenPark
 @onready var prop_golden_dinosaur: Control = %PropGoldenDinosaur
 @onready var prop_metro_pit: Control = %PropMetroPit
 @onready var prop_clean_metro: Control = %PropCleanMetro
 @onready var prop_monorail: Control = %PropMonorail
+@onready var monorail_train: Control = %MonorailTrain
 @onready var prop_neon_casino: Control = %PropNeonCasino
 @onready var casino_sign: Label = %CasinoSign
 @onready var prop_titanium_mayor: Control = %PropTitaniumMayor
@@ -56,10 +57,28 @@ extends Control
 @onready var blue_light_2: Node = %BlueLight2
 
 # -----------------------------------------------------------------------------
-# 6. Active Tweens
+# 6. Monorail Movement Constants
+# -----------------------------------------------------------------------------
+const MONORAIL_START_X: float = 760.0
+const MONORAIL_END_X: float = 1440.0
+const MONORAIL_DURATION: float = 5.0
+const MONORAIL_INTERVAL: float = 25.0
+
+# -----------------------------------------------------------------------------
+# 7. Day / Night & Daily Queue Progress
+# -----------------------------------------------------------------------------
+var daily_time_progress: float = 0.0:
+	set(val):
+		daily_time_progress = clampf(val, 0.0, 1.0)
+
+var _daily_total_events: int = 4
+
+# -----------------------------------------------------------------------------
+# 8. Active Tweens
 # -----------------------------------------------------------------------------
 var _police_lights_tween: Tween = null
 var _neon_tween: Tween = null
+var _monorail_tween: Tween = null
 var _sky_tween: Tween = null
 
 
@@ -68,17 +87,27 @@ func _ready() -> void:
 		GameManager.stats_changed.connect(update_skyline)
 		if GameManager.has_signal("stats_updated"):
 			GameManager.stats_updated.connect(update_skyline)
+		if GameManager.has_signal("event_presented"):
+			GameManager.event_presented.connect(_on_event_presented)
+		if GameManager.has_signal("day_started"):
+			GameManager.day_started.connect(_on_day_started)
+		if GameManager.has_signal("day_ended"):
+			GameManager.day_ended.connect(_on_day_ended)
+	if EventManager:
+		if EventManager.has_signal("daily_queue_prepared"):
+			EventManager.daily_queue_prepared.connect(_on_daily_queue_prepared)
 	update_skyline()
 
 
 func _exit_tree() -> void:
 	_stop_police_lights()
 	_stop_neon_casino()
+	_stop_monorail()
 	if _sky_tween and _sky_tween.is_valid():
 		_sky_tween.kill()
 
 
-## Updates window view dynamically based on event flags, public opinion, and suspicion thresholds
+## Updates window view dynamically based on event flags, public opinion, suspicion, and time of day
 func update_skyline() -> void:
 	var flags: Dictionary = GameManager.event_flags if GameManager != null else {}
 
@@ -89,35 +118,57 @@ func update_skyline() -> void:
 
 	var has_smog: bool = flags.get("toxic_smog", false) or flags.get("add_concrete_tower", false)
 	var is_flooded: bool = flags.get("flood_catastrophe", false)
-	var is_sunset: bool = flags.get("weather_sunset", false)
-	var is_night: bool = flags.get("weather_night", false)
+	var is_sunset_flag: bool = flags.get("weather_sunset", false)
+	var is_night_flag: bool = flags.get("weather_night", false)
 
-	# 2. Dynamic Sky Color & Atmosphere Palette
-	var target_sky_color := Color(0.38, 0.65, 0.88, 1.0) # Default clear azure
+	# 2. Dynamic Sky Color & Atmosphere Palette based on Time & Events
+	var target_sky_color: Color
 	var target_smog_alpha: float = 0.0
+	var target_sun_y: float = 40.0
 
+	# Calculate base diurnal progression (Morning -> Midday -> Evening Rush Hour -> Dusk)
+	if daily_time_progress < 0.4:
+		# Morning to Midday
+		var factor: float = daily_time_progress / 0.4
+		target_sky_color = Color(0.38, 0.65, 0.88, 1.0).lerp(Color(0.40, 0.68, 0.92, 1.0), factor)
+		target_sun_y = lerpf(40.0, 48.0, factor)
+	elif daily_time_progress < 0.8:
+		# Midday to Evening Rush Hour (Golden Hour Amber)
+		var factor: float = (daily_time_progress - 0.4) / 0.4
+		target_sky_color = Color(0.40, 0.68, 0.92, 1.0).lerp(Color(0.85, 0.52, 0.32, 1.0), factor)
+		target_sun_y = lerpf(48.0, 95.0, factor)
+	else:
+		# Evening Rush Hour to Dusk Twilight
+		var factor: float = (daily_time_progress - 0.8) / 0.2
+		target_sky_color = Color(0.85, 0.52, 0.32, 1.0).lerp(Color(0.24, 0.20, 0.32, 1.0), factor)
+		target_sun_y = lerpf(95.0, 135.0, factor)
+
+	# Crisis & Environmental Overrides
 	if has_smog:
 		target_sky_color = Color(0.52, 0.55, 0.38, 1.0) # Industrial ochre smog
 		target_smog_alpha = 0.55
 	elif is_flooded:
 		target_sky_color = Color(0.30, 0.36, 0.42, 1.0) # Torrential storm slate
 		target_smog_alpha = 0.35
-	elif is_night:
+	elif is_night_flag:
 		target_sky_color = Color(0.12, 0.14, 0.22, 1.0) # Night noir
 		target_smog_alpha = 0.15
-	elif is_sunset:
-		target_sky_color = Color(0.85, 0.52, 0.32, 1.0) # Sunset amber
+		target_sun_y = 160.0
+	elif is_sunset_flag:
+		target_sky_color = Color(0.85, 0.52, 0.32, 1.0) # Forced sunset amber
 		target_smog_alpha = 0.10
+		target_sun_y = 100.0
 	elif high_suspicion:
 		target_sky_color = Color(0.36, 0.28, 0.38, 1.0) # Tense twilight purple
 		target_smog_alpha = 0.20
 	elif low_opinion:
 		target_sky_color = Color(0.42, 0.44, 0.52, 1.0) # Overcast gloomy unrest
 		target_smog_alpha = 0.25
-	elif high_opinion:
+	elif high_opinion and daily_time_progress < 0.6:
 		target_sky_color = Color(0.42, 0.70, 0.95, 1.0) # Radiant golden-era blue
 		target_smog_alpha = 0.0
 
+	# Smooth atmosphere transitions
 	if sky_rect and is_inside_tree():
 		if _sky_tween and _sky_tween.is_valid():
 			_sky_tween.kill()
@@ -125,6 +176,8 @@ func update_skyline() -> void:
 		_sky_tween.tween_property(sky_rect, "color", target_sky_color, 0.6)
 		if smog_overlay:
 			_sky_tween.tween_property(smog_overlay, "color:a", target_smog_alpha, 0.6)
+		if sun_glow:
+			_sky_tween.tween_property(sun_glow, "position:y", target_sun_y, 0.8)
 
 	# 3. Distant Layer Prop States
 	_set_prop_state(prop_concrete_towers, flags.get("add_concrete_tower", false))
@@ -144,7 +197,16 @@ func update_skyline() -> void:
 	_set_prop_state(prop_golden_dinosaur, flags.get("add_golden_dinosaur", false))
 	_set_prop_state(prop_metro_pit, flags.get("abandoned_metro_pit", false))
 	_set_prop_state(prop_clean_metro, flags.get("clean_metro_station", false))
-	_set_prop_state(prop_monorail, flags.get("moving_monorail", false))
+
+	# Monorail Elevated Transit
+	var monorail_active: bool = flags.get("moving_monorail", false)
+	_set_prop_state(prop_monorail, monorail_active)
+	if monorail_active:
+		_animate_monorail()
+	else:
+		_stop_monorail()
+
+	# Neon Casino
 	var casino_active: bool = flags.get("neon_casino_strip", false)
 	_set_prop_state(prop_neon_casino, casino_active)
 	if casino_active:
@@ -203,6 +265,74 @@ func _set_prop_state(prop: Control, is_active: bool) -> void:
 			prop.modulate.a = 1.0
 	elif not is_active:
 		prop.visible = false
+
+
+# -----------------------------------------------------------------------------
+# Monorail Looping Tween & Transit Movement (Phase 3)
+# -----------------------------------------------------------------------------
+
+## Starts the 25-second periodic monorail train crossing the bridge
+func _animate_monorail() -> void:
+	if _monorail_tween and _monorail_tween.is_valid():
+		return
+	if monorail_train == null or not is_inside_tree():
+		return
+
+	_monorail_tween = create_tween().set_loops()
+	monorail_train.position.x = MONORAIL_START_X
+	monorail_train.modulate.a = 0.0
+
+	# 1. Fade in gliding onto bridge
+	_monorail_tween.tween_property(monorail_train, "modulate:a", 1.0, 0.3)
+	# 2. Smooth horizontal transit across the rail bridge
+	_monorail_tween.parallel().tween_property(
+		monorail_train, "position:x", MONORAIL_END_X, MONORAIL_DURATION
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	# 3. Fade out exiting the bridge
+	_monorail_tween.tween_property(monorail_train, "modulate:a", 0.0, 0.3)
+	# 4. Reset position to bridge entrance
+	_monorail_tween.tween_callback(func():
+		if monorail_train:
+			monorail_train.position.x = MONORAIL_START_X
+	)
+	# 5. Rest interval before next train pass (every 25 seconds)
+	var rest_time: float = maxf(1.0, MONORAIL_INTERVAL - MONORAIL_DURATION)
+	_monorail_tween.tween_interval(rest_time)
+
+
+## Stops monorail loop and resets train
+func _stop_monorail() -> void:
+	if _monorail_tween and _monorail_tween.is_valid():
+		_monorail_tween.kill()
+		_monorail_tween = null
+	if monorail_train:
+		monorail_train.position.x = MONORAIL_START_X
+		monorail_train.modulate.a = 0.0
+
+
+## Manually triggers an immediate monorail pass across the bridge
+func trigger_monorail_pass(duration: float = MONORAIL_DURATION) -> void:
+	if monorail_train == null or not is_inside_tree():
+		return
+	if _monorail_tween and _monorail_tween.is_valid():
+		_monorail_tween.kill()
+		_monorail_tween = null
+
+	monorail_train.position.x = MONORAIL_START_X
+	monorail_train.modulate.a = 0.0
+
+	var pass_tween := create_tween()
+	pass_tween.tween_property(monorail_train, "modulate:a", 1.0, 0.3)
+	pass_tween.parallel().tween_property(
+		monorail_train, "position:x", MONORAIL_END_X, duration
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	pass_tween.tween_property(monorail_train, "modulate:a", 0.0, 0.3)
+	pass_tween.tween_callback(func():
+		if monorail_train:
+			monorail_train.position.x = MONORAIL_START_X
+		if GameManager and GameManager.event_flags.get("moving_monorail", false):
+			_animate_monorail()
+	)
 
 
 # -----------------------------------------------------------------------------
@@ -281,8 +411,51 @@ func _stop_neon_casino() -> void:
 
 
 # -----------------------------------------------------------------------------
-# Public Weather, Lighting & Particle Control API
+# Signal Callbacks: Daily Queue & Event Progression (Phase 3)
 # -----------------------------------------------------------------------------
+func _on_event_presented(_event: EventData) -> void:
+	if EventManager != null and not EventManager.daily_queue.is_empty():
+		var remaining: int = EventManager.daily_queue.size()
+		var completed: int = maxi(0, _daily_total_events - remaining - 1)
+		daily_time_progress = clampf(float(completed) / float(maxi(1, _daily_total_events - 1)), 0.0, 1.0)
+	elif EventManager != null and EventManager.daily_queue.is_empty():
+		# Final event of the quota -> Rush hour peak
+		daily_time_progress = 0.9
+	update_skyline()
+
+
+func _on_daily_queue_prepared(_day: int, event_count: int) -> void:
+	_daily_total_events = maxi(1, event_count)
+	daily_time_progress = 0.0
+	update_skyline()
+
+
+func _on_day_started(_day: int) -> void:
+	daily_time_progress = 0.0
+	update_skyline()
+
+
+func _on_day_ended(_day: int) -> void:
+	daily_time_progress = 1.0
+	update_skyline()
+
+
+# -----------------------------------------------------------------------------
+# Public Weather, Lighting, Monorail & Particle Control API
+# -----------------------------------------------------------------------------
+func set_time_of_day_progress(progress: float) -> void:
+	daily_time_progress = progress
+	update_skyline()
+
+
+func get_time_of_day_progress() -> float:
+	return daily_time_progress
+
+
+func is_monorail_animating() -> bool:
+	return _monorail_tween != null and _monorail_tween.is_valid()
+
+
 func set_rain_active(is_active: bool) -> void:
 	if rain_particles:
 		rain_particles.emitting = is_active

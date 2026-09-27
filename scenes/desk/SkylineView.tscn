@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://skylineview001"]
+[gd_scene load_steps=19 format=3 uid="uid://skylineview001"]
 
 [ext_resource type="Script" path="res://scripts/desk/SkylineView.gd" id="1_sky"]
 [ext_resource type="Script" path="res://scripts/desk/PoliceFlasher.gd" id="2_flasher"]
@@ -104,6 +104,15 @@ border_width_right = 2
 border_color = Color(0.25, 0.45, 0.85, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_monorail_train"]
+bg_color = Color(0.92, 0.94, 0.98, 1)
+border_width_bottom = 3
+border_color = Color(0.2, 0.65, 0.95, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 4
 
 [node name="SkylineView" type="Control"]
 custom_minimum_size = Vector2(1920, 480)
@@ -528,22 +537,40 @@ mouse_filter = 2
 
 [node name="RailTrack" type="Panel" parent="LayerMidground/PropMonorail"]
 layout_mode = 0
-offset_left = 900.0
+offset_left = 780.0
 offset_top = 50.0
-offset_right = 1450.0
+offset_right = 1520.0
 offset_bottom = 65.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_monorail_track")
 
-[node name="MonorailTrain" type="Label" parent="LayerMidground/PropMonorail"]
+[node name="MonorailTrain" type="Control" parent="LayerMidground/PropMonorail"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 920.0
-offset_top = 10.0
-offset_right = 1060.0
-offset_bottom = 55.0
-theme_override_font_sizes/font_size = 32
-text = "🚅💨"
+offset_left = 780.0
+offset_top = 18.0
+offset_right = 920.0
+offset_bottom = 50.0
+mouse_filter = 2
+
+[node name="TrainBody" type="Panel" parent="LayerMidground/PropMonorail/MonorailTrain"]
+layout_mode = 0
+offset_right = 140.0
+offset_bottom = 30.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_monorail_train")
+
+[node name="TrainLabel" type="Label" parent="LayerMidground/PropMonorail/MonorailTrain"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 4.0
+offset_right = 134.0
+offset_bottom = 26.0
+theme_override_colors/font_color = Color(0.1, 0.15, 0.25, 1)
+theme_override_font_sizes/font_size = 13
+text = "🚅 RAPID EXPRESS"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="PropNeonCasino" type="Control" parent="LayerMidground"]
 unique_name_in_owner = true
