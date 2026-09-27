@@ -26,8 +26,10 @@ const RESOLUTION_OPTIONS: Array[Vector2i] = [
 # Audio settings (0.0 to 1.0 linear)
 var master_volume: float = 0.8
 var sfx_volume: float = 0.8
+var bgm_volume: float = 0.8
 var master_muted: bool = false
 var sfx_muted: bool = false
+var bgm_muted: bool = false
 
 # Display settings
 var window_mode: int = WindowMode.WINDOWED
@@ -89,6 +91,20 @@ func set_sfx_muted(muted: bool) -> void:
 	sfx_muted = muted
 	_apply_bus_volume("SFX", sfx_volume, sfx_muted)
 	volume_changed.emit("SFX", sfx_volume, sfx_muted)
+
+
+## Sets linear BGM volume (0.0 to 1.0)
+func set_bgm_volume(vol: float) -> void:
+	bgm_volume = clampf(vol, 0.0, 1.0)
+	_apply_bus_volume("BGM", bgm_volume, bgm_muted)
+	volume_changed.emit("BGM", bgm_volume, bgm_muted)
+
+
+## Sets BGM mute state
+func set_bgm_muted(muted: bool) -> void:
+	bgm_muted = muted
+	_apply_bus_volume("BGM", bgm_volume, bgm_muted)
+	volume_changed.emit("BGM", bgm_volume, bgm_muted)
 
 
 func _apply_bus_volume(bus_name: String, vol: float, muted: bool) -> void:
@@ -172,6 +188,7 @@ func _apply_resolution_and_center() -> void:
 func apply_all_settings() -> void:
 	_apply_bus_volume("Master", master_volume, master_muted)
 	_apply_bus_volume("SFX", sfx_volume, sfx_muted)
+	_apply_bus_volume("BGM", bgm_volume, bgm_muted)
 	_apply_display_settings()
 	if not current_locale.is_empty():
 		LocalizationManager.set_locale(current_locale)
@@ -183,8 +200,10 @@ func save_settings() -> void:
 	var config := ConfigFile.new()
 	config.set_value("audio", "master_volume", master_volume)
 	config.set_value("audio", "sfx_volume", sfx_volume)
+	config.set_value("audio", "bgm_volume", bgm_volume)
 	config.set_value("audio", "master_muted", master_muted)
 	config.set_value("audio", "sfx_muted", sfx_muted)
+	config.set_value("audio", "bgm_muted", bgm_muted)
 
 	config.set_value("display", "window_mode", window_mode)
 	config.set_value("display", "resolution_x", resolution.x)
@@ -206,8 +225,10 @@ func load_settings() -> void:
 
 	master_volume = config.get_value("audio", "master_volume", 0.8)
 	sfx_volume = config.get_value("audio", "sfx_volume", 0.8)
+	bgm_volume = config.get_value("audio", "bgm_volume", 0.8)
 	master_muted = config.get_value("audio", "master_muted", false)
 	sfx_muted = config.get_value("audio", "sfx_muted", false)
+	bgm_muted = config.get_value("audio", "bgm_muted", false)
 
 	window_mode = config.get_value("display", "window_mode", WindowMode.WINDOWED)
 	var res_x: int = config.get_value("display", "resolution_x", 1920)
@@ -222,8 +243,10 @@ func load_settings() -> void:
 func reset_to_defaults() -> void:
 	master_volume = 0.8
 	sfx_volume = 0.8
+	bgm_volume = 0.8
 	master_muted = false
 	sfx_muted = false
+	bgm_muted = false
 	window_mode = WindowMode.WINDOWED
 	resolution = Vector2i(1920, 1080)
 	vsync = true

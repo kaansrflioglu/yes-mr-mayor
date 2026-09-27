@@ -17,6 +17,10 @@ var _clock_tick_enabled: bool = true
 var _lamp_hum_enabled: bool = true
 var _city_rumble_enabled: bool = true
 
+var _bgm_player: AudioStreamPlayer = null
+var _bgm_tween: Tween = null
+var _current_bgm_context: String = "menu"
+
 
 func _ready() -> void:
 	_setup_audio_buses()
@@ -28,6 +32,7 @@ func _ready() -> void:
 		_audio_players.append(player)
 
 	_init_ambience_loops()
+	_init_bgm_system()
 
 
 func _setup_audio_buses() -> void:
@@ -733,4 +738,180 @@ func generate_city_rumble_stream() -> AudioStreamWAV:
 	stream.loop_begin = 0
 	stream.loop_end = samples
 	return stream
+
+
+## Initializes the persistent BGM player
+func _init_bgm_system() -> void:
+	if _bgm_player != null:
+		return
+
+	_bgm_player = AudioStreamPlayer.new()
+	_bgm_player.name = "NoirBGMPlayer"
+	_bgm_player.bus = "BGM"
+	_bgm_player.stream = generate_noir_bgm_stream()
+	add_child(_bgm_player)
+	play_bgm(1.2)
+
+
+## Starts or resumes the Lo-Fi Noir background music
+func play_bgm(fade_duration: float = 1.0) -> void:
+	if not _bgm_player:
+		return
+	if not _bgm_player.playing:
+		_bgm_player.volume_db = -50.0
+		_bgm_player.play()
+	fade_bgm_to(0.0, fade_duration)
+
+
+## Fades out and pauses/stops the background music
+func stop_bgm(fade_duration: float = 1.0) -> void:
+	if not _bgm_player or not _bgm_player.playing:
+		return
+	if not is_inside_tree():
+		_bgm_player.stop()
+		return
+	if _bgm_tween and _bgm_tween.is_valid():
+		_bgm_tween.kill()
+	_bgm_tween = create_tween()
+	_bgm_tween.tween_property(_bgm_player, "volume_db", -50.0, fade_duration)
+	_bgm_tween.tween_callback(func():
+		if _bgm_player:
+			_bgm_player.stop()
+	)
+
+
+## Smoothly fades BGM player volume_db to target_db over duration seconds
+func fade_bgm_to(target_db: float, duration: float = 1.0) -> void:
+	if not _bgm_player:
+		return
+	if not _bgm_player.playing and target_db > -45.0:
+		_bgm_player.volume_db = -50.0
+		_bgm_player.play()
+
+	if not is_inside_tree():
+		_bgm_player.volume_db = target_db
+		return
+
+	if _bgm_tween and _bgm_tween.is_valid():
+		_bgm_tween.kill()
+	_bgm_tween = create_tween()
+	_bgm_tween.tween_property(_bgm_player, "volume_db", target_db, maxf(0.05, duration))
+
+
+## Sets the game context for dynamic BGM volume adjustment
+func set_bgm_context(context_name: String, fade_duration: float = 1.0) -> void:
+	_current_bgm_context = context_name
+	var target_db: float = 0.0
+	match context_name:
+		"menu":
+			target_db = -2.0
+		"desk":
+			target_db = 0.0
+		"summary":
+			target_db = -4.0
+		"pause":
+			target_db = -8.0
+		"game_over":
+			target_db = -16.0
+		_:
+			target_db = 0.0
+
+	fade_bgm_to(target_db, fade_duration)
+
+
+func get_bgm_context() -> String:
+	return _current_bgm_context
+
+
+func is_bgm_playing() -> bool:
+	return _bgm_player != null and _bgm_player.playing
+
+
+func get_bgm_volume_db() -> float:
+	return _bgm_player.volume_db if _bgm_player else -50.0
+
+
+## Generates a seamless 14-second Lo-Fi Bureaucratic Noir jazz electric piano & muffled bass loop (~68.6 BPM)
+func generate_noir_bgm_stream() -> AudioStreamWAV:
+	var duration: float = 14.0
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	# 4-bar progression (3.5s per bar in D minor / A minor noir palette)
+	# Bar 0: Dm9        (Bass D2=73.42,  Chord: F3=174.61, A3=220.00, C4=261.63, E4=329.63)
+	# Bar 1: Bbmaj7#11  (Bass Bb1=58.27, Chord: F3=174.61, A3=220.00, D4=293.66, E4=329.63)
+	# Bar 2: Gm9        (Bass G1=48.99,  Chord: F3=174.61, Bb3=233.08, D4=293.66, A4=440.00)
+	# Bar 3: A7alt      (Bass A1=55.00,  Chord: G3=196.00, Bb3=233.08, C#4=277.18, F4=349.23)
+	var chord_freqs: Array[Array] = [
+		[174.61, 220.00, 261.63, 329.63],
+		[174.61, 220.00, 293.66, 329.63],
+		[174.61, 233.08, 293.66, 440.00],
+		[196.00, 233.08, 277.18, 349.23]
+	]
+	var bass_roots: Array[float] = [73.42, 58.27, 48.99, 55.00]
+	var bass_walks: Array[float] = [55.00, 43.65, 73.42, 69.30]
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var bar_idx: int = clampi(int(t / 3.5), 0, 3)
+		var t_bar: float = t - float(bar_idx) * 3.5
+
+		# Rhodes chords: Strike 1 at t=0, Strike 2 (softer) at t=1.75
+		var env1: float = exp(-0.85 * t_bar) * clampf(t_bar / 0.015, 0.0, 1.0)
+		var env2: float = 0.0
+		if t_bar >= 1.75:
+			var t2: float = t_bar - 1.75
+			env2 = exp(-1.2 * t2) * clampf(t2 / 0.015, 0.0, 1.0) * 0.52
+
+		var current_chord: Array = chord_freqs[bar_idx]
+		var chord_sum: float = 0.0
+
+		for note_idx in range(current_chord.size()):
+			var f: float = current_chord[note_idx]
+			# Fundamental + subtle warm vibrato (4.2 Hz)
+			var vib: float = sin(2.0 * PI * (f + 0.45 * sin(2.0 * PI * 4.2 * t)) * t)
+			# Metallic bell-like tine harmonic (fast decay)
+			var tine1: float = sin(2.0 * PI * f * 3.5 * t) * exp(-14.0 * t_bar) * 0.20
+			var tine2: float = 0.0
+			if t_bar >= 1.75:
+				tine2 = sin(2.0 * PI * f * 3.5 * t) * exp(-14.0 * (t_bar - 1.75)) * 0.12
+
+			var note_val: float = (vib * 0.70 + sin(2.0 * PI * f * t) * 0.30) * (env1 + env2) + (tine1 + tine2)
+			chord_sum += note_val * 0.11
+
+		# Muffled Bassline: Root on beat 1, walking fifth/passing note on beat 3
+		var bass_f: float = bass_roots[bar_idx]
+		var bass_env: float = exp(-0.75 * t_bar) * clampf(t_bar / 0.02, 0.0, 1.0)
+		if t_bar >= 1.75:
+			bass_f = bass_walks[bar_idx]
+			bass_env = exp(-0.95 * (t_bar - 1.75)) * clampf((t_bar - 1.75) / 0.02, 0.0, 1.0) * 0.85
+
+		var bass_tone: float = (sin(2.0 * PI * bass_f * t) * 0.75 + sin(2.0 * PI * bass_f * 2.0 * t) * 0.25) * bass_env * 0.24
+
+		# Subtle vinyl crackle / surface warmth
+		var vinyl_hum: float = sin(2.0 * PI * 43.0 * t) * 0.003 + sin(2.0 * PI * 227.0 * t) * 0.002
+		var pop_phase: float = fmod(t + float(bar_idx) * 0.37, 0.875)
+		var vinyl_pop: float = sin(2.0 * PI * 740.0 * t) * exp(-120.0 * pop_phase) * 0.012
+
+		var total_signal: float = chord_sum + bass_tone + vinyl_hum + vinyl_pop
+
+		# Smooth seam crossfade for the last 0.03 seconds
+		if t >= 13.97:
+			var fade: float = (14.0 - t) / 0.03
+			total_signal *= fade
+
+		var sample_int: int = int(clampf(total_signal, -1.0, 1.0) * 32767.0)
+		buffer.encode_s16(i * 2, sample_int)
+
+	var stream := AudioStreamWAV.new()
+	stream.format = AudioStreamWAV.FORMAT_16_BITS
+	stream.mix_rate = int(SAMPLE_RATE)
+	stream.stereo = false
+	stream.data = buffer
+	stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+	stream.loop_begin = 0
+	stream.loop_end = samples
+	return stream
+
 

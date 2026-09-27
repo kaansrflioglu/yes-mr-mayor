@@ -142,6 +142,9 @@ func _ready() -> void:
 	_update_luxury_props()
 	_start_or_continue_shift()
 
+	if AudioManager != null and AudioManager.has_method("set_bgm_context"):
+		AudioManager.set_bgm_context("desk", 1.0)
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
@@ -910,6 +913,9 @@ func _on_daily_quota_completed() -> void:
 	summary_instance.animate_newspaper_delivery()
 	summary_instance.next_day_requested.connect(_on_next_day_pressed)
 
+	if AudioManager != null and AudioManager.has_method("set_bgm_context"):
+		AudioManager.set_bgm_context("summary", 0.8)
+
 
 func _on_next_day_pressed() -> void:
 	if active_summary != null and is_instance_valid(active_summary):
@@ -923,6 +929,9 @@ func _on_next_day_pressed() -> void:
 	_update_clock_ui()
 	_present_next_document()
 
+	if AudioManager != null and AudioManager.has_method("set_bgm_context"):
+		AudioManager.set_bgm_context("desk", 1.0)
+
 
 func _on_game_over(reason_key: String) -> void:
 	_set_stamps_enabled(false)
@@ -932,6 +941,9 @@ func _on_game_over(reason_key: String) -> void:
 
 	# Clean up autosave so players cannot reload into a dead end
 	SaveLoadManager.handle_game_over_cleanup()
+
+	if AudioManager != null and AudioManager.has_method("set_bgm_context"):
+		AudioManager.set_bgm_context("game_over", 1.5)
 
 	if active_game_over != null and is_instance_valid(active_game_over):
 		active_game_over.queue_free()

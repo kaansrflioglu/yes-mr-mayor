@@ -64,6 +64,9 @@ func open() -> void:
 	confirm_overlay.visible = false
 	_update_locale_texts()
 
+	if AudioManager != null and AudioManager.has_method("set_bgm_context"):
+		AudioManager.set_bgm_context("pause", 0.2)
+
 	backdrop.modulate = Color(1, 1, 1, 0)
 	menu_panel.scale = Vector2(0.92, 0.92)
 
@@ -79,6 +82,9 @@ func close() -> void:
 		return
 	is_open = false
 	_hide_confirm()
+
+	if AudioManager != null and AudioManager.has_method("set_bgm_context"):
+		AudioManager.set_bgm_context("desk", 0.3)
 
 	var tween := create_tween().set_parallel(true)
 	tween.tween_property(backdrop, "modulate:a", 0.0, 0.15)

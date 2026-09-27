@@ -62,6 +62,9 @@ func _ready() -> void:
 		transition_overlay.visible = false
 	)
 
+	if AudioManager != null and AudioManager.has_method("set_bgm_context"):
+		AudioManager.set_bgm_context("menu", 1.2)
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
@@ -220,6 +223,10 @@ func _transition_to_desk() -> void:
 	if _is_transitioning:
 		return
 	_is_transitioning = true
+
+	if AudioManager != null and AudioManager.has_method("set_bgm_context"):
+		AudioManager.set_bgm_context("desk", 1.5)
+
 	transition_overlay.visible = true
 	transition_overlay.modulate.a = 0.0
 
