@@ -996,11 +996,14 @@ func _init_reactive_audio_players() -> void:
 func _on_game_stats_changed() -> void:
 	if GameManager == null:
 		return
-	update_dynamic_audio_reactivity(GameManager.public_opinion, GameManager.suspicion_level)
+	update_dynamic_audio_reactivity(GameManager.public_opinion, GameManager.suspicion_level, 0.8)
+
+
+var _bgm_cutoff_tween: Tween = null
 
 
 ## Dynamically adjusts audio DSP modulation and ambient streams based on game state
-func update_dynamic_audio_reactivity(opinion: float, suspicion: float) -> void:
+func update_dynamic_audio_reactivity(opinion: float, suspicion: float, duration: float = 0.0) -> void:
 	# 1. Public Opinion < 25%: Exterior riot crowd chanting & sirens
 	if opinion < 25.0:
 		_riot_active = true
@@ -1008,7 +1011,7 @@ func update_dynamic_audio_reactivity(opinion: float, suspicion: float) -> void:
 			if not _riot_siren_player.playing:
 				_riot_siren_player.volume_db = -60.0
 				_riot_siren_player.play()
-			if is_inside_tree():
+			if is_inside_tree() and duration > 0.05:
 				var tween := create_tween()
 				tween.tween_property(_riot_siren_player, "volume_db", -4.0, 1.2)
 			else:
@@ -1016,7 +1019,7 @@ func update_dynamic_audio_reactivity(opinion: float, suspicion: float) -> void:
 	else:
 		_riot_active = false
 		if _riot_siren_player and _riot_siren_player.playing:
-			if is_inside_tree():
+			if is_inside_tree() and duration > 0.05:
 				var tween := create_tween()
 				tween.tween_property(_riot_siren_player, "volume_db", -60.0, 1.5)
 				tween.tween_callback(func():
@@ -1030,9 +1033,9 @@ func update_dynamic_audio_reactivity(opinion: float, suspicion: float) -> void:
 	if suspicion > 50.0:
 		var progress: float = clampf((suspicion - 50.0) / 50.0, 0.0, 1.0)
 		var target_cutoff: float = lerpf(20000.0, 2500.0, progress)
-		set_bgm_lowpass_cutoff(target_cutoff, 0.8)
+		set_bgm_lowpass_cutoff(target_cutoff, duration)
 	else:
-		set_bgm_lowpass_cutoff(20000.0, 0.8)
+		set_bgm_lowpass_cutoff(20000.0, duration)
 
 	# 3. Federal Suspicion > 75%: Anxious heartbeat thud
 	if suspicion > 75.0:
@@ -1041,7 +1044,7 @@ func update_dynamic_audio_reactivity(opinion: float, suspicion: float) -> void:
 			if not _heartbeat_player.playing:
 				_heartbeat_player.volume_db = -60.0
 				_heartbeat_player.play()
-			if is_inside_tree():
+			if is_inside_tree() and duration > 0.05:
 				var tween := create_tween()
 				tween.tween_property(_heartbeat_player, "volume_db", -6.0, 1.0)
 			else:
@@ -1049,7 +1052,7 @@ func update_dynamic_audio_reactivity(opinion: float, suspicion: float) -> void:
 	else:
 		_heartbeat_active = false
 		if _heartbeat_player and _heartbeat_player.playing:
-			if is_inside_tree():
+			if is_inside_tree() and duration > 0.05:
 				var tween := create_tween()
 				tween.tween_property(_heartbeat_player, "volume_db", -60.0, 1.0)
 				tween.tween_callback(func():
@@ -1073,9 +1076,11 @@ func set_bgm_lowpass_cutoff(target_cutoff_hz: float, duration: float = 0.8) -> v
 			break
 	if lpf:
 		var clamped_cutoff: float = clampf(target_cutoff_hz, 500.0, 20500.0)
+		if _bgm_cutoff_tween and _bgm_cutoff_tween.is_valid():
+			_bgm_cutoff_tween.kill()
 		if is_inside_tree() and duration > 0.05:
-			var tween := create_tween()
-			tween.tween_property(lpf, "cutoff_hz", clamped_cutoff, duration)
+			_bgm_cutoff_tween = create_tween()
+			_bgm_cutoff_tween.tween_property(lpf, "cutoff_hz", clamped_cutoff, duration)
 		else:
 			lpf.cutoff_hz = clamped_cutoff
 
