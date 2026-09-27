@@ -134,7 +134,7 @@ func test_criterion_4_modal_ui_and_esc_toggle() -> void:
 	assert(hud != null, "TopBarHUD must exist in DeskView")
 	assert(hud.has_node("%BtnSettings"), "BtnSettings must exist in TopBarHUD")
 	assert(not hud.has_node("%BtnEN"), "BtnEN must be removed from main HUD screen")
-	assert(not hud.has_node("%BtnTwitch"), "BtnTwitch must be removed from main HUD screen")
+	assert(not hud.has_node("%LangBox"), "LangBox must be removed from main HUD screen")
 
 	var modal: Control = desk_view.get_node("%SettingsModal") as Control
 	assert(modal != null, "SettingsModal must exist in DeskView")
