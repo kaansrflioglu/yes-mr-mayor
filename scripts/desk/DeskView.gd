@@ -82,6 +82,29 @@ var is_processing_decision: bool = false
 var _shake_tween: Tween
 var _was_paused_for_modal: bool = false
 
+# Morning Briefing & Pre-Shift Ritual (Phase 1)
+enum DeskState {
+	STATE_MORNING_RITUAL,
+	STATE_PROCESSING_EVENTS,
+	STATE_DAY_END
+}
+
+var current_desk_state: DeskState = DeskState.STATE_PROCESSING_EVENTS
+
+@onready var stamp_rack: Control = %StampRack if has_node("%StampRack") else null
+@onready var morning_ritual_container: Control = (
+	%MorningRitualContainer if has_node("%MorningRitualContainer") else null
+)
+@onready var morning_briefing_card: Control = (
+	%MorningBriefingCard if has_node("%MorningBriefingCard") else null
+)
+@onready var desk_bell_button: Button = (
+	%DeskBellButton if has_node("%DeskBellButton") else null
+)
+@onready var desk_coffee_mug: Button = (
+	%DeskCoffeeMug if has_node("%DeskCoffeeMug") else null
+)
+
 # Inspection & Discrepancy state
 var is_inspect_mode: bool = false
 var first_token: String = ""
@@ -95,6 +118,11 @@ func _ready() -> void:
 	btn_toggle_rulebook.pressed.connect(_toggle_rulebook)
 	btn_next_day.pressed.connect(_on_next_day_pressed)
 	safe_drawer_panel.gui_input.connect(_on_drawer_gui_input)
+
+	if desk_bell_button != null:
+		desk_bell_button.pressed.connect(_on_desk_bell_pressed)
+	if desk_coffee_mug != null:
+		desk_coffee_mug.pressed.connect(_on_coffee_mug_pressed)
 
 	if btn_order_espresso != null:
 		btn_order_espresso.pressed.connect(_on_order_espresso_pressed)
@@ -168,6 +196,20 @@ func _unhandled_input(event: InputEvent) -> void:
 	# If any high-level modal is open, do not process desk gameplay hotkeys
 	if _is_any_modal_open():
 		return
+
+	# In Morning Ritual state, pressing Space or clicking bell starts shift!
+	if current_desk_state == DeskState.STATE_MORNING_RITUAL:
+		if event.is_action_pressed("mayor_inspect") or (event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_SPACE):
+			_on_desk_bell_pressed()
+			get_viewport().set_input_as_handled()
+			return
+		if event.is_action_pressed("mayor_coffee"):
+			_on_coffee_mug_pressed()
+			get_viewport().set_input_as_handled()
+			return
+		if event.is_action_pressed("mayor_approve") or event.is_action_pressed("mayor_reject"):
+			get_viewport().set_input_as_handled()
+			return
 
 	# Twitch overlay toggle
 	if event.is_action_pressed("mayor_twitch"):
@@ -1149,6 +1191,7 @@ func _animate_drawer_pull() -> void:
 
 ## Quota of daily documents finished -> Deliver Tabloid newspaper
 func _on_daily_quota_completed() -> void:
+	current_desk_state = DeskState.STATE_DAY_END
 	_set_stamps_enabled(false)
 	if is_inspect_mode:
 		_toggle_inspect_mode()
@@ -1179,14 +1222,104 @@ func _on_next_day_pressed() -> void:
 		active_summary = null
 
 	GameManager.advance_day()
+	enter_morning_ritual()
+
+
+## Enters the morning office pre-shift ritual: hides stamps, spawns post-it memo & brass bell, plays sunrise
+func enter_morning_ritual() -> void:
+	current_desk_state = DeskState.STATE_MORNING_RITUAL
+
+	if active_document != null and is_instance_valid(active_document):
+		active_document.queue_free()
+		active_document = null
+
 	EventManager.prepare_daily_queue(4)
 	current_shift_minutes = SHIFT_START_MINUTES
 	is_overtime = false
 	_update_clock_ui()
-	_present_next_document()
+	DirectiveManager.activate_directive_for_day(GameManager.current_day)
+	_update_directive_ui()
+
+	# 1. Hide stamp rack & buttons
+	_set_stamps_visible(false)
+
+	# 2. Trigger morning sunrise window tint transition in SkylineView
+	if skyline_view != null and skyline_view.has_method("play_morning_sunrise_transition"):
+		skyline_view.play_morning_sunrise_transition()
+	elif skyline_view != null:
+		skyline_view.daily_time_progress = 0.0
+		skyline_view.update_skyline()
+
+	# 3. Setup and spawn Morning Post-It Memo & Brass Bell on desk center
+	if morning_ritual_container != null:
+		morning_ritual_container.visible = true
+		if morning_briefing_card != null and morning_briefing_card.has_method("setup_briefing"):
+			morning_briefing_card.setup_briefing(GameManager.current_day)
+			morning_briefing_card.slide_in()
 
 	if AudioManager != null and AudioManager.has_method("set_bgm_context"):
 		AudioManager.set_bgm_context("desk", 1.0)
+
+
+func _on_desk_bell_pressed() -> void:
+	if current_desk_state != DeskState.STATE_MORNING_RITUAL:
+		return
+
+	if AudioManager != null and AudioManager.has_method("play_desk_bell"):
+		AudioManager.play_desk_bell()
+
+	_animate_bell_ring()
+	_dismiss_morning_ritual()
+
+
+func _animate_bell_ring() -> void:
+	if desk_bell_button != null:
+		var tween := create_tween()
+		tween.tween_property(desk_bell_button, "scale", Vector2(1.15, 0.85), 0.08)
+		tween.tween_property(desk_bell_button, "scale", Vector2.ONE, 0.12).set_trans(Tween.TRANS_ELASTIC)
+
+
+func _dismiss_morning_ritual() -> void:
+	current_desk_state = DeskState.STATE_PROCESSING_EVENTS
+	_set_stamps_visible(true)
+
+	if morning_ritual_container != null:
+		if morning_briefing_card != null and morning_briefing_card.has_method("slide_out"):
+			var card_tween: Tween = morning_briefing_card.slide_out()
+			card_tween.chain().tween_callback(func():
+				morning_ritual_container.visible = false
+				_present_next_document()
+			)
+		else:
+			morning_ritual_container.visible = false
+			_present_next_document()
+	else:
+		_present_next_document()
+
+
+func _on_coffee_mug_pressed() -> void:
+	if AudioManager != null and AudioManager.has_method("play_coffee_sip"):
+		AudioManager.play_coffee_sip()
+	if AudioManager != null and AudioManager.has_method("play_coffee_clink"):
+		AudioManager.play_coffee_clink()
+
+	if desk_coffee_mug != null:
+		var tween := create_tween()
+		tween.tween_property(desk_coffee_mug, "scale", Vector2(1.12, 1.12), 0.1)
+		tween.tween_property(desk_coffee_mug, "scale", Vector2.ONE, 0.15)
+
+	# Refill / set starting focus to max
+	current_inspect_focus = MAX_INSPECT_FOCUS
+	_update_focus_ui()
+
+
+func _set_stamps_visible(vis: bool) -> void:
+	if stamp_rack != null:
+		stamp_rack.visible = vis
+	else:
+		btn_stamp_approve.visible = vis
+		btn_stamp_reject.visible = vis
+		btn_inspect_mode.visible = vis
 
 
 func _on_game_over(reason_key: String) -> void:

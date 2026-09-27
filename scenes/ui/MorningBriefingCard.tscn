@@ -1,0 +1,131 @@
+[gd_scene load_steps=5 format=3 uid="uid://morning_briefing_card_001"]
+
+[ext_resource type="Script" path="res://scripts/ui/MorningBriefingCard.gd" id="1_card"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_postit"]
+bg_color = Color(0.98, 0.94, 0.62, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(0.88, 0.82, 0.45, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.28)
+shadow_size = 14
+shadow_offset = Vector2(3, 6)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pin"]
+bg_color = Color(0.85, 0.2, 0.2, 0.9)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_modifier_badge"]
+bg_color = Color(0.25, 0.2, 0.1, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.85, 0.65, 0.2, 0.9)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="MorningBriefingCard" type="PanelContainer"]
+custom_minimum_size = Vector2(480, 290)
+offset_right = 480.0
+offset_bottom = 290.0
+rotation = -0.0261799
+theme_override_styles/panel = SubResource("StyleBoxFlat_postit")
+script = ExtResource("1_card")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 18
+
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HeaderHBox" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PinIcon" type="Label" parent="Margin/VBox/HeaderHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "📌"
+
+[node name="TitleVBox" type="VBoxContainer" parent="Margin/VBox/HeaderHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 2
+
+[node name="MemoDateLabel" type="Label" parent="Margin/VBox/HeaderHBox/TitleVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.2, 0.15, 1)
+theme_override_font_sizes/font_size = 15
+text = "Day 1 • 08:30 AM"
+
+[node name="MemoFromLabel" type="Label" parent="Margin/VBox/HeaderHBox/TitleVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.4, 0.3, 1)
+theme_override_font_sizes/font_size = 12
+text = "From: Clarissa (Executive Secretary)"
+
+[node name="HSeparator" type="HSeparator" parent="Margin/VBox"]
+layout_mode = 2
+
+[node name="MemoTextLabel" type="Label" parent="Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.18, 0.15, 0.12, 1)
+theme_override_constants/line_spacing = 4
+theme_override_font_sizes/font_size = 14
+text = "Good morning, Mr. Mayor! Environmental auditors are in town today. The Governor's office called twice before 8 AM. Be careful with river permits!"
+autowrap_mode = 2
+
+[node name="ModifierBadge" type="PanelContainer" parent="Margin/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_modifier_badge")
+
+[node name="BadgeMargin" type="MarginContainer" parent="Margin/VBox/ModifierBadge"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 6
+
+[node name="BadgeVBox" type="VBoxContainer" parent="Margin/VBox/ModifierBadge/BadgeMargin"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="ModifierTitleLabel" type="Label" parent="Margin/VBox/ModifierBadge/BadgeMargin/BadgeVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
+theme_override_font_sizes/font_size = 12
+text = "⚠️ EPA AUDIT ACTIVE"
+
+[node name="ModifierDescLabel" type="Label" parent="Margin/VBox/ModifierBadge/BadgeMargin/BadgeVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.85, 1)
+theme_override_font_sizes/font_size = 11
+text = "Environmental violations grant 2x Public Approval if rejected, but 2x Suspicion if approved."
+autowrap_mode = 2

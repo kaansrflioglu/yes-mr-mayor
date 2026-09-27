@@ -431,13 +431,43 @@ func _on_daily_queue_prepared(_day: int, event_count: int) -> void:
 
 
 func _on_day_started(_day: int) -> void:
-	daily_time_progress = 0.0
-	update_skyline()
+	play_morning_sunrise_transition()
 
 
 func _on_day_ended(_day: int) -> void:
 	daily_time_progress = 1.0
 	update_skyline()
+
+
+## Plays morning sunrise window tint transition (warm rose/gold pre-dawn into crisp morning sky)
+func play_morning_sunrise_transition(duration: float = 1.0) -> void:
+	daily_time_progress = 0.0
+	if not is_inside_tree() or sky_rect == null:
+		update_skyline()
+		return
+
+	if _sky_tween and _sky_tween.is_valid():
+		_sky_tween.kill()
+
+	# Start from a warm golden pre-dawn horizon tint
+	sky_rect.color = Color(0.85, 0.58, 0.42, 1.0)
+	if sun_glow != null:
+		sun_glow.position.y = 80.0
+	if smog_overlay != null:
+		smog_overlay.color.a = 0.1
+
+	var target_sky_color := Color(0.38, 0.65, 0.88, 1.0)
+	var target_sun_y := 40.0
+
+	_sky_tween = create_tween().set_parallel(true)
+	_sky_tween.tween_property(sky_rect, "color", target_sky_color, duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	if sun_glow != null:
+		_sky_tween.tween_property(sun_glow, "position:y", target_sun_y, duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	if smog_overlay != null:
+		_sky_tween.tween_property(smog_overlay, "color:a", 0.0, duration)
+	_sky_tween.chain().tween_callback(func():
+		update_skyline()
+	)
 
 
 # -----------------------------------------------------------------------------
