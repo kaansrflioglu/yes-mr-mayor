@@ -132,8 +132,10 @@ func open() -> void:
 	_update_locale_texts()
 	_refresh_button_states()
 
-	# Audio cue: cash register / safe lock
-	if AudioManager != null and AudioManager.has_method("play_cash_register"):
+	# Audio cue: safe drawer slide opening
+	if AudioManager != null and AudioManager.has_method("play_safe_drawer_slide"):
+		AudioManager.play_safe_drawer_slide(true)
+	elif AudioManager != null and AudioManager.has_method("play_cash_register"):
 		AudioManager.play_cash_register()
 
 	# Slide up & scale in
@@ -152,6 +154,9 @@ func close() -> void:
 	if not is_open:
 		return
 	is_open = false
+
+	if AudioManager != null and AudioManager.has_method("play_safe_drawer_slide"):
+		AudioManager.play_safe_drawer_slide(false)
 
 	var tween := create_tween().set_parallel(true)
 	tween.tween_property(backdrop, "modulate:a", 0.0, 0.18)

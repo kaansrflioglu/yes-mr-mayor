@@ -222,6 +222,8 @@ func _on_hangup_pressed() -> void:
 ## Public method to reject the hotline deal
 func reject_deal() -> void:
 	dialog_panel.visible = false
+	if AudioManager != null and AudioManager.has_method("play_phone_receiver_slam"):
+		AudioManager.play_phone_receiver_slam()
 
 	var cur_day: int = GameManager.current_day if GameManager != null else 1
 	if active_call != null:

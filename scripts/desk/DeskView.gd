@@ -375,6 +375,11 @@ func _toggle_inspect_mode() -> void:
 	is_inspect_mode = not is_inspect_mode
 	AudioManager.play_inspect_toggle()
 
+	if AudioManager.has_method("play_coffee_clink"):
+		AudioManager.play_coffee_clink()
+	if AudioManager.has_method("set_inspection_mode_active"):
+		AudioManager.set_inspection_mode_active(is_inspect_mode)
+
 	rulebook.set_inspect_mode(is_inspect_mode)
 	if active_document != null and active_document.has_method("set_inspect_mode"):
 		active_document.set_inspect_mode(is_inspect_mode)

@@ -21,6 +21,13 @@ var _bgm_player: AudioStreamPlayer = null
 var _bgm_tween: Tween = null
 var _current_bgm_context: String = "menu"
 
+var _riot_siren_player: AudioStreamPlayer = null
+var _heartbeat_player: AudioStreamPlayer = null
+var _focus_hum_player: AudioStreamPlayer = null
+var _is_inspect_mode_active: bool = false
+var _riot_active: bool = false
+var _heartbeat_active: bool = false
+
 
 func _ready() -> void:
 	_setup_audio_buses()
@@ -33,6 +40,10 @@ func _ready() -> void:
 
 	_init_ambience_loops()
 	_init_bgm_system()
+	_init_reactive_audio_players()
+
+	if GameManager != null and GameManager.has_signal("stats_changed"):
+		GameManager.stats_changed.connect(_on_game_stats_changed)
 
 
 func _setup_audio_buses() -> void:
@@ -274,7 +285,7 @@ func play_discrepancy_fail() -> void:
 	_play_raw_wav(buffer, int(SAMPLE_RATE))
 
 
-## Plays warm coffee sip / gulp sound effect
+## Plays warm espresso coffee sip with liquid intake flutter and gentle rim release
 func play_coffee_sip() -> void:
 	var duration: float = 0.32
 	var samples: int = int(SAMPLE_RATE * duration)
@@ -284,12 +295,15 @@ func play_coffee_sip() -> void:
 	for i in range(samples):
 		var t: float = float(i) / SAMPLE_RATE
 		var progress: float = float(i) / float(samples)
-		var envelope: float = sin(PI * progress) * exp(-3.5 * progress)
-		var freq1: float = lerpf(340.0, 180.0, progress)
-		var freq2: float = lerpf(680.0, 360.0, progress)
-		var wave: float = sin(2.0 * PI * freq1 * t) * 0.6 + sin(2.0 * PI * freq2 * t) * 0.4
-		var bubble_noise: float = randf_range(-0.15, 0.15) if progress < 0.35 else 0.0
-		var sample_f: float = clampf((wave + bubble_noise) * envelope * 0.75, -1.0, 1.0)
+		var envelope: float = sin(PI * progress) * (1.0 - progress * 0.2)
+		var flutter: float = 0.7 + 0.3 * sin(2.0 * PI * 24.0 * t)
+		var slurp: float = randf_range(-0.35, 0.35) * flutter * envelope
+
+		var clink: float = 0.0
+		if t >= 0.25:
+			clink = sin(2.0 * PI * 2400.0 * t) * exp(-50.0 * (t - 0.25)) * 0.22
+
+		var sample_f: float = clampf(slurp * 0.70 + clink, -1.0, 1.0)
 		buffer.encode_s16(i * 2, int(sample_f * 32767.0))
 
 	_play_raw_wav(buffer, int(SAMPLE_RATE))
@@ -913,5 +927,357 @@ func generate_noir_bgm_stream() -> AudioStreamWAV:
 	stream.loop_begin = 0
 	stream.loop_end = samples
 	return stream
+
+
+## Initializes reactive audio players for riots, high suspicion heartbeat, and inspect focus hum
+func _init_reactive_audio_players() -> void:
+	# Riot sirens & crowd chanting for low approval (<25%)
+	_riot_siren_player = AudioStreamPlayer.new()
+	_riot_siren_player.name = "RiotSirenLoop"
+	_riot_siren_player.bus = "CityExterior"
+	_riot_siren_player.stream = generate_riot_siren_stream()
+	_riot_siren_player.volume_db = -60.0
+	add_child(_riot_siren_player)
+
+	# High suspicion heartbeat thud (>75%)
+	_heartbeat_player = AudioStreamPlayer.new()
+	_heartbeat_player.name = "HeartbeatLoop"
+	_heartbeat_player.bus = "DeskAmbience"
+	_heartbeat_player.stream = generate_heartbeat_stream()
+	_heartbeat_player.volume_db = -60.0
+	add_child(_heartbeat_player)
+
+	# High-pass focus hum when inspect mode is active
+	_focus_hum_player = AudioStreamPlayer.new()
+	_focus_hum_player.name = "FocusHumLoop"
+	_focus_hum_player.bus = "DeskAmbience"
+	_focus_hum_player.stream = generate_focus_hum_stream()
+	_focus_hum_player.volume_db = -60.0
+	add_child(_focus_hum_player)
+
+
+func _on_game_stats_changed() -> void:
+	if GameManager == null:
+		return
+	update_dynamic_audio_reactivity(GameManager.public_opinion, GameManager.suspicion_level)
+
+
+## Dynamically adjusts audio DSP modulation and ambient streams based on game state
+func update_dynamic_audio_reactivity(opinion: float, suspicion: float) -> void:
+	# 1. Public Opinion < 25%: Exterior riot crowd chanting & sirens
+	if opinion < 25.0:
+		_riot_active = true
+		if _riot_siren_player:
+			if not _riot_siren_player.playing:
+				_riot_siren_player.volume_db = -60.0
+				_riot_siren_player.play()
+			if is_inside_tree():
+				var tween := create_tween()
+				tween.tween_property(_riot_siren_player, "volume_db", -4.0, 1.2)
+			else:
+				_riot_siren_player.volume_db = -4.0
+	else:
+		_riot_active = false
+		if _riot_siren_player and _riot_siren_player.playing:
+			if is_inside_tree():
+				var tween := create_tween()
+				tween.tween_property(_riot_siren_player, "volume_db", -60.0, 1.5)
+				tween.tween_callback(func():
+					if _riot_siren_player and not _riot_active:
+						_riot_siren_player.stop()
+				)
+			else:
+				_riot_siren_player.stop()
+
+	# 2. Federal Suspicion: BGM Low-Pass cutoff modulation (20kHz down to 2.5kHz on high suspicion)
+	if suspicion > 50.0:
+		var progress: float = clampf((suspicion - 50.0) / 50.0, 0.0, 1.0)
+		var target_cutoff: float = lerpf(20000.0, 2500.0, progress)
+		set_bgm_lowpass_cutoff(target_cutoff, 0.8)
+	else:
+		set_bgm_lowpass_cutoff(20000.0, 0.8)
+
+	# 3. Federal Suspicion > 75%: Anxious heartbeat thud
+	if suspicion > 75.0:
+		_heartbeat_active = true
+		if _heartbeat_player:
+			if not _heartbeat_player.playing:
+				_heartbeat_player.volume_db = -60.0
+				_heartbeat_player.play()
+			if is_inside_tree():
+				var tween := create_tween()
+				tween.tween_property(_heartbeat_player, "volume_db", -6.0, 1.0)
+			else:
+				_heartbeat_player.volume_db = -6.0
+	else:
+		_heartbeat_active = false
+		if _heartbeat_player and _heartbeat_player.playing:
+			if is_inside_tree():
+				var tween := create_tween()
+				tween.tween_property(_heartbeat_player, "volume_db", -60.0, 1.0)
+				tween.tween_callback(func():
+					if _heartbeat_player and not _heartbeat_active:
+						_heartbeat_player.stop()
+				)
+			else:
+				_heartbeat_player.stop()
+
+
+## Smoothly modulates BGM low-pass filter cutoff frequency
+func set_bgm_lowpass_cutoff(target_cutoff_hz: float, duration: float = 0.8) -> void:
+	var bgm_idx := AudioServer.get_bus_index("BGM")
+	if bgm_idx == -1:
+		return
+	var lpf: AudioEffectLowPassFilter = null
+	for i in range(AudioServer.get_bus_effect_count(bgm_idx)):
+		var eff := AudioServer.get_bus_effect(bgm_idx, i)
+		if eff is AudioEffectLowPassFilter:
+			lpf = eff as AudioEffectLowPassFilter
+			break
+	if lpf:
+		var clamped_cutoff: float = clampf(target_cutoff_hz, 500.0, 20500.0)
+		if is_inside_tree() and duration > 0.05:
+			var tween := create_tween()
+			tween.tween_property(lpf, "cutoff_hz", clamped_cutoff, duration)
+		else:
+			lpf.cutoff_hz = clamped_cutoff
+
+
+## Returns current BGM low-pass cutoff frequency
+func get_bgm_lowpass_cutoff() -> float:
+	var bgm_idx := AudioServer.get_bus_index("BGM")
+	if bgm_idx == -1:
+		return 20000.0
+	for i in range(AudioServer.get_bus_effect_count(bgm_idx)):
+		var eff := AudioServer.get_bus_effect(bgm_idx, i)
+		if eff is AudioEffectLowPassFilter:
+			return (eff as AudioEffectLowPassFilter).cutoff_hz
+	return 20000.0
+
+
+## Activates or deactivates inspection mode audio profile (exterior ducking & focus hum)
+func set_inspection_mode_active(active: bool) -> void:
+	_is_inspect_mode_active = active
+	var city_idx := AudioServer.get_bus_index("CityExterior")
+	if city_idx != -1:
+		# Duck exterior sounds by -6 dB during inspection
+		var target_vol: float = -10.0 if active else -4.0
+		AudioServer.set_bus_volume_db(city_idx, target_vol)
+
+	if _focus_hum_player:
+		if active:
+			if not _focus_hum_player.playing:
+				_focus_hum_player.volume_db = -50.0
+				_focus_hum_player.play()
+			if is_inside_tree():
+				var tween := create_tween()
+				tween.tween_property(_focus_hum_player, "volume_db", -14.0, 0.4)
+			else:
+				_focus_hum_player.volume_db = -14.0
+		else:
+			if _focus_hum_player.playing:
+				if is_inside_tree():
+					var tween := create_tween()
+					tween.tween_property(_focus_hum_player, "volume_db", -50.0, 0.3)
+					tween.tween_callback(func():
+						if _focus_hum_player and not _is_inspect_mode_active:
+							_focus_hum_player.stop()
+					)
+				else:
+					_focus_hum_player.stop()
+
+
+func is_riot_siren_active() -> bool:
+	return _riot_active
+
+
+func is_heartbeat_active() -> bool:
+	return _heartbeat_active
+
+
+func is_inspection_audio_active() -> bool:
+	return _is_inspect_mode_active
+
+
+## Generates a seamless 4-second exterior riot siren & distant chanting audio stream
+func generate_riot_siren_stream() -> AudioStreamWAV:
+	var duration: float = 4.0
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		# Smooth two-cycle siren pitch glide with continuous phase integration
+		var phase: float = 2.0 * PI * 850.0 * t - (260.0 / 0.5) * cos(2.0 * PI * 0.5 * t)
+		var siren_tone: float = sin(phase) * 0.40
+
+		# Distant crowd murmur & megaphone chanting
+		var crowd_rumble: float = (
+			sin(2.0 * PI * 110.0 * t) * 0.5 + sin(2.0 * PI * 165.0 * t) * 0.5
+		) * (0.6 + 0.4 * sin(2.0 * PI * 1.5 * t)) * 0.35
+		var crowd_noise: float = randf_range(-0.15, 0.15) * (0.5 + 0.5 * sin(2.0 * PI * 1.5 * t)) * 0.25
+
+		var total: float = (siren_tone + crowd_rumble + crowd_noise) * 0.15
+		buffer.encode_s16(i * 2, int(clampf(total, -1.0, 1.0) * 32767.0))
+
+	var stream := AudioStreamWAV.new()
+	stream.format = AudioStreamWAV.FORMAT_16_BITS
+	stream.mix_rate = int(SAMPLE_RATE)
+	stream.stereo = false
+	stream.data = buffer
+	stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+	stream.loop_begin = 0
+	stream.loop_end = samples
+	return stream
+
+
+## Generates a seamless 0.8-second rapid heartbeat thud stream (75 BPM)
+func generate_heartbeat_stream() -> AudioStreamWAV:
+	var duration: float = 0.8
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var sample_f: float = 0.0
+
+		# Beat 1: "Lub" at t = 0.0s
+		if t < 0.20:
+			var thud1: float = sin(2.0 * PI * 65.0 * t) * exp(-28.0 * t) * 0.55
+			var sub1: float = sin(2.0 * PI * 42.0 * t) * exp(-18.0 * t) * 0.45
+			sample_f = thud1 + sub1
+		# Beat 2: "Dub" at t = 0.22s
+		elif t >= 0.22 and t < 0.42:
+			var t2: float = t - 0.22
+			var thud2: float = sin(2.0 * PI * 80.0 * t2) * exp(-30.0 * t2) * 0.45
+			var sub2: float = sin(2.0 * PI * 50.0 * t2) * exp(-20.0 * t2) * 0.35
+			sample_f = thud2 + sub2
+
+		buffer.encode_s16(i * 2, int(clampf(sample_f * 0.38, -1.0, 1.0) * 32767.0))
+
+	var stream := AudioStreamWAV.new()
+	stream.format = AudioStreamWAV.FORMAT_16_BITS
+	stream.mix_rate = int(SAMPLE_RATE)
+	stream.stereo = false
+	stream.data = buffer
+	stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+	stream.loop_begin = 0
+	stream.loop_end = samples
+	return stream
+
+
+## Generates a seamless 1.0-second crystalline high-pass focus hum stream
+func generate_focus_hum_stream() -> AudioStreamWAV:
+	var duration: float = 1.0
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var f1: float = sin(2.0 * PI * 520.0 * t) * 0.55
+		var f2: float = sin(2.0 * PI * 1040.0 * t) * 0.30
+		var f3: float = sin(2.0 * PI * 2080.0 * t) * 0.15
+		var swell: float = 0.90 + 0.10 * sin(2.0 * PI * 2.0 * t)
+		var hum: float = (f1 + f2 + f3) * swell * 0.04
+
+		buffer.encode_s16(i * 2, int(clampf(hum, -1.0, 1.0) * 32767.0))
+
+	var stream := AudioStreamWAV.new()
+	stream.format = AudioStreamWAV.FORMAT_16_BITS
+	stream.mix_rate = int(SAMPLE_RATE)
+	stream.stereo = false
+	stream.data = buffer
+	stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+	stream.loop_begin = 0
+	stream.loop_end = samples
+	return stream
+
+
+## Plays delicate ceramic coffee mug clink with bell harmonic resonance
+func play_coffee_clink() -> void:
+	var duration: float = 0.24
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var ping1: float = sin(2.0 * PI * 2750.0 * t) * exp(-24.0 * t) * 0.45
+		var ping2: float = sin(2.0 * PI * 3820.0 * t) * exp(-28.0 * t) * 0.35
+		var body: float = sin(2.0 * PI * 420.0 * t) * exp(-50.0 * t) * 0.25
+		var snap: float = randf_range(-0.15, 0.15) * exp(-120.0 * t)
+
+		var sample_f: float = clampf((ping1 + ping2 + body + snap) * 0.65, -1.0, 1.0)
+		buffer.encode_s16(i * 2, int(sample_f * 32767.0))
+
+	_play_raw_wav(buffer, int(SAMPLE_RATE))
+
+
+## Plays heavy steel drawer slide friction and mechanical latch/tumbler click
+func play_safe_drawer_slide(opening: bool = true) -> void:
+	var duration: float = 0.38
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var progress: float = float(i) / float(samples)
+		var envelope: float = sin(PI * progress)
+
+		# Bearing slide roller friction
+		var slide_noise: float = randf_range(-0.30, 0.30) * envelope * 0.50
+		var rumble: float = sin(2.0 * PI * 135.0 * t) * (0.6 + 0.4 * sin(2.0 * PI * 32.0 * t)) * envelope * 0.35
+
+		# Tumbler snap click (at start for opening, at end for closing)
+		var latch: float = 0.0
+		if opening and t < 0.08:
+			latch = sin(2.0 * PI * 1250.0 * t) * exp(-60.0 * t) * 0.55
+		elif not opening and t >= 0.30:
+			var t_latch: float = t - 0.30
+			latch = sin(2.0 * PI * 110.0 * t) * exp(-28.0 * t_latch) * 0.65
+
+		var sample_f: float = clampf(slide_noise + rumble + latch, -1.0, 1.0)
+		buffer.encode_s16(i * 2, int(sample_f * 32767.0))
+
+	_play_raw_wav(buffer, int(SAMPLE_RATE))
+
+
+## Plays heavy telephone handset receiver slam into cradle with spring bell chatter
+func play_phone_receiver_slam() -> void:
+	var duration: float = 0.30
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		# Impact 1 at t=0
+		var thud1: float = sin(2.0 * PI * 135.0 * t) * exp(-35.0 * t) * 0.65
+		var crack1: float = randf_range(-0.35, 0.35) * exp(-80.0 * t)
+
+		# Rebound impact at t=0.04s
+		var thud2: float = 0.0
+		if t >= 0.04:
+			thud2 = sin(2.0 * PI * 220.0 * t) * exp(-45.0 * (t - 0.04)) * 0.35
+
+		# Resonant bell chatter from the violent impact
+		var bell: float = (
+			sin(2.0 * PI * 850.0 * t) * 0.6 + sin(2.0 * PI * 1120.0 * t) * 0.4
+		) * exp(-22.0 * t) * 0.30
+
+		var sample_f: float = clampf((thud1 + crack1 + thud2 + bell) * 0.70, -1.0, 1.0)
+		buffer.encode_s16(i * 2, int(sample_f * 32767.0))
+
+	_play_raw_wav(buffer, int(SAMPLE_RATE))
+
+
+## Convenient alias for play_phone_receiver_slam
+func play_phone_hangup() -> void:
+	play_phone_receiver_slam()
+
 
 
