@@ -7,7 +7,7 @@
 ---
 
 ## 1. Problem Statement: Abrupt Shift Pacing
-Currently in [`scripts/desk/DeskView.gd`](file:///c:/Users/User/Documents/yes-mr-mayor/scripts/desk/DeskView.gd#L223-L245):
+Currently in [`scripts/desk/DeskView.gd`](../scripts/desk/DeskView.gd#L223-L245):
 ```gdscript
 func _on_next_day_pressed() -> void:
     _start_or_continue_shift()

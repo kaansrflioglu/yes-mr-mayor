@@ -7,7 +7,7 @@
 ---
 
 ## 1. Problem Statement & Motivation
-Currently, [`scripts/desk/RedTelephone.gd`](file:///c:/Users/User/Documents/yes-mr-mayor/scripts/desk/RedTelephone.gd) has a single hardcoded interaction:
+Currently, [`scripts/desk/RedTelephone.gd`](../scripts/desk/RedTelephone.gd) has a single hardcoded interaction:
 ```gdscript
 func accept_deal() -> void:
     dialog_panel.visible = false
@@ -93,7 +93,7 @@ extends Resource
 - Add corresponding localization keys to `data/localization.csv` across `en`, `tr`, and `es`.
 
 ### Phase 2: Dynamic Hotline Controller
-- Refactor [`RedTelephone.gd`](file:///c:/Users/User/Documents/yes-mr-mayor/scripts/desk/RedTelephone.gd) to pick from `all_calls` filtered by `current_day` and active `event_flags`.
+- Refactor [`RedTelephone.gd`](../scripts/desk/RedTelephone.gd) to pick from `all_calls` filtered by `current_day` and active `event_flags`.
 - Implement dynamic caller avatar or badge (e.g. Police Badge, Party Rose, Skull & Crossbones, Press Card).
 - Add distinct audio SFX for incoming calls (e.g., frantic double ring vs. calm secure tone).
 

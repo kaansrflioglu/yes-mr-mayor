@@ -8,7 +8,7 @@
 
 ## 1. Problem Statement: The Dead Silence Pathology
 In the current build:
-- [`scripts/autoload/AudioManager.gd`](file:///c:/Users/User/Documents/yes-mr-mayor/scripts/autoload/AudioManager.gd) synthesizes crisp procedural sound effects for stamps, paper slides, telephone bells, and discrepancy chimes.
+- [`scripts/autoload/AudioManager.gd`](../scripts/autoload/AudioManager.gd) synthesizes crisp procedural sound effects for stamps, paper slides, telephone bells, and discrepancy chimes.
 - **However, between player mouse clicks, the game is 100% dead silent.**
 - There is no background music (BGM), no ambient room tone, no ticking clock, and no city street noise.
 - This creates an eerie, sterile feeling that strips away the gritty, smoky, tension-filled atmosphere of a 1980s municipal government office.

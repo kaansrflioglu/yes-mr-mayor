@@ -7,7 +7,7 @@
 ---
 
 ## 1. Problem Statement: An Underutilized Narrative Canvas
-The panoramic window behind the Mayor's desk is one of the most prominent visual assets in the game. In [`scripts/desk/SkylineView.gd`](file:///c:/Users/User/Documents/yes-mr-mayor/scripts/desk/SkylineView.gd), it currently only checks 7 basic flags:
+The panoramic window behind the Mayor's desk is one of the most prominent visual assets in the game. In [`scripts/desk/SkylineView.gd`](../scripts/desk/SkylineView.gd), it currently only checks 7 basic flags:
 ```gdscript
 _set_prop_state(prop_concrete_towers, flags.get("add_concrete_tower", false))
 _set_prop_state(prop_green_park, flags.get("preserve_greenery", false))

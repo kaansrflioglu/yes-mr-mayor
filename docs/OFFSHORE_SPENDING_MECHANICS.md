@@ -78,7 +78,7 @@ Purchasing vanity assets permanently modifies the Mayor's desk visually:
 
 ### Phase 1: Safe Drawer Modal & Data Binding
 - Create `scenes/ui/OffshoreLedgerModal.tscn` and `scripts/ui/OffshoreLedgerModal.gd`.
-- Connect `safe_drawer_panel.gui_input` in [`DeskView.gd`](file:///c:/Users/User/Documents/yes-mr-mayor/scripts/desk/DeskView.gd) to open the ledger modal with a smooth slide-up animation.
+- Connect `safe_drawer_panel.gui_input` in [`DeskView.gd`](../scripts/desk/DeskView.gd) to open the ledger modal with a smooth slide-up animation.
 - Display current balance formatted via `GameManager.offshore_account`.
 
 ### Phase 2: Transaction Handlers & Dynamic Cost Scaling

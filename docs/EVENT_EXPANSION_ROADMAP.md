@@ -117,7 +117,7 @@ To support event progression and branching consequences, events now support two 
 
 ### 2.2 Inspectable Tag Registry
 
-Every violation `tags` array must use valid tokens recognized by [`DocumentItem.gd`](file:///c:/Users/User/Documents/yes-mr-mayor/scripts/desk/DocumentItem.gd) and [`Rulebook.gd`](file:///c:/Users/User/Documents/yes-mr-mayor/scripts/desk/Rulebook.gd):
+Every violation `tags` array must use valid tokens recognized by [`DocumentItem.gd`](../scripts/desk/DocumentItem.gd) and [`Rulebook.gd`](../scripts/desk/Rulebook.gd):
 
 | Source Card | Valid Tag Tokens | Comparison Target |
 | :--- | :--- | :--- |

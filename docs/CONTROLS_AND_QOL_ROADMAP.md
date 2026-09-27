@@ -7,7 +7,7 @@
 ---
 
 ## 1. Problem Statement: Mouse-Heavy Inefficiency
-In the current implementation of [`scripts/desk/DeskView.gd`](file:///c:/Users/User/Documents/yes-mr-mayor/scripts/desk/DeskView.gd#L87-L98):
+In the current implementation of [`scripts/desk/DeskView.gd`](../scripts/desk/DeskView.gd#L87-L98):
 ```gdscript
 func _unhandled_input(event: InputEvent) -> void:
     if event is InputEventKey and event.pressed and not event.echo:
@@ -90,7 +90,7 @@ mayor_telephone={ "deadzone": 0.5, "events": [Key(Keycode=T)] }
 
 ### Phase 1: InputMap Setup & Action Mapping
 - Register all `mayor_*` input actions in `project.godot`.
-- Update [`DeskView.gd`](file:///c:/Users/User/Documents/yes-mr-mayor/scripts/desk/DeskView.gd)`_unhandled_input()` to consume `Input.is_action_just_pressed()`:
+- Update [`DeskView.gd`](../scripts/desk/DeskView.gd)`_unhandled_input()` to consume `Input.is_action_just_pressed()`:
   * Trigger `_on_approve_pressed()` on `mayor_approve`.
   * Trigger `_on_reject_pressed()` on `mayor_reject`.
   * Trigger bribe pocketing on `mayor_bribe`.
