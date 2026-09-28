@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/SaveToast.tscn" id="10_toast"]
 [ext_resource type="PackedScene" path="res://scenes/ui/OffshoreLedgerModal.tscn" id="11_ledger"]
 [ext_resource type="PackedScene" path="res://scenes/ui/MorningBriefingCard.tscn" id="12_briefing"]
+[ext_resource type="PackedScene" path="res://scenes/desk/DeskShredder.tscn" id="13_shredder"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_brass_bell"]
 bg_color = Color(0.85, 0.68, 0.22, 1)
@@ -536,6 +537,14 @@ theme_override_colors/font_color = Color(1, 0.9, 0.75, 1)
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = SubResource("StyleBoxFlat_espresso_btn")
 text = "☕ Duble Espresso (500 ₺)"
+
+[node name="DeskShredder" parent="ShakeRoot" instance=ExtResource("13_shredder")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 60.0
+offset_top = 840.0
+offset_right = 280.0
+offset_bottom = 1040.0
 
 [node name="SafeDrawerPanel" type="PanelContainer" parent="ShakeRoot"]
 unique_name_in_owner = true

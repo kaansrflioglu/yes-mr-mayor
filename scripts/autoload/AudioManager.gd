@@ -1322,4 +1322,34 @@ func play_phone_hangup() -> void:
 	play_phone_receiver_slam()
 
 
+## Plays motor grinding, paper tearing, and confetti ribbon dispersal sound for Desk Shredder
+func play_paper_shred() -> void:
+	var duration: float = 0.55
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var progress: float = float(i) / float(samples)
+		var envelope: float = sin(PI * progress)
+
+		# Motor hum (110 Hz square/saw oscillation)
+		var motor: float = (sin(2.0 * PI * 110.0 * t) + 0.4 * sin(2.0 * PI * 220.0 * t)) * 0.35
+
+		# Blade teeth chew (fluttering high-frequency grinding)
+		var flutter: float = 0.5 + 0.5 * sin(2.0 * PI * 38.0 * t)
+		var blade_noise: float = randf_range(-0.45, 0.45) * flutter
+
+		# Paper shredding crinkle
+		var paper_slice: float = randf_range(-0.3, 0.3) * (1.0 if sin(2.0 * PI * 80.0 * t) > 0.0 else 0.2)
+
+		var combined: float = (motor + blade_noise + paper_slice) * envelope
+		var sample_f: float = clampf(combined * 0.75, -1.0, 1.0)
+		buffer.encode_s16(i * 2, int(sample_f * 32767.0))
+
+	_play_raw_wav(buffer, int(SAMPLE_RATE))
+
+
+
 

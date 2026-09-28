@@ -1,0 +1,114 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/desk/DeskShredder.gd" id="1_shredder"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_casing"]
+bg_color = Color(0.12, 0.13, 0.16, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.28, 0.3, 0.36, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot"]
+bg_color = Color(0.06, 0.07, 0.08, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.18, 0.2, 0.24, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="Curve" id="Curve_shred"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.2), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="DeskShredder" type="Control"]
+custom_minimum_size = Vector2(220, 180)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 220.0
+offset_bottom = 180.0
+script = ExtResource("1_shredder")
+
+[node name="CasingPanel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_casing")
+
+[node name="Margin" type="MarginContainer" parent="CasingPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="CasingPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HeaderHBox" type="HBoxContainer" parent="CasingPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="StatusLED" type="ColorRect" parent="CasingPanel/Margin/VBox/HeaderHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.2, 0.9, 0.3, 1)
+
+[node name="TitleLabel" type="Label" parent="CasingPanel/Margin/VBox/HeaderHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.85, 0.88, 0.92, 1)
+theme_override_font_sizes/font_size = 13
+text = "UI_SHREDDER_TOOL"
+
+[node name="IconLabel" type="Label" parent="CasingPanel/Margin/VBox/HeaderHBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "✂️"
+
+[node name="SlotButton" type="Button" parent="CasingPanel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+focus_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.75, 0.82, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_slot")
+text = "UI_SHREDDER_READY"
+
+[node name="ShredParticles" type="CPUParticles2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(110, 95)
+emitting = false
+amount = 24
+lifetime = 0.6
+one_shot = true
+explosiveness = 0.8
+emission_shape = 3
+emission_rect_extents = Vector2(80, 4)
+direction = Vector2(0, 1)
+spread = 20.0
+gravity = Vector2(0, 400)
+initial_velocity_min = 60.0
+initial_velocity_max = 140.0
+scale_amount_min = 2.0
+scale_amount_max = 5.0
+scale_amount_curve = SubResource("Curve_shred")
+color = Color(0.95, 0.95, 0.9, 1)

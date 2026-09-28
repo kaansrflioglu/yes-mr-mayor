@@ -50,6 +50,7 @@ const GAME_OVER_SCENE: PackedScene = preload("res://scenes/summary/GameOverModal
 @onready var cigar_box_prop: Control = %CigarBoxProp if has_node("%CigarBoxProp") else null
 @onready var yacht_brochure_prop: Control = %YachtBrochureProp if has_node("%YachtBrochureProp") else null
 @onready var gold_stamp_badge: Control = %GoldStampBadge if has_node("%GoldStampBadge") else null
+@onready var desk_shredder: Control = %DeskShredder if has_node("%DeskShredder") else null
 
 # Inspection Focus & Stamina Mechanics (Milestone 1)
 const MAX_INSPECT_FOCUS: int = 4
@@ -139,6 +140,9 @@ func _ready() -> void:
 			red_telephone.inspector_tip_requested.connect(_on_inspector_tip_requested)
 		if red_telephone.has_signal("whistleblower_tip_revealed"):
 			red_telephone.whistleblower_tip_revealed.connect(_on_whistleblower_tip_revealed)
+
+	if desk_shredder != null:
+		desk_shredder.shred_requested.connect(_on_shred_requested)
 
 	top_bar_hud.settings_toggle_requested.connect(_toggle_settings)
 	top_bar_hud.pause_toggle_requested.connect(_toggle_pause_menu)
@@ -299,6 +303,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	elif event.is_action_pressed("mayor_bribe"):
 		_handle_bribe_shortcut()
+		get_viewport().set_input_as_handled()
+		return
+	elif event.is_action_pressed("mayor_shred") or (event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_X):
+		_on_shred_requested()
 		get_viewport().set_input_as_handled()
 		return
 
@@ -993,6 +1001,67 @@ func _on_reject_pressed() -> void:
 	_execute_stamping(false)
 
 
+func _on_shred_requested() -> void:
+	if is_processing_decision or active_document == null or GameManager.active_event == null:
+		return
+
+	is_processing_decision = true
+	_set_stamps_enabled(false)
+	if is_inspect_mode:
+		_toggle_inspect_mode()
+
+	var event: EventData = GameManager.active_event
+	var is_sting: bool = event.is_federal_sting or DirectiveManager.is_sting_override()
+	var took_bribe: bool = active_document.has_pocketed_bribe
+
+	if desk_shredder != null:
+		desk_shredder.execute_shred_animation(active_document)
+		desk_shredder.shred_completed.connect(func():
+			_complete_shredding(event, is_sting, took_bribe)
+		, CONNECT_ONE_SHOT)
+	else:
+		_complete_shredding(event, is_sting, took_bribe)
+
+
+func _complete_shredding(event: EventData, is_sting: bool, took_bribe: bool) -> void:
+	var res_effects: Dictionary = {}
+	if is_sting:
+		# Foiled federal entrapment: wiretaps shredded!
+		res_effects = {
+			"public_opinion": 10.0,
+			"suspicion": -20.0
+		}
+	else:
+		var shred_count: int = desk_shredder.daily_shred_count if desk_shredder != null else 1
+		var penalty: float = 25.0 if shred_count > 1 else 0.0
+		if shred_count > 1:
+			GameManager.event_flags["FLAG_SHREDDER_EVIDENCE_TAMPERED"] = true
+
+		var base_susp_drop: float = -20.0 if took_bribe else -15.0
+		res_effects = {
+			"public_opinion": -5.0 if shred_count > 1 else 0.0,
+			"suspicion": base_susp_drop + penalty
+		}
+
+	res_effects = DirectiveManager.apply_modifiers(
+		res_effects, event, false, took_bribe
+	)
+	GameManager.apply_resolution(res_effects)
+
+	var record := {
+		"day": GameManager.current_day,
+		"event_id": event.id,
+		"approved": false,
+		"took_bribe": took_bribe,
+		"shredded": true,
+		"headline_key": "NEWS_DOC_SHREDDED"
+	}
+	GameManager.daily_history.append(record)
+	GameManager.event_decided.emit(event.id, false)
+	is_processing_decision = false
+	_present_next_document()
+
+
 func _execute_stamping(approved: bool) -> void:
 	if is_processing_decision or active_document == null or GameManager.active_event == null:
 		return
@@ -1290,6 +1359,8 @@ func enter_morning_ritual() -> void:
 	EventManager.prepare_daily_queue(4)
 	current_shift_minutes = SHIFT_START_MINUTES
 	is_overtime = false
+	if desk_shredder != null:
+		desk_shredder.reset_day()
 	_update_clock_ui()
 	DirectiveManager.activate_directive_for_day(GameManager.current_day)
 	_update_directive_ui()
