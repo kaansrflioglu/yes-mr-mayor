@@ -5,6 +5,7 @@ extends Control
 
 signal call_resolved(accepted: bool)
 signal inspector_tip_requested
+signal whistleblower_tip_revealed
 
 const CONSULT_FEE: int = 1000
 
@@ -203,7 +204,7 @@ func accept_deal() -> void:
 		var should_reveal: bool = active_call.has_reveal_violation(true)
 		hotline_mgr.resolve_call(active_call, true, cur_day)
 		if should_reveal:
-			inspector_tip_requested.emit()
+			whistleblower_tip_revealed.emit()
 		active_call = null
 	else:
 		# Fallback legacy behavior

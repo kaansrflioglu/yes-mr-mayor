@@ -255,15 +255,21 @@ func _setup_all_inspectables() -> void:
 	_bind_inspectable(app_card_budget, "app_budget")
 	_bind_inspectable(app_card_seal, "app_seal")
 	_bind_inspectable(app_card_expiry, "app_expiry")
+	if body_text_label != null:
+		var parent_panel = body_text_label.get_parent() as Control
+		_bind_inspectable(parent_panel if parent_panel is PanelContainer else body_text_label, "app_description")
 
 	_bind_inspectable(rep_card_inspector, "rep_inspector")
 	_bind_inspectable(rep_card_measured, "rep_measured_floors")
 	_bind_inspectable(rep_card_hazard, "rep_hazard")
 	_bind_inspectable(rep_card_tax, "rep_tax_debt")
 	_bind_inspectable(rep_card_soil, "rep_soil")
+	if inspector_notes_label != null:
+		var parent_panel = inspector_notes_label.get_parent() as Control
+		_bind_inspectable(parent_panel if parent_panel is PanelContainer else inspector_notes_label, "rep_notes")
 
 
-func _bind_inspectable(panel: PanelContainer, tag: String) -> void:
+func _bind_inspectable(panel: Control, tag: String) -> void:
 	if panel == null:
 		return
 	panel.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -285,7 +291,7 @@ func _bind_inspectable(panel: PanelContainer, tag: String) -> void:
 	)
 
 
-func _on_field_clicked(panel: PanelContainer, tag: String) -> void:
+func _on_field_clicked(panel: Control, tag: String) -> void:
 	var tween := create_tween()
 	tween.tween_property(panel, "scale", Vector2(1.03, 1.03), 0.08)
 	tween.tween_property(panel, "scale", Vector2(1.0, 1.0), 0.1)
@@ -324,7 +330,7 @@ func mark_violation_found(violation: Dictionary) -> void:
 
 ## Highlights a suspicious field on the dossier (e.g. from whistleblower or engineer tip)
 func highlight_suspicious_field(field_tag: String = "") -> void:
-	var target_panel: PanelContainer = null
+	var target_panel: Control = null
 	var norm_tag := field_tag.to_lower()
 
 	match norm_tag:
@@ -334,11 +340,15 @@ func highlight_suspicious_field(field_tag: String = "") -> void:
 		"app_budget": target_panel = app_card_budget
 		"app_seal": target_panel = app_card_seal
 		"app_expiry": target_panel = app_card_expiry
+		"app_description":
+			target_panel = (body_text_label.get_parent() as Control) if (body_text_label != null and body_text_label.get_parent() is PanelContainer) else body_text_label
 		"rep_inspector": target_panel = rep_card_inspector
 		"rep_measured_floors": target_panel = rep_card_measured
 		"rep_hazard": target_panel = rep_card_hazard
 		"rep_tax_debt": target_panel = rep_card_tax
 		"rep_soil": target_panel = rep_card_soil
+		"rep_notes":
+			target_panel = (inspector_notes_label.get_parent() as Control) if (inspector_notes_label != null and inspector_notes_label.get_parent() is PanelContainer) else inspector_notes_label
 		_:
 			target_panel = app_card_seal if app_card_seal != null else app_card_applicant
 

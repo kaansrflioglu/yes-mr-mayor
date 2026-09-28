@@ -134,8 +134,11 @@ func _ready() -> void:
 	if btn_toggle_uv != null:
 		btn_toggle_uv.pressed.connect(toggle_uv_blacklight)
 
-	if red_telephone != null and red_telephone.has_signal("inspector_tip_requested"):
-		red_telephone.inspector_tip_requested.connect(_on_inspector_tip_requested)
+	if red_telephone != null:
+		if red_telephone.has_signal("inspector_tip_requested"):
+			red_telephone.inspector_tip_requested.connect(_on_inspector_tip_requested)
+		if red_telephone.has_signal("whistleblower_tip_revealed"):
+			red_telephone.whistleblower_tip_revealed.connect(_on_whistleblower_tip_revealed)
 
 	top_bar_hud.settings_toggle_requested.connect(_toggle_settings)
 	top_bar_hud.pause_toggle_requested.connect(_toggle_pause_menu)
@@ -842,9 +845,18 @@ func toggle_uv_blacklight() -> void:
 		active_document.set_uv_blacklight(is_uv_active)
 
 
-## Handles tipline consultation tip from Senior Building Inspector
+## Handles tipline consultation tip from Senior Building Inspector (voluntary, costs shift time)
 func _on_inspector_tip_requested() -> void:
 	advance_shift_time(PHONE_INQUIRY_TIME_COST_MINUTES)
+	_reveal_tip_violation()
+
+
+## Handles whistleblower / hotline deal tip (free of shift time cost)
+func _on_whistleblower_tip_revealed() -> void:
+	_reveal_tip_violation()
+
+
+func _reveal_tip_violation() -> void:
 	if GameManager.active_event == null:
 		return
 

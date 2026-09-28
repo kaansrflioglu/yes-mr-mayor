@@ -177,6 +177,20 @@ func get_violations_count() -> int:
 func find_matching_violation(tag_a: String, tag_b: String) -> Dictionary:
 	var norm_a: String = tag_a.to_lower()
 	var norm_b: String = tag_b.to_lower()
+
+	# Disallow matching two identical categories (e.g. two rulebook rules or two application fields)
+	var is_a_rule := norm_a.begins_with("rule_")
+	var is_b_rule := norm_b.begins_with("rule_")
+	var is_a_app := norm_a.begins_with("app_")
+	var is_b_app := norm_b.begins_with("app_")
+	var is_a_rep := norm_a.begins_with("rep_")
+	var is_b_rep := norm_b.begins_with("rep_")
+
+	# Must be (App vs Rule), (Rep vs Rule), or (App vs Rep contradiction)
+	var is_valid_pair := (is_a_rule != is_b_rule) or (is_a_app and is_b_rep) or (is_a_rep and is_b_app)
+	if not is_valid_pair:
+		return {}
+
 	for v in violations:
 		var targets: Array = v.get("tags", [])
 		var has_a: bool = false

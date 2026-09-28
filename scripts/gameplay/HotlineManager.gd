@@ -56,16 +56,33 @@ func get_eligible_calls(day: int, event_flags: Dictionary = {}) -> Array[Hotline
 	return eligible
 
 
-## Picks a random eligible call for the given day and state
+var seen_call_ids: Array[String] = []
+
+
+## Picks an eligible call for the given day and state, prioritizing unseen calls
 func pick_next_call(day: int, event_flags: Dictionary = {}) -> HotlineCallData:
 	var eligible := get_eligible_calls(day, event_flags)
 	if eligible.is_empty():
-		# Fallback to all_calls if pool is empty
 		if not all_calls.is_empty():
 			return all_calls[randi() % all_calls.size()]
 		return null
 
+	var unvisited: Array[HotlineCallData] = []
+	for c in eligible:
+		if not seen_call_ids.has(c.id):
+			unvisited.append(c)
+
+	if not unvisited.is_empty():
+		var chosen: HotlineCallData = unvisited[randi() % unvisited.size()]
+		seen_call_ids.append(chosen.id)
+		return chosen
+
+	# If all eligible calls seen, allow recycling
 	return eligible[randi() % eligible.size()]
+
+
+func reset_history() -> void:
+	seen_call_ids.clear()
 
 
 ## Returns visual styling, icon, and translation keys for an archetype
