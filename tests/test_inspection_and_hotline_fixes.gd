@@ -1,6 +1,7 @@
 extends Node
 
-## test_inspection_and_hotline_fixes.gd - Verifies cross-category pairing, hotline unique picking, and shift time integrity.
+## test_inspection_and_hotline_fixes.gd - Verifies cross-category pairing,
+## hotline unique picking, and shift time integrity.
 
 var passed_tests: int = 0
 var total_tests: int = 3
@@ -97,12 +98,18 @@ func test_test_3_shift_time_integrity() -> void:
 	var consult_ok: bool = desk_instance.consult_red_phone()
 	assert(consult_ok, "Voluntary consultation must succeed.")
 	assert(game_mgr.city_budget == initial_budget - 1000, "City budget must be debited $1000.")
-	assert(desk_instance.current_shift_minutes == initial_time + 30, "Consultation must advance shift clock by 30 minutes.")
+	assert(
+		desk_instance.current_shift_minutes == initial_time + 30,
+		"Consultation must advance shift clock by 30 minutes."
+	)
 
 	# Case B: Whistleblower Tip Revealed -> Does NOT advance shift time
 	var time_after_consult: int = desk_instance.current_shift_minutes
-	desk_instance._on_whistleblower_tip_revealed()
-	assert(desk_instance.current_shift_minutes == time_after_consult, "Whistleblower tip must NOT advance shift clock.")
+	desk_instance.call("_on_whistleblower_tip_revealed")
+	assert(
+		desk_instance.current_shift_minutes == time_after_consult,
+		"Whistleblower tip must NOT advance shift clock."
+	)
 
 	desk_instance.queue_free()
 	phone_instance.queue_free()
