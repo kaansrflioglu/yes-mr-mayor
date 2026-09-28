@@ -1370,6 +1370,89 @@ func play_ink_pad_dip() -> void:
 	_play_raw_wav(buffer, int(SAMPLE_RATE))
 
 
+var _crowd_murmur_player: AudioStreamPlayer = null
+
+## Plays mechanical camera shutter snap and flash bulb pop
+func play_camera_shutter() -> void:
+	var duration: float = 0.18
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var progress: float = float(i) / float(samples)
+		var snap_env: float = exp(-40.0 * progress)
+		var click1: float = (1.0 if progress < 0.04 else 0.0) * randf_range(-0.9, 0.9)
+		var click2: float = (1.0 if (progress > 0.08 and progress < 0.12) else 0.0) * randf_range(-0.7, 0.7)
+		var pop: float = sin(2.0 * PI * 420.0 * t) * snap_env * 0.3
+		var sample_f: float = clampf((click1 + click2 + pop) * 0.8, -1.0, 1.0)
+		buffer.encode_s16(i * 2, int(sample_f * 32767.0))
+
+	_play_raw_wav(buffer, int(SAMPLE_RATE))
+
+
+## Plays quick high-pitched microphone feedback squeak / pop
+func play_mic_feedback() -> void:
+	var duration: float = 0.25
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var progress: float = float(i) / float(samples)
+		var env: float = sin(PI * progress) * exp(-4.0 * progress)
+		var freq: float = 1600.0 + sin(2.0 * PI * 12.0 * t) * 300.0
+		var squeak: float = sin(2.0 * PI * freq * t) * 0.25
+		var thud: float = sin(2.0 * PI * 90.0 * t) * exp(-25.0 * progress) * 0.4
+		var sample_f: float = clampf((squeak + thud) * env * 0.5, -1.0, 1.0)
+		buffer.encode_s16(i * 2, int(sample_f * 32767.0))
+
+	_play_raw_wav(buffer, int(SAMPLE_RATE))
+
+
+## Activates or stops procedural background murmuring reporter crowd
+func set_crowd_murmur_active(active: bool) -> void:
+	if not active:
+		if _crowd_murmur_player != null and is_instance_valid(_crowd_murmur_player):
+			_crowd_murmur_player.stop()
+			_crowd_murmur_player.queue_free()
+			_crowd_murmur_player = null
+		return
+
+	if _crowd_murmur_player != null and is_instance_valid(_crowd_murmur_player) and _crowd_murmur_player.playing:
+		return
+
+	var duration: float = 2.0
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var m1: float = sin(2.0 * PI * (120.0 + 15.0 * sin(2.0 * PI * 1.5 * t)) * t) * 0.15
+		var m2: float = sin(2.0 * PI * (220.0 + 30.0 * sin(2.0 * PI * 2.3 * t)) * t) * 0.12
+		var m3: float = sin(2.0 * PI * (350.0 + 40.0 * sin(2.0 * PI * 3.1 * t)) * t) * 0.08
+		var whisper_noise: float = randf_range(-0.1, 0.1) * (0.5 + 0.5 * sin(2.0 * PI * 4.0 * t))
+		var sample_f: float = clampf((m1 + m2 + m3 + whisper_noise) * 0.45, -1.0, 1.0)
+		buffer.encode_s16(i * 2, int(sample_f * 32767.0))
+
+	var stream := AudioStreamWAV.new()
+	stream.format = AudioStreamWAV.FORMAT_16_BITS
+	stream.mix_rate = int(SAMPLE_RATE)
+	stream.data = buffer
+	stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+	stream.loop_end = samples
+
+	_crowd_murmur_player = AudioStreamPlayer.new()
+	_crowd_murmur_player.stream = stream
+	_crowd_murmur_player.bus = "Ambience"
+	_crowd_murmur_player.volume_db = -12.0
+	add_child(_crowd_murmur_player)
+	_crowd_murmur_player.play()
+
+
 
 
 

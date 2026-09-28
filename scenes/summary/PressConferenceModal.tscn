@@ -1,0 +1,201 @@
+[gd_scene format=3 uid="uid://pressconfmodal001"]
+
+[ext_resource type="Script" path="res://scripts/ui/PressConferenceModal.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_podium_panel"]
+bg_color = Color(0.06, 0.08, 0.12, 0.96)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.85, 0.65, 0.25, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.75)
+shadow_size = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_question_box"]
+bg_color = Color(0.03, 0.04, 0.07, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.3, 0.35, 0.45, 0.5)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tactic_btn"]
+bg_color = Color(0.12, 0.16, 0.24, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 2
+border_color = Color(0.4, 0.55, 0.75, 0.7)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="PressConferenceModal" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.05, 0.08, 0.88)
+
+[node name="ModalContainer" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(960, 680)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -480.0
+offset_top = -340.0
+offset_right = 480.0
+offset_bottom = 340.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_podium_panel")
+
+[node name="Margin" type="MarginContainer" parent="ModalContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 28
+
+[node name="MainVBox" type="VBoxContainer" parent="ModalContainer/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HeaderHBox" type="HBoxContainer" parent="ModalContainer/Margin/MainVBox"]
+layout_mode = 2
+
+[node name="HeaderVBox" type="VBoxContainer" parent="ModalContainer/Margin/MainVBox/HeaderHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HeaderLabel" type="Label" parent="ModalContainer/Margin/MainVBox/HeaderHBox/HeaderVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.8, 0.35, 1)
+theme_override_font_sizes/font_size = 24
+text = "CITY HALL PRESS BRIEFING ROOM"
+
+[node name="SubHeaderLabel" type="Label" parent="ModalContainer/Margin/MainVBox/HeaderHBox/HeaderVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.72, 0.82, 1)
+theme_override_font_sizes/font_size = 14
+text = "Weekly Media Grilling • Day 5"
+
+[node name="HSeparator" type="HSeparator" parent="ModalContainer/Margin/MainVBox"]
+layout_mode = 2
+
+[node name="QuestionPanel" type="PanelContainer" parent="ModalContainer/Margin/MainVBox"]
+custom_minimum_size = Vector2(0, 190)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_question_box")
+
+[node name="QMargin" type="MarginContainer" parent="ModalContainer/Margin/MainVBox/QuestionPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 16
+
+[node name="QVBox" type="VBoxContainer" parent="ModalContainer/Margin/MainVBox/QuestionPanel/QMargin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ReporterLabel" type="Label" parent="ModalContainer/Margin/MainVBox/QuestionPanel/QMargin/QVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.75, 1, 1)
+theme_override_font_sizes/font_size = 15
+text = "🎤 Arthur Vance (The Daily Watchdog)"
+
+[node name="QuestionLabel" type="Label" parent="ModalContainer/Margin/MainVBox/QuestionPanel/QMargin/QVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_font_sizes/font_size = 16
+text = "\"Mr. Mayor, reports confirm you approved construction directly in the high-risk floodway zone despite severe environmental warnings. How do you respond?\""
+autowrap_mode = 3
+
+[node name="TacticsLabel" type="Label" parent="ModalContainer/Margin/MainVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.65, 0.3, 1)
+theme_override_font_sizes/font_size = 14
+text = "SELECT MAYORAL RESPONSE TACTIC:"
+
+[node name="TacticsVBox" type="VBoxContainer" parent="ModalContainer/Margin/MainVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="BtnSpin" type="Button" parent="ModalContainer/Margin/MainVBox/TacticsVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_tactic_btn")
+text = "🌟 Spin the Narrative (Reframe as bold visionary leadership)"
+
+[node name="BtnBlame" type="Button" parent="ModalContainer/Margin/MainVBox/TacticsVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_tactic_btn")
+text = "👉 Scapegoat & Blame (Blame predecessors or contractors)"
+
+[node name="BtnStonewall" type="Button" parent="ModalContainer/Margin/MainVBox/TacticsVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_tactic_btn")
+text = "🤐 No Comment / Stonewall (Decline comment on legal grounds)"
+
+[node name="BtnDistract" type="Button" parent="ModalContainer/Margin/MainVBox/TacticsVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_tactic_btn")
+text = "🏛️ Grand City Announcement ($20,000 Municipal Budget)"
+
+[node name="BtnSlush" type="Button" parent="ModalContainer/Margin/MainVBox/TacticsVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_tactic_btn")
+text = "💼 Clandestine Slush Bribe ($25,000 Offshore Funds)"
+
+[node name="FlashOverlay" type="ColorRect" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0.9)

@@ -7,6 +7,7 @@ extends Control
 const DOCUMENT_SCENE: PackedScene = preload("res://scenes/desk/DocumentItem.tscn")
 const DAY_SUMMARY_SCENE: PackedScene = preload("res://scenes/summary/DayEndSummary.tscn")
 const GAME_OVER_SCENE: PackedScene = preload("res://scenes/summary/GameOverModal.tscn")
+const PRESS_CONFERENCE_SCENE: PackedScene = preload("res://scenes/summary/PressConferenceModal.tscn")
 
 @onready var shake_root: Control = %ShakeRoot
 @onready var document_drop_zone: Control = %DocumentDropZone
@@ -82,6 +83,7 @@ var is_uv_active: bool = false
 var active_document: Control = null
 var active_summary: Control = null
 var active_game_over: Control = null
+var active_press_conference: Control = null
 var is_processing_decision: bool = false
 var _shake_tween: Tween
 var _was_paused_for_modal: bool = false
@@ -1378,7 +1380,7 @@ func _animate_drawer_pull() -> void:
 	tween.tween_property(safe_drawer_panel, "position:y", safe_drawer_panel.position.y, 0.15)
 
 
-## Quota of daily documents finished -> Deliver Tabloid newspaper
+## Quota of daily documents finished -> Deliver Tabloid newspaper (or Weekly Press Conference)
 func _on_daily_quota_completed() -> void:
 	current_desk_state = DeskState.STATE_DAY_END
 	_set_stamps_enabled(false)
@@ -1390,6 +1392,30 @@ func _on_daily_quota_completed() -> void:
 	if save_toast != null:
 		save_toast.show_toast(GameManager.current_day)
 
+	if _should_trigger_press_conference():
+		_start_press_conference()
+	else:
+		_present_newspaper_summary()
+
+
+func _should_trigger_press_conference() -> bool:
+	return (GameManager.current_day % 5 == 0) or (GameManager.suspicion_level >= 70.0)
+
+
+func _start_press_conference() -> void:
+	if active_press_conference != null and is_instance_valid(active_press_conference):
+		active_press_conference.queue_free()
+
+	var conf = PRESS_CONFERENCE_SCENE.instantiate()
+	add_child(conf)
+	active_press_conference = conf
+	conf.conference_finished.connect(func():
+		_present_newspaper_summary()
+	)
+	conf.start_conference(GameManager.daily_history)
+
+
+func _present_newspaper_summary() -> void:
 	if active_summary != null and is_instance_valid(active_summary):
 		active_summary.queue_free()
 

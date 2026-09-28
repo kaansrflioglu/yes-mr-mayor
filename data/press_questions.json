@@ -1,0 +1,58 @@
+[
+  {
+    "id": "PRESS_Q_FLOODWAY",
+    "reporter_name": "Arthur Vance",
+    "outlet": "The Daily Watchdog",
+    "trigger_tags": ["floodway", "VIOL_FLOOD_ZONE", "DIST_RIVERBED"],
+    "question_key": "PRESS_Q_FLOODWAY_TEXT",
+    "default_question": "Mr. Mayor, investigative reports confirm your office signed off on developments right across the vulnerable riverbed floodway. Did you prioritize developer interests over citizen safety?"
+  },
+  {
+    "id": "PRESS_Q_BRIBE_LEAK",
+    "reporter_name": "Arthur Vance",
+    "outlet": "The Daily Watchdog",
+    "trigger_tags": ["bribe", "took_bribe", "VIOL_BLACKLIST"],
+    "question_key": "PRESS_Q_BRIBE_TEXT",
+    "default_question": "Arthur Vance, Daily Watchdog! Internal whistleblowers allege cash briefcases were delivered directly to the mayoral suite before key permits were granted. How do you explain these kickbacks?"
+  },
+  {
+    "id": "PRESS_Q_SMOG_INDUSTRIAL",
+    "reporter_name": "Elena Rostova",
+    "outlet": "Municipal Tribune",
+    "trigger_tags": ["industrial", "DIST_INDUSTRIAL", "greens"],
+    "question_key": "PRESS_Q_SMOG_TEXT",
+    "default_question": "Elena Rostova, Municipal Tribune. Heavy industrial permit approvals have driven pollution to record highs. Are the economic benefits worth choking our citizens?"
+  },
+  {
+    "id": "PRESS_Q_ZONING_VARIANCE",
+    "reporter_name": "Rex Sterling",
+    "outlet": "Channel 6 Action News",
+    "trigger_tags": ["zoning", "development", "oligarchs"],
+    "question_key": "PRESS_Q_ZONING_TEXT",
+    "default_question": "Rex Sterling here! Outraged neighborhood associations claim luxury high-rise permits are bulldozing historic landmarks. Who is really running City Hall—you, or the property oligarchs?"
+  },
+  {
+    "id": "PRESS_Q_LABOR_DISPUTE",
+    "reporter_name": "Elena Rostova",
+    "outlet": "Municipal Tribune",
+    "trigger_tags": ["labor", "transit", "unions"],
+    "question_key": "PRESS_Q_LABOR_TEXT",
+    "default_question": "Elena Rostova, Tribune. Municipal workers and transit operators are rallying outside City Hall following your controversial labor mandates. Will you meet their demands or face a general strike?"
+  },
+  {
+    "id": "PRESS_Q_GENERAL_SUSPICION",
+    "reporter_name": "Arthur Vance",
+    "outlet": "The Daily Watchdog",
+    "trigger_tags": ["suspicion", "general"],
+    "question_key": "PRESS_Q_SUSPICION_TEXT",
+    "default_question": "Arthur Vance again, Mr. Mayor. State audit inspectors have been spotted hovering around municipal archives. Can you look the press in the eye and say your ledger is clean?"
+  },
+  {
+    "id": "PRESS_Q_LUXURY_RUMORS",
+    "reporter_name": "Rex Sterling",
+    "outlet": "Channel 6 Action News",
+    "trigger_tags": ["luxury", "wealth", "cigar"],
+    "question_key": "PRESS_Q_LUXURY_TEXT",
+    "default_question": "Rex Sterling, Action News! Word on the street is the mayoral suite has undergone extravagant private refits with imported Cuban cigars and gold fittings. What happened to fiscal prudence?"
+  }
+]
