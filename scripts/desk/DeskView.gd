@@ -55,6 +55,8 @@ const PRESS_CONFERENCE_SCENE: PackedScene = preload("res://scenes/summary/PressC
 @onready var physical_stamp_rack: Control = %PhysicalStampRack if has_node("%PhysicalStampRack") else null
 @onready var district_map_modal: Control = %DistrictMapModal if has_node("%DistrictMapModal") else null
 @onready var btn_toggle_map: Button = %BtnToggleMap if has_node("%BtnToggleMap") else null
+@onready var prop_espresso_machine: Control = %PropEspressoMachine if has_node("%PropEspressoMachine") else null
+@onready var prop_dictaphone: Control = %PropDictaphone if has_node("%PropDictaphone") else null
 
 # Inspection Focus & Stamina Mechanics (Milestone 1)
 const MAX_INSPECT_FOCUS: int = 4
@@ -677,7 +679,7 @@ func _present_next_document() -> void:
 		return
 
 	# Reset focus and inquiries for new dossier
-	current_inspect_focus = MAX_INSPECT_FOCUS
+	current_inspect_focus = _get_max_focus()
 	consecutive_false_inquiries = 0
 	_update_focus_ui()
 
@@ -773,8 +775,15 @@ func _on_order_espresso_pressed() -> void:
 	order_espresso()
 
 
+func _get_max_focus() -> int:
+	var base_max: int = MAX_INSPECT_FOCUS
+	if GameManager != null and GameManager.event_flags.get("FLAG_EQUIP_ESPRESSO_MACHINE", false):
+		base_max += 1
+	return base_max
+
+
 func order_espresso() -> bool:
-	if current_inspect_focus >= MAX_INSPECT_FOCUS:
+	if current_inspect_focus >= _get_max_focus():
 		return false
 	if GameManager.treasury < ESPRESSO_COST:
 		return false
@@ -782,7 +791,7 @@ func order_espresso() -> bool:
 	GameManager.treasury -= ESPRESSO_COST
 	var new_susp: float = GameManager.suspicion_level + ESPRESSO_SUSPICION_GAIN
 	GameManager.suspicion_level = clampf(new_susp, 0.0, 100.0)
-	current_inspect_focus = mini(current_inspect_focus + ESPRESSO_FOCUS_RESTORE, MAX_INSPECT_FOCUS)
+	current_inspect_focus = mini(current_inspect_focus + ESPRESSO_FOCUS_RESTORE, _get_max_focus())
 	GameManager.stats_changed.emit()
 
 	if AudioManager.has_method("play_coffee_sip"):
@@ -800,7 +809,7 @@ func _update_focus_ui() -> void:
 	if focus_label != null:
 		focus_label.text = tr("UI_FOCUS_POINTS").format({
 			"current": current_inspect_focus,
-			"max": MAX_INSPECT_FOCUS
+			"max": _get_max_focus()
 		})
 
 	if focus_icons_container != null:
@@ -1316,6 +1325,10 @@ func _update_luxury_props() -> void:
 		yacht_brochure_prop.visible = bool(flags.get("FLAG_YACHT_BROCHURE_UNLOCKED", false))
 	if gold_stamp_badge != null:
 		gold_stamp_badge.visible = bool(flags.get("FLAG_GOLD_STAMP_UNLOCKED", false))
+	if prop_espresso_machine != null:
+		prop_espresso_machine.visible = bool(flags.get("FLAG_EQUIP_ESPRESSO_MACHINE", false))
+	if prop_dictaphone != null:
+		prop_dictaphone.visible = bool(flags.get("FLAG_EQUIP_DICTAPHONE", false))
 
 
 func _on_bribe_pocketed(amount: int) -> void:
@@ -1538,7 +1551,7 @@ func _on_coffee_mug_pressed() -> void:
 			chain_tween.parallel().tween_property(coffee_steam_label, "modulate:a", 1.0, 0.6)
 
 	# Refill / set starting focus to max
-	current_inspect_focus = MAX_INSPECT_FOCUS
+	current_inspect_focus = _get_max_focus()
 	_update_focus_ui()
 
 

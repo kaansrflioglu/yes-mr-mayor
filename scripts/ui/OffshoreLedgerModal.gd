@@ -38,6 +38,33 @@ const LUXURY_CATALOG: Array[Dictionary] = [
 		"desc_key": "UI_LUXURY_GOLD_DESC",
 		"effect_key": "UI_LUXURY_GOLD_EFFECT",
 		"icon": "👑"
+	},
+	{
+		"id": "espresso_machine",
+		"cost": 35000,
+		"flag": "FLAG_EQUIP_ESPRESSO_MACHINE",
+		"title_key": "EQUIP_ESPRESSO_TITLE",
+		"desc_key": "EQUIP_ESPRESSO_DESC",
+		"effect_key": "EQUIP_ESPRESSO_EFFECT",
+		"icon": "☕"
+	},
+	{
+		"id": "dictaphone",
+		"cost": 25000,
+		"flag": "FLAG_EQUIP_DICTAPHONE",
+		"title_key": "EQUIP_DICTAPHONE_TITLE",
+		"desc_key": "EQUIP_DICTAPHONE_DESC",
+		"effect_key": "EQUIP_DICTAPHONE_EFFECT",
+		"icon": "🎙️"
+	},
+	{
+		"id": "panama_shell",
+		"cost": 50000,
+		"flag": "FLAG_INVEST_PANAMA_SHELL",
+		"title_key": "INVEST_PANAMA_TITLE",
+		"desc_key": "INVEST_PANAMA_DESC",
+		"effect_key": "INVEST_PANAMA_EFFECT",
+		"icon": "💼"
 	}
 ]
 

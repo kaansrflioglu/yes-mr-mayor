@@ -706,6 +706,74 @@ theme_override_font_sizes/font_size = 11
 text = "MONACO"
 horizontal_alignment = 1
 
+[node name="PropEspressoMachine" type="PanelContainer" parent="ShakeRoot"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 1380.0
+offset_top = 800.0
+offset_right = 1480.0
+offset_bottom = 910.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_cigar_box")
+
+[node name="EspressoMargin" type="MarginContainer" parent="ShakeRoot/PropEspressoMachine"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="EspressoVBox" type="VBoxContainer" parent="ShakeRoot/PropEspressoMachine/EspressoMargin"]
+layout_mode = 2
+alignment = 1
+
+[node name="EspressoIcon" type="Label" parent="ShakeRoot/PropEspressoMachine/EspressoMargin/EspressoVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "☕ ♨️"
+horizontal_alignment = 1
+
+[node name="EspressoLabel" type="Label" parent="ShakeRoot/PropEspressoMachine/EspressoMargin/EspressoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.75, 0.45, 1)
+theme_override_font_sizes/font_size = 10
+text = "BARISTA"
+horizontal_alignment = 1
+
+[node name="PropDictaphone" type="PanelContainer" parent="ShakeRoot"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 160.0
+offset_top = 370.0
+offset_right = 260.0
+offset_bottom = 460.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_cigar_box")
+
+[node name="DictaphoneMargin" type="MarginContainer" parent="ShakeRoot/PropDictaphone"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="DictaphoneVBox" type="VBoxContainer" parent="ShakeRoot/PropDictaphone/DictaphoneMargin"]
+layout_mode = 2
+alignment = 1
+
+[node name="DictaphoneIcon" type="Label" parent="ShakeRoot/PropDictaphone/DictaphoneMargin/DictaphoneVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "🎙️ 📼"
+horizontal_alignment = 1
+
+[node name="DictaphoneLabel" type="Label" parent="ShakeRoot/PropDictaphone/DictaphoneMargin/DictaphoneVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 10
+text = "RECORDER"
+horizontal_alignment = 1
+
 [node name="NextDayBox" type="PanelContainer" parent="ShakeRoot"]
 unique_name_in_owner = true
 visible = false

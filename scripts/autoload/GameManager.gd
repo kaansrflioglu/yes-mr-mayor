@@ -203,10 +203,21 @@ func advance_day() -> void:
 	day_ended.emit(current_day)
 	current_day += 1
 
+	_apply_daily_investments()
+
 	if current_day > MAX_DAYS:
 		_evaluate_end_conditions()
 	else:
 		day_started.emit(current_day)
+
+
+func _apply_daily_investments() -> void:
+	if event_flags.get("FLAG_INVEST_PANAMA_SHELL", false):
+		var interest: int = int(float(personal_wealth) * 0.04)
+		if interest > 0:
+			personal_wealth += interest
+			_notify_stats_changed()
+			print("[GameManager] Panama shell holding paid $%d in dividends." % interest)
 
 
 ## Win / Loss evaluation (Section 2 & Phase 3)
