@@ -239,7 +239,8 @@ func save_game(slot_id: String) -> bool:
 		"deck_state": deck_state,
 		"hotline_history": hotline_records,
 		"directive_state": directive_data,
-		"shift_state": shift_data
+		"shift_state": shift_data,
+		"faction_state": FactionManager.get_save_data() if FactionManager != null and FactionManager.has_method("get_save_data") else {}
 	}
 
 	var path := get_save_path(slot_id)
@@ -350,6 +351,10 @@ func load_game(slot_id: String) -> bool:
 
 	# 5. Store transient shift_state for DeskView consumption
 	last_loaded_shift_state = root_dict.get("shift_state", {}).duplicate(true)
+
+	# 6. Restore FactionManager state
+	if root_dict.has("faction_state") and FactionManager != null and FactionManager.has_method("load_save_data"):
+		FactionManager.load_save_data(root_dict["faction_state"])
 
 	GameManager.notify_stats_changed()
 

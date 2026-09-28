@@ -25,6 +25,7 @@ TwitchManager="*res://scripts/autoload/TwitchManager.gd"
 SettingsManager="*res://scripts/autoload/SettingsManager.gd"
 SaveLoadManager="*res://scripts/autoload/SaveLoadManager.gd"
 DirectiveManager="*res://scripts/autoload/DirectiveManager.gd"
+FactionManager="*res://scripts/autoload/FactionManager.gd"
 
 [display]
 
@@ -122,6 +123,11 @@ mayor_twitch={
 mayor_shred={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":88,"physical_keycode":0,"key_label":0,"unicode":120,"location":0,"echo":false,"script":null)
+]
+}
+mayor_map={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":77,"physical_keycode":0,"key_label":0,"unicode":109,"location":0,"echo":false,"script":null)
 ]
 }
 

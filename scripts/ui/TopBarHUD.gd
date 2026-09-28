@@ -7,6 +7,7 @@ extends PanelContainer
 signal twitch_toggle_requested
 signal settings_toggle_requested
 signal pause_toggle_requested
+signal map_toggle_requested
 
 @onready var approval_bar: ProgressBar = %ApprovalBar
 @onready var approval_label: Label = %ApprovalLabel
@@ -21,6 +22,7 @@ signal pause_toggle_requested
 @onready var btn_settings: Button = %BtnSettings
 @onready var btn_pause: Button = %BtnPause
 @onready var btn_twitch: Button = %BtnTwitch if has_node("%BtnTwitch") else null
+@onready var btn_map: Button = %BtnMap if has_node("%BtnMap") else null
 
 var _displayed_budget: float = 100000.0
 var _displayed_wealth: float = 0.0
@@ -38,6 +40,8 @@ func _ready() -> void:
 		btn_pause.pressed.connect(func(): pause_toggle_requested.emit())
 	if btn_twitch != null:
 		btn_twitch.pressed.connect(func(): twitch_toggle_requested.emit())
+	if btn_map != null:
+		btn_map.pressed.connect(func(): map_toggle_requested.emit())
 
 	GameManager.stats_changed.connect(_on_stats_changed)
 	LocalizationManager.locale_changed.connect(_on_locale_changed)

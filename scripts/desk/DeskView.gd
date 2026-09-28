@@ -52,6 +52,8 @@ const GAME_OVER_SCENE: PackedScene = preload("res://scenes/summary/GameOverModal
 @onready var gold_stamp_badge: Control = %GoldStampBadge if has_node("%GoldStampBadge") else null
 @onready var desk_shredder: Control = %DeskShredder if has_node("%DeskShredder") else null
 @onready var physical_stamp_rack: Control = %PhysicalStampRack if has_node("%PhysicalStampRack") else null
+@onready var district_map_modal: Control = %DistrictMapModal if has_node("%DistrictMapModal") else null
+@onready var btn_toggle_map: Button = %BtnToggleMap if has_node("%BtnToggleMap") else null
 
 # Inspection Focus & Stamina Mechanics (Milestone 1)
 const MAX_INSPECT_FOCUS: int = 4
@@ -148,10 +150,15 @@ func _ready() -> void:
 	if physical_stamp_rack != null and physical_stamp_rack.has_signal("stamp_dropped"):
 		physical_stamp_rack.stamp_dropped.connect(_on_physical_stamp_dropped)
 
+	if btn_toggle_map != null:
+		btn_toggle_map.pressed.connect(_toggle_district_map)
+
 	top_bar_hud.settings_toggle_requested.connect(_toggle_settings)
 	top_bar_hud.pause_toggle_requested.connect(_toggle_pause_menu)
 	if top_bar_hud.has_signal("twitch_toggle_requested"):
 		top_bar_hud.twitch_toggle_requested.connect(_toggle_twitch_overlay)
+	if top_bar_hud.has_signal("map_toggle_requested"):
+		top_bar_hud.map_toggle_requested.connect(_toggle_district_map)
 
 	DirectiveManager.directive_activated.connect(_on_directive_activated)
 	TwitchManager.tool_action_executed.connect(_on_twitch_tool_action)
@@ -240,6 +247,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 
+	# District Map Blueprint toggle
+	if event.is_action_pressed("mayor_map") or (event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_M):
+		_toggle_district_map()
+		get_viewport().set_input_as_handled()
+		return
+
 	# Rulebook quick-tab shortcuts (1-4)
 	if rulebook != null and rulebook.is_open:
 		if event.is_action_pressed("mayor_rulebook_tab_1"):
@@ -323,6 +336,8 @@ func _is_any_modal_open() -> bool:
 	if pause_menu != null and pause_menu.is_open:
 		return true
 	if offshore_ledger_modal != null and offshore_ledger_modal.visible:
+		return true
+	if district_map_modal != null and district_map_modal.visible:
 		return true
 	return false
 
@@ -473,7 +488,9 @@ func _flip_dossier_page(forward: bool) -> void:
 
 
 func _handle_escape_key() -> void:
-	if settings_modal != null and settings_modal.is_open:
+	if district_map_modal != null and district_map_modal.visible:
+		district_map_modal.close_modal()
+	elif settings_modal != null and settings_modal.is_open:
 		settings_modal.close()
 	elif save_load_modal != null and save_load_modal.is_open:
 		save_load_modal.close()
@@ -505,7 +522,18 @@ func _open_pause_menu() -> void:
 		settings_modal.close()
 	if save_load_modal != null and save_load_modal.is_open:
 		save_load_modal.close()
+	if district_map_modal != null and district_map_modal.visible:
+		district_map_modal.close_modal()
 	pause_menu.open()
+
+
+func _toggle_district_map() -> void:
+	if district_map_modal == null:
+		return
+	if district_map_modal.visible:
+		district_map_modal.close_modal()
+	else:
+		district_map_modal.open_modal()
 
 
 func _on_pause_save_requested() -> void:
@@ -1074,6 +1102,11 @@ func _complete_shredding(event: EventData, is_sting: bool, took_bribe: bool) -> 
 	}
 	GameManager.daily_history.append(record)
 	GameManager.event_decided.emit(event.id, false)
+
+	var f_mgr_shred = get_node_or_null("/root/FactionManager")
+	if f_mgr_shred != null and f_mgr_shred.has_method("process_decision"):
+		f_mgr_shred.process_decision(event, false, took_bribe)
+
 	is_processing_decision = false
 	_present_next_document()
 
@@ -1188,6 +1221,10 @@ func _execute_stamping_at(target_pos: Vector2, target_rot: float, approved: bool
 	GameManager.daily_history.append(record)
 	GameManager.event_resolved.emit(event, approved, took_bribe)
 	GameManager.event_decided.emit(event.id, approved)
+
+	var f_mgr_stamp = get_node_or_null("/root/FactionManager")
+	if f_mgr_stamp != null and f_mgr_stamp.has_method("process_decision"):
+		f_mgr_stamp.process_decision(event, approved, took_bribe)
 
 	# Brief delay to let player savor the stamped document
 	await get_tree().create_timer(0.45).timeout
