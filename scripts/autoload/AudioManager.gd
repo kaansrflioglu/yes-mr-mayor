@@ -1351,5 +1351,25 @@ func play_paper_shred() -> void:
 	_play_raw_wav(buffer, int(SAMPLE_RATE))
 
 
+## Plays squishy felt and suction release sound when stamp handle is dipped in ink
+func play_ink_pad_dip() -> void:
+	var duration: float = 0.22
+	var samples: int = int(SAMPLE_RATE * duration)
+	var buffer := PackedByteArray()
+	buffer.resize(samples * 2)
+
+	for i in range(samples):
+		var t: float = float(i) / SAMPLE_RATE
+		var progress: float = float(i) / float(samples)
+		var envelope: float = sin(PI * progress)
+		var squish: float = sin(2.0 * PI * (140.0 - 50.0 * progress) * t) * 0.4
+		var wet_noise: float = randf_range(-0.3, 0.3) * exp(-15.0 * progress)
+		var sample_f: float = clampf((squish + wet_noise) * envelope * 0.65, -1.0, 1.0)
+		buffer.encode_s16(i * 2, int(sample_f * 32767.0))
+
+	_play_raw_wav(buffer, int(SAMPLE_RATE))
+
+
+
 
 

@@ -398,23 +398,30 @@ func animate_slide_in(from_pos: Vector2, to_pos: Vector2, rest_rotation: float =
 	tween.finished.connect(func(): slide_in_completed.emit())
 
 
-## Ink stamp slam scale-tween
+## Ink stamp slam scale-tween (default center position)
 func apply_stamp_visual(approved: bool) -> void:
+	var def_pos: Vector2 = global_position + (size * 0.5)
+	var def_rot: float = -0.16 if approved else 0.20
+	apply_stamp_visual_at(def_pos, def_rot, approved)
+
+
+## Ink stamp slam scale-tween at specific target global coordinate and rotation
+func apply_stamp_visual_at(target_pos: Vector2, stamp_rot: float, approved: bool) -> void:
 	if is_stamped:
 		return
 	is_stamped = true
 
 	stamp_overlay.visible = true
+	stamp_overlay.position = (target_pos - global_position) - (stamp_overlay.size * 0.5)
+	stamp_overlay.rotation = stamp_rot
 	stamp_overlay.scale = Vector2(2.4, 2.4)
 	stamp_overlay.modulate.a = 0.0
 
 	if approved:
 		stamp_label.text = tr("UI_STAMP_APPROVED")
-		stamp_overlay.rotation = -0.16
 		stamp_label.set("theme_override_colors/font_color", Color(0.12, 0.75, 0.38, 1))
 	else:
 		stamp_label.text = tr("UI_STAMP_REJECTED")
-		stamp_overlay.rotation = 0.20
 		stamp_label.set("theme_override_colors/font_color", Color(0.92, 0.22, 0.22, 1))
 
 	var tween := create_tween().set_parallel(true)

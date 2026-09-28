@@ -51,6 +51,7 @@ const GAME_OVER_SCENE: PackedScene = preload("res://scenes/summary/GameOverModal
 @onready var yacht_brochure_prop: Control = %YachtBrochureProp if has_node("%YachtBrochureProp") else null
 @onready var gold_stamp_badge: Control = %GoldStampBadge if has_node("%GoldStampBadge") else null
 @onready var desk_shredder: Control = %DeskShredder if has_node("%DeskShredder") else null
+@onready var physical_stamp_rack: Control = %PhysicalStampRack if has_node("%PhysicalStampRack") else null
 
 # Inspection Focus & Stamina Mechanics (Milestone 1)
 const MAX_INSPECT_FOCUS: int = 4
@@ -143,6 +144,9 @@ func _ready() -> void:
 
 	if desk_shredder != null:
 		desk_shredder.shred_requested.connect(_on_shred_requested)
+
+	if physical_stamp_rack != null and physical_stamp_rack.has_signal("stamp_dropped"):
+		physical_stamp_rack.stamp_dropped.connect(_on_physical_stamp_dropped)
 
 	top_bar_hud.settings_toggle_requested.connect(_toggle_settings)
 	top_bar_hud.pause_toggle_requested.connect(_toggle_pause_menu)
@@ -1001,6 +1005,18 @@ func _on_reject_pressed() -> void:
 	_execute_stamping(false)
 
 
+func _on_physical_stamp_dropped(approved: bool, hit_pos: Vector2, hit_rot: float) -> void:
+	if is_processing_decision or active_document == null or GameManager.active_event == null:
+		return
+
+	var doc_rect := Rect2(active_document.global_position, active_document.size)
+	if doc_rect.size.x > 10.0 and doc_rect.size.y > 10.0 and not doc_rect.has_point(hit_pos):
+		# Dropped outside document area: no decision
+		return
+
+	_execute_stamping_at(hit_pos, hit_rot, approved)
+
+
 func _on_shred_requested() -> void:
 	if is_processing_decision or active_document == null or GameManager.active_event == null:
 		return
@@ -1063,6 +1079,16 @@ func _complete_shredding(event: EventData, is_sting: bool, took_bribe: bool) -> 
 
 
 func _execute_stamping(approved: bool) -> void:
+	if active_document == null:
+		return
+	var center_pos: Vector2 = active_document.global_position + (active_document.size * 0.5)
+	var center_rot: float = -0.16 if approved else 0.20
+	if physical_stamp_rack != null and physical_stamp_rack.has_method("trigger_hotkey_slam"):
+		physical_stamp_rack.trigger_hotkey_slam(approved, center_pos)
+	_execute_stamping_at(center_pos, center_rot, approved)
+
+
+func _execute_stamping_at(target_pos: Vector2, target_rot: float, approved: bool) -> void:
 	if is_processing_decision or active_document == null or GameManager.active_event == null:
 		return
 
@@ -1084,7 +1110,10 @@ func _execute_stamping(approved: bool) -> void:
 	_trigger_camera_shake(0.25, 6.0)
 
 	# Tactile ink stamp slam on document
-	active_document.apply_stamp_visual(approved)
+	if active_document.has_method("apply_stamp_visual_at"):
+		active_document.apply_stamp_visual_at(target_pos, target_rot, approved)
+	else:
+		active_document.apply_stamp_visual(approved)
 
 	# Evaluate deep deductive outcomes:
 	var event: EventData = GameManager.active_event
