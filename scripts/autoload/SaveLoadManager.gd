@@ -240,7 +240,8 @@ func save_game(slot_id: String) -> bool:
 		"hotline_history": hotline_records,
 		"directive_state": directive_data,
 		"shift_state": shift_data,
-		"faction_state": FactionManager.get_save_data() if FactionManager != null and FactionManager.has_method("get_save_data") else {}
+		"faction_state": FactionManager.get_save_data() if FactionManager != null and FactionManager.has_method("get_save_data") else {},
+		"election_state": ElectionManager.get_save_data() if ElectionManager != null and ElectionManager.has_method("get_save_data") else {}
 	}
 
 	var path := get_save_path(slot_id)
@@ -355,6 +356,10 @@ func load_game(slot_id: String) -> bool:
 	# 6. Restore FactionManager state
 	if root_dict.has("faction_state") and FactionManager != null and FactionManager.has_method("load_save_data"):
 		FactionManager.load_save_data(root_dict["faction_state"])
+
+	# 7. Restore ElectionManager state
+	if root_dict.has("election_state") and ElectionManager != null and ElectionManager.has_method("load_save_data"):
+		ElectionManager.load_save_data(root_dict["election_state"])
 
 	GameManager.notify_stats_changed()
 

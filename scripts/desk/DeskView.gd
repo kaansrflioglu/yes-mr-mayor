@@ -57,6 +57,8 @@ const PRESS_CONFERENCE_SCENE: PackedScene = preload("res://scenes/summary/PressC
 @onready var btn_toggle_map: Button = %BtnToggleMap if has_node("%BtnToggleMap") else null
 @onready var prop_espresso_machine: Control = %PropEspressoMachine if has_node("%PropEspressoMachine") else null
 @onready var prop_dictaphone: Control = %PropDictaphone if has_node("%PropDictaphone") else null
+@onready var campaign_tracker_hud: Control = %CampaignTrackerHUD if has_node("%CampaignTrackerHUD") else null
+@onready var election_night_modal: Control = %ElectionNightModal if has_node("%ElectionNightModal") else null
 
 # Inspection Focus & Stamina Mechanics (Milestone 1)
 const MAX_INSPECT_FOCUS: int = 4
@@ -1118,6 +1120,10 @@ func _complete_shredding(event: EventData, is_sting: bool, took_bribe: bool) -> 
 	if f_mgr_shred != null and f_mgr_shred.has_method("process_decision"):
 		f_mgr_shred.process_decision(event, false, took_bribe)
 
+	var e_mgr_shred = get_node_or_null("/root/ElectionManager")
+	if e_mgr_shred != null and e_mgr_shred.has_method("process_decision"):
+		e_mgr_shred.process_decision(event, false, took_bribe)
+
 	is_processing_decision = false
 	_present_next_document()
 
@@ -1236,6 +1242,10 @@ func _execute_stamping_at(target_pos: Vector2, target_rot: float, approved: bool
 	var f_mgr_stamp = get_node_or_null("/root/FactionManager")
 	if f_mgr_stamp != null and f_mgr_stamp.has_method("process_decision"):
 		f_mgr_stamp.process_decision(event, approved, took_bribe)
+
+	var e_mgr_stamp = get_node_or_null("/root/ElectionManager")
+	if e_mgr_stamp != null and e_mgr_stamp.has_method("process_decision"):
+		e_mgr_stamp.process_decision(event, approved, took_bribe)
 
 	# Brief delay to let player savor the stamped document
 	await get_tree().create_timer(0.45).timeout
@@ -1429,6 +1439,17 @@ func _start_press_conference() -> void:
 
 
 func _present_newspaper_summary() -> void:
+	if GameManager.current_day >= 30 and election_night_modal != null:
+		election_night_modal.election_completed.connect(func(won: bool):
+			if won:
+				GameManager.apply_resolution({"public_opinion": 10.0})
+				GameManager._trigger_game_end("END_REELECTED")
+			else:
+				GameManager._trigger_game_end("END_LOST_ELECTION")
+		, CONNECT_ONE_SHOT)
+		election_night_modal.start_election_tally()
+		return
+
 	if active_summary != null and is_instance_valid(active_summary):
 		active_summary.queue_free()
 

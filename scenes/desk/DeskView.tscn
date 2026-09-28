@@ -15,6 +15,8 @@
 [ext_resource type="PackedScene" path="res://scenes/desk/DeskShredder.tscn" id="13_shredder"]
 [ext_resource type="PackedScene" path="res://scenes/desk/PhysicalStampRack.tscn" id="14_stamprack"]
 [ext_resource type="PackedScene" path="res://scenes/desk/DistrictMapModal.tscn" id="15_map"]
+[ext_resource type="PackedScene" path="res://scenes/hud/CampaignTrackerHUD.tscn" id="16_campaign"]
+[ext_resource type="PackedScene" path="res://scenes/summary/ElectionNightModal.tscn" id="17_election"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_map_btn"]
 bg_color = Color(0.08, 0.22, 0.38, 0.95)
@@ -859,6 +861,20 @@ visible = false
 layout_mode = 1
 
 [node name="DistrictMapModal" parent="." instance=ExtResource("15_map")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="CampaignTrackerHUD" parent="." instance=ExtResource("16_campaign")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 720.0
+offset_top = 80.0
+offset_right = 1200.0
+offset_bottom = 132.0
+
+[node name="ElectionNightModal" parent="." instance=ExtResource("17_election")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
