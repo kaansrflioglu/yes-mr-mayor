@@ -4,7 +4,7 @@ extends Node
 ## Expanded 12 Narrative Endings & Mayoral Report Card Modal
 
 var passed_tests: int = 0
-var total_tests: int = 5
+var total_tests: int = 6
 
 
 func _ready() -> void:
@@ -30,6 +30,7 @@ func run_tests() -> void:
 	await test_3_report_card_ui_display()
 	test_4_sudden_federal_supermax()
 	test_5_eco_utopia_evaluation()
+	test_6_day_1_decisions_do_not_end_game()
 
 
 func test_1_civic_saint_evaluation() -> void:
@@ -161,4 +162,23 @@ func test_5_eco_utopia_evaluation() -> void:
 
 	print("  -> Evaluated: %s, Grade: %s, Title: %s" % [eval["end_key"], eval["letter_grade"], eval["title_key"]])
 	print("  [PASS] Test 5: Eco Utopia Evaluation verified.\n")
+	passed_tests += 1
+
+
+func test_6_day_1_decisions_do_not_end_game() -> void:
+	print("[TEST 6] Verifying Day 1 decisions do NOT trigger false-positive mandate game over...")
+	GameManager.reset_state()
+	assert(GameManager.current_day == 1, "Game must start on Day 1")
+	assert(GameManager.is_game_over == false, "Game must not be over at start")
+
+	# Approve decision effects
+	GameManager.apply_resolution({"public_opinion": 5.0, "budget": 10000})
+	assert(GameManager.is_game_over == false, "Approving on Day 1 must NOT trigger game over")
+
+	# Reject decision effects
+	GameManager.apply_resolution({"public_opinion": -5.0, "budget": -5000})
+	assert(GameManager.is_game_over == false, "Rejecting on Day 1 must NOT trigger game over")
+
+	print("  -> Verified: Day 1 approval and rejection leave is_game_over = false.")
+	print("  [PASS] Test 6: Day 1 decisions integrity verified.\n")
 	passed_tests += 1

@@ -64,7 +64,7 @@ func evaluate_mandate() -> Dictionary:
 		end_key = "END_MUNICIPAL_BANKRUPT"
 		letter_grade = "D"
 		title_key = "TITLE_BANKRUPT_SPENDTHRIFT"
-	else:
+	elif day >= GameManager.MAX_DAYS:
 		# 2. Full Mandate Endings (Evaluated on Day 30 or upon mandate completion)
 		# Priority 1: Civic Saint (S) - Pristine virtue, zero offshore wealth, high opinion, near zero suspicion
 		if opinion >= 85.0 and wealth == 0 and susp <= 15.0:
@@ -158,6 +158,8 @@ func evaluate_mandate() -> Dictionary:
 
 ## Generates the procedural 10-year historical epilogue based on ending outcome and flags
 func _generate_epilogue(end_key: String, _flags: Dictionary) -> String:
+	if end_key.is_empty():
+		return ""
 	var loc_key: String = end_key + "_EPILOGUE"
 	var text: String = tr(loc_key)
 	if text == loc_key:

@@ -246,7 +246,7 @@ func _evaluate_end_conditions() -> void:
 					_trigger_game_end("END_BANKRUPT")
 				else:
 					_trigger_game_end(key)
-				return
+			return
 
 	if suspicion_level >= 100.0:
 		_trigger_game_end("END_ARRESTED")
