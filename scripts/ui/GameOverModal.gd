@@ -33,12 +33,42 @@ func show_game_over(reason_key: String) -> void:
 	if reason_key == "END_REELECTED":
 		reason_header.text = "🏆 MANDATE EXTENDED: 4 MORE YEARS"
 		reason_header.set("theme_override_colors/font_color", Color(1.0, 0.85, 0.25, 1))
-	elif reason_key == "END_FLED_TO_CAYMANS":
+	elif reason_key == "END_FLED_TO_CAYMANS" or reason_key == "END_CAYMAN_EXILE":
 		reason_header.text = "🌴 " + tr("UI_ENDING_CAYMANS_HEADER")
 		reason_header.set("theme_override_colors/font_color", Color(0.35, 0.85, 1.0, 1))
-	elif reason_key == "END_BRIBE_LEAK_SCANDAL":
+	elif reason_key == "END_BRIBE_LEAK_SCANDAL" or reason_key == "END_FEDERAL_SUPERMAX":
 		reason_header.text = "🚨 " + tr("UI_ENDING_SCANDAL_HEADER")
 		reason_header.set("theme_override_colors/font_color", Color(0.95, 0.25, 0.25, 1))
+	elif reason_key == "END_SAINT":
+		reason_header.text = "🕊️ " + tr("TITLE_CIVIC_SAINT")
+		reason_header.set("theme_override_colors/font_color", Color(0.95, 0.85, 0.25, 1))
+	elif reason_key == "END_TEFLON_DON":
+		reason_header.text = "👑 " + tr("TITLE_TEFLON_MASTERMIND")
+		reason_header.set("theme_override_colors/font_color", Color(0.95, 0.78, 0.22, 1))
+	elif reason_key == "END_ECO_UTOPIA":
+		reason_header.text = "🌿 " + tr("TITLE_EMERALD_METROPOLIS")
+		reason_header.set("theme_override_colors/font_color", Color(0.2, 0.85, 0.4, 1))
+	elif reason_key == "END_CORPORATE_PUPPET":
+		reason_header.text = "💼 " + tr("TITLE_CORPORATE_PUPPET")
+		reason_header.set("theme_override_colors/font_color", Color(0.3, 0.6, 0.9, 1))
+	elif reason_key == "END_MOB_VICEROY":
+		reason_header.text = "🕶️ " + tr("TITLE_SHADOW_CONSIGLIERE")
+		reason_header.set("theme_override_colors/font_color", Color(0.9, 0.5, 0.2, 1))
+	elif reason_key == "END_SHADOW_JUNTA":
+		reason_header.text = "🎖️ " + tr("TITLE_EMERGENCY_AUTOCRAT")
+		reason_header.set("theme_override_colors/font_color", Color(0.9, 0.3, 0.2, 1))
+	elif reason_key == "END_AUSTERE_ACCOUNTANT":
+		reason_header.text = "📊 " + tr("TITLE_AUSTERE_TECHNOCRAT")
+		reason_header.set("theme_override_colors/font_color", Color(0.4, 0.7, 0.9, 1))
+	elif reason_key == "END_REVOLUTION_STORM":
+		reason_header.text = "🔥 " + tr("TITLE_OUSTED_TYRANT")
+		reason_header.set("theme_override_colors/font_color", Color(0.95, 0.25, 0.25, 1))
+	elif reason_key == "END_MUNICIPAL_BANKRUPT":
+		reason_header.text = "📉 " + tr("TITLE_BANKRUPT_SPENDTHRIFT")
+		reason_header.set("theme_override_colors/font_color", Color(0.85, 0.35, 0.15, 1))
+	elif reason_key == "END_ONE_TERM_MEDIOCRE":
+		reason_header.text = "📦 " + tr("TITLE_FORGOTTEN_MAYOR")
+		reason_header.set("theme_override_colors/font_color", Color(0.7, 0.7, 0.7, 1))
 	else:
 		reason_header.text = "🚨 ADMINISTRATION COLLAPSED"
 		reason_header.set("theme_override_colors/font_color", Color(0.95, 0.25, 0.25, 1))

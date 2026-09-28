@@ -27,6 +27,7 @@ SaveLoadManager="*res://scripts/autoload/SaveLoadManager.gd"
 DirectiveManager="*res://scripts/autoload/DirectiveManager.gd"
 FactionManager="*res://scripts/autoload/FactionManager.gd"
 ElectionManager="*res://scripts/autoload/ElectionManager.gd"
+EndingsManager="*res://scripts/autoload/EndingsManager.gd"
 
 [display]
 

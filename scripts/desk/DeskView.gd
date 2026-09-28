@@ -7,6 +7,7 @@ extends Control
 const DOCUMENT_SCENE: PackedScene = preload("res://scenes/desk/DocumentItem.tscn")
 const DAY_SUMMARY_SCENE: PackedScene = preload("res://scenes/summary/DayEndSummary.tscn")
 const GAME_OVER_SCENE: PackedScene = preload("res://scenes/summary/GameOverModal.tscn")
+const REPORT_CARD_SCENE: PackedScene = preload("res://scenes/summary/MayoralReportCardModal.tscn")
 const PRESS_CONFERENCE_SCENE: PackedScene = preload("res://scenes/summary/PressConferenceModal.tscn")
 
 @onready var shake_root: Control = %ShakeRoot
@@ -1600,11 +1601,42 @@ func _on_game_over(reason_key: String) -> void:
 	if active_game_over != null and is_instance_valid(active_game_over):
 		active_game_over.queue_free()
 
-	var modal_instance := GAME_OVER_SCENE.instantiate()
+	var is_mandate_end: bool = (
+		GameManager.current_day >= GameManager.MAX_DAYS
+		or reason_key in [
+			"END_REELECTED", "END_SAINT", "END_TEFLON_DON", "END_ECO_UTOPIA",
+			"END_CORPORATE_PUPPET", "END_MOB_VICEROY", "END_SHADOW_JUNTA",
+			"END_AUSTERE_ACCOUNTANT", "END_ONE_TERM_MEDIOCRE", "END_CAYMAN_EXILE"
+		]
+	)
+
+	var modal_instance: Control = null
+	if is_mandate_end:
+		modal_instance = REPORT_CARD_SCENE.instantiate()
+	else:
+		modal_instance = GAME_OVER_SCENE.instantiate()
+
 	add_child(modal_instance)
 	active_game_over = modal_instance
 
 	modal_instance.show_game_over(reason_key)
+	modal_instance.restart_requested.connect(_on_restart_mandate)
+	modal_instance.connect("main_menu_requested", Callable(self, "_on_game_over_main_menu"))
+
+
+## Explicitly displays Mayoral Report Card with evaluation data
+func show_report_card(eval_dict: Dictionary = {}) -> void:
+	if active_game_over != null and is_instance_valid(active_game_over):
+		active_game_over.queue_free()
+
+	var modal_instance := REPORT_CARD_SCENE.instantiate()
+	add_child(modal_instance)
+	active_game_over = modal_instance
+
+	if eval_dict.is_empty() and EndingsManager != null:
+		eval_dict = EndingsManager.evaluate_mandate()
+
+	modal_instance.show_report_card(eval_dict)
 	modal_instance.restart_requested.connect(_on_restart_mandate)
 	modal_instance.connect("main_menu_requested", Callable(self, "_on_game_over_main_menu"))
 

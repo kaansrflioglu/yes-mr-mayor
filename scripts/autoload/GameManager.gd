@@ -82,6 +82,10 @@ func start_new_game() -> void:
 	day_started.emit(current_day)
 
 
+func reset_state() -> void:
+	start_new_game()
+
+
 ## Loads event definitions from JSON database
 func load_events_database(path: String = "res://data/events.json") -> void:
 	event_database.clear()
@@ -224,6 +228,25 @@ func _apply_daily_investments() -> void:
 func _evaluate_end_conditions() -> void:
 	if is_game_over:
 		return
+
+	if Engine.has_singleton("EndingsManager") or has_node("/root/EndingsManager"):
+		var em = get_node_or_null("/root/EndingsManager")
+		if em != null and em.has_method("evaluate_mandate"):
+			var eval: Dictionary = em.evaluate_mandate()
+			var key: String = eval.get("end_key", "")
+			if not key.is_empty():
+				# Maintain legacy keys for test compatibility
+				if key == "END_CAYMAN_EXILE":
+					_trigger_game_end("END_FLED_TO_CAYMANS")
+				elif key == "END_FEDERAL_SUPERMAX" and suspicion_level >= 100.0:
+					_trigger_game_end("END_ARRESTED")
+				elif key == "END_REVOLUTION_STORM" and public_opinion <= 15.0:
+					_trigger_game_end("END_RIOT")
+				elif key == "END_MUNICIPAL_BANKRUPT" and city_budget < -50000:
+					_trigger_game_end("END_BANKRUPT")
+				else:
+					_trigger_game_end(key)
+				return
 
 	if suspicion_level >= 100.0:
 		_trigger_game_end("END_ARRESTED")

@@ -1,0 +1,348 @@
+[gd_scene load_steps=7 format=3 uid="uid://mayoralreportcard001"]
+
+[ext_resource type="Script" path="res://scripts/ui/MayoralReportCardModal.gd" id="1_report"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_modal"]
+bg_color = Color(0.08, 0.1, 0.14, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.77, 0.63, 0.35, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.7)
+shadow_size = 35
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_grade"]
+bg_color = Color(0.05, 0.06, 0.09, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.95, 0.78, 0.22, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+bg_color = Color(0.05, 0.07, 0.1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.25, 0.35, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_restart"]
+bg_color = Color(0.15, 0.55, 0.35, 1)
+border_width_bottom = 3
+border_color = Color(0.1, 0.4, 0.25, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_menu"]
+bg_color = Color(0.2, 0.25, 0.35, 1)
+border_width_bottom = 3
+border_color = Color(0.12, 0.16, 0.24, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="MayoralReportCardModal" type="PanelContainer"]
+custom_minimum_size = Vector2(960, 680)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -480.0
+offset_top = -340.0
+offset_right = 480.0
+offset_bottom = 340.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(480, 340)
+theme_override_styles/panel = SubResource("StyleBoxFlat_modal")
+script = ExtResource("1_report")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 28
+
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="HeaderHBox" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HeaderVBox" type="VBoxContainer" parent="Margin/VBox/HeaderHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ArchiveSealLabel" type="Label" parent="Margin/VBox/HeaderHBox/HeaderVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.77, 0.63, 0.35, 1)
+theme_override_font_sizes/font_size = 13
+text = "🏛️ MUNICIPAL HISTORICAL ARCHIVES • MANDATE POST-MORTEM"
+
+[node name="TitleLabel" type="Label" parent="Margin/VBox/HeaderHBox/HeaderVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.93, 0.98, 1)
+theme_override_font_sizes/font_size = 24
+text = "OFFICIAL REPORT OF THE CITY ARCHIVIST"
+
+[node name="SubtitleLabel" type="Label" parent="Margin/VBox/HeaderHBox/HeaderVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.65, 0.75, 1)
+theme_override_font_sizes/font_size = 14
+text = "Tenure Performance Assessment & 10-Year Historical Legacy"
+
+[node name="GradeContainer" type="VBoxContainer" parent="Margin/VBox/HeaderHBox"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+alignment = 1
+
+[node name="GradeBadge" type="PanelContainer" parent="Margin/VBox/HeaderHBox/GradeContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(84, 76)
+layout_mode = 2
+size_flags_horizontal = 4
+pivot_offset = Vector2(42, 38)
+theme_override_styles/panel = SubResource("StyleBoxFlat_grade")
+
+[node name="GradeLabel" type="Label" parent="Margin/VBox/HeaderHBox/GradeContainer/GradeBadge"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.78, 0.22, 1)
+theme_override_font_sizes/font_size = 52
+text = "S"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GradeSubLabel" type="Label" parent="Margin/VBox/HeaderHBox/GradeContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.75, 0.85, 1)
+theme_override_font_sizes/font_size = 11
+text = "RATING"
+horizontal_alignment = 1
+
+[node name="SepHeader" type="HSeparator" parent="Margin/VBox"]
+layout_mode = 2
+
+[node name="EpithetBanner" type="PanelContainer" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="Margin" type="MarginContainer" parent="Margin/VBox/EpithetBanner"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="HBox" type="HBoxContainer" parent="Margin/VBox/EpithetBanner/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="EpithetPrefix" type="Label" parent="Margin/VBox/EpithetBanner/Margin/HBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.77, 0.63, 0.35, 1)
+theme_override_font_sizes/font_size = 14
+text = "HISTORICAL EPITHET:"
+
+[node name="HistoricTitleLabel" type="Label" parent="Margin/VBox/EpithetBanner/Margin/HBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.95, 0.85, 0.4, 1)
+theme_override_font_sizes/font_size = 18
+text = "« The Saint of the Slums »"
+
+[node name="BodyHSplit" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="LeftCard" type="PanelContainer" parent="Margin/VBox/BodyHSplit"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.95
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="Margin" type="MarginContainer" parent="Margin/VBox/BodyHSplit/LeftCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+
+[node name="LeftVBox" type="VBoxContainer" parent="Margin/VBox/BodyHSplit/LeftCard/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="StatsHeader" type="Label" parent="Margin/VBox/BodyHSplit/LeftCard/Margin/LeftVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.77, 0.63, 0.35, 1)
+theme_override_font_sizes/font_size = 13
+text = "MANDATE TELEMETRY"
+
+[node name="Grid" type="GridContainer" parent="Margin/VBox/BodyHSplit/LeftCard/Margin/LeftVBox"]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 6
+columns = 2
+
+[node name="Lbl1" type="Label" parent="Margin/VBox/BodyHSplit/LeftCard/Margin/LeftVBox/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.75, 0.85, 1)
+theme_override_font_sizes/font_size = 13
+text = "Days in Office:"
+
+[node name="DaysSurvivedLabel" type="Label" parent="Margin/VBox/BodyHSplit/LeftCard/Margin/LeftVBox/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "30 / 30 Days"
+
+[node name="Lbl2" type="Label" parent="Margin/VBox/BodyHSplit/LeftCard/Margin/LeftVBox/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.75, 0.85, 1)
+theme_override_font_sizes/font_size = 13
+text = "City Treasury:"
+
+[node name="TreasuryLabel" type="Label" parent="Margin/VBox/BodyHSplit/LeftCard/Margin/LeftVBox/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.8, 0.4, 1)
+theme_override_font_sizes/font_size = 13
+text = "+$150,000"
+
+[node name="Lbl3" type="Label" parent="Margin/VBox/BodyHSplit/LeftCard/Margin/LeftVBox/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.75, 0.85, 1)
+theme_override_font_sizes/font_size = 13
+text = "Offshore Stash:"
+
+[node name="StashLabel" type="Label" parent="Margin/VBox/BodyHSplit/LeftCard/Margin/LeftVBox/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.8, 0.2, 1)
+theme_override_font_sizes/font_size = 13
+text = "$0"
+
+[node name="Lbl4" type="Label" parent="Margin/VBox/BodyHSplit/LeftCard/Margin/LeftVBox/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.75, 0.85, 1)
+theme_override_font_sizes/font_size = 13
+text = "Public Approval:"
+
+[node name="OpinionLabel" type="Label" parent="Margin/VBox/BodyHSplit/LeftCard/Margin/LeftVBox/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "88.0%"
+
+[node name="Lbl5" type="Label" parent="Margin/VBox/BodyHSplit/LeftCard/Margin/LeftVBox/Grid"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.75, 0.85, 1)
+theme_override_font_sizes/font_size = 13
+text = "Police Suspicion:"
+
+[node name="SuspicionLabel" type="Label" parent="Margin/VBox/BodyHSplit/LeftCard/Margin/LeftVBox/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "8.0%"
+
+[node name="SepDist" type="HSeparator" parent="Margin/VBox/BodyHSplit/LeftCard/Margin/LeftVBox"]
+layout_mode = 2
+
+[node name="DistrictsHeader" type="Label" parent="Margin/VBox/BodyHSplit/LeftCard/Margin/LeftVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.77, 0.63, 0.35, 1)
+theme_override_font_sizes/font_size = 13
+text = "DISTRICT PROSPERITY"
+
+[node name="DistrictList" type="VBoxContainer" parent="Margin/VBox/BodyHSplit/LeftCard/Margin/LeftVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="RightCard" type="PanelContainer" parent="Margin/VBox/BodyHSplit"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.15
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="Margin" type="MarginContainer" parent="Margin/VBox/BodyHSplit/RightCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 12
+
+[node name="RightVBox" type="VBoxContainer" parent="Margin/VBox/BodyHSplit/RightCard/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="EpilogueHeader" type="Label" parent="Margin/VBox/BodyHSplit/RightCard/Margin/RightVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.77, 0.63, 0.35, 1)
+theme_override_font_sizes/font_size = 13
+text = "10-YEAR HISTORICAL PROJECTION"
+
+[node name="Scroll" type="ScrollContainer" parent="Margin/VBox/BodyHSplit/RightCard/Margin/RightVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="NarrativeLabel" type="Label" parent="Margin/VBox/BodyHSplit/RightCard/Margin/RightVBox/Scroll"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(420, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.85, 0.88, 0.95, 1)
+theme_override_font_sizes/font_size = 14
+text = "Historical text loading..."
+autowrap_mode = 3
+
+[node name="SepBottom" type="HSeparator" parent="Margin/VBox"]
+layout_mode = 2
+
+[node name="ButtonHBox" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="BtnRestart" type="Button" parent="Margin/VBox/ButtonHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_restart")
+text = "↺ RESTART MANDATE"
+
+[node name="BtnMainMenu" type="Button" parent="Margin/VBox/ButtonHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(220, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_menu")
+text = "⌂ MAIN MENU"
