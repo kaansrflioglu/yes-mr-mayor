@@ -978,46 +978,53 @@ func _execute_stamping(approved: bool) -> void:
 	var has_viol: bool = event.has_violations()
 	var took_bribe: bool = active_document.has_pocketed_bribe
 
-	var res_effects: Dictionary = {}
+	# Fetch base authored effects from EventData
+	var base_effects: Dictionary = (
+		event.effects_approve.duplicate(true) if approved
+		else event.effects_reject.duplicate(true)
+	)
+
+	var res_effects: Dictionary = base_effects.duplicate(true)
+
+	# Apply Deductive Context Overlays:
 	if approved:
 		if has_viol:
-			# Corrupt approval of violation
-			if took_bribe:
-				res_effects = {
-					"public_opinion": -15.0,
-					"suspicion": 15.0,
-					"budget": event.effects_approve.get("budget", 20000)
-				}
-			else:
-				# Negligent approval: approved illegal project without even taking bribe!
-				res_effects = {
-					"public_opinion": -10.0,
-					"suspicion": 10.0,
-					"budget": event.effects_approve.get("budget", 15000)
-				}
+			# Corrupt / Negligent approval of a project with known violations:
+			# Severe penalty to opinion and spike in suspicion
+			var viol_count: int = event.violations.size()
+			var opinion_penalty: float = -12.0 * float(viol_count)
+			var susp_spike: float = 12.0 * float(viol_count)
+
+			res_effects["public_opinion"] = float(res_effects.get("public_opinion", 0.0)) + opinion_penalty
+			res_effects["suspicion"] = float(res_effects.get("suspicion", 0.0)) + susp_spike
+			if not took_bribe:
+				# Negligent approval: citizens are bewildered why you allowed illegal works for free
+				res_effects["public_opinion"] = float(res_effects.get("public_opinion", 0.0)) - 5.0
 		else:
-			# Honest approval of clean petition: good for the city
-			res_effects = {
-				"public_opinion": 12.0,
-				"budget": 20000,
-				"suspicion": -5.0
-			}
+			# Honest approval of a fully compliant petition:
+			# Bonus civic satisfaction and slight suspicion reduction
+			res_effects["public_opinion"] = float(res_effects.get("public_opinion", 0.0)) + 6.0
+			res_effects["suspicion"] = float(res_effects.get("suspicion", 0.0)) - 3.0
 	else:
-		# Rejected:
+		# Rejection logic:
 		if has_viol:
-			# Valid rejection with cause: Player gets praised for sharp vigilance!
-			res_effects = {
-				"public_opinion": 15.0,
-				"suspicion": -10.0,
-				"budget": 0
-			}
+			# Valid rejection with cause: Mayor praised for sharp vigilance!
+			var discovered_count: int = active_document.discovered_violations.size() if ("discovered_violations" in active_document) else 1
+			var vigilance_bonus: float = 8.0 + (float(discovered_count) * 4.0)
+			res_effects["public_opinion"] = float(res_effects.get("public_opinion", 0.0)) + vigilance_bonus
+			res_effects["suspicion"] = float(res_effects.get("suspicion", 0.0)) - 8.0
 		else:
-			# Wrongful rejection of completely legal petition: Citizens outraged
-			res_effects = {
-				"public_opinion": -15.0,
-				"suspicion": 5.0,
-				"budget": 0
-			}
+			# Wrongful rejection of legal application: Bureaucratic red-tape outrage!
+			res_effects["public_opinion"] = float(res_effects.get("public_opinion", 0.0)) - 10.0
+			res_effects["suspicion"] = float(res_effects.get("suspicion", 0.0)) + 4.0
+
+	# Ensure visual flags and unlocked event IDs are preserved
+	if base_effects.has("city_visual_flag"):
+		res_effects["city_visual_flag"] = base_effects["city_visual_flag"]
+	if base_effects.has("city_flag"):
+		res_effects["city_flag"] = base_effects["city_flag"]
+	if base_effects.has("unlocks_event_id"):
+		res_effects["unlocks_event_id"] = base_effects["unlocks_event_id"]
 
 	res_effects = DirectiveManager.apply_modifiers(
 		res_effects, event, approved, took_bribe

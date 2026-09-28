@@ -177,7 +177,7 @@ func apply_resolution(effects: Dictionary) -> void:
 		event_flags[effects["city_flag"]] = true
 	if "unlocks_event_id" in effects and not str(effects["unlocks_event_id"]).is_empty():
 		var unlocked_id: String = str(effects["unlocks_event_id"])
-		if EventManager != null:
+		if EventManager != null and EventManager.has_method("unlock_event"):
 			EventManager.unlock_event(unlocked_id)
 
 	_notify_stats_changed()
