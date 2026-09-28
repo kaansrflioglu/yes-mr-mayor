@@ -81,6 +81,7 @@ var active_game_over: Control = null
 var is_processing_decision: bool = false
 var _shake_tween: Tween
 var _was_paused_for_modal: bool = false
+var _is_restoring_loaded_game: bool = false
 
 # Morning Briefing & Pre-Shift Ritual (Phase 1)
 enum DeskState {
@@ -160,7 +161,9 @@ func _ready() -> void:
 
 	if save_load_modal != null:
 		save_load_modal.modal_closed.connect(_on_save_load_modal_closed)
-		save_load_modal.load_completed.connect(_on_game_load_completed)
+
+	if SaveLoadManager != null and not SaveLoadManager.game_loaded.is_connected(_on_game_load_completed):
+		SaveLoadManager.game_loaded.connect(_on_game_load_completed)
 
 	rulebook.rule_tag_selected.connect(_on_rule_tag_selected)
 
@@ -526,6 +529,10 @@ func _on_settings_modal_closed() -> void:
 
 
 func _on_game_load_completed(_slot_id: String) -> void:
+	if _is_restoring_loaded_game:
+		return
+	_is_restoring_loaded_game = true
+
 	_was_paused_for_modal = false
 	if active_document != null and is_instance_valid(active_document):
 		active_document.queue_free()
@@ -539,7 +546,32 @@ func _on_game_load_completed(_slot_id: String) -> void:
 
 	next_day_box.visible = false
 	inspect_status_panel.visible = false
-	_start_or_continue_shift()
+
+	# Restore Shift Clock & Stamina State if saved mid-shift
+	var saved_shift: Dictionary = SaveLoadManager.last_loaded_shift_state
+	if not saved_shift.is_empty():
+		current_shift_minutes = int(saved_shift.get("shift_minutes", SHIFT_START_MINUTES))
+		is_overtime = bool(saved_shift.get("is_overtime", false))
+		current_inspect_focus = int(saved_shift.get("inspect_focus", MAX_INSPECT_FOCUS))
+		consecutive_false_inquiries = int(saved_shift.get("consecutive_false_inquiries", 0))
+		is_uv_active = bool(saved_shift.get("is_uv_active", false))
+	else:
+		current_shift_minutes = SHIFT_START_MINUTES
+		is_overtime = false
+		current_inspect_focus = MAX_INSPECT_FOCUS
+		consecutive_false_inquiries = 0
+		is_uv_active = false
+
+	_update_clock_ui()
+	_update_directive_ui()
+	_present_next_document()
+
+	if not saved_shift.is_empty():
+		current_inspect_focus = int(saved_shift.get("inspect_focus", MAX_INSPECT_FOCUS))
+		consecutive_false_inquiries = int(saved_shift.get("consecutive_false_inquiries", 0))
+	_update_focus_ui()
+
+	_is_restoring_loaded_game = false
 
 
 func _toggle_settings() -> void:

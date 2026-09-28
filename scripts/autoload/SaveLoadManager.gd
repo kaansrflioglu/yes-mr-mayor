@@ -7,13 +7,14 @@ signal game_saved(slot_id: String)
 signal game_loaded(slot_id: String)
 signal save_deleted(slot_id: String)
 
-const CURRENT_VERSION: String = "1.0"
+const CURRENT_VERSION: String = "1.1"
 const SAVES_DIR: String = "user://saves/"
 const VALID_SLOTS: Array[String] = ["autosave", "slot_1", "slot_2", "slot_3"]
 const AUTOSAVE_SLOT: String = "autosave"
 
 var last_saved_slot: String = ""
 var last_loaded_slot: String = ""
+var last_loaded_shift_state: Dictionary = {}
 
 
 func _ready() -> void:
@@ -205,11 +206,40 @@ func save_game(slot_id: String) -> bool:
 		"daily_queue_ids": queue_ids
 	}
 
+	var hotline_records: Array[Dictionary] = []
+	for h in GameManager.hotline_history:
+		if h is Dictionary:
+			hotline_records.append(h.duplicate(true))
+
+	var shift_data: Dictionary = {}
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree != null and tree.current_scene != null:
+		var desk = tree.current_scene.get_node_or_null("%DeskView")
+		if desk == null and tree.current_scene.name == "DeskView":
+			desk = tree.current_scene
+		if desk == null:
+			desk = tree.current_scene.find_child("DeskView", true, false)
+		if desk != null:
+			shift_data = {
+				"shift_minutes": desk.current_shift_minutes,
+				"is_overtime": desk.is_overtime,
+				"inspect_focus": desk.current_inspect_focus,
+				"consecutive_false_inquiries": desk.consecutive_false_inquiries,
+				"is_uv_active": desk.is_uv_active
+			}
+
+	var directive_data: Dictionary = {
+		"active_directive_id": DirectiveManager.active_directive_id
+	}
+
 	var payload: Dictionary = {
 		"version": CURRENT_VERSION,
 		"metadata": metadata,
 		"game_state": game_state,
-		"deck_state": deck_state
+		"deck_state": deck_state,
+		"hotline_history": hotline_records,
+		"directive_state": directive_data,
+		"shift_state": shift_data
 	}
 
 	var path := get_save_path(slot_id)
@@ -302,6 +332,24 @@ func load_game(slot_id: String) -> bool:
 		GameManager.active_event = _find_event(active_id)
 	else:
 		GameManager.active_event = null
+
+	# 3. Restore hotline history
+	GameManager.hotline_history.clear()
+	var hot_hist: Array = root_dict.get("hotline_history", [])
+	for item in hot_hist:
+		if item is Dictionary:
+			GameManager.hotline_history.append(item.duplicate(true))
+
+	# 4. Restore DirectiveManager state
+	var dir_state: Dictionary = root_dict.get("directive_state", {})
+	var dir_id: String = str(dir_state.get("active_directive_id", ""))
+	if not dir_id.is_empty():
+		DirectiveManager.set_active_directive(dir_id)
+	else:
+		DirectiveManager.activate_directive_for_day(GameManager.current_day)
+
+	# 5. Store transient shift_state for DeskView consumption
+	last_loaded_shift_state = root_dict.get("shift_state", {}).duplicate(true)
 
 	GameManager.notify_stats_changed()
 
