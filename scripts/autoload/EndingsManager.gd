@@ -52,7 +52,11 @@ func evaluate_mandate() -> Dictionary:
 	var title_key: String = ""
 
 	# 1. Sudden Failure Endings (Unconditional over-threshold checks)
-	if susp >= 100.0 or flags.get("FLAG_STING_TRAP_CAUGHT", false) or flags.get("FLAG_ARRESTED_BY_FED", false):
+	if (
+		susp >= 100.0
+		or flags.get("FLAG_STING_TRAP_CAUGHT", false)
+		or flags.get("FLAG_ARRESTED_BY_FED", false)
+	):
 		end_key = "END_FEDERAL_SUPERMAX"
 		letter_grade = "F"
 		title_key = "TITLE_CONVICTED_FELON"
@@ -66,18 +70,22 @@ func evaluate_mandate() -> Dictionary:
 		title_key = "TITLE_BANKRUPT_SPENDTHRIFT"
 	elif day >= GameManager.MAX_DAYS:
 		# 2. Full Mandate Endings (Evaluated on Day 30 or upon mandate completion)
-		# Priority 1: Civic Saint (S) - Pristine virtue, zero offshore wealth, high opinion, near zero suspicion
+		# Priority 1: Civic Saint (S) - Pristine virtue, zero wealth, low suspicion
 		if opinion >= 85.0 and wealth == 0 and susp <= 15.0:
 			end_key = "END_SAINT"
 			letter_grade = "S"
 			title_key = "TITLE_CIVIC_SAINT"
-		# Priority 2: Teflon Mastermind (S) - Corrupt genius who amassed wealth while keeping public adoration
+		# Priority 2: Teflon Mastermind (S) - Corrupt genius with public adoration
 		elif wealth >= 200000 and opinion >= 65.0 and susp <= 30.0:
 			end_key = "END_TEFLON_DON"
 			letter_grade = "S"
 			title_key = "TITLE_TEFLON_MASTERMIND"
 		# Priority 3: Eco Utopia (S) - Green revolution without toxic air flags
-		elif f_greens >= 80.0 and not flags.get("FLAG_TOXIC_CHIMNEYS", false) and not flags.get("city_flag_polluted_air", false):
+		elif (
+			f_greens >= 80.0
+			and not flags.get("FLAG_TOXIC_CHIMNEYS", false)
+			and not flags.get("city_flag_polluted_air", false)
+		):
 			end_key = "END_ECO_UTOPIA"
 			letter_grade = "S"
 			title_key = "TITLE_EMERALD_METROPOLIS"
@@ -87,7 +95,10 @@ func evaluate_mandate() -> Dictionary:
 			letter_grade = "B"
 			title_key = "TITLE_CORPORATE_PUPPET"
 		# Priority 5: Mob Viceroy (C) - Syndicate partnership
-		elif (flags.get("FLAG_ALLIED_MAFIA", false) or flags.get("FLAG_MAFIA_VICEROY", false)) and wealth >= 100000:
+		elif (
+			(flags.get("FLAG_ALLIED_MAFIA", false) or flags.get("FLAG_MAFIA_VICEROY", false))
+			and wealth >= 100000
+		):
 			end_key = "END_MOB_VICEROY"
 			letter_grade = "C"
 			title_key = "TITLE_SHADOW_CONSIGLIERE"
@@ -101,7 +112,7 @@ func evaluate_mandate() -> Dictionary:
 			end_key = "END_CAYMAN_EXILE"
 			letter_grade = "B"
 			title_key = "TITLE_OFFSHORE_CORSAIR"
-		# Priority 8: Cold Technocrat / Austere Accountant (B) - Large treasury surplus with moderate opinion
+		# Priority 8: Cold Technocrat (B) - Large treasury with moderate opinion
 		elif budget >= 250000 and opinion >= 45.0 and opinion <= 65.0:
 			end_key = "END_AUSTERE_ACCOUNTANT"
 			letter_grade = "B"

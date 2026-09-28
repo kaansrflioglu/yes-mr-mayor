@@ -16,7 +16,10 @@ func _ready() -> void:
 
 	print("\n========================================================")
 	if passed_tests == total_tests:
-		print(">>> ALL %d ENDINGS & REPORT CARD TESTS PASSED! (%d/%d) <<<" % [total_tests, passed_tests, total_tests])
+		print(
+			">>> ALL %d ENDINGS & REPORT CARD TESTS PASSED! (%d/%d) <<<"
+			% [total_tests, passed_tests, total_tests]
+		)
 	else:
 		printerr(">>> FAILURES ENCOUNTERED: %d/%d passed <<<" % [passed_tests, total_tests])
 	print("========================================================\n")
@@ -45,10 +48,16 @@ func test_1_civic_saint_evaluation() -> void:
 	var eval: Dictionary = EndingsManager.evaluate_mandate()
 	assert(eval["end_key"] == "END_SAINT", "Expected END_SAINT, got: %s" % eval["end_key"])
 	assert(eval["letter_grade"] == "S", "Expected S grade, got: %s" % eval["letter_grade"])
-	assert(eval["title_key"] == "TITLE_CIVIC_SAINT", "Expected TITLE_CIVIC_SAINT, got: %s" % eval["title_key"])
+	assert(
+		eval["title_key"] == "TITLE_CIVIC_SAINT",
+		"Expected TITLE_CIVIC_SAINT, got: %s" % eval["title_key"]
+	)
 	assert(not eval["epilogue_text"].is_empty(), "Epilogue text must not be empty")
 
-	print("  -> Evaluated: %s, Grade: %s, Title: %s" % [eval["end_key"], eval["letter_grade"], eval["title_key"]])
+	print(
+		"  -> Evaluated: %s, Grade: %s, Title: %s"
+		% [eval["end_key"], eval["letter_grade"], eval["title_key"]]
+	)
 	print("  [PASS] Test 1: Civic Saint Evaluation verified.\n")
 	passed_tests += 1
 
@@ -63,11 +72,20 @@ func test_2_teflon_mastermind_evaluation() -> void:
 	GameManager.event_flags.clear()
 
 	var eval: Dictionary = EndingsManager.evaluate_mandate()
-	assert(eval["end_key"] == "END_TEFLON_DON", "Expected END_TEFLON_DON, got: %s" % eval["end_key"])
+	assert(
+		eval["end_key"] == "END_TEFLON_DON",
+		"Expected END_TEFLON_DON, got: %s" % eval["end_key"]
+	)
 	assert(eval["letter_grade"] == "S", "Expected S grade, got: %s" % eval["letter_grade"])
-	assert(eval["title_key"] == "TITLE_TEFLON_MASTERMIND", "Expected TITLE_TEFLON_MASTERMIND, got: %s" % eval["title_key"])
+	assert(
+		eval["title_key"] == "TITLE_TEFLON_MASTERMIND",
+		"Expected TITLE_TEFLON_MASTERMIND, got: %s" % eval["title_key"]
+	)
 
-	print("  -> Evaluated: %s, Grade: %s, Title: %s" % [eval["end_key"], eval["letter_grade"], eval["title_key"]])
+	print(
+		"  -> Evaluated: %s, Grade: %s, Title: %s"
+		% [eval["end_key"], eval["letter_grade"], eval["title_key"]]
+	)
 	print("  [PASS] Test 2: Teflon Mastermind Evaluation verified.\n")
 	passed_tests += 1
 
@@ -112,15 +130,21 @@ func test_3_report_card_ui_display() -> void:
 
 	assert(grade_lbl != null and grade_lbl.text == "S", "GradeLabel must show 'S'")
 	assert(title_lbl != null and not title_lbl.text.is_empty(), "TitleLabel must be populated")
-	assert(historic_lbl != null and not historic_lbl.text.is_empty(), "HistoricTitleLabel must be populated")
-	assert(narrative_lbl != null and narrative_lbl.text.contains("bronze monument"), "NarrativeLabel must show epilogue text")
+	assert(
+		historic_lbl != null and not historic_lbl.text.is_empty(),
+		"HistoricTitleLabel must be populated"
+	)
+	assert(
+		narrative_lbl != null and narrative_lbl.text.contains("bronze monument"),
+		"NarrativeLabel must show epilogue text"
+	)
 	assert(btn_restart != null, "BtnRestart must exist")
 	assert(btn_main_menu != null, "BtnMainMenu must exist")
 
 	modal.queue_free()
 	await get_tree().process_frame
 
-	print("  -> Scorecard UI verified: Grade 'S', title, epilogue narrative, and action buttons present.")
+	print("  -> Scorecard UI verified: Grade 'S', title, epilogue, and action buttons present.")
 	print("  [PASS] Test 3: Report Card UI Display verified.\n")
 	passed_tests += 1
 
@@ -133,11 +157,23 @@ func test_4_sudden_federal_supermax() -> void:
 	GameManager.public_opinion = 60.0
 
 	var eval: Dictionary = EndingsManager.evaluate_mandate()
-	assert(eval["end_key"] == "END_FEDERAL_SUPERMAX", "Expected END_FEDERAL_SUPERMAX on 100%% suspicion, got: %s" % eval["end_key"])
-	assert(eval["letter_grade"] == "F", "Expected F grade for federal supermax, got: %s" % eval["letter_grade"])
-	assert(eval["title_key"] == "TITLE_CONVICTED_FELON", "Expected TITLE_CONVICTED_FELON, got: %s" % eval["title_key"])
+	assert(
+		eval["end_key"] == "END_FEDERAL_SUPERMAX",
+		"Expected END_FEDERAL_SUPERMAX on 100%% suspicion, got: %s" % eval["end_key"]
+	)
+	assert(
+		eval["letter_grade"] == "F",
+		"Expected F grade for federal supermax, got: %s" % eval["letter_grade"]
+	)
+	assert(
+		eval["title_key"] == "TITLE_CONVICTED_FELON",
+		"Expected TITLE_CONVICTED_FELON, got: %s" % eval["title_key"]
+	)
 
-	print("  -> Evaluated: %s, Grade: %s, Title: %s" % [eval["end_key"], eval["letter_grade"], eval["title_key"]])
+	print(
+		"  -> Evaluated: %s, Grade: %s, Title: %s"
+		% [eval["end_key"], eval["letter_grade"], eval["title_key"]]
+	)
 	print("  [PASS] Test 4: Sudden Federal Supermax verified.\n")
 	passed_tests += 1
 
@@ -156,11 +192,23 @@ func test_5_eco_utopia_evaluation() -> void:
 		FactionManager.factions["greens"]["value"] = 88.0
 
 	var eval: Dictionary = EndingsManager.evaluate_mandate()
-	assert(eval["end_key"] == "END_ECO_UTOPIA", "Expected END_ECO_UTOPIA, got: %s" % eval["end_key"])
-	assert(eval["letter_grade"] == "S", "Expected S grade for Eco Utopia, got: %s" % eval["letter_grade"])
-	assert(eval["title_key"] == "TITLE_EMERALD_METROPOLIS", "Expected TITLE_EMERALD_METROPOLIS, got: %s" % eval["title_key"])
+	assert(
+		eval["end_key"] == "END_ECO_UTOPIA",
+		"Expected END_ECO_UTOPIA, got: %s" % eval["end_key"]
+	)
+	assert(
+		eval["letter_grade"] == "S",
+		"Expected S grade for Eco Utopia, got: %s" % eval["letter_grade"]
+	)
+	assert(
+		eval["title_key"] == "TITLE_EMERALD_METROPOLIS",
+		"Expected TITLE_EMERALD_METROPOLIS, got: %s" % eval["title_key"]
+	)
 
-	print("  -> Evaluated: %s, Grade: %s, Title: %s" % [eval["end_key"], eval["letter_grade"], eval["title_key"]])
+	print(
+		"  -> Evaluated: %s, Grade: %s, Title: %s"
+		% [eval["end_key"], eval["letter_grade"], eval["title_key"]]
+	)
 	print("  [PASS] Test 5: Eco Utopia Evaluation verified.\n")
 	passed_tests += 1
 

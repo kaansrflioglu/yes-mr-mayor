@@ -64,10 +64,13 @@ func test_test_2_hotline_unique_tracking() -> void:
 
 	var picked_ids: Array[String] = []
 	for i in range(pick_count):
-		var call: HotlineCallData = h_mgr.pick_next_call(test_day)
-		assert(call != null, "Eligible call must be picked.")
-		assert(not picked_ids.has(call.id), "Call ID %s was repeated before pool exhausted." % call.id)
-		picked_ids.append(call.id)
+		var hotline_call: HotlineCallData = h_mgr.pick_next_call(test_day)
+		assert(hotline_call != null, "Eligible call must be picked.")
+		assert(
+			not picked_ids.has(hotline_call.id),
+			"Call ID %s was repeated before pool exhausted." % hotline_call.id
+		)
+		picked_ids.append(hotline_call.id)
 
 	print("  -> Picked %d unique calls: %s" % [picked_ids.size(), str(picked_ids)])
 	print("  [PASS] Test 2: Hotline Unique Tracking verified.\n")
