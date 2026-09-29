@@ -40,10 +40,14 @@ func test_test_1_handle_drag_and_return_on_miss() -> void:
 	assert(desk_instance.physical_stamp_rack != null, "PhysicalStampRack must be present in DeskView.")
 	var rack = desk_instance.physical_stamp_rack
 	var approve_handle = rack.approve_handle
+	var reject_handle = rack.reject_handle
+	assert(approve_handle.stamp_icon.text == "✔", "Approve handle must display checkmark icon.")
+	assert(reject_handle.stamp_icon.text == "✖", "Reject handle must display cross icon.")
+	await get_tree().process_frame
 
 	var orig_pos: Vector2 = approve_handle.position
 
-	# Simulate dragging handle to outside position
+	# Simulate dragging approve handle to outside position
 	approve_handle.start_drag(Vector2(100, 100))
 	approve_handle.global_position = Vector2(50, 50) # Far top-left outside document
 	approve_handle.finish_slam(Vector2(50, 50))
@@ -53,7 +57,17 @@ func test_test_1_handle_drag_and_return_on_miss() -> void:
 
 	assert(desk_instance.active_document != null, "Active document must still exist.")
 	assert(not desk_instance.active_document.is_stamped, "Document must NOT be stamped when dropped outside.")
-	assert(approve_handle.position.distance_to(orig_pos) < 2.0, "Handle must return to rest position.")
+	assert(approve_handle.position.distance_to(orig_pos) < 2.0, "Approve handle must return to rest position.")
+
+	# Simulate dragging reject handle to outside position
+	var reject_orig_pos: Vector2 = reject_handle.position
+	reject_handle.start_drag(Vector2(200, 200))
+	reject_handle.global_position = Vector2(60, 60)
+	reject_handle.finish_slam(Vector2(60, 60))
+
+	await get_tree().create_timer(0.4).timeout
+	assert(reject_handle.position.distance_to(reject_orig_pos) < 2.0, "Reject handle must return to its own rest slot.")
+	assert(reject_handle.position.distance_to(approve_handle.position) > 50.0, "Reject handle must not overlap approve handle!")
 
 	desk_instance.queue_free()
 	print("  -> Missed drop handled cleanly: handle returned without triggering decision.")
