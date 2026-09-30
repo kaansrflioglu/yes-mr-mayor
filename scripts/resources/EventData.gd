@@ -10,8 +10,9 @@ extends Resource
 
 ## Category for filtering or thematic grouping (e.g. "zoning", "budget", "social", "emergency")
 @export var category: String = "zoning"
-## Permitted day range for this event to appear in daily queue [min_day, max_day]
-@export var day_range: Array[int] = [1, 30]
+## Permitted day/month range for this event to appear in daily queue [min, max]
+@export var day_range: Array[int] = [1, 48]
+@export var month_range: Array[int] = [1, 48]
 
 ## Localization keys for narrative texts (Strict i18n standard)
 @export var title_key: String = ""
@@ -59,12 +60,19 @@ static func from_dict(dict: Dictionary) -> EventData:
 	var event := EventData.new()
 	event.id = str(dict.get("id", ""))
 	event.category = str(dict.get("category", "general"))
-	if dict.has("day_range") and dict["day_range"] is Array:
+	if dict.has("month_range") and dict["month_range"] is Array:
+		event.month_range = []
+		for m in dict["month_range"]:
+			event.month_range.append(int(m))
+		event.day_range = event.month_range.duplicate()
+	elif dict.has("day_range") and dict["day_range"] is Array:
 		event.day_range = []
 		for d in dict["day_range"]:
 			event.day_range.append(int(d))
+		event.month_range = event.day_range.duplicate()
 	else:
-		event.day_range = [1, 30]
+		event.day_range = [1, 48]
+		event.month_range = [1, 48]
 	event.title_key = str(dict.get("title_key", ""))
 	event.description_key = str(dict.get("description_key", ""))
 	event.applicant_key = str(dict.get("applicant_key", ""))
@@ -187,7 +195,11 @@ func find_matching_violation(tag_a: String, tag_b: String) -> Dictionary:
 	var is_b_rep := norm_b.begins_with("rep_")
 
 	# Must be (App vs Rule), (Rep vs Rule), or (App vs Rep contradiction)
-	var is_valid_pair := (is_a_rule != is_b_rule) or (is_a_app and is_b_rep) or (is_a_rep and is_b_app)
+	var is_valid_pair := (
+		(is_a_rule != is_b_rule)
+		or (is_a_app and is_b_rep)
+		or (is_a_rep and is_b_app)
+	)
 	if not is_valid_pair:
 		return {}
 

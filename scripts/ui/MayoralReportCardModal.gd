@@ -54,7 +54,8 @@ func show_game_over(reason_key: String) -> void:
 				"wealth": GameManager.personal_wealth,
 				"opinion": GameManager.public_opinion,
 				"suspicion": GameManager.suspicion_level,
-				"day": GameManager.current_day
+				"day": GameManager.current_day,
+				"month": GameManager.current_month
 			}
 		}
 	elif not reason_key.is_empty() and eval.get("end_key", "") != reason_key:
@@ -99,13 +100,14 @@ func show_report_card(eval_dict: Dictionary) -> void:
 		epilogue_label.text = epilogue_text
 
 	# Telemetry Statistics
-	var day_val: int = int(stats.get("day", GameManager.current_day))
+	var month_val: int = int(stats.get("month", stats.get("day", GameManager.current_month)))
 	var budget_val: int = int(stats.get("budget", GameManager.city_budget))
 	var wealth_val: int = int(stats.get("wealth", GameManager.personal_wealth))
 	var opinion_val: float = float(stats.get("opinion", GameManager.public_opinion))
 	var susp_val: float = float(stats.get("suspicion", GameManager.suspicion_level))
-
-	days_survived_label.text = "%d / %d Days" % [mini(day_val, GameManager.MAX_DAYS), GameManager.MAX_DAYS]
+	days_survived_label.text = "%d / %d %s" % [mini(month_val, GameManager.MAX_MONTHS), GameManager.MAX_MONTHS, tr("UI_MONTH_TERM_LABEL")]
+	if days_survived_label.text.begins_with("%d") or "UI_MONTH_TERM_LABEL" in days_survived_label.text:
+		days_survived_label.text = "%d / %d Ay (Months)" % [mini(month_val, GameManager.MAX_MONTHS), GameManager.MAX_MONTHS]
 	treasury_label.text = _format_money(budget_val)
 	treasury_label.set("theme_override_colors/font_color", Color(0.2, 0.8, 0.4) if budget_val >= 0 else Color(0.9, 0.3, 0.2))
 

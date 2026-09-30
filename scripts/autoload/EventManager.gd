@@ -72,13 +72,20 @@ func unlock_event(event_id: String) -> void:
 
 
 
-## Checks if an event is valid for a given day according to its day_range
-func is_event_eligible_for_day(event: EventData, day: int) -> bool:
+## Checks if an event is valid for a given month according to month_range or day_range
+func is_event_eligible_for_month(event: EventData, month: int) -> bool:
 	if event == null:
 		return false
+	if event.month_range.size() >= 2:
+		return month >= event.month_range[0] and month <= event.month_range[1]
 	if event.day_range.size() >= 2:
-		return day >= event.day_range[0] and day <= event.day_range[1]
+		return month >= event.day_range[0] and month <= event.day_range[1]
 	return true
+
+
+## Checks if an event is valid for a given day (alias for month)
+func is_event_eligible_for_day(event: EventData, day: int) -> bool:
+	return is_event_eligible_for_month(event, day)
 
 
 ## Draws the next candidate from draw pile, reshuffling discard pile if needed

@@ -65,11 +65,15 @@ func setup_briefing(day: int, custom_memo: Dictionary = {}) -> void:
 			memo_entry = day_data["en"]
 
 	if memo_date_label != null:
-		var date_format := tr("UI_DAY_COUNTER")
-		if date_format != "UI_DAY_COUNTER" and not date_format.is_empty():
-			memo_date_label.text = date_format.format({"day": day}) + " • 08:30 AM"
+		var date_format := tr("UI_MONTH_COUNTER")
+		if date_format != "UI_MONTH_COUNTER" and not date_format.is_empty() and "{month}" in date_format:
+			memo_date_label.text = date_format.format({"month": day}) + " • 08:30 AM"
 		else:
-			memo_date_label.text = "Day %d • 08:30 AM" % day
+			var day_format := tr("UI_DAY_COUNTER")
+			if day_format != "UI_DAY_COUNTER" and not day_format.is_empty():
+				memo_date_label.text = day_format.format({"day": day}).replace("Gün", "Ay").replace("Day", "Month") + " • 08:30 AM"
+			else:
+				memo_date_label.text = "Ay %d • 08:30 AM" % day
 
 	if memo_from_label != null:
 		var author: String = memo_entry.get("author", "")

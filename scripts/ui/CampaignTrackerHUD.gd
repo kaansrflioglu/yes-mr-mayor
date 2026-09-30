@@ -52,5 +52,9 @@ func _update_display(incumbent_pct: float, rival_pct: float) -> void:
 		rival_label.text = "🎯 %s: %d%%" % [r_name, int(round(rival_pct))]
 
 	if election_badge != null and GameManager != null:
-		var days_left: int = maxi(30 - GameManager.current_day, 0)
-		election_badge.text = tr("UI_ELECTION_COUNTDOWN").format({"days": days_left})
+		var months_left: int = maxi(GameManager.MAX_MONTHS - GameManager.current_month, 0)
+		var badge_pattern: String = tr("UI_ELECTION_COUNTDOWN_MONTH")
+		if badge_pattern != "UI_ELECTION_COUNTDOWN_MONTH" and "{months}" in badge_pattern:
+			election_badge.text = badge_pattern.format({"months": months_left})
+		else:
+			election_badge.text = tr("UI_ELECTION_COUNTDOWN").format({"days": months_left}).replace("Gün", "Ay").replace("Days", "Months")

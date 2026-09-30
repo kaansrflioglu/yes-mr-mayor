@@ -68,8 +68,14 @@ func _update_settings_button_text() -> void:
 
 
 func _sync_all_metrics(animate: bool) -> void:
-	# Day label
-	day_label.text = tr("UI_DAY").format({"day": GameManager.current_day})
+	# Month label (48-month mandate)
+	var cur_m: int = GameManager.current_month
+	var max_m: int = GameManager.MAX_MONTHS
+	var month_str: String = tr("UI_MONTH")
+	if month_str != "UI_MONTH" and "{month}" in month_str:
+		day_label.text = month_str.format({"month": cur_m, "max": max_m})
+	else:
+		day_label.text = "%d. Ay / %d" % [cur_m, max_m]
 
 	var target_opinion: float = GameManager.public_opinion
 	var target_budget: float = float(GameManager.city_budget)

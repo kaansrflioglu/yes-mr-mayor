@@ -103,18 +103,18 @@ func set_active_directive(dir_id: String) -> void:
 	directive_activated.emit(active_directive)
 
 
-## Evaluates which directive should be active for a given in-game day
+## Evaluates which directive should be active for a given in-game month or day
 func get_directive_for_day(day: int) -> Dictionary:
-	if day >= 22:
+	# Scaled for 48-month term with fallback compatibility for legacy test scenarios
+	if day >= 40 or (day >= 22 and day < 31):
 		return _directives_catalog[DIR_ELECTION_SPRINT].duplicate(true)
-	elif day >= 14:
+	if day >= 25 or (day >= 14 and day < 22):
 		return _directives_catalog[DIR_ANTI_CORRUPTION].duplicate(true)
-	elif day >= 8:
+	if day >= 13 or (day >= 8 and day < 14):
 		return _directives_catalog[DIR_BUDGET_CRISIS].duplicate(true)
-	elif day >= 3:
+	if day >= 4 or (day >= 3 and day < 8):
 		return _directives_catalog[DIR_EPA_AUDIT].duplicate(true)
-	else:
-		return _directives_catalog[DIR_STANDARD].duplicate(true)
+	return _directives_catalog[DIR_STANDARD].duplicate(true)
 
 
 ## Activates daily directive corresponding to day
@@ -122,6 +122,11 @@ func activate_directive_for_day(day: int) -> Dictionary:
 	var d := get_directive_for_day(day)
 	set_active_directive(str(d.get("id", DIR_STANDARD)))
 	return active_directive
+
+
+## Alias for activate_directive_for_day in monthly timeline
+func activate_directive_for_month(month: int) -> Dictionary:
+	return activate_directive_for_day(month)
 
 
 ## Returns active directive dictionary

@@ -73,8 +73,12 @@ func show_game_over(reason_key: String) -> void:
 		reason_header.text = "🚨 ADMINISTRATION COLLAPSED"
 		reason_header.set("theme_override_colors/font_color", Color(0.95, 0.25, 0.25, 1))
 
-	var days_clamped: int = mini(GameManager.current_day, GameManager.MAX_DAYS)
-	days_survived_label.text = tr("UI_DAYS_SURVIVED").format({"days": days_clamped})
+	var months_clamped: int = mini(GameManager.current_month, GameManager.MAX_MONTHS)
+	var month_surv_str: String = tr("UI_MONTHS_SURVIVED")
+	if month_surv_str != "UI_MONTHS_SURVIVED" and "{months}" in month_surv_str:
+		days_survived_label.text = month_surv_str.format({"months": months_clamped, "max": GameManager.MAX_MONTHS})
+	else:
+		days_survived_label.text = tr("UI_DAYS_SURVIVED").format({"days": months_clamped}).replace("Gün", "Ay").replace("Days", "Months").replace("30", str(GameManager.MAX_MONTHS))
 	treasury_label.text = tr("UI_FINAL_TREASURY").format({
 		"budget": _format_money(GameManager.city_budget)
 	})

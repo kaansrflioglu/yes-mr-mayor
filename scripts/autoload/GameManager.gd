@@ -9,13 +9,24 @@ signal game_ended(reason_key: String)
 signal game_over(reason_key: String)
 signal day_started(day_number: int)
 signal day_ended(day_number: int)
+signal month_started(month_number: int)
+signal month_ended(month_number: int)
+signal year_completed(year_number: int)
+signal approval_crisis_warned(current_opinion: float)
 signal event_presented(event: EventData)
 signal event_resolved(event: EventData, approved: bool, bribe_taken: bool)
 signal event_decided(event_id: String, approved: bool)
 
-const MAX_DAYS: int = 30
+const MAX_MONTHS: int = 48
+const MAX_DAYS: int = 48 # Backward-compatibility alias for 48-month term
 
-var current_day: int = 1
+var current_month: int = 1
+var current_day: int:
+	get:
+		return current_month
+	set(val):
+		current_month = val
+
 var is_game_over: bool = false
 
 ## Core gameplay metrics (Section 2 & Phase 1)
@@ -66,9 +77,9 @@ func _ready() -> void:
 	load_events_database()
 
 
-## Starts a fresh 30-day mandate
+## Starts a fresh 48-month mandate
 func start_new_game() -> void:
-	current_day = 1
+	current_month = 1
 	is_game_over = false
 	public_opinion = 50.0
 	city_budget = 100000
@@ -79,7 +90,8 @@ func start_new_game() -> void:
 	hotline_history.clear()
 	active_event = null
 	_notify_stats_changed()
-	day_started.emit(current_day)
+	day_started.emit(current_month)
+	month_started.emit(current_month)
 
 
 func reset_state() -> void:
@@ -141,7 +153,8 @@ func resolve_event(event: EventData, approved: bool, took_bribe: bool) -> void:
 		else event.news_headline_reject_key
 	)
 	var record := {
-		"day": current_day,
+		"day": current_month,
+		"month": current_month,
 		"event_id": event.id,
 		"approved": approved,
 		"took_bribe": took_bribe,
@@ -185,7 +198,28 @@ func apply_resolution(effects: Dictionary) -> void:
 			EventManager.unlock_event(unlocked_id)
 
 	_notify_stats_changed()
+
+	if public_opinion <= 24.0 and public_opinion > 15.0:
+		approval_crisis_warned.emit(public_opinion)
+
 	_evaluate_end_conditions()
+
+
+## Returns current mayoral year (1 to 4 in a 48-month term)
+func get_current_year() -> int:
+	return clampi(int(ceili(float(current_month) / 12.0)), 1, 4)
+
+
+## Returns current season string based on 12-month calendar (SPRING, SUMMER, AUTUMN, WINTER)
+func get_current_season() -> String:
+	var m: int = ((current_month - 1) % 12) + 1
+	if m in [1, 2, 3]:
+		return "SPRING"
+	if m in [4, 5, 6]:
+		return "SUMMER"
+	if m in [7, 8, 9]:
+		return "AUTUMN"
+	return "WINTER"
 
 
 ## Public method to notify listeners of municipal metrics updates
@@ -199,20 +233,34 @@ func _notify_stats_changed() -> void:
 	stats_changed.emit()
 
 
-## Advances to next day or triggers end condition
-func advance_day() -> void:
+## Advances to next month (or day in legacy) and checks end condition
+func advance_month() -> void:
 	if is_game_over:
 		return
 
-	day_ended.emit(current_day)
-	current_day += 1
+	month_ended.emit(current_month)
+	day_ended.emit(current_month)
+
+	# Check if a mayoral year has completed (Months 12, 24, 36, 48)
+	if current_month % 12 == 0:
+		var completed_yr: int = int(current_month / 12.0)
+		year_completed.emit(completed_yr)
+		print("[GameManager] Mayoral Year %d completed." % completed_yr)
+
+	current_month += 1
 
 	_apply_daily_investments()
 
-	if current_day > MAX_DAYS:
+	if current_month > MAX_MONTHS:
 		_evaluate_end_conditions()
 	else:
-		day_started.emit(current_day)
+		month_started.emit(current_month)
+		day_started.emit(current_month)
+
+
+## Legacy alias for advance_month
+func advance_day() -> void:
+	advance_month()
 
 
 func _apply_daily_investments() -> void:

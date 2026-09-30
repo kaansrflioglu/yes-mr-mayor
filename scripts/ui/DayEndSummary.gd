@@ -28,7 +28,11 @@ func _ready() -> void:
 func populate_summary(day_num: int) -> void:
 	presented_day = day_num
 	masthead_label.text = tr("UI_TABLOID_HEADER")
-	issue_label.text = tr("UI_TABLOID_SUBHEADER").format({"day": day_num})
+	var subheader_str: String = tr("UI_TABLOID_SUBHEADER_MONTH")
+	if subheader_str != "UI_TABLOID_SUBHEADER_MONTH" and "{month}" in subheader_str:
+		issue_label.text = subheader_str.format({"month": day_num})
+	else:
+		issue_label.text = tr("UI_TABLOID_SUBHEADER").format({"day": day_num}).replace("Gün", "Ay").replace("Day", "Month")
 	financial_header.text = tr("UI_FINANCIAL_REPORT")
 
 	# Fetch shift history for today
@@ -86,7 +90,11 @@ func populate_summary(day_num: int) -> void:
 		"suspicion": "%.1f" % GameManager.suspicion_meter
 	})
 
-	btn_next_day.text = tr("UI_START_NEXT_DAY").format({"day": day_num + 1})
+	var next_str: String = tr("UI_START_NEXT_MONTH")
+	if next_str != "UI_START_NEXT_MONTH" and "{month}" in next_str:
+		btn_next_day.text = next_str.format({"month": day_num + 1})
+	else:
+		btn_next_day.text = tr("UI_START_NEXT_DAY").format({"day": day_num + 1}).replace("Güne", "Aya").replace("Day", "Month")
 
 
 ## Drop & slam paper animation

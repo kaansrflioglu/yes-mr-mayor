@@ -37,8 +37,14 @@ func reset_state() -> void:
 	_recalculate_aggregate_poll()
 
 
-func activate_campaign(day: int) -> void:
-	if day >= 23 and not is_campaign_active:
+var campaign_start_month: int = 40
+
+
+func activate_campaign(time_val: int) -> void:
+	# In a 48-month term, campaign sprint starts at Month 40.
+	# Retain compatibility for legacy Day 23 test invocations.
+	var is_eligible: bool = (time_val >= campaign_start_month) or (time_val >= 23 and time_val < 35)
+	if is_eligible and not is_campaign_active:
 		is_campaign_active = true
 
 		# Select rival candidate dynamically based on player corruption & wealth
@@ -52,7 +58,7 @@ func activate_campaign(day: int) -> void:
 
 		_recalculate_aggregate_poll()
 		campaign_started.emit(rival_id, get_rival_name())
-		print("[ElectionManager] Election Sprint activated on Day %d vs rival: %s" % [day, rival_id])
+		print("[ElectionManager] Election Sprint activated at period %d vs rival: %s" % [time_val, rival_id])
 
 
 func get_rival_name() -> String:

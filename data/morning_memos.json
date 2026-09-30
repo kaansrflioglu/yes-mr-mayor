@@ -508,5 +508,311 @@
       "subject": "Día de Elecciones: Expediente Final",
       "text": "¡Llegó el gran día, Señor Alcalde! Las urnas están abriendo en toda la ciudad. ¡Procese estas últimas solicitudes con honor y selle su legado político!"
     }
+  },
+  "31": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Autumn Council Session",
+      "text": "Good morning, Mr. Mayor. Councilors are arguing over the new tax brackets. District leaders are requesting extra infrastructure funds before winter sets in."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Sonbahar Meclis Oturumu",
+      "text": "Günaydın Sayın Başkanım. Meclis üyeleri yeni vergi dilimlerini tartışıyor. İlçe muhtarları kış bastırmadan önce altyapı ödeneği talep ediyor."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Sesión de Otoño",
+      "text": "Buenos días, Señor Alcalde. Los concejales debaten los tramos fiscales. Piden fondos antes del invierno."
+    }
+  },
+  "32": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Riverbed Smog Reports",
+      "text": "The industrial corridor is reporting stagnant air. Environmental inspectors are on alert. Keep an eye on factory emissions today."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Sanayi Duman Raporu",
+      "text": "Sanayi koridorunda hava kirliliği arttı. Çevre müfettişleri alarmda. Fabrika emisyon dosyalarına dikkat edin."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Informes de Contaminación",
+      "text": "El corredor industrial reporta aire estancado. Inspectores en alerta."
+    }
+  },
+  "33": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Heritage Guild Petition",
+      "text": "Prof. Vane sent a handwritten note asking us to preserve the old cobblestone square. Don't let heavy asphalt trucks ruin our city roots!"
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Tarih Cemiyeti Dilekçesi",
+      "text": "Prof. Vane tarihi arnavut kaldırımı meydanın korunması için el yazısıyla not bıraktı. Şehrin tarihi dokusunu koruyalım."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Petición del Patrimonio",
+      "text": "La profesora Vane pide conservar el pavimento histórico empedrado."
+    }
+  },
+  "34": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Winter Pre-Freeze Alert",
+      "text": "Weather bureau warns of severe sub-zero temperatures next month. Salt reserves must be checked, and emergency warming centers prepared."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Kış Öncesi Don Uyarısı",
+      "text": "Meteoroloji önümüzdeki ay için şiddetli don uyarısı yaptı. Tuz rezervleri kontrol edilmeli ve aşevleri hazırlanmalı."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Alerta de Heladas",
+      "text": "Meteorología avisa de temperaturas bajo cero. Revisen las reservas de sal."
+    }
+  },
+  "35": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Auditors at the Gate",
+      "text": "Sayıştay auditors have set up laptops in the west wing. Double check every seal and permit signature today, Mr. Mayor."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Sayıştay Kapıda",
+      "text": "Sayıştay denetçileri batı kanadında yerlerini aldı. Bugünkü evrak mühürlerini ve imzalarını iki kez kontrol edin Sayın Başkanım."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Auditores en la Entrada",
+      "text": "Auditores estatales se instalaron en el ala oeste. Revise bien cada sello."
+    }
+  },
+  "36": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Year 3 Financial Balance",
+      "text": "Year 3 has officially closed! Tonight the treasury ledger reconciles. The election countdown begins in just one month!"
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "3. Yıl Bilanço Kapanışı",
+      "text": "3. yılı geride bıraktık! Bu akşam mali defterler kapanıyor. Seçim yılına resmen giriyoruz Sayın Başkanım!"
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Cierre del Año 3",
+      "text": "¡Año 3 cerrado! El balance se consolida hoy. ¡La cuenta atrás electoral se acerca!"
+    }
+  },
+  "37": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Welcome to Election Year",
+      "text": "Month 37. The fourth and final year of your term begins. Billboards across the city are being prepped. Every decision will carry electoral weight now."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Seçim Yılına Hoş Geldiniz",
+      "text": "37. Ay. Dördüncü ve son hizmet yılınız başladı. Şehirdeki panolar yenileniyor. Artık her karar sandığa yansıyacak."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Año Electoral",
+      "text": "Mes 37. Comienza su último año de mandato. Cada decisión influirá en las urnas."
+    }
+  },
+  "38": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Union Pay Demands",
+      "text": "Labor leaders have formally tabled their pre-election wage demands. Compromise or face picket lines outside City Hall."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Sendika Maaş Talepleri",
+      "text": "İşçi temsilcileri seçim öncesi zam taleplerini resmi olarak masaya bıraktı. Orta yolu bulmak meclis dengesi için mühim."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Demandas Sindicales",
+      "text": "Líderes obreros presentan peticiones salariales antes de las elecciones."
+    }
+  },
+  "39": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Campaign Launch T-Minus 1 Month",
+      "text": "Next month the official mayoral campaign sprint begins! Both the reformers and populists are preparing candidate declarations."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Kampanyaya Son 1 Ay",
+      "text": "Gelecek ay resmi seçim kampanyası sprinti başlıyor! Hem reformistler hem popülistler adaylarını açıklamaya hazırlanıyor."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "A 1 Mes de Campaña",
+      "text": "¡El próximo mes arranca el sprint electoral! La oposición prepara a sus candidatos."
+    }
+  },
+  "40": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "ELECTION SPRINT ACTIVATED!",
+      "text": "It's official, Mr. Mayor! The Election Campaign has launched. Your rival is on the airwaves, and district poll meters are live on your HUD!"
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "SEÇİM SPRİNTİ BAŞLADI!",
+      "text": "Resmen başladı Sayın Başkanım! Seçim Kampanyası devrede. Rakibiniz meydanlarda, anket göstergeleri üst panelde canlı!"
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "¡CAMPAÑA ACTIVADA!",
+      "text": "¡Es oficial! La campaña electoral comenzó. ¡Su rival está en los medios y las encuestas en vivo!"
+    }
+  },
+  "41": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Battleground District Polling",
+      "text": "The polls swung noticeably after yesterday's decisions. Remember, permits in a district directly sway that neighborhood's voter turnout."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "İlçe Anketleri Kızışıyor",
+      "text": "Dünkü kararlarınızdan sonra anketler dalgalandı. İlgili ilçede verilen her onay veya red o bölgenin oyunu doğrudan etkiliyor."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Encuestas Reñidas",
+      "text": "Las encuestas oscilaron tras sus decisiones de ayer. Cada permiso afecta a su distrito."
+    }
+  },
+  "42": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Television Debate Offer",
+      "text": "Channel 1 is inviting you to a live primetime debate against your rival. Accepting shows democratic strength, but beware of gaffes!"
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Canlı Yayın Münazara Teklifi",
+      "text": "Kanal 1 sizi rakibinizle canlı yayında tartışmaya davet ediyor. Çıkmak cesaret gösterisi ama dikkatli konuşmak şart!"
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Oferta de Debate en TV",
+      "text": "Canal 1 invita a un debate en horario estelar contra su rival."
+    }
+  },
+  "43": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Super-PAC Dark Money Whispers",
+      "text": "Shady campaign donors are knocking on the back door with briefcases of cash. Pocketing it gives great campaign power, but Federal agents are watching."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Karanlık Fon Fısıltıları",
+      "text": "Gizli bağışçılar arka kapıdan çanta dolusu nakitle geliyor. Kampanyaya yarar ama Federal gözler üstümüzde Sayın Başkanım."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Fondos Oscuros de Campaña",
+      "text": "Donantes opacos tocan la puerta trasera con dinero. Tenga cuidado con los agentes federales."
+    }
+  },
+  "44": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "4 Months to Ballots",
+      "text": "Only four months remain until voting day. The police chief reports heightened political rallies in Central Plaza. Keep order!"
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Sandığa Son 4 Ay",
+      "text": "Seçime yalnızca dört ay kaldı. Emniyet merkez meydandaki mitingler nedeniyle teyakkuzda. Huzuru koruyalım."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "A 4 Meses de Votar",
+      "text": "Solo cuatro meses para el día de las elecciones. La policía refuerza el orden en la plaza."
+    }
+  },
+  "45": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Rival Rally in Riverbed",
+      "text": "Your opponent held a massive town hall in the Riverbed district promising rent caps. Our voters there need a strong message today."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Rakibin Nehir Mitingi",
+      "text": "Rakibiniz Nehir Yatağı'nda kira indirimi vaatleriyle büyük bir miting yaptı. Oradaki seçmenimize güven vermemiz gerek."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Mitin Rival en el Río",
+      "text": "Su oponente congregó multitudes en el distrito del río prometiendo congelar alquileres."
+    }
+  },
+  "46": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "Ballot Printing Security",
+      "text": "Official ballot printing begins this week. Rumors of fraud are circulating in the tabloids. Ensure the seals are untampered."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Oy Pusulası Basımı",
+      "text": "Resmi pusulaların basımı bu hafta başlıyor. Basında şaibe iddiaları dolaşıyor. Mühürlerin sağlamlığından emin olmalıyız."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Impresión de Papeletas",
+      "text": "Comienza la impresión oficial de votos. Evite cualquier sombra de sospecha."
+    }
+  },
+  "47": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "The Eve of the Election",
+      "text": "Month 47. Next month is the final vote! Check your offshore funds, your public approval, and your district strongholds. History awaits."
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "Büyük Karar Arifesi",
+      "text": "47. Ay. Bir sonraki ay sandıklar açılıyor! Kişisel kasanızı, halk desteğinizi ve ilçe anketlerinizi son kez tartın. Tarih sizi bekliyor."
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "Víspera de la Gran Elección",
+      "text": "Mes 47. ¡El próximo mes se vota! Revise sus arcas, aprobación y distritos."
+    }
+  },
+  "48": {
+    "en": {
+      "author": "Clarissa (Executive Secretary)",
+      "subject": "BALLOT NIGHT: JUDGMENT DAY",
+      "text": "Good morning Mr. Mayor. This is Month 48, your final month in office! When you finish today's docket, the polling stations close and the votes are tallied. Make your final stamps count!"
+    },
+    "tr": {
+      "author": "Sekreter Clarissa",
+      "subject": "SANDIK GECESİ: HÜKÜM GÜNÜ",
+      "text": "Günaydın Sayın Başkanım. 48. Ay, görevdeki son ayınız! Bugünkü evrakları tamamladığınızda sandıklar kapanacak ve oylar sayılacak. Son kaşelerinizin hakkını verin!"
+    },
+    "es": {
+      "author": "Clarissa (Secretaria Ejecutiva)",
+      "subject": "NOCHE ELECTORAL: EL VEREDICTO",
+      "text": "Buenos días, Señor Alcalde. ¡Mes 48, su último mes! Al terminar hoy, las urnas se cerrarán y se contarán los votos. ¡Haga valer sus últimos sellos!"
+    }
   }
 }

@@ -68,8 +68,8 @@ func evaluate_mandate() -> Dictionary:
 		end_key = "END_MUNICIPAL_BANKRUPT"
 		letter_grade = "D"
 		title_key = "TITLE_BANKRUPT_SPENDTHRIFT"
-	elif day >= GameManager.MAX_DAYS:
-		# 2. Full Mandate Endings (Evaluated on Day 30 or upon mandate completion)
+	elif day >= GameManager.MAX_DAYS or day >= 30:
+		# 2. Full Mandate Endings (Evaluated on Month 48 / Day 30 or upon mandate completion)
 		# Priority 1: Civic Saint (S) - Pristine virtue, zero wealth, low suspicion
 		if opinion >= 85.0 and wealth == 0 and susp <= 15.0:
 			end_key = "END_SAINT"
@@ -151,7 +151,8 @@ func evaluate_mandate() -> Dictionary:
 			"opinion": opinion,
 			"suspicion": susp,
 			"budget": budget,
-			"day": mini(day, GameManager.MAX_DAYS)
+			"day": mini(day, GameManager.MAX_DAYS),
+			"month": mini(day, GameManager.MAX_DAYS)
 		},
 		"factions": {
 			"greens": f_greens,

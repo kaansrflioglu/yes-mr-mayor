@@ -1440,7 +1440,7 @@ func _start_press_conference() -> void:
 
 
 func _present_newspaper_summary() -> void:
-	if GameManager.current_day >= 30 and election_night_modal != null:
+	if GameManager.current_day >= GameManager.MAX_DAYS and election_night_modal != null:
 		election_night_modal.election_completed.connect(func(won: bool):
 			if won:
 				GameManager.apply_resolution({"public_opinion": 10.0})
