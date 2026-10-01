@@ -175,6 +175,8 @@ func test_button_affordability_states() -> void:
 	# Player has $0 -> all disabled
 	GameManager.current_day = 1
 	GameManager.personal_wealth = 0
+	GameManager.event_flags["FLAG_CIGAR_BOX_UNLOCKED"] = true
+	GameManager.event_flags["FLAG_YACHT_BROCHURE_UNLOCKED"] = true
 	modal.open()
 
 	assert(modal.btn_buy_fixer.disabled, "Fixer button must be disabled when broke.")
@@ -191,6 +193,8 @@ func test_button_affordability_states() -> void:
 	assert(modal.btn_buy_audit.disabled, "Audit button should remain disabled ($36k < $60k).")
 	assert(modal.btn_buy_luxury.disabled, "Luxury button should remain disabled ($36k < $50k).")
 
+	GameManager.event_flags.erase("FLAG_CIGAR_BOX_UNLOCKED")
+	GameManager.event_flags.erase("FLAG_YACHT_BROCHURE_UNLOCKED")
 	modal.queue_free()
 	passed_tests += 1
 	print("  -> Affordability checks and button states verified.\n")

@@ -1,63 +1,76 @@
-[gd_scene load_steps=6 format=3 uid="uid://morning_briefing_card_001"]
+[gd_scene load_steps=10 format=3 uid="uid://morning_briefing_card_001"]
 
 [ext_resource type="Script" path="res://scripts/ui/MorningBriefingCard.gd" id="1_card"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/newspaper_paper_base.png" id="2_newspaper_bg"]
+[ext_resource type="Shader" path="res://assets/shaders/newspaper_halftone.gdshader" id="3_halftone"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/newspaper_photo_ribbon.png" id="4_photo"]
+[ext_resource type="FontFile" path="res://assets/fonts/SpecialElite-Regular.ttf" id="5_special_elite"]
+[ext_resource type="FontFile" path="res://assets/fonts/Cinzel-Bold.ttf" id="6_cinzel"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_postit"]
-bg_color = Color(0.98, 0.94, 0.62, 0.98)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 3
-border_color = Color(0.88, 0.82, 0.45, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
-shadow_color = Color(0, 0, 0, 0.28)
-shadow_size = 14
-shadow_offset = Vector2(3, 6)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_newspaper"]
+texture = ExtResource("2_newspaper_bg")
+texture_margin_left = 18.0
+texture_margin_top = 18.0
+texture_margin_right = 18.0
+texture_margin_bottom = 18.0
 
-[sub_resource type="SystemFont" id="SystemFont_handwritten"]
-font_names = PackedStringArray("Ink Free", "Segoe Print", "Caveat", "Comic Sans MS", "Casual", "sans-serif")
-subpixel_positioning = 1
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pin"]
-bg_color = Color(0.85, 0.2, 0.2, 0.9)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_halftone"]
+shader = ExtResource("3_halftone")
+shader_parameter/dot_density = 80.0
+shader_parameter/contrast = 1.3
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_modifier_badge"]
-bg_color = Color(0.25, 0.2, 0.1, 0.85)
-border_width_left = 1
+bg_color = Color(0.18, 0.12, 0.1, 0.92)
+border_width_left = 2
 border_width_top = 1
 border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.85, 0.65, 0.2, 0.9)
+border_width_bottom = 2
+border_color = Color(0.85, 0.35, 0.2, 0.95)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [node name="MorningBriefingCard" type="PanelContainer"]
-custom_minimum_size = Vector2(480, 290)
-offset_right = 480.0
-offset_bottom = 290.0
+custom_minimum_size = Vector2(510, 310)
+offset_right = 510.0
+offset_bottom = 310.0
 rotation = -0.0261799
-theme_override_styles/panel = SubResource("StyleBoxFlat_postit")
+theme_override_styles/panel = SubResource("StyleBoxTexture_newspaper")
 script = ExtResource("1_card")
 
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 2
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 18
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 18
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 14
 
 [node name="VBox" type="VBoxContainer" parent="Margin"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
+
+[node name="MastheadVBox" type="VBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="MastheadTitle" type="Label" parent="Margin/VBox/MastheadVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.12, 0.11, 0.13, 1)
+theme_override_fonts/font = ExtResource("6_cinzel")
+theme_override_font_sizes/font_size = 18
+text = "THE DAILY METROPOLITAN"
+horizontal_alignment = 1
+
+[node name="MastheadSub" type="Label" parent="Margin/VBox/MastheadVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.28, 0.25, 1)
+theme_override_font_sizes/font_size = 9
+text = "MUNICIPAL EDITION • THE VOICE OF NEW VERIDIA • EST. 1892"
+horizontal_alignment = 1
+
+[node name="MastheadDivider" type="HSeparator" parent="Margin/VBox/MastheadVBox"]
+layout_mode = 2
 
 [node name="HeaderHBox" type="HBoxContainer" parent="Margin/VBox"]
 layout_mode = 2
@@ -66,43 +79,56 @@ theme_override_constants/separation = 10
 [node name="PinIcon" type="Label" parent="Margin/VBox/HeaderHBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "📌"
+theme_override_font_sizes/font_size = 14
+text = "📰"
 
 [node name="TitleVBox" type="VBoxContainer" parent="Margin/VBox/HeaderHBox"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 2
+theme_override_constants/separation = 1
 
 [node name="MemoDateLabel" type="Label" parent="Margin/VBox/HeaderHBox/TitleVBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.22, 0.2, 0.15, 1)
-theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.18, 0.16, 0.14, 1)
+theme_override_font_sizes/font_size = 12
 text = "Day 1 • 08:30 AM"
 
 [node name="MemoFromLabel" type="Label" parent="Margin/VBox/HeaderHBox/TitleVBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_fonts/font = SubResource("SystemFont_handwritten")
-theme_override_colors/font_color = Color(0.35, 0.3, 0.25, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.38, 0.34, 0.3, 1)
+theme_override_fonts/font = ExtResource("5_special_elite")
+theme_override_font_sizes/font_size = 11
 text = "From: Clarissa (Executive Secretary)"
 
-[node name="HSeparator" type="HSeparator" parent="Margin/VBox"]
-layout_mode = 2
-
-[node name="MemoTextLabel" type="Label" parent="Margin/VBox"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 100)
+[node name="BodyHBox" type="HBoxContainer" parent="Margin/VBox"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_fonts/font = SubResource("SystemFont_handwritten")
-theme_override_colors/font_color = Color(0.12, 0.15, 0.28, 0.95)
-theme_override_constants/line_spacing = 5
-theme_override_font_sizes/font_size = 15
+theme_override_constants/separation = 12
+
+[node name="PhotoRect" type="TextureRect" parent="Margin/VBox/BodyHBox"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_halftone")
+custom_minimum_size = Vector2(130, 95)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("4_photo")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="MemoTextLabel" type="Label" parent="Margin/VBox/BodyHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 95)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.12, 0.11, 0.13, 0.98)
+theme_override_constants/line_spacing = 3
+theme_override_fonts/font = ExtResource("5_special_elite")
+theme_override_font_sizes/font_size = 13
 text = "Good morning, Mr. Mayor! Environmental auditors are in town today. The Governor's office called twice before 8 AM. Be careful with river permits!"
-autowrap_mode = 2
+autowrap_mode = 3
 
 [node name="ModifierBadge" type="PanelContainer" parent="Margin/VBox"]
 unique_name_in_owner = true
@@ -113,9 +139,9 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_modifier_badge")
 [node name="BadgeMargin" type="MarginContainer" parent="Margin/VBox/ModifierBadge"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 6
+theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 6
+theme_override_constants/margin_bottom = 4
 
 [node name="BadgeVBox" type="VBoxContainer" parent="Margin/VBox/ModifierBadge/BadgeMargin"]
 layout_mode = 2
@@ -125,13 +151,13 @@ theme_override_constants/separation = 2
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "⚠️ EPA AUDIT ACTIVE"
 
 [node name="ModifierDescLabel" type="Label" parent="Margin/VBox/ModifierBadge/BadgeMargin/BadgeVBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9, 0.9, 0.85, 1)
-theme_override_font_sizes/font_size = 11
+theme_override_font_sizes/font_size = 10
 text = "Environmental violations grant 2x Public Approval if rejected, but 2x Suspicion if approved."
 autowrap_mode = 2

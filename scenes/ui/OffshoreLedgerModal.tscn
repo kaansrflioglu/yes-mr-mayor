@@ -1,20 +1,15 @@
 [gd_scene load_steps=9 format=3 uid="uid://offshoreledgermodal001"]
 
 [ext_resource type="Script" path="res://scripts/ui/OffshoreLedgerModal.gd" id="1_modal"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/ledger_goatskin_cover.png" id="2_ledger_cover"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/money_stack_bribe.png" id="3_money_stack"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_modal_panel"]
-bg_color = Color(0.09, 0.11, 0.15, 0.98)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.85, 0.72, 0.32, 1)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
-shadow_color = Color(0, 0, 0, 0.75)
-shadow_size = 32
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_modal_panel"]
+texture = ExtResource("2_ledger_cover")
+texture_margin_left = 32.0
+texture_margin_top = 32.0
+texture_margin_right = 32.0
+texture_margin_bottom = 32.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_banner"]
 bg_color = Color(0.13, 0.16, 0.22, 1)
@@ -116,7 +111,7 @@ offset_bottom = 340.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(490, 340)
-theme_override_styles/panel = SubResource("StyleBoxFlat_modal_panel")
+theme_override_styles/panel = SubResource("StyleBoxTexture_modal_panel")
 
 [node name="Margin" type="MarginContainer" parent="ModalPanel"]
 layout_mode = 2
@@ -174,10 +169,18 @@ theme_override_constants/margin_bottom = 10
 layout_mode = 2
 theme_override_constants/separation = 12
 
+[node name="MoneyStackIcon" type="TextureRect" parent="ModalPanel/Margin/VBox/BalanceBanner/BannerMargin/BannerHBox"]
+custom_minimum_size = Vector2(44, 28)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("3_money_stack")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="BannerIcon" type="Label" parent="ModalPanel/Margin/VBox/BalanceBanner/BannerMargin/BannerHBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "🔒 💵"
+theme_override_font_sizes/font_size = 20
+text = "🔒"
 
 [node name="StashedBalanceLabel" type="Label" parent="ModalPanel/Margin/VBox/BalanceBanner/BannerMargin/BannerHBox"]
 unique_name_in_owner = true

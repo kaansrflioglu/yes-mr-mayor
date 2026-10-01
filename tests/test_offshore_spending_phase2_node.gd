@@ -218,6 +218,7 @@ func test_audiomanager_synthesis() -> void:
 
 func test_audit_leak_auto_detection() -> void:
 	print("[TEST 7] Testing DeskView audit leak auto-detection on violating dossiers...")
+	LocalizationManager.set_locale("en")
 	var desk_scene: PackedScene = load("res://scenes/desk/DeskView.tscn")
 	var desk: Node = desk_scene.instantiate()
 	add_child(desk)

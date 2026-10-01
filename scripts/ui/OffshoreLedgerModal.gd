@@ -38,7 +38,10 @@ const LUXURY_CATALOG: Array[Dictionary] = [
 		"desc_key": "UI_LUXURY_GOLD_DESC",
 		"effect_key": "UI_LUXURY_GOLD_EFFECT",
 		"icon": "👑"
-	},
+	}
+]
+
+const EXPANDED_EQUIPMENT_CATALOG: Array[Dictionary] = [
 	{
 		"id": "espresso_machine",
 		"cost": 35000,
@@ -198,6 +201,7 @@ func close() -> void:
 
 func _on_stats_changed() -> void:
 	if is_open:
+		_calculate_dynamic_costs()
 		_refresh_balance_display()
 		_refresh_button_states()
 

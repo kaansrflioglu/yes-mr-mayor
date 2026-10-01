@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://pressconfmodal001"]
 
 [ext_resource type="Script" path="res://scripts/ui/PressConferenceModal.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/press_microphone_cluster.png" id="2_microphones"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/press_flash_particle.png" id="3_flash_particle"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_podium_panel"]
 bg_color = Color(0.06, 0.08, 0.12, 0.96)
@@ -187,6 +189,36 @@ custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_tactic_btn")
 text = "💼 Clandestine Slush Bribe ($25,000 Offshore Funds)"
+
+[node name="MicContainer" type="CenterContainer" parent="ModalContainer/Margin/MainVBox"]
+layout_mode = 2
+
+[node name="PodiumMicrophones" type="TextureRect" parent="ModalContainer/Margin/MainVBox/MicContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 90)
+layout_mode = 2
+texture = ExtResource("2_microphones")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="FlashParticles" type="CPUParticles2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(960, 540)
+emitting = false
+amount = 24
+lifetime = 0.45
+one_shot = true
+explosiveness = 0.95
+texture = ExtResource("3_flash_particle")
+emission_shape = 3
+emission_rect_extents = Vector2(800, 450)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 50.0
+scale_amount_min = 0.6
+scale_amount_max = 1.8
 
 [node name="FlashOverlay" type="ColorRect" parent="."]
 unique_name_in_owner = true

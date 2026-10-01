@@ -12,6 +12,7 @@ signal conference_finished
 @onready var reporter_label: Label = %ReporterLabel
 @onready var question_label: Label = %QuestionLabel
 @onready var flash_overlay: ColorRect = %FlashOverlay
+@onready var flash_particles: CPUParticles2D = %FlashParticles if has_node("%FlashParticles") else null
 
 @onready var btn_spin: Button = %BtnSpin
 @onready var btn_blame: Button = %BtnBlame
@@ -193,6 +194,10 @@ func _present_question() -> void:
 func _trigger_camera_flash() -> void:
 	if AudioManager != null and AudioManager.has_method("play_camera_shutter"):
 		AudioManager.play_camera_shutter()
+
+	if flash_particles != null:
+		flash_particles.restart()
+		flash_particles.emitting = true
 
 	if flash_overlay != null:
 		flash_overlay.visible = true

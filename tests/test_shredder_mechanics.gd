@@ -16,7 +16,7 @@ func _ready() -> void:
 
 	await test_test_1_shred_action_and_suspicion_drop()
 	await test_test_2_overuse_consequence()
-	await test_test_3_daily_reset()
+	test_test_3_daily_reset()
 
 	print("\n========================================================")
 	if passed_tests == total_tests:
@@ -31,6 +31,7 @@ func _ready() -> void:
 func test_test_1_shred_action_and_suspicion_drop() -> void:
 	print("[TEST 1] Verifying shred action and suspicion reduction...")
 	game_mgr.start_new_game()
+	event_mgr.reset_deck()
 	game_mgr.suspicion_level = 50.0
 
 	var desk_scene: PackedScene = preload("res://scenes/desk/DeskView.tscn")
@@ -58,6 +59,7 @@ func test_test_1_shred_action_and_suspicion_drop() -> void:
 func test_test_2_overuse_consequence() -> void:
 	print("[TEST 2] Verifying overuse consequence (+25% suspicion and tamper flag)...")
 	game_mgr.start_new_game()
+	event_mgr.reset_deck()
 	game_mgr.suspicion_level = 30.0
 
 	var desk_scene: PackedScene = preload("res://scenes/desk/DeskView.tscn")
@@ -68,12 +70,14 @@ func test_test_2_overuse_consequence() -> void:
 	# First shred: safe
 	desk_instance._on_shred_requested()
 	await desk_instance.desk_shredder.shred_completed
+	await get_tree().process_frame
 
 	var susp_after_first: float = game_mgr.suspicion_level
 
 	# Second shred: dangerous overuse
 	desk_instance._on_shred_requested()
 	await desk_instance.desk_shredder.shred_completed
+	await get_tree().process_frame
 
 	assert(desk_instance.desk_shredder.daily_shred_count == 2, "Daily shred count must be 2.")
 	assert(game_mgr.suspicion_level > susp_after_first, "Suspicion must increase after overuse penalty.")

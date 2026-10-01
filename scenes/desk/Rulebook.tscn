@@ -1,42 +1,49 @@
-[gd_scene format=3]
+[gd_scene load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://scripts/desk/Rulebook.gd" id="1_rule"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/rulebook_leather_cover.png" id="2_cover"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/rulebook_bookmark_ribbon.png" id="3_ribbon"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_book_bg"]
-bg_color = Color(0.13, 0.15, 0.2, 0.98)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.75, 0.62, 0.28, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-shadow_color = Color(0, 0, 0, 0.45)
-shadow_size = 14
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_book_bg"]
+texture = ExtResource("2_cover")
+texture_margin_left = 32.0
+texture_margin_top = 32.0
+texture_margin_right = 32.0
+texture_margin_bottom = 32.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tab_active"]
-bg_color = Color(0.2, 0.24, 0.32, 1)
+bg_color = Color(0.24, 0.12, 0.14, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
 border_width_bottom = 3
 border_color = Color(0.95, 0.8, 0.3, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tab_inactive"]
+bg_color = Color(0.14, 0.08, 0.09, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_color = Color(0.45, 0.35, 0.2, 0.7)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rule_card"]
-bg_color = Color(0.17, 0.2, 0.27, 0.9)
-border_width_left = 2
+bg_color = Color(0.12, 0.09, 0.11, 0.92)
+border_width_left = 3
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.35, 0.4, 0.52, 1)
+border_color = Color(0.5, 0.42, 0.28, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_danger_card"]
-bg_color = Color(0.25, 0.14, 0.15, 0.9)
+bg_color = Color(0.2, 0.08, 0.09, 0.92)
 border_width_left = 3
 border_width_top = 1
 border_width_right = 1
@@ -48,7 +55,7 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_seal_card"]
-bg_color = Color(0.15, 0.22, 0.2, 0.9)
+bg_color = Color(0.1, 0.16, 0.14, 0.92)
 border_width_left = 3
 border_width_top = 1
 border_width_right = 1
@@ -59,19 +66,41 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_close_btn"]
+bg_color = Color(0.2, 0.1, 0.12, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.65, 0.45, 0.25, 0.8)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
 [node name="Rulebook" type="PanelContainer"]
-custom_minimum_size = Vector2(420, 740)
-offset_right = 420.0
-offset_bottom = 740.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_book_bg")
+custom_minimum_size = Vector2(440, 750)
+offset_right = 440.0
+offset_bottom = 750.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_book_bg")
 script = ExtResource("1_rule")
 
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 14
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 14
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 16
+
+[node name="RibbonMarker" type="TextureRect" parent="Margin"]
+custom_minimum_size = Vector2(32, 160)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+mouse_filter = 2
+texture = ExtResource("3_ribbon")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="VBox" type="VBoxContainer" parent="Margin"]
 layout_mode = 2
@@ -93,6 +122,7 @@ vertical_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_close_btn")
 text = "✕"
 
 [node name="TabBar" type="HBoxContainer" parent="Margin/VBox"]
@@ -112,6 +142,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_inactive")
 text = "Mühürler"
 
 [node name="TabBtnBlacklist" type="Button" parent="Margin/VBox/TabBar"]
@@ -119,6 +150,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_inactive")
 text = "Kara Liste"
 
 [node name="TabBtnOrders" type="Button" parent="Margin/VBox/TabBar"]
@@ -126,6 +158,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxFlat_tab_inactive")
 text = "Genelgeler"
 
 [node name="HSeparator" type="HSeparator" parent="Margin/VBox"]
@@ -271,7 +304,6 @@ autowrap_mode = 3
 
 [node name="PageSeals" type="ScrollContainer" parent="Margin/VBox/ContentArea"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -308,7 +340,6 @@ autowrap_mode = 3
 
 [node name="PageBlacklist" type="ScrollContainer" parent="Margin/VBox/ContentArea"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -350,7 +381,6 @@ autowrap_mode = 3
 
 [node name="PageOrders" type="ScrollContainer" parent="Margin/VBox/ContentArea"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

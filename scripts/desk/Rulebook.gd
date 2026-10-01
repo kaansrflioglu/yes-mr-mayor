@@ -3,6 +3,7 @@ extends PanelContainer
 ## Rulebook.gd - Municipal Code & Regulatory Manual
 ## Provides zoning rules, authentic seal references, corporate blacklist, and daily directives.
 ## Supports Papers, Please style inspection by emitting rule tags when clicked.
+## Enhanced with tactile leather tome visuals and animated tab sliding.
 
 signal rule_tag_selected(tag: String, label_text: String)
 signal visibility_toggled(is_open: bool)
@@ -43,20 +44,59 @@ func _ready() -> void:
 	tab_btn_orders.pressed.connect(func(): _switch_tab(3))
 	btn_close.pressed.connect(toggle_rulebook)
 
-	_setup_inspectable(rule_historic_box, "rule_zoning_historic", tr("RULE_ZONING_HISTORIC"))
-	_setup_inspectable(rule_river_box, "rule_zoning_river", tr("RULE_ZONING_RIVER"))
-	_setup_inspectable(rule_central_box, "rule_zoning_central", tr("RULE_ZONING_CENTRAL"))
-	_setup_inspectable(rule_green_box, "rule_zoning_green", tr("RULE_ZONING_GREEN"))
-	_setup_inspectable(rule_industrial_box, "rule_zoning_industrial", tr("RULE_ZONING_INDUSTRIAL"))
-	_setup_inspectable(rule_tax_box, "rule_tax_guide", tr("RULE_TAX_GUIDE"))
-	_setup_inspectable(rule_seal_box, "rule_seal_guide", tr("RULE_SEAL_GUIDE"))
-	_setup_inspectable(rule_blacklist_box, "rule_blacklist_guide", tr("RULE_BLACKLIST_GUIDE"))
-	_setup_inspectable(rule_orders_box, "rule_order_d1", tr("RULE_ORDER_D1"))
+	_setup_tab_hover_animations()
+
+	_setup_inspectable(
+		rule_historic_box, "rule_zoning_historic", tr("RULE_ZONING_HISTORIC")
+	)
+	_setup_inspectable(
+		rule_river_box, "rule_zoning_river", tr("RULE_ZONING_RIVER")
+	)
+	_setup_inspectable(
+		rule_central_box, "rule_zoning_central", tr("RULE_ZONING_CENTRAL")
+	)
+	_setup_inspectable(
+		rule_green_box, "rule_zoning_green", tr("RULE_ZONING_GREEN")
+	)
+	_setup_inspectable(
+		rule_industrial_box, "rule_zoning_industrial", tr("RULE_ZONING_INDUSTRIAL")
+	)
+	_setup_inspectable(
+		rule_tax_box, "rule_tax_guide", tr("RULE_TAX_GUIDE")
+	)
+	_setup_inspectable(
+		rule_seal_box, "rule_seal_guide", tr("RULE_SEAL_GUIDE")
+	)
+	_setup_inspectable(
+		rule_blacklist_box, "rule_blacklist_guide", tr("RULE_BLACKLIST_GUIDE")
+	)
+	_setup_inspectable(
+		rule_orders_box, "rule_order_d1", tr("RULE_ORDER_D1")
+	)
 
 	_update_locale_texts()
-	LocalizationManager.locale_changed.connect(func(_l): _update_locale_texts())
+	if LocalizationManager != null and LocalizationManager.has_signal("locale_changed"):
+		LocalizationManager.locale_changed.connect(func(_l): _update_locale_texts())
+
 	_switch_tab(0)
 	setup_focus_mode()
+
+
+func _setup_tab_hover_animations() -> void:
+	var tabs: Array[Button] = [
+		tab_btn_zoning, tab_btn_seals, tab_btn_blacklist, tab_btn_orders
+	]
+	for btn in tabs:
+		if btn == null:
+			continue
+		btn.mouse_entered.connect(func():
+			var tw := create_tween()
+			tw.tween_property(btn, "scale", Vector2(1.03, 1.03), 0.1)
+		)
+		btn.mouse_exited.connect(func():
+			var tw := create_tween()
+			tw.tween_property(btn, "scale", Vector2.ONE, 0.1)
+		)
 
 
 func setup_focus_mode() -> void:
@@ -72,7 +112,9 @@ func setup_focus_mode() -> void:
 	fb.corner_radius_bottom_right = 4
 	fb.corner_radius_bottom_left = 4
 
-	var rb_btns: Array[Button] = [tab_btn_zoning, tab_btn_seals, tab_btn_blacklist, tab_btn_orders, btn_close]
+	var rb_btns: Array[Button] = [
+		tab_btn_zoning, tab_btn_seals, tab_btn_blacklist, tab_btn_orders, btn_close
+	]
 	for b in rb_btns:
 		if b != null and is_instance_valid(b):
 			b.focus_mode = Control.FOCUS_ALL
@@ -103,7 +145,9 @@ func _update_locale_texts() -> void:
 
 
 func switch_tab(tab_idx: int) -> void:
-	AudioManager.play_page_flip()
+	if AudioManager != null and AudioManager.has_method("play_page_flip"):
+		AudioManager.play_page_flip()
+
 	page_zoning.visible = (tab_idx == 0)
 	page_seals.visible = (tab_idx == 1)
 	page_blacklist.visible = (tab_idx == 2)
@@ -129,7 +173,8 @@ func _switch_tab(tab_idx: int) -> void:
 func toggle_rulebook() -> void:
 	is_open = not is_open
 	visible = is_open
-	AudioManager.play_page_flip()
+	if AudioManager != null and AudioManager.has_method("play_page_flip"):
+		AudioManager.play_page_flip()
 	visibility_toggled.emit(is_open)
 	if is_open and tab_btn_zoning != null:
 		tab_btn_zoning.grab_focus()
@@ -145,7 +190,9 @@ func clear_selection() -> void:
 	_refresh_highlight_styles()
 
 
-func _setup_inspectable(panel: PanelContainer, tag: String, text_preview: String) -> void:
+func _setup_inspectable(
+	panel: PanelContainer, tag: String, text_preview: String
+) -> void:
 	if panel == null:
 		return
 	panel.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -167,7 +214,9 @@ func _setup_inspectable(panel: PanelContainer, tag: String, text_preview: String
 	)
 
 
-func _on_rule_clicked(tag: String, text_preview: String, panel: PanelContainer) -> void:
+func _on_rule_clicked(
+	tag: String, text_preview: String, panel: PanelContainer
+) -> void:
 	selected_tag = tag
 	var tween := create_tween()
 	tween.tween_property(panel, "scale", Vector2(1.02, 1.02), 0.08)
@@ -176,5 +225,4 @@ func _on_rule_clicked(tag: String, text_preview: String, panel: PanelContainer) 
 
 
 func _refresh_highlight_styles() -> void:
-	# Subtle visual hint for inspect mode
 	modulate = Color(1.02, 1.02, 1.0, 1.0) if is_inspect_mode else Color(1, 1, 1, 1)

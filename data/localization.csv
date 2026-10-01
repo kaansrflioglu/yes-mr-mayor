@@ -1796,3 +1796,4 @@ EVT_225_DESC,"Equipping 60 public schools with interactive boards and funding tu
 EVT_225_INSP_NOTES,"High educational return. Rejection guarantees mass classroom walkouts.","Muazzam eğitim kazanımı. Reddedilirse öğretmenler derse girmez.","Alto rendimiento formativo. El rechazo garantiza huelga."
 EVT_225_NEWS_APP,"SMART CLASSROOMS FOR OUR KIDS! TEACHERS CHEER HISTORIC ACCORD!","ÇOCUKLARIMIZA ÇAĞDAŞ EĞİTİM! ÖĞRETMENLER PROTOKOLÜ KUTLUYOR!","¡AULAS INTELIGENTES PARA TODOS! ¡PROFESORES FESTEJAN ACUERDO!"
 EVT_225_NEWS_REJ,"BLACKBOARDS STAY EMPTY! TEACHERS ON STRIKE SHUT DOWN SCHOOLS!","OKULLARDA ZİL ÇALMADI! ÖĞRETMENLER GREVDE!","¡PIZARRAS VACÍAS! ¡LA HUELGA DE PROFESORES CIERRA ESCUELAS!"
+UI_AUDIT_LEAK_TRIGGERED,"Audit Leak: {violation} uncovered! ({remaining} left)","Denetim Sızıntısı: {violation} açığa çıkarıldı! ({remaining} kaldı)","Filtración de auditoría: ¡{violation} descubierta! ({remaining} restantes)"

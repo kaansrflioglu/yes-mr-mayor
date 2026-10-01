@@ -152,7 +152,7 @@ func test_criterion_3_metadata_extraction() -> void:
 	assert(int(meta_a["offshore"]) == 15000, "meta_a offshore mismatch")
 	assert(int(meta_a["timestamp_unix"]) > 0, "meta_a timestamp_unix must be > 0")
 	assert(not str(meta_a["timestamp_str"]).is_empty(), "meta_a timestamp_str must not be empty")
-	assert(meta_a["version"] == "1.0", "meta_a version mismatch")
+	assert(meta_a["version"] == SaveLoadManager.CURRENT_VERSION, "meta_a version mismatch")
 
 	# Metadata for empty slot
 	var meta_empty := SaveLoadManager.get_slot_metadata(TEST_SLOT_B)

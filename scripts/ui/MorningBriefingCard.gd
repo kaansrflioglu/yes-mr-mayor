@@ -1,15 +1,31 @@
 extends PanelContainer
 
-## MorningBriefingCard.gd - Secretary's sticky Post-It memo for the morning ritual.
+## MorningBriefingCard.gd - Morning broadsheet newspaper (The Daily Metropolitan).
 ## Displays day-specific narrative context, weather/union warnings, and active municipal directives.
+## Features halftone dot-matrix photo illustrations and authentic vintage typography.
 
 @onready var pin_icon: Label = %PinIcon if has_node("%PinIcon") else null
-@onready var memo_date_label: Label = %MemoDateLabel if has_node("%MemoDateLabel") else null
-@onready var memo_from_label: Label = %MemoFromLabel if has_node("%MemoFromLabel") else null
-@onready var memo_text_label: Label = %MemoTextLabel if has_node("%MemoTextLabel") else null
-@onready var modifier_badge: PanelContainer = %ModifierBadge if has_node("%ModifierBadge") else null
-@onready var modifier_title_label: Label = %ModifierTitleLabel if has_node("%ModifierTitleLabel") else null
-@onready var modifier_desc_label: Label = %ModifierDescLabel if has_node("%ModifierDescLabel") else null
+@onready var memo_date_label: Label = (
+	%MemoDateLabel if has_node("%MemoDateLabel") else null
+)
+@onready var memo_from_label: Label = (
+	%MemoFromLabel if has_node("%MemoFromLabel") else null
+)
+@onready var memo_text_label: Label = (
+	%MemoTextLabel if has_node("%MemoTextLabel") else null
+)
+@onready var photo_rect: TextureRect = (
+	%PhotoRect if has_node("%PhotoRect") else null
+)
+@onready var modifier_badge: PanelContainer = (
+	%ModifierBadge if has_node("%ModifierBadge") else null
+)
+@onready var modifier_title_label: Label = (
+	%ModifierTitleLabel if has_node("%ModifierTitleLabel") else null
+)
+@onready var modifier_desc_label: Label = (
+	%ModifierDescLabel if has_node("%ModifierDescLabel") else null
+)
 
 var _current_day: int = 1
 var _memos_database: Dictionary = {}
@@ -31,6 +47,38 @@ func _on_locale_changed(_new_locale: String) -> void:
 	setup_briefing(_current_day)
 
 
+## Plays charming entrance slide-in animation
+func slide_in() -> Tween:
+	visible = true
+	modulate.a = 0.0
+	position.y = _initial_position.y - 30.0
+	rotation_degrees = _initial_rotation - 2.0
+	if _slide_tween and _slide_tween.is_valid():
+		_slide_tween.kill()
+	_slide_tween = create_tween().set_parallel(true)
+	_slide_tween.tween_property(self, "modulate:a", 1.0, 0.25)
+	_slide_tween.tween_property(
+		self, "position:y", _initial_position.y, 0.3
+	).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_slide_tween.tween_property(
+		self, "rotation_degrees", _initial_rotation, 0.3
+	).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	return _slide_tween
+
+
+## Plays dismiss slide-out animation
+func slide_out() -> Tween:
+	if _slide_tween and _slide_tween.is_valid():
+		_slide_tween.kill()
+	_slide_tween = create_tween().set_parallel(true)
+	_slide_tween.tween_property(self, "modulate:a", 0.0, 0.2)
+	_slide_tween.tween_property(
+		self, "position:y", _initial_position.y + 40.0, 0.2
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	_slide_tween.chain().tween_callback(func(): visible = false)
+	return _slide_tween
+
+
 func _load_memos_data() -> void:
 	var path := "res://data/morning_memos.json"
 	if not FileAccess.file_exists(path):
@@ -44,7 +92,7 @@ func _load_memos_data() -> void:
 		_memos_database = json.data
 
 
-## Configures the Post-It memo for the requested day
+## Configures the broadsheet newspaper for the requested day
 func setup_briefing(day: int, custom_memo: Dictionary = {}) -> void:
 	_current_day = day
 
@@ -71,7 +119,9 @@ func setup_briefing(day: int, custom_memo: Dictionary = {}) -> void:
 		else:
 			var day_format := tr("UI_DAY_COUNTER")
 			if day_format != "UI_DAY_COUNTER" and not day_format.is_empty():
-				memo_date_label.text = day_format.format({"day": day}).replace("Gün", "Ay").replace("Day", "Month") + " • 08:30 AM"
+				memo_date_label.text = day_format.format({"day": day}).replace(
+					"Gün", "Ay"
+				).replace("Day", "Month") + " • 08:30 AM"
 			else:
 				memo_date_label.text = "Ay %d • 08:30 AM" % day
 
@@ -89,7 +139,24 @@ func setup_briefing(day: int, custom_memo: Dictionary = {}) -> void:
 			text = _get_fallback_memo_text(day)
 		memo_text_label.text = text
 
+	_update_photo_for_day(day)
 	_update_directive_badge()
+
+
+func _update_photo_for_day(day: int) -> void:
+	if photo_rect == null:
+		return
+	var photo_path := "res://assets/sprites/ui/newspaper_photo_ribbon.png"
+	var has_directive: bool = (
+		DirectiveManager != null and DirectiveManager.active_directive_id != DirectiveManager.DIR_STANDARD
+	)
+	if day == 3 or day == 4 or has_directive:
+		photo_path = "res://assets/sprites/ui/newspaper_photo_strike.png"
+	elif day >= 5:
+		photo_path = "res://assets/sprites/ui/newspaper_photo_scandal.png"
+
+	if ResourceLoader.exists(photo_path):
+		photo_rect.texture = load(photo_path) as Texture2D
 
 
 func _update_directive_badge() -> void:
@@ -99,59 +166,35 @@ func _update_directive_badge() -> void:
 		modifier_badge.visible = false
 		return
 
-	var dir: Dictionary = DirectiveManager.get_active_directive()
-	if dir.is_empty() or dir.get("id", "") == DirectiveManager.DIR_STANDARD:
+	if DirectiveManager.active_directive_id == DirectiveManager.DIR_STANDARD:
+		modifier_badge.visible = false
+		return
+
+	var d: Dictionary = DirectiveManager.active_directive
+	if d.is_empty():
 		modifier_badge.visible = false
 		return
 
 	modifier_badge.visible = true
 	if modifier_title_label != null:
-		modifier_title_label.text = "⚠️ " + DirectiveManager.get_active_title()
+		modifier_title_label.text = "⚠️ " + tr(d.get("title_key", "MODIFIER_TITLE"))
 	if modifier_desc_label != null:
-		modifier_desc_label.text = DirectiveManager.get_active_desc()
+		modifier_desc_label.text = tr(d.get("desc_key", "MODIFIER_DESC"))
 
 
 func _get_fallback_memo_text(day: int) -> String:
 	match day:
 		1:
-			return tr("MEMO_DAY_1_TEXT") if tr("MEMO_DAY_1_TEXT") != "MEMO_DAY_1_TEXT" else "Good morning, Mr. Mayor! Fresh coffee is on your desk. First batch of municipal permits is ready outside."
+			return tr("MEMO_DAY_1_FALLBACK") if tr(
+				"MEMO_DAY_1_FALLBACK"
+			) != "MEMO_DAY_1_FALLBACK" else "Welcome to City Hall, Mr. Mayor! The executive docket awaits your official seal."
+		2:
+			return tr("MEMO_DAY_2_FALLBACK") if tr(
+				"MEMO_DAY_2_FALLBACK"
+			) != "MEMO_DAY_2_FALLBACK" else "Union representatives are protesting near the docks. Review industrial permits with caution."
 		3:
-			return tr("MEMO_DAY_3_TEXT") if tr("MEMO_DAY_3_TEXT") != "MEMO_DAY_3_TEXT" else "Auditors from the Ministry of Ecology are dining across the street. The Governor's office called twice before 8 AM. Be careful with river permits!"
-		7:
-			return tr("MEMO_DAY_7_TEXT") if tr("MEMO_DAY_7_TEXT") != "MEMO_DAY_7_TEXT" else "Sanitation union representatives are picketing on the east lawn. Watch out for wage and public work decisions today."
-		12:
-			return tr("MEMO_DAY_12_TEXT") if tr("MEMO_DAY_12_TEXT") != "MEMO_DAY_12_TEXT" else "Federal subpoena rumors are flying. Shredder is oiled and ready. Keep your eyes sharp!"
-		18:
-			return tr("MEMO_DAY_18_TEXT") if tr("MEMO_DAY_18_TEXT") != "MEMO_DAY_18_TEXT" else "Heatwave! The air conditioning in City Hall is broken. Focus will drain quickly today."
-		28:
-			return tr("MEMO_DAY_28_TEXT") if tr("MEMO_DAY_28_TEXT") != "MEMO_DAY_28_TEXT" else "Election in 48 hours! Pollsters say you're leading by 2%. Every single decision counts double."
+			return tr("MEMO_DAY_3_FALLBACK") if tr(
+				"MEMO_DAY_3_FALLBACK"
+			) != "MEMO_DAY_3_FALLBACK" else "Environmental protection auditors have arrived. Ecology violations are under strict federal surveillance."
 		_:
-			return tr("MEMO_DEFAULT_TEXT") if tr("MEMO_DEFAULT_TEXT") != "MEMO_DEFAULT_TEXT" else "Good morning, Mr. Mayor! The morning docket is assembled. Waiting room is filling up."
-
-
-func slide_in() -> void:
-	if _slide_tween and _slide_tween.is_valid():
-		_slide_tween.kill()
-	visible = true
-	if _initial_position != Vector2.ZERO:
-		position = _initial_position
-	elif position != Vector2.ZERO:
-		_initial_position = position
-	rotation_degrees = _initial_rotation
-	modulate.a = 0.0
-	scale = Vector2(0.88, 0.88)
-	_slide_tween = create_tween().set_parallel(true)
-	_slide_tween.tween_property(self, "modulate:a", 1.0, 0.28)
-	_slide_tween.tween_property(self, "scale", Vector2.ONE, 0.32).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-
-
-func slide_out() -> Tween:
-	if _slide_tween and _slide_tween.is_valid():
-		_slide_tween.kill()
-	if _initial_position == Vector2.ZERO and position != Vector2.ZERO:
-		_initial_position = position
-	_slide_tween = create_tween().set_parallel(true)
-	_slide_tween.tween_property(self, "position:y", position.y - 300.0, 0.32).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-	_slide_tween.tween_property(self, "rotation_degrees", rotation_degrees - 4.0, 0.32)
-	_slide_tween.tween_property(self, "modulate:a", 0.0, 0.28)
-	return _slide_tween
+			return "Municipal administration continues. Check the morning news for evolving district reactions."

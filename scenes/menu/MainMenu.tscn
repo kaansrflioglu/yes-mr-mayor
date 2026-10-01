@@ -4,6 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://saveloadmodal001" path="res://scenes/ui/SaveLoadModal.tscn" id="2_saveload"]
 [ext_resource type="PackedScene" uid="uid://settingsmodal001" path="res://scenes/ui/SettingsModal.tscn" id="3_settings"]
 [ext_resource type="PackedScene" path="res://scenes/menu/HowToPlayModal.tscn" id="4_htp"]
+[ext_resource type="Texture2D" path="res://assets/sprites/menu/menu_twilight_city.png" id="5_twilight_city"]
+[ext_resource type="Texture2D" path="res://assets/sprites/menu/seal_mayoral_crest_gold.png" id="6_gold_seal"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sky_horizon"]
 bg_color = Color(0.18, 0.12, 0.19, 0.9)
@@ -127,207 +129,26 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_menu")
 
-[node name="SkyBackground" type="ColorRect" parent="."]
+[node name="CityBackdrop" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.07, 0.08, 0.13, 1)
+texture = ExtResource("5_twilight_city")
+expand_mode = 1
+stretch_mode = 6
 
-[node name="HorizonGlow" type="Panel" parent="."]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -680.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_styles/panel = SubResource("StyleBoxFlat_sky_horizon")
-
-[node name="SkylineLayer" type="Control" parent="."]
+[node name="AtmosphereOverlay" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="BldgFar1" type="Panel" parent="SkylineLayer"]
-layout_mode = 0
-offset_left = 110.0
-offset_top = 340.0
-offset_right = 260.0
-offset_bottom = 880.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_bldg_dark")
-
-[node name="BldgFar2" type="Panel" parent="SkylineLayer"]
-layout_mode = 0
-offset_left = 320.0
-offset_top = 260.0
-offset_right = 440.0
-offset_bottom = 880.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_bldg_dark")
-
-[node name="BldgFar3" type="Panel" parent="SkylineLayer"]
-layout_mode = 0
-offset_left = 720.0
-offset_top = 220.0
-offset_right = 880.0
-offset_bottom = 880.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_bldg_dark")
-
-[node name="BldgFar4" type="Panel" parent="SkylineLayer"]
-layout_mode = 0
-offset_left = 1380.0
-offset_top = 280.0
-offset_right = 1540.0
-offset_bottom = 880.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_bldg_dark")
-
-[node name="BldgFar5" type="Panel" parent="SkylineLayer"]
-layout_mode = 0
-offset_left = 1620.0
-offset_top = 200.0
-offset_right = 1760.0
-offset_bottom = 880.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_bldg_dark")
-
-[node name="BldgMid1" type="Panel" parent="SkylineLayer"]
-layout_mode = 0
-offset_left = 220.0
-offset_top = 420.0
-offset_right = 380.0
-offset_bottom = 880.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_bldg_mid")
-
-[node name="BldgMid2" type="Panel" parent="SkylineLayer"]
-layout_mode = 0
-offset_left = 820.0
-offset_top = 360.0
-offset_right = 980.0
-offset_bottom = 880.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_bldg_mid")
-
-[node name="BldgMid3" type="Panel" parent="SkylineLayer"]
-layout_mode = 0
-offset_left = 1240.0
-offset_top = 340.0
-offset_right = 1420.0
-offset_bottom = 880.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_bldg_mid")
-
-[node name="BldgMid4" type="Panel" parent="SkylineLayer"]
-layout_mode = 0
-offset_left = 1500.0
-offset_top = 400.0
-offset_right = 1660.0
-offset_bottom = 880.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_bldg_mid")
-
-[node name="WindowsGrid" type="Control" parent="SkylineLayer"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Win1" type="ColorRect" parent="SkylineLayer/WindowsGrid"]
-layout_mode = 0
-offset_left = 340.0
-offset_top = 300.0
-offset_right = 352.0
-offset_bottom = 312.0
-color = Color(1, 0.85, 0.4, 0.8)
-
-[node name="Win2" type="ColorRect" parent="SkylineLayer/WindowsGrid"]
-layout_mode = 0
-offset_left = 370.0
-offset_top = 300.0
-offset_right = 382.0
-offset_bottom = 312.0
-color = Color(0.4, 0.8, 1, 0.75)
-
-[node name="Win3" type="ColorRect" parent="SkylineLayer/WindowsGrid"]
-layout_mode = 0
-offset_left = 750.0
-offset_top = 260.0
-offset_right = 762.0
-offset_bottom = 272.0
-color = Color(1, 0.85, 0.4, 0.85)
-
-[node name="Win4" type="ColorRect" parent="SkylineLayer/WindowsGrid"]
-layout_mode = 0
-offset_left = 790.0
-offset_top = 290.0
-offset_right = 802.0
-offset_bottom = 302.0
-color = Color(1, 0.85, 0.4, 0.8)
-
-[node name="Win5" type="ColorRect" parent="SkylineLayer/WindowsGrid"]
-layout_mode = 0
-offset_left = 840.0
-offset_top = 400.0
-offset_right = 852.0
-offset_bottom = 412.0
-color = Color(0.4, 0.85, 1, 0.75)
-
-[node name="Win6" type="ColorRect" parent="SkylineLayer/WindowsGrid"]
-layout_mode = 0
-offset_left = 1300.0
-offset_top = 380.0
-offset_right = 1312.0
-offset_bottom = 392.0
-color = Color(1, 0.85, 0.4, 0.8)
-
-[node name="Win7" type="ColorRect" parent="SkylineLayer/WindowsGrid"]
-layout_mode = 0
-offset_left = 1650.0
-offset_top = 240.0
-offset_right = 1662.0
-offset_bottom = 252.0
-color = Color(1, 0.4, 0.4, 0.9)
-
-[node name="Win8" type="ColorRect" parent="SkylineLayer/WindowsGrid"]
-layout_mode = 0
-offset_left = 1680.0
-offset_top = 270.0
-offset_right = 1692.0
-offset_bottom = 282.0
-color = Color(1, 0.85, 0.4, 0.85)
-
-[node name="BeaconAntenna" type="ColorRect" parent="SkylineLayer"]
-layout_mode = 0
-offset_left = 799.0
-offset_top = 180.0
-offset_right = 801.0
-offset_bottom = 220.0
-color = Color(0.8, 0.2, 0.2, 0.9)
-
-[node name="CityHaze" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -420.0
-grow_horizontal = 2
-grow_vertical = 0
-color = Color(0.08, 0.09, 0.14, 0.5)
-
-[node name="MayoralDeskRim" type="Panel" parent="."]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -220.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_styles/panel = SubResource("StyleBoxFlat_desk_rim")
+mouse_filter = 2
+color = Color(0.02, 0.03, 0.06, 0.4)
 
 [node name="CenterCanvas" type="Control" parent="."]
 layout_mode = 1
@@ -354,17 +175,13 @@ alignment = 1
 layout_mode = 2
 alignment = 1
 
-[node name="SealBadge" type="PanelContainer" parent="CenterCanvas/TitleBox/HBoxSeal"]
-custom_minimum_size = Vector2(64, 64)
+[node name="SealBadge" type="TextureRect" parent="CenterCanvas/TitleBox/HBoxSeal"]
+custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_seal_badge")
-
-[node name="SealIcon" type="Label" parent="CenterCanvas/TitleBox/HBoxSeal/SealBadge"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 28
-text = "🏛️"
-horizontal_alignment = 1
-vertical_alignment = 1
+texture = ExtResource("6_gold_seal")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
 
 [node name="TitleLabel" type="Label" parent="CenterCanvas/TitleBox"]
 unique_name_in_owner = true

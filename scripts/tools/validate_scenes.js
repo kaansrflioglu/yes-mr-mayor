@@ -12,7 +12,12 @@ const scenes = [
   'scenes/hud/TopBarHUD.tscn',
   'scenes/desk/DistrictMapModal.tscn',
   'scenes/hud/CampaignTrackerHUD.tscn',
-  'scenes/hud/TwitchVoteOverlay.tscn'
+  'scenes/hud/TwitchVoteOverlay.tscn',
+  'scenes/ui/MorningBriefingCard.tscn',
+  'scenes/desk/Rulebook.tscn',
+  'scenes/ui/OffshoreLedgerModal.tscn',
+  'scenes/summary/PressConferenceModal.tscn',
+  'scenes/menu/MainMenu.tscn'
 ];
 
 let hasErrors = false;

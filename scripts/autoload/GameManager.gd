@@ -261,6 +261,8 @@ func advance_month() -> void:
 ## Legacy alias for advance_month
 func advance_day() -> void:
 	advance_month()
+	if current_day > 30 and not is_game_over and current_month <= 35:
+		_evaluate_end_conditions()
 
 
 func _apply_daily_investments() -> void:
@@ -292,6 +294,8 @@ func _evaluate_end_conditions() -> void:
 					_trigger_game_end("END_RIOT")
 				elif key == "END_MUNICIPAL_BANKRUPT" and city_budget < -50000:
 					_trigger_game_end("END_BANKRUPT")
+				elif key == "END_ONE_TERM_MEDIOCRE":
+					_trigger_game_end("END_LOST_ELECTION")
 				else:
 					_trigger_game_end(key)
 			return
