@@ -1,90 +1,76 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/desk/PhysicalStampRack.gd" id="1_rack"]
 [ext_resource type="PackedScene" path="res://scenes/desk/PhysicalStampHandle.tscn" id="2_handle"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/stamp_rack_brass.png" id="3_rack_tex"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/ink_pad_green.png" id="4_ink_pad_tex"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stand"]
-bg_color = Color(0.18, 0.12, 0.08, 0.95)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 4
-border_color = Color(0.42, 0.3, 0.18, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-shadow_color = Color(0, 0, 0, 0.4)
-shadow_size = 8
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ink_pad"]
-bg_color = Color(0.1, 0.1, 0.12, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.35, 0.25, 0.15, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rubber_red"]
-bg_color = Color(0.85, 0.2, 0.2, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 2
-border_color = Color(0.55, 0.1, 0.1, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pad"]
 
 [node name="PhysicalStampRack" type="Control"]
-custom_minimum_size = Vector2(260, 140)
+custom_minimum_size = Vector2(280, 140)
 layout_mode = 3
 anchors_preset = 0
-offset_right = 260.0
+offset_right = 280.0
 offset_bottom = 140.0
 script = ExtResource("1_rack")
 
-[node name="StandPanel" type="PanelContainer" parent="."]
+[node name="RackBackdrop" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_stand")
+mouse_filter = 2
+texture = ExtResource("3_rack_tex")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="Margin" type="MarginContainer" parent="StandPanel"]
-layout_mode = 2
-theme_override_constants/margin_left = 12
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 12
-theme_override_constants/margin_bottom = 10
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 14
 
-[node name="HBox" type="HBoxContainer" parent="StandPanel/Margin"]
+[node name="HBox" type="HBoxContainer" parent="Margin"]
 layout_mode = 2
-theme_override_constants/separation = 14
+theme_override_constants/separation = 16
 alignment = 1
 
-[node name="ApproveHandle" parent="StandPanel/Margin/HBox" instance=ExtResource("2_handle")]
+[node name="ApproveHandle" parent="Margin/HBox" instance=ExtResource("2_handle")]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="RejectHandle" parent="StandPanel/Margin/HBox" instance=ExtResource("2_handle")]
+[node name="RejectHandle" parent="Margin/HBox" instance=ExtResource("2_handle")]
 unique_name_in_owner = true
 layout_mode = 2
 is_approve_stamp = false
 
-[node name="InkPadButton" type="Button" parent="StandPanel/Margin/HBox"]
+[node name="InkPadButton" type="Button" parent="Margin/HBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(50, 110)
+custom_minimum_size = Vector2(64, 110)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.85, 0.75, 0.5, 1)
-theme_override_font_sizes/font_size = 11
-theme_override_styles/normal = SubResource("StyleBoxFlat_ink_pad")
-text = "✒️
-İnk"
+tooltip_text = "Municipal Ink Well"
+theme_override_styles/normal = SubResource("StyleBoxEmpty_pad")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_pad")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_pad")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_pad")
+
+[node name="InkPadTexture" type="TextureRect" parent="Margin/HBox/InkPadButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_ink_pad_tex")
+expand_mode = 1
+stretch_mode = 5

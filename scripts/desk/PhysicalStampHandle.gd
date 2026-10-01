@@ -11,6 +11,7 @@ signal stamp_slammed(approved: bool, hit_global_pos: Vector2, hit_rotation: floa
 		_update_appearance()
 
 @onready var handle_sprite: Control = %HandleVisual if has_node("%HandleVisual") else self
+@onready var handle_texture: TextureRect = %HandleTexture if has_node("%HandleTexture") else null
 @onready var shadow_sprite: Control = %ShadowVisual if has_node("%ShadowVisual") else null
 @onready var rubber_base: Panel = %RubberBase if has_node("%RubberBase") else null
 @onready var stamp_icon: Label = %StampIcon if has_node("%StampIcon") else null
@@ -20,6 +21,7 @@ var rest_position: Vector2 = Vector2.ZERO
 var has_captured_rest: bool = false
 var drag_offset: Vector2 = Vector2.ZERO
 var is_animating_slam: bool = false
+var last_mouse_pos: Vector2 = Vector2.ZERO
 
 
 func _ready() -> void:
@@ -35,31 +37,38 @@ func _deferred_capture_rest() -> void:
 
 
 func _update_appearance() -> void:
-	if rubber_base == null or stamp_icon == null:
-		return
+	if stamp_icon != null:
+		stamp_icon.text = "✔" if is_approve_stamp else "✖"
+	tooltip_text = tr("UI_STAMP_APPROVED") if is_approve_stamp else tr("UI_STAMP_REJECTED")
 
-	var style := StyleBoxFlat.new()
-	style.corner_radius_top_left = 8
-	style.corner_radius_top_right = 8
-	style.corner_radius_bottom_right = 8
-	style.corner_radius_bottom_left = 8
-	style.border_width_left = 1
-	style.border_width_top = 1
-	style.border_width_right = 1
-	style.border_width_bottom = 2
+	if handle_texture != null:
+		var tex_path: String = (
+			"res://assets/sprites/props/stamp_handle_approve.png"
+			if is_approve_stamp
+			else "res://assets/sprites/props/stamp_handle_reject.png"
+		)
+		if ResourceLoader.exists(tex_path):
+			handle_texture.texture = load(tex_path)
 
-	if is_approve_stamp:
-		style.bg_color = Color(0.15, 0.65, 0.35, 1.0)
-		style.border_color = Color(0.1, 0.45, 0.25, 1.0)
-		stamp_icon.text = "✔"
-		tooltip_text = tr("UI_STAMP_APPROVED")
-	else:
-		style.bg_color = Color(0.85, 0.2, 0.2, 1.0)
-		style.border_color = Color(0.55, 0.1, 0.1, 1.0)
-		stamp_icon.text = "✖"
-		tooltip_text = tr("UI_STAMP_REJECTED")
+	if rubber_base != null:
+		var style := StyleBoxFlat.new()
+		style.corner_radius_top_left = 6
+		style.corner_radius_top_right = 6
+		style.corner_radius_bottom_right = 6
+		style.corner_radius_bottom_left = 6
+		style.border_width_left = 1
+		style.border_width_top = 1
+		style.border_width_right = 1
+		style.border_width_bottom = 2
 
-	rubber_base.add_theme_stylebox_override("panel", style)
+		if is_approve_stamp:
+			style.bg_color = Color(0.12, 0.55, 0.28, 0.95)
+			style.border_color = Color(0.08, 0.35, 0.18, 1.0)
+		else:
+			style.bg_color = Color(0.85, 0.18, 0.18, 0.95)
+			style.border_color = Color(0.55, 0.1, 0.1, 1.0)
+
+		rubber_base.add_theme_stylebox_override("panel", style)
 
 
 func _on_gui_input(event: InputEvent) -> void:
@@ -79,38 +88,63 @@ func start_drag(mouse_glob: Vector2) -> void:
 		rest_position = position
 		has_captured_rest = true
 	is_dragging = true
+	last_mouse_pos = mouse_glob
 	drag_offset = global_position - mouse_glob
 	z_index = 50
 
 	var tween := create_tween().set_parallel(true)
 	if handle_sprite != null:
-		tween.tween_property(handle_sprite, "scale", Vector2(1.18, 1.18), 0.12)
+		tween.tween_property(handle_sprite, "scale", Vector2(1.18, 1.18), 0.1).set_trans(
+			Tween.TRANS_BACK
+		).set_ease(Tween.EASE_OUT)
 	if shadow_sprite != null:
-		tween.tween_property(shadow_sprite, "position", Vector2(16, 24), 0.12)
-		tween.tween_property(shadow_sprite, "modulate:a", 0.35, 0.12)
+		tween.tween_property(shadow_sprite, "position", Vector2(16, 36), 0.1).set_trans(
+			Tween.TRANS_QUAD
+		)
+		tween.tween_property(shadow_sprite, "scale", Vector2(1.15, 1.15), 0.1)
+		tween.tween_property(shadow_sprite, "modulate:a", 0.35, 0.1)
 
 
 func _process(_delta: float) -> void:
 	if is_dragging:
-		global_position = get_global_mouse_position() + drag_offset
+		var cur_mouse := get_global_mouse_position()
+		global_position = cur_mouse + drag_offset
+		var delta_x := cur_mouse.x - last_mouse_pos.x
+		last_mouse_pos = cur_mouse
+		if handle_sprite != null:
+			handle_sprite.rotation_degrees = clampf(delta_x * 0.25, -15.0, 15.0)
 
 
 func finish_slam(mouse_glob: Vector2) -> void:
 	is_dragging = false
 	z_index = 0
 
-	var slam_rot: float = deg_to_rad(randf_range(-6.0, 6.0))
+	var slam_rot: float = deg_to_rad(randf_range(-5.0, 5.0))
 
+	# Slam impact squash-and-stretch
 	var tween := create_tween()
 	if handle_sprite != null:
-		tween.tween_property(handle_sprite, "scale", Vector2(0.9, 0.9), 0.06).set_trans(Tween.TRANS_QUAD)
-		tween.tween_property(handle_sprite, "scale", Vector2.ONE, 0.15).set_trans(Tween.TRANS_ELASTIC)
+		handle_sprite.rotation_degrees = 0.0
+		tween.tween_property(handle_sprite, "scale", Vector2(1.25, 0.75), 0.05).set_trans(
+			Tween.TRANS_QUAD
+		)
+		tween.tween_property(handle_sprite, "scale", Vector2.ONE, 0.18).set_trans(
+			Tween.TRANS_ELASTIC
+		)
+
+	if shadow_sprite != null:
+		var st := create_tween().set_parallel(true)
+		st.tween_property(shadow_sprite, "position", Vector2(6, 14), 0.06)
+		st.tween_property(shadow_sprite, "scale", Vector2.ONE, 0.06)
+		st.tween_property(shadow_sprite, "modulate:a", 0.4, 0.06)
 
 	stamp_slammed.emit(is_approve_stamp, mouse_glob, slam_rot)
 
 	# Return handle smoothly to rack
 	var return_tween := create_tween()
-	return_tween.tween_property(self, "position", rest_position, 0.35).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	return_tween.tween_property(self, "position", rest_position, 0.35).set_trans(
+		Tween.TRANS_CUBIC
+	).set_ease(Tween.EASE_OUT)
 
 
 ## Animate hotkey slam directly onto target position
@@ -126,19 +160,25 @@ func trigger_hotkey_slam(target_glob: Vector2) -> void:
 	var slam_rot: float = deg_to_rad(randf_range(-5.0, 5.0))
 
 	var tween := create_tween()
-	# Lift & arc to document center
+	# Lift & arc to target document coordinate
 	tween.tween_property(self, "global_position", target_glob, 0.18).set_trans(Tween.TRANS_CUBIC)
 	tween.parallel().tween_property(handle_sprite, "scale", Vector2(1.2, 1.2), 0.18)
+	if shadow_sprite != null:
+		tween.parallel().tween_property(shadow_sprite, "position", Vector2(16, 36), 0.18)
 
-	# Slam down
+	# Slam down impact
 	tween.tween_callback(func():
 		stamp_slammed.emit(is_approve_stamp, target_glob, slam_rot)
 	)
-	tween.tween_property(handle_sprite, "scale", Vector2(0.9, 0.9), 0.06)
-	tween.tween_property(handle_sprite, "scale", Vector2.ONE, 0.12).set_trans(Tween.TRANS_ELASTIC)
+	tween.tween_property(handle_sprite, "scale", Vector2(1.25, 0.75), 0.05)
+	if shadow_sprite != null:
+		tween.parallel().tween_property(shadow_sprite, "position", Vector2(6, 14), 0.05)
+	tween.tween_property(handle_sprite, "scale", Vector2.ONE, 0.18).set_trans(Tween.TRANS_ELASTIC)
 
 	# Return to rack
-	tween.tween_property(self, "position", rest_position, 0.25).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "position", rest_position, 0.25).set_trans(
+		Tween.TRANS_CUBIC
+	).set_ease(Tween.EASE_OUT)
 	tween.finished.connect(func():
 		is_animating_slam = false
 		z_index = 0

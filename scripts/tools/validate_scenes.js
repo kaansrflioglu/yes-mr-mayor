@@ -5,7 +5,10 @@ const scenes = [
   'scenes/desk/DeskView.tscn',
   'scenes/desk/SkylineView.tscn',
   'scenes/desk/RedTelephone.tscn',
-  'scenes/desk/DeskShredder.tscn'
+  'scenes/desk/DeskShredder.tscn',
+  'scenes/desk/DocumentItem.tscn',
+  'scenes/desk/PhysicalStampRack.tscn',
+  'scenes/desk/PhysicalStampHandle.tscn'
 ];
 
 let hasErrors = false;

@@ -31,6 +31,11 @@ func _on_ink_pad_pressed() -> void:
 	if AudioManager != null and AudioManager.has_method("play_ink_pad_dip"):
 		AudioManager.play_ink_pad_dip()
 
+	if ink_pad_button != null:
+		var tween := create_tween()
+		tween.tween_property(ink_pad_button, "scale", Vector2(0.94, 0.94), 0.06)
+		tween.tween_property(ink_pad_button, "scale", Vector2.ONE, 0.12).set_trans(Tween.TRANS_BACK)
+
 
 func trigger_hotkey_slam(approved: bool, target_glob: Vector2) -> void:
 	var target_handle: Control = approve_handle if approved else reject_handle

@@ -1,71 +1,89 @@
-[gd_scene load_steps=13 format=3 uid="uid://q3td61mq6fca"]
+[gd_scene load_steps=22 format=3]
 
 [ext_resource type="Script" path="res://scripts/desk/DocumentItem.gd" id="1_doc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/documents/folder_manila_backing.png" id="2_folder_tex"]
+[ext_resource type="Texture2D" path="res://assets/sprites/documents/paper_parchment_base.png" id="3_parchment_tex"]
+[ext_resource type="Texture2D" path="res://assets/sprites/documents/paperclip_metal.png" id="4_clip_tex"]
+[ext_resource type="Texture2D" path="res://assets/sprites/documents/crest_housing.png" id="5_crest_tex"]
+[ext_resource type="Texture2D" path="res://assets/sprites/documents/stamp_decal_approve.png" id="6_stamp_decal"]
+[ext_resource type="Texture2D" path="res://assets/sprites/documents/paper_grain.png" id="7_grain_tex"]
+[ext_resource type="Shader" path="res://assets/shaders/stamp_ink_bleed.gdshader" id="8_stamp_shader"]
+[ext_resource type="Shader" path="res://assets/shaders/uv_blacklight.gdshader" id="9_uv_shader"]
+[ext_resource type="FontFile" path="res://assets/fonts/Cinzel-Bold.ttf" id="10_font_cinzel"]
+[ext_resource type="FontFile" path="res://assets/fonts/SpecialElite-Regular.ttf" id="11_font_typewriter"]
+[ext_resource type="FontFile" path="res://assets/fonts/Inter-Bold.ttf" id="12_font_inter_bold"]
+[ext_resource type="FontFile" path="res://assets/fonts/Inter-Medium.ttf" id="13_font_inter"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_paper"]
-bg_color = Color(0.97, 0.96, 0.93, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.82, 0.78, 0.7, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
-shadow_color = Color(0, 0, 0, 0.35)
-shadow_size = 16
-shadow_offset = Vector2(0, 8)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_root"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_paper_shadow"]
+bg_color = Color(0, 0, 0, 0.42)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_badge"]
-bg_color = Color(0.85, 0.88, 0.92, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+bg_color = Color(0.24, 0.22, 0.18, 0.12)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.55, 0.48, 0.38, 0.5)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tab"]
-bg_color = Color(0.88, 0.86, 0.82, 1)
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+bg_color = Color(0.88, 0.84, 0.76, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
 border_width_bottom = 2
-border_color = Color(0.7, 0.65, 0.58, 1)
+border_color = Color(0.68, 0.62, 0.52, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
-bg_color = Color(1, 1, 1, 0.85)
+bg_color = Color(0.98, 0.96, 0.92, 0.75)
 border_width_left = 2
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.8, 0.78, 0.74, 1)
+border_color = Color(0.78, 0.72, 0.62, 0.8)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_report_card"]
-bg_color = Color(0.92, 0.94, 0.96, 0.9)
+bg_color = Color(0.92, 0.94, 0.97, 0.85)
 border_width_left = 3
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.3, 0.45, 0.65, 1)
+border_color = Color(0.35, 0.48, 0.68, 0.85)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_seal_card"]
-bg_color = Color(0.92, 0.95, 0.92, 0.95)
+bg_color = Color(0.92, 0.96, 0.92, 0.9)
 border_width_left = 3
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.2, 0.6, 0.35, 1)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
+border_color = Color(0.2, 0.55, 0.32, 0.9)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_viol_alert"]
 bg_color = Color(0.85, 0.15, 0.15, 0.95)
@@ -73,28 +91,28 @@ border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
-border_color = Color(1, 0.8, 0.3, 1)
+border_color = Color(1, 0.85, 0.3, 1)
 corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
-shadow_color = Color(0, 0, 0, 0.3)
+shadow_color = Color(0, 0, 0, 0.35)
 shadow_size = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bribe"]
-bg_color = Color(0.18, 0.16, 0.1, 0.95)
+bg_color = Color(0.16, 0.14, 0.1, 0.95)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.95, 0.8, 0.25, 1)
+border_color = Color(0.85, 0.72, 0.25, 1)
 corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_keycap"]
-bg_color = Color(0, 0, 0, 0.45)
+bg_color = Color(0, 0, 0, 0.5)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
@@ -106,538 +124,644 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bribe_btn"]
-bg_color = Color(0.88, 0.68, 0.15, 1)
+bg_color = Color(0.85, 0.68, 0.18, 1)
 border_width_bottom = 2
-border_color = Color(0.65, 0.45, 0.08, 1)
+border_color = Color(0.58, 0.42, 0.08, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stamp"]
-bg_color = Color(1, 1, 1, 0)
-border_width_left = 6
-border_width_top = 6
-border_width_right = 6
-border_width_bottom = 6
-border_color = Color(0.88, 0.22, 0.22, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_stamp_bleed"]
+shader = ExtResource("8_stamp_shader")
+shader_parameter/dry_progress = 1.0
+shader_parameter/ink_color = Color(0.12, 0.55, 0.28, 1)
+shader_parameter/paper_grain_texture = ExtResource("7_grain_tex")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uv_overlay"]
-bg_color = Color(0.42, 0.12, 0.65, 0.18)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.75, 0.35, 1, 0.85)
-corner_radius_top_left = 6
-corner_radius_top_right = 6
-corner_radius_bottom_right = 6
-corner_radius_bottom_left = 6
-shadow_color = Color(0.65, 0.15, 0.95, 0.25)
-shadow_size = 12
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uv"]
+shader = ExtResource("9_uv_shader")
+shader_parameter/uv_active = false
+shader_parameter/glow_color = Color(0, 0.94, 1, 1)
+shader_parameter/flicker_speed = 8.0
 
 [node name="DocumentItem" type="PanelContainer"]
 custom_minimum_size = Vector2(720, 800)
 offset_right = 720.0
 offset_bottom = 800.0
 pivot_offset = Vector2(360, 400)
-theme_override_styles/panel = SubResource("StyleBoxFlat_paper")
+mouse_filter = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_root")
 script = ExtResource("1_doc")
 
-[node name="Margin" type="MarginContainer" parent="."]
-layout_mode = 2
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 18
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 18
-
-[node name="VBox" type="VBoxContainer" parent="Margin"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="HeaderBox" type="HBoxContainer" parent="Margin/VBox"]
-layout_mode = 2
-
-[node name="HeaderLabel" type="Label" parent="Margin/VBox/HeaderBox"]
+[node name="PaperShadow" type="Panel" parent="."]
 unique_name_in_owner = true
 layout_mode = 2
+offset_left = 10.0
+offset_top = 14.0
+offset_right = -10.0
+offset_bottom = 12.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_paper_shadow")
+
+[node name="FolderBase" type="NinePatchRect" parent="."]
+layout_mode = 2
+texture = ExtResource("2_folder_tex")
+patch_margin_left = 40
+patch_margin_top = 50
+patch_margin_right = 40
+patch_margin_bottom = 40
+
+[node name="PaperSheet" type="NinePatchRect" parent="FolderBase"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 18.0
+offset_right = -12.0
+offset_bottom = -14.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_parchment_tex")
+patch_margin_left = 32
+patch_margin_top = 32
+patch_margin_right = 32
+patch_margin_bottom = 32
+
+[node name="PaperClipProp" type="TextureRect" parent="FolderBase"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -82.0
+offset_top = 4.0
+offset_right = -36.0
+offset_bottom = 88.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("4_clip_tex")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Margin" type="MarginContainer" parent="FolderBase/PaperSheet"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 26
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 26
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="FolderBase/PaperSheet/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HeaderBox" type="HBoxContainer" parent="FolderBase/PaperSheet/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="DepartmentCrest" type="TextureRect" parent="FolderBase/PaperSheet/Margin/VBox/HeaderBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_crest_tex")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HeaderTitleCol" type="VBoxContainer" parent="FolderBase/PaperSheet/Margin/VBox/HeaderBox"]
+layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.25, 0.28, 0.35, 1)
+theme_override_constants/separation = 2
+
+[node name="HeaderLabel" type="Label" parent="FolderBase/PaperSheet/Margin/VBox/HeaderBox/HeaderTitleCol"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.18, 0.14, 1)
+theme_override_fonts/font = ExtResource("10_font_cinzel")
 theme_override_font_sizes/font_size = 14
 text = "OFFICIAL MUNICIPAL PETITION"
 vertical_alignment = 1
 
-[node name="CategoryBadge" type="Label" parent="Margin/VBox/HeaderBox"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 24)
+[node name="CityMottoLabel" type="Label" parent="FolderBase/PaperSheet/Margin/VBox/HeaderBox/HeaderTitleCol"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.25, 0.3, 0.38, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.48, 0.42, 0.32, 1)
+theme_override_fonts/font = ExtResource("13_font_inter")
+theme_override_font_sizes/font_size = 10
+text = "JUSTITIA ET ORDO CIVITATIS • ARCHIVES"
+vertical_alignment = 1
+
+[node name="CategoryBadge" type="Label" parent="FolderBase/PaperSheet/Margin/VBox/HeaderBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 26)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.25, 0.28, 0.35, 1)
+theme_override_fonts/font = ExtResource("12_font_inter_bold")
+theme_override_font_sizes/font_size = 11
 theme_override_styles/normal = SubResource("StyleBoxFlat_badge")
 text = "ZONING"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DossierTabs" type="HBoxContainer" parent="Margin/VBox"]
+[node name="DossierTabs" type="HBoxContainer" parent="FolderBase/PaperSheet/Margin/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="TabBtnApp" type="Button" parent="Margin/VBox/DossierTabs"]
+[node name="TabBtnApp" type="Button" parent="FolderBase/PaperSheet/Margin/VBox/DossierTabs"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.2, 0.22, 0.28, 1)
+theme_override_colors/font_color = Color(0.2, 0.18, 0.14, 1)
+theme_override_fonts/font = ExtResource("12_font_inter_bold")
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = SubResource("StyleBoxFlat_tab")
 text = "📄 Başvuru Dilekçesi"
 
-[node name="TabBtnRep" type="Button" parent="Margin/VBox/DossierTabs"]
+[node name="TabBtnRep" type="Button" parent="FolderBase/PaperSheet/Margin/VBox/DossierTabs"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.2, 0.22, 0.28, 1)
+theme_override_colors/font_color = Color(0.2, 0.18, 0.14, 1)
+theme_override_fonts/font = ExtResource("12_font_inter_bold")
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = SubResource("StyleBoxFlat_tab")
 text = "📋 Müfettiş Raporu"
 
-[node name="TabBtnBoth" type="Button" parent="Margin/VBox/DossierTabs"]
+[node name="TabBtnBoth" type="Button" parent="FolderBase/PaperSheet/Margin/VBox/DossierTabs"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.2, 0.22, 0.28, 1)
+theme_override_colors/font_color = Color(0.2, 0.18, 0.14, 1)
+theme_override_fonts/font = ExtResource("12_font_inter_bold")
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = SubResource("StyleBoxFlat_tab")
 text = "🔍 Yan Yana Gör"
 
-[node name="PagesContainer" type="HBoxContainer" parent="Margin/VBox"]
+[node name="PagesContainer" type="HBoxContainer" parent="FolderBase/PaperSheet/Margin/VBox"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 12
 
-[node name="ApplicationPage" type="VBoxContainer" parent="Margin/VBox/PagesContainer"]
+[node name="ApplicationPage" type="VBoxContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="TitleLabel" type="Label" parent="Margin/VBox/PagesContainer/ApplicationPage"]
+[node name="TitleLabel" type="Label" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.12, 0.14, 0.18, 1)
-theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.12, 0.1, 0.08, 1)
+theme_override_fonts/font = ExtResource("10_font_cinzel")
+theme_override_font_sizes/font_size = 18
 text = "Riverbed Housing Permit"
 autowrap_mode = 3
 
-[node name="AppCardApplicant" type="PanelContainer" parent="Margin/VBox/PagesContainer/ApplicationPage"]
+[node name="AppCardApplicant" type="PanelContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 
-[node name="M_App" type="MarginContainer" parent="Margin/VBox/PagesContainer/ApplicationPage/AppCardApplicant"]
+[node name="M_App" type="MarginContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage/AppCardApplicant"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 6
 
-[node name="ApplicantLabel" type="Label" parent="Margin/VBox/PagesContainer/ApplicationPage/AppCardApplicant/M_App"]
+[node name="ApplicantLabel" type="Label" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage/AppCardApplicant/M_App"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.2, 0.25, 0.35, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.2, 0.22, 0.28, 1)
+theme_override_fonts/font = ExtResource("12_font_inter_bold")
+theme_override_font_sizes/font_size = 13
 text = "Applicant: MegaCorp Holdings"
 
-[node name="HBox1" type="HBoxContainer" parent="Margin/VBox/PagesContainer/ApplicationPage"]
+[node name="HBox1" type="HBoxContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="AppCardDistrict" type="PanelContainer" parent="Margin/VBox/PagesContainer/ApplicationPage/HBox1"]
+[node name="AppCardDistrict" type="PanelContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage/HBox1"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 
-[node name="M_Dist" type="MarginContainer" parent="Margin/VBox/PagesContainer/ApplicationPage/HBox1/AppCardDistrict"]
+[node name="M_Dist" type="MarginContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage/HBox1/AppCardDistrict"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 6
 
-[node name="DistrictLabel" type="Label" parent="Margin/VBox/PagesContainer/ApplicationPage/HBox1/AppCardDistrict/M_Dist"]
+[node name="DistrictLabel" type="Label" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage/HBox1/AppCardDistrict/M_Dist"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.18, 0.2, 0.28, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.18, 0.2, 0.25, 1)
+theme_override_fonts/font = ExtResource("13_font_inter")
+theme_override_font_sizes/font_size = 12
 text = "Zone: Riverbed Basin"
 autowrap_mode = 3
 
-[node name="AppCardFloors" type="PanelContainer" parent="Margin/VBox/PagesContainer/ApplicationPage/HBox1"]
+[node name="AppCardFloors" type="PanelContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage/HBox1"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 
-[node name="M_Fl" type="MarginContainer" parent="Margin/VBox/PagesContainer/ApplicationPage/HBox1/AppCardFloors"]
+[node name="M_Fl" type="MarginContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage/HBox1/AppCardFloors"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 6
 
-[node name="FloorsLabel" type="Label" parent="Margin/VBox/PagesContainer/ApplicationPage/HBox1/AppCardFloors/M_Fl"]
+[node name="FloorsLabel" type="Label" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage/HBox1/AppCardFloors/M_Fl"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.18, 0.2, 0.28, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.18, 0.2, 0.25, 1)
+theme_override_fonts/font = ExtResource("13_font_inter")
+theme_override_font_sizes/font_size = 12
 text = "Proposed: 20 Floors"
 autowrap_mode = 3
 
-[node name="HBox2" type="HBoxContainer" parent="Margin/VBox/PagesContainer/ApplicationPage"]
+[node name="HBox2" type="HBoxContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="AppCardBudget" type="PanelContainer" parent="Margin/VBox/PagesContainer/ApplicationPage/HBox2"]
+[node name="AppCardBudget" type="PanelContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage/HBox2"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 
-[node name="M_Budg" type="MarginContainer" parent="Margin/VBox/PagesContainer/ApplicationPage/HBox2/AppCardBudget"]
+[node name="M_Budg" type="MarginContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage/HBox2/AppCardBudget"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 6
 
-[node name="BudgetLabel" type="Label" parent="Margin/VBox/PagesContainer/ApplicationPage/HBox2/AppCardBudget/M_Budg"]
+[node name="BudgetLabel" type="Label" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage/HBox2/AppCardBudget/M_Budg"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.18, 0.2, 0.28, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.18, 0.2, 0.25, 1)
+theme_override_fonts/font = ExtResource("13_font_inter")
+theme_override_font_sizes/font_size = 12
 text = "Declared Budget: $500,000"
 autowrap_mode = 3
 
-[node name="AppCardExpiry" type="PanelContainer" parent="Margin/VBox/PagesContainer/ApplicationPage/HBox2"]
+[node name="AppCardExpiry" type="PanelContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage/HBox2"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 
-[node name="M_Exp" type="MarginContainer" parent="Margin/VBox/PagesContainer/ApplicationPage/HBox2/AppCardExpiry"]
+[node name="M_Exp" type="MarginContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage/HBox2/AppCardExpiry"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 6
 
-[node name="ExpVBox" type="VBoxContainer" parent="Margin/VBox/PagesContainer/ApplicationPage/HBox2/AppCardExpiry/M_Exp"]
+[node name="ExpVBox" type="VBoxContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage/HBox2/AppCardExpiry/M_Exp"]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="ExpiryLabel" type="Label" parent="Margin/VBox/PagesContainer/ApplicationPage/HBox2/AppCardExpiry/M_Exp/ExpVBox"]
+[node name="ExpiryLabel" type="Label" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage/HBox2/AppCardExpiry/M_Exp/ExpVBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.18, 0.2, 0.28, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.18, 0.2, 0.25, 1)
+theme_override_fonts/font = ExtResource("13_font_inter")
+theme_override_font_sizes/font_size = 12
 text = "Expiry: 2026-12-31"
 autowrap_mode = 3
 
-[node name="UVExpiryLabel" type="Label" parent="Margin/VBox/PagesContainer/ApplicationPage/HBox2/AppCardExpiry/M_Exp/ExpVBox"]
+[node name="UVExpiryLabel" type="Label" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage/HBox2/AppCardExpiry/M_Exp/ExpVBox"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 autowrap_mode = 3
 
-[node name="AppCardSeal" type="PanelContainer" parent="Margin/VBox/PagesContainer/ApplicationPage"]
+[node name="AppCardSeal" type="PanelContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_seal_card")
 
-[node name="M_Seal" type="MarginContainer" parent="Margin/VBox/PagesContainer/ApplicationPage/AppCardSeal"]
+[node name="M_Seal" type="MarginContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage/AppCardSeal"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 8
 
-[node name="SealVBox" type="VBoxContainer" parent="Margin/VBox/PagesContainer/ApplicationPage/AppCardSeal/M_Seal"]
+[node name="SealVBox" type="VBoxContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage/AppCardSeal/M_Seal"]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="SealLabel" type="Label" parent="Margin/VBox/PagesContainer/ApplicationPage/AppCardSeal/M_Seal/SealVBox"]
+[node name="SealLabel" type="Label" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage/AppCardSeal/M_Seal/SealVBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.1, 0.45, 0.2, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_fonts/font = ExtResource("12_font_inter_bold")
+theme_override_font_sizes/font_size = 12
 text = "Seal: Ministry of Urban Planning"
 autowrap_mode = 3
 
-[node name="UVSealLabel" type="Label" parent="Margin/VBox/PagesContainer/ApplicationPage/AppCardSeal/M_Seal/SealVBox"]
+[node name="UVSealLabel" type="Label" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage/AppCardSeal/M_Seal/SealVBox"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 autowrap_mode = 3
 
-[node name="BodyTextLabel" type="Label" parent="Margin/VBox/PagesContainer/ApplicationPage"]
+[node name="BodyTextLabel" type="Label" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ApplicationPage"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.25, 0.28, 0.32, 1)
+theme_override_colors/font_color = Color(0.18, 0.16, 0.14, 1)
+theme_override_fonts/font = ExtResource("11_font_typewriter")
 theme_override_font_sizes/font_size = 13
 theme_override_constants/line_spacing = 4
 text = "Petition description details go here..."
 autowrap_mode = 3
 
-[node name="ReportPage" type="VBoxContainer" parent="Margin/VBox/PagesContainer"]
+[node name="ReportPage" type="VBoxContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="RepHeaderLabel" type="Label" parent="Margin/VBox/PagesContainer/ReportPage"]
+[node name="RepHeaderLabel" type="Label" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ReportPage"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.15, 0.3, 0.55, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_fonts/font = ExtResource("10_font_cinzel")
+theme_override_font_sizes/font_size = 15
 text = "📋 BELEDİYE TEKNİK MÜFETTİŞ RAPORU"
 
-[node name="RepCardInspector" type="PanelContainer" parent="Margin/VBox/PagesContainer/ReportPage"]
+[node name="RepCardInspector" type="PanelContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ReportPage"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_report_card")
 
-[node name="M_Insp" type="MarginContainer" parent="Margin/VBox/PagesContainer/ReportPage/RepCardInspector"]
+[node name="M_Insp" type="MarginContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ReportPage/RepCardInspector"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 6
 
-[node name="InspectorNameLabel" type="Label" parent="Margin/VBox/PagesContainer/ReportPage/RepCardInspector/M_Insp"]
+[node name="InspectorNameLabel" type="Label" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ReportPage/RepCardInspector/M_Insp"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.15, 0.25, 0.45, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_fonts/font = ExtResource("12_font_inter_bold")
+theme_override_font_sizes/font_size = 12
 text = "Field Inspector: Senior Inspector Kaya"
 
-[node name="RHBox1" type="HBoxContainer" parent="Margin/VBox/PagesContainer/ReportPage"]
+[node name="RHBox1" type="HBoxContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ReportPage"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="RepCardMeasured" type="PanelContainer" parent="Margin/VBox/PagesContainer/ReportPage/RHBox1"]
+[node name="RepCardMeasured" type="PanelContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ReportPage/RHBox1"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_report_card")
 
-[node name="M_Meas" type="MarginContainer" parent="Margin/VBox/PagesContainer/ReportPage/RHBox1/RepCardMeasured"]
+[node name="M_Meas" type="MarginContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ReportPage/RHBox1/RepCardMeasured"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 6
 
-[node name="MeasuredFloorsLabel" type="Label" parent="Margin/VBox/PagesContainer/ReportPage/RHBox1/RepCardMeasured/M_Meas"]
+[node name="MeasuredFloorsLabel" type="Label" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ReportPage/RHBox1/RepCardMeasured/M_Meas"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.15, 0.25, 0.45, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_fonts/font = ExtResource("13_font_inter")
+theme_override_font_sizes/font_size = 12
 text = "Survey Height: 20 Floors"
 autowrap_mode = 3
 
-[node name="RepCardSoil" type="PanelContainer" parent="Margin/VBox/PagesContainer/ReportPage/RHBox1"]
+[node name="RepCardSoil" type="PanelContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ReportPage/RHBox1"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_report_card")
 
-[node name="M_Soil" type="MarginContainer" parent="Margin/VBox/PagesContainer/ReportPage/RHBox1/RepCardSoil"]
+[node name="M_Soil" type="MarginContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ReportPage/RHBox1/RepCardSoil"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 6
 
-[node name="SoilLabel" type="Label" parent="Margin/VBox/PagesContainer/ReportPage/RHBox1/RepCardSoil/M_Soil"]
+[node name="SoilLabel" type="Label" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ReportPage/RHBox1/RepCardSoil/M_Soil"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.15, 0.25, 0.45, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_fonts/font = ExtResource("13_font_inter")
+theme_override_font_sizes/font_size = 12
 text = "Soil: Alluvial Mud"
 autowrap_mode = 3
 
-[node name="RHBox2" type="HBoxContainer" parent="Margin/VBox/PagesContainer/ReportPage"]
+[node name="RHBox2" type="HBoxContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ReportPage"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="RepCardHazard" type="PanelContainer" parent="Margin/VBox/PagesContainer/ReportPage/RHBox2"]
+[node name="RepCardHazard" type="PanelContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ReportPage/RHBox2"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_report_card")
 
-[node name="M_Haz" type="MarginContainer" parent="Margin/VBox/PagesContainer/ReportPage/RHBox2/RepCardHazard"]
+[node name="M_Haz" type="MarginContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ReportPage/RHBox2/RepCardHazard"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 6
 
-[node name="HazardLabel" type="Label" parent="Margin/VBox/PagesContainer/ReportPage/RHBox2/RepCardHazard/M_Haz"]
+[node name="HazardLabel" type="Label" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ReportPage/RHBox2/RepCardHazard/M_Haz"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8, 0.2, 0.2, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_fonts/font = ExtResource("13_font_inter")
+theme_override_font_sizes/font_size = 12
 text = "Hazard: Critical Flood"
 autowrap_mode = 3
 
-[node name="RepCardTax" type="PanelContainer" parent="Margin/VBox/PagesContainer/ReportPage/RHBox2"]
+[node name="RepCardTax" type="PanelContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ReportPage/RHBox2"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_report_card")
 
-[node name="M_Tax" type="MarginContainer" parent="Margin/VBox/PagesContainer/ReportPage/RHBox2/RepCardTax"]
+[node name="M_Tax" type="MarginContainer" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ReportPage/RHBox2/RepCardTax"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 6
 
-[node name="TaxDebtLabel" type="Label" parent="Margin/VBox/PagesContainer/ReportPage/RHBox2/RepCardTax/M_Tax"]
+[node name="TaxDebtLabel" type="Label" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ReportPage/RHBox2/RepCardTax/M_Tax"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.15, 0.25, 0.45, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_fonts/font = ExtResource("13_font_inter")
+theme_override_font_sizes/font_size = 12
 text = "Tax Debt: $0"
 autowrap_mode = 3
 
-[node name="InspectorNotesLabel" type="Label" parent="Margin/VBox/PagesContainer/ReportPage"]
+[node name="InspectorNotesLabel" type="Label" parent="FolderBase/PaperSheet/Margin/VBox/PagesContainer/ReportPage"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.25, 0.3, 0.4, 1)
+theme_override_colors/font_color = Color(0.2, 0.25, 0.35, 1)
+theme_override_fonts/font = ExtResource("11_font_typewriter")
 theme_override_font_sizes/font_size = 13
 theme_override_constants/line_spacing = 4
 text = "Inspector technical field notes..."
 autowrap_mode = 3
 
-[node name="ViolationAlertBox" type="PanelContainer" parent="Margin/VBox"]
+[node name="ViolationAlertBox" type="PanelContainer" parent="FolderBase/PaperSheet/Margin/VBox"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_viol_alert")
 
-[node name="VM" type="MarginContainer" parent="Margin/VBox/ViolationAlertBox"]
+[node name="VM" type="MarginContainer" parent="FolderBase/PaperSheet/Margin/VBox/ViolationAlertBox"]
 layout_mode = 2
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 8
 
-[node name="ViolationAlertLabel" type="Label" parent="Margin/VBox/ViolationAlertBox/VM"]
+[node name="ViolationAlertLabel" type="Label" parent="FolderBase/PaperSheet/Margin/VBox/ViolationAlertBox/VM"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("12_font_inter_bold")
 theme_override_font_sizes/font_size = 13
 text = "UYUŞMAZLIK TESPİT EDİLDİ!"
 horizontal_alignment = 1
 
-[node name="BribeContainer" type="PanelContainer" parent="Margin/VBox"]
+[node name="BribeContainer" type="PanelContainer" parent="FolderBase/PaperSheet/Margin/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_bribe")
 
-[node name="BribeMargin" type="MarginContainer" parent="Margin/VBox/BribeContainer"]
+[node name="BribeMargin" type="MarginContainer" parent="FolderBase/PaperSheet/Margin/VBox/BribeContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_right = 16
 
-[node name="BribeHBox" type="HBoxContainer" parent="Margin/VBox/BribeContainer/BribeMargin"]
+[node name="BribeHBox" type="HBoxContainer" parent="FolderBase/PaperSheet/Margin/VBox/BribeContainer/BribeMargin"]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="BribeIcon" type="Label" parent="Margin/VBox/BribeContainer/BribeMargin/BribeHBox"]
+[node name="BribeIcon" type="Label" parent="FolderBase/PaperSheet/Margin/VBox/BribeContainer/BribeMargin/BribeHBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "💼"
 
-[node name="BribeAmountLabel" type="Label" parent="Margin/VBox/BribeContainer/BribeMargin/BribeHBox"]
+[node name="BribeAmountLabel" type="Label" parent="FolderBase/PaperSheet/Margin/VBox/BribeContainer/BribeMargin/BribeHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 0.88, 0.4, 1)
-theme_override_font_sizes/font_size = 15
+theme_override_fonts/font = ExtResource("12_font_inter_bold")
+theme_override_font_sizes/font_size = 14
 text = "Bribery Offer: $50,000"
 vertical_alignment = 1
 
-[node name="UVBribeLabel" type="Label" parent="Margin/VBox/BribeContainer/BribeMargin/BribeHBox"]
+[node name="UVBribeLabel" type="Label" parent="FolderBase/PaperSheet/Margin/VBox/BribeContainer/BribeMargin/BribeHBox"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 
-[node name="BtnPocketBribe" type="Button" parent="Margin/VBox/BribeContainer/BribeMargin/BribeHBox"]
+[node name="BtnPocketBribe" type="Button" parent="FolderBase/PaperSheet/Margin/VBox/BribeContainer/BribeMargin/BribeHBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(130, 38)
+custom_minimum_size = Vector2(130, 36)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.12, 0.1, 0.05, 1)
+theme_override_fonts/font = ExtResource("12_font_inter_bold")
 theme_override_font_sizes/font_size = 13
 theme_override_styles/normal = SubResource("StyleBoxFlat_bribe_btn")
 text = "Pocket Cash"
 
-[node name="BribeKeycap" type="PanelContainer" parent="Margin/VBox/BribeContainer/BribeMargin/BribeHBox/BtnPocketBribe"]
+[node name="BribeKeycap" type="PanelContainer" parent="FolderBase/PaperSheet/Margin/VBox/BribeContainer/BribeMargin/BribeHBox/BtnPocketBribe"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 6.0
-offset_top = -11.0
-offset_right = 26.0
-offset_bottom = 11.0
+offset_top = -10.0
+offset_right = 24.0
+offset_bottom = 10.0
 grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_keycap")
 
-[node name="KeycapLabel" type="Label" parent="Margin/VBox/BribeContainer/BribeMargin/BribeHBox/BtnPocketBribe/BribeKeycap"]
+[node name="KeycapLabel" type="Label" parent="FolderBase/PaperSheet/Margin/VBox/BribeContainer/BribeMargin/BribeHBox/BtnPocketBribe/BribeKeycap"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 0.95)
-theme_override_font_sizes/font_size = 11
+theme_override_font_sizes/font_size = 10
 text = "S"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="DiscrepancyLineLayer" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+
 [node name="StampOverlay" type="PanelContainer" parent="."]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(320, 110)
+custom_minimum_size = Vector2(240, 240)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-pivot_offset = Vector2(160, 55)
-theme_override_styles/panel = SubResource("StyleBoxFlat_stamp")
+pivot_offset = Vector2(120, 120)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_root")
+
+[node name="StampDecal" type="TextureRect" parent="StampOverlay"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_stamp_bleed")
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("6_stamp_decal")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="StampLabel" type="Label" parent="StampOverlay"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.88, 0.22, 0.22, 1)
-theme_override_font_sizes/font_size = 38
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.12, 0.55, 0.28, 1)
+theme_override_fonts/font = ExtResource("10_font_cinzel")
+theme_override_font_sizes/font_size = 28
 text = "APPROVED"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="UVOverlay" type="PanelContainer" parent="."]
+[node name="UVOverlay" type="ColorRect" parent="."]
 unique_name_in_owner = true
 visible = false
+material = SubResource("ShaderMaterial_uv")
 layout_mode = 2
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_uv_overlay")
+color = Color(0.42, 0.12, 0.65, 0.18)

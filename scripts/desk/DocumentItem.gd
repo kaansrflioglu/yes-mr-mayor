@@ -14,11 +14,17 @@ signal violation_uncovered(violation: Dictionary)
 # Header & Tab Navigation
 @onready var header_label: Label = %HeaderLabel
 @onready var category_badge: Label = %CategoryBadge
+@onready var department_crest: TextureRect = (
+	%DepartmentCrest if has_node("%DepartmentCrest") else null
+)
 @onready var tab_btn_app: Button = %TabBtnApp
 @onready var tab_btn_rep: Button = %TabBtnRep
 @onready var tab_btn_both: Button = %TabBtnBoth
 
 # Pages
+@onready var pages_container: HBoxContainer = (
+	%PagesContainer if has_node("%PagesContainer") else null
+)
 @onready var application_page: Control = %ApplicationPage
 @onready var report_page: Control = %ReportPage
 
@@ -57,13 +63,22 @@ signal violation_uncovered(violation: Dictionary)
 @onready var btn_pocket_bribe: Button = %BtnPocketBribe
 @onready var bribe_keycap: Control = %BribeKeycap if has_node("%BribeKeycap") else null
 
-# Violation Alert Stamp
+# Violation Alert Stamp & China Marker Layer
 @onready var violation_alert_box: PanelContainer = %ViolationAlertBox
 @onready var violation_alert_label: Label = %ViolationAlertLabel
+@onready var discrepancy_line_layer: Control = (
+	%DiscrepancyLineLayer if has_node("%DiscrepancyLineLayer") else null
+)
 
-# Stamp Overlay
+# Stamp Overlay & Decal
 @onready var stamp_overlay: PanelContainer = %StampOverlay
 @onready var stamp_label: Label = %StampLabel
+@onready var stamp_decal: TextureRect = (
+	%StampDecal if has_node("%StampDecal") else null
+)
+
+# Visual Shadow & Paper Elevation
+@onready var paper_shadow: Panel = %PaperShadow if has_node("%PaperShadow") else null
 
 # UV Blacklight
 @onready var uv_overlay: Control = %UVOverlay if has_node("%UVOverlay") else null
@@ -81,6 +96,11 @@ var is_uv_active: bool = false
 var discovered_violations: Array[Dictionary] = []
 var current_tab_idx: int = 0
 
+# Dragging & Physical Inertia
+var is_doc_dragging: bool = false
+var drag_mouse_offset: Vector2 = Vector2.ZERO
+var prev_mouse_pos: Vector2 = Vector2.ZERO
+
 
 func _ready() -> void:
 	stamp_overlay.visible = false
@@ -95,9 +115,60 @@ func _ready() -> void:
 	tab_btn_rep.pressed.connect(func(): _switch_dossier_tab(1))
 	tab_btn_both.pressed.connect(func(): _switch_dossier_tab(2))
 
+	gui_input.connect(_on_document_gui_input)
+
 	_setup_all_inspectables()
 	_switch_dossier_tab(0)
 	setup_focus_mode()
+
+
+func _on_document_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				_start_document_drag(event.global_position)
+			elif is_doc_dragging:
+				_finish_document_drag()
+
+
+func _start_document_drag(mouse_glob: Vector2) -> void:
+	is_doc_dragging = true
+	drag_mouse_offset = global_position - mouse_glob
+	prev_mouse_pos = mouse_glob
+	z_index = 40
+
+	var tween := create_tween().set_parallel(true)
+	tween.tween_property(self, "scale", Vector2(1.03, 1.03), 0.12).set_trans(
+		Tween.TRANS_QUAD
+	).set_ease(Tween.EASE_OUT)
+	if paper_shadow != null:
+		tween.tween_property(paper_shadow, "position:y", 28.0, 0.12)
+		tween.tween_property(paper_shadow, "modulate:a", 0.55, 0.12)
+
+
+func _finish_document_drag() -> void:
+	is_doc_dragging = false
+	z_index = 0
+
+	var rest_rot: float = randf_range(-0.015, 0.015)
+	var tween := create_tween().set_parallel(true)
+	tween.tween_property(self, "scale", Vector2.ONE, 0.15).set_trans(
+		Tween.TRANS_BACK
+	).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "rotation", rest_rot, 0.15).set_trans(Tween.TRANS_QUAD)
+	if paper_shadow != null:
+		tween.tween_property(paper_shadow, "position:y", 14.0, 0.15)
+		tween.tween_property(paper_shadow, "modulate:a", 0.42, 0.15)
+
+
+func _process(delta: float) -> void:
+	if is_doc_dragging:
+		var cur_mouse := get_global_mouse_position()
+		var target_pos := cur_mouse + drag_mouse_offset
+		var vel_x: float = (cur_mouse.x - prev_mouse_pos.x) / maxf(delta, 0.001)
+		prev_mouse_pos = cur_mouse
+		global_position = target_pos
+		rotation = clampf(vel_x * 0.00008, -0.06, 0.06)
 
 
 func setup_focus_mode(custom_focus_box: StyleBox = null) -> void:
@@ -148,6 +219,7 @@ func setup_event(event: EventData) -> void:
 	stamp_overlay.visible = false
 	violation_alert_box.visible = false
 	discovered_violations.clear()
+	_clear_discrepancy_lines()
 	_update_uv_watermarks()
 
 	header_label.text = tr("UI_PETITION_HEADER")
@@ -159,6 +231,9 @@ func setup_event(event: EventData) -> void:
 	tab_btn_app.text = tr("UI_TAB_APPLICATION")
 	tab_btn_rep.text = tr("UI_TAB_REPORT")
 	tab_btn_both.text = tr("UI_TAB_BOTH")
+
+	# Update Department Crest
+	_update_department_crest(event.category)
 
 	var app: Dictionary = event.application_data
 	var rep: Dictionary = event.report_data
@@ -210,6 +285,30 @@ func setup_event(event: EventData) -> void:
 		bribe_container.visible = false
 
 
+func _update_department_crest(category: String) -> void:
+	if department_crest == null:
+		return
+	var cat_lower := category.to_lower()
+	var crest_path := "res://assets/sprites/documents/crest_housing.png"
+
+	if "sanitation" in cat_lower or "waste" in cat_lower or "health" in cat_lower:
+		crest_path = "res://assets/sprites/documents/crest_sanitation.png"
+	elif "police" in cat_lower or "security" in cat_lower or "crime" in cat_lower:
+		crest_path = "res://assets/sprites/documents/crest_police.png"
+	elif (
+		"treasury" in cat_lower or "tax" in cat_lower
+		or "finance" in cat_lower or "budget" in cat_lower
+	):
+		crest_path = "res://assets/sprites/documents/crest_treasury.png"
+	elif "oligarch" in cat_lower or "corruption" in cat_lower or "corporate" in cat_lower:
+		crest_path = "res://assets/sprites/documents/crest_oligarch.png"
+	elif "housing" in cat_lower or "zoning" in cat_lower or "construction" in cat_lower:
+		crest_path = "res://assets/sprites/documents/crest_housing.png"
+
+	if ResourceLoader.exists(crest_path):
+		department_crest.texture = load(crest_path)
+
+
 func switch_dossier_tab(tab_idx: int) -> void:
 	current_tab_idx = tab_idx
 	AudioManager.play_page_flip()
@@ -225,7 +324,7 @@ func switch_dossier_tab(tab_idx: int) -> void:
 		report_page.visible = true
 
 	var active_color := Color(0.95, 0.82, 0.35, 1)
-	var inactive_color := Color(0.7, 0.72, 0.8, 1)
+	var inactive_color := Color(0.3, 0.28, 0.24, 1)
 	var col_app := active_color if tab_idx == 0 else inactive_color
 	var col_rep := active_color if tab_idx == 1 else inactive_color
 	var col_both := active_color if tab_idx == 2 else inactive_color
@@ -257,7 +356,10 @@ func _setup_all_inspectables() -> void:
 	_bind_inspectable(app_card_expiry, "app_expiry")
 	if body_text_label != null:
 		var parent_panel = body_text_label.get_parent() as Control
-		_bind_inspectable(parent_panel if parent_panel is PanelContainer else body_text_label, "app_description")
+		var app_target: Control = (
+			parent_panel if parent_panel is PanelContainer else body_text_label
+		)
+		_bind_inspectable(app_target, "app_description")
 
 	_bind_inspectable(rep_card_inspector, "rep_inspector")
 	_bind_inspectable(rep_card_measured, "rep_measured_floors")
@@ -266,7 +368,10 @@ func _setup_all_inspectables() -> void:
 	_bind_inspectable(rep_card_soil, "rep_soil")
 	if inspector_notes_label != null:
 		var parent_panel = inspector_notes_label.get_parent() as Control
-		_bind_inspectable(parent_panel if parent_panel is PanelContainer else inspector_notes_label, "rep_notes")
+		var rep_target: Control = (
+			parent_panel if parent_panel is PanelContainer else inspector_notes_label
+		)
+		_bind_inspectable(rep_target, "rep_notes")
 
 
 func _bind_inspectable(panel: Control, tag: String) -> void:
@@ -318,41 +423,27 @@ func mark_violation_found(violation: Dictionary) -> void:
 	violation_alert_box.visible = true
 	violation_alert_label.text = tr("UI_DISCREPANCY_FOUND").format({"violation": viol_name})
 
-	# Dramatic slap animation for violation alert
+	# Dramatic bounce animation for violation alert
 	violation_alert_box.scale = Vector2(1.3, 1.3)
 	var tween := create_tween()
 	tween.tween_property(
 		violation_alert_box, "scale", Vector2(1.0, 1.0), 0.2
 	).set_trans(Tween.TRANS_BOUNCE)
 
+	# Hand-drawn red china marker underline
+	var tags: Array = violation.get("tags", [])
+	if not tags.is_empty():
+		_draw_china_marker_for_tag(str(tags[0]))
+
 	violation_uncovered.emit(violation)
 
 
-## Highlights a suspicious field on the dossier (e.g. from whistleblower or engineer tip)
+## Highlights a suspicious field on the dossier with red pencil and glow
 func highlight_suspicious_field(field_tag: String = "") -> void:
-	var target_panel: Control = null
-	var norm_tag := field_tag.to_lower()
-
-	match norm_tag:
-		"app_applicant": target_panel = app_card_applicant
-		"app_district": target_panel = app_card_district
-		"app_floors": target_panel = app_card_floors
-		"app_budget": target_panel = app_card_budget
-		"app_seal": target_panel = app_card_seal
-		"app_expiry": target_panel = app_card_expiry
-		"app_description":
-			target_panel = (body_text_label.get_parent() as Control) if (body_text_label != null and body_text_label.get_parent() is PanelContainer) else body_text_label
-		"rep_inspector": target_panel = rep_card_inspector
-		"rep_measured_floors": target_panel = rep_card_measured
-		"rep_hazard": target_panel = rep_card_hazard
-		"rep_tax_debt": target_panel = rep_card_tax
-		"rep_soil": target_panel = rep_card_soil
-		"rep_notes":
-			target_panel = (inspector_notes_label.get_parent() as Control) if (inspector_notes_label != null and inspector_notes_label.get_parent() is PanelContainer) else inspector_notes_label
-		_:
-			target_panel = app_card_seal if app_card_seal != null else app_card_applicant
+	var target_panel: Control = _get_panel_for_tag(field_tag)
 
 	# If the field is on a hidden page, switch to side-by-side view
+	var norm_tag := field_tag.to_lower()
 	if norm_tag.begins_with("rep_") and report_page != null and not report_page.visible:
 		switch_dossier_tab(2)
 	elif norm_tag.begins_with("app_") and application_page != null and not application_page.visible:
@@ -362,6 +453,80 @@ func highlight_suspicious_field(field_tag: String = "") -> void:
 		var tween := create_tween().set_loops(3)
 		tween.tween_property(target_panel, "modulate", Color(1.5, 1.35, 0.35, 1.0), 0.22)
 		tween.tween_property(target_panel, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.22)
+		_draw_china_marker_for_panel(target_panel)
+
+
+func _get_panel_for_tag(field_tag: String) -> Control:
+	var norm_tag := field_tag.to_lower()
+	match norm_tag:
+		"app_applicant": return app_card_applicant
+		"app_district": return app_card_district
+		"app_floors": return app_card_floors
+		"app_budget": return app_card_budget
+		"app_seal": return app_card_seal
+		"app_expiry": return app_card_expiry
+		"app_description":
+			var bp: Control = (
+				body_text_label.get_parent() as Control if body_text_label != null else null
+			)
+			return bp if bp is PanelContainer else body_text_label
+		"rep_inspector": return rep_card_inspector
+		"rep_measured_floors": return rep_card_measured
+		"rep_hazard": return rep_card_hazard
+		"rep_tax_debt": return rep_card_tax
+		"rep_soil": return rep_card_soil
+		"rep_notes":
+			var ip: Control = (
+				inspector_notes_label.get_parent() as Control
+				if inspector_notes_label != null else null
+			)
+			return ip if ip is PanelContainer else inspector_notes_label
+		_:
+			return app_card_seal if app_card_seal != null else app_card_applicant
+
+
+func _draw_china_marker_for_tag(tag: String) -> void:
+	var panel := _get_panel_for_tag(tag)
+	if panel != null:
+		_draw_china_marker_for_panel(panel)
+
+
+func _draw_china_marker_for_panel(panel: Control) -> void:
+	if discrepancy_line_layer == null or panel == null:
+		return
+	if not is_inside_tree() or not panel.is_inside_tree():
+		return
+
+	var rect: Rect2 = panel.get_global_rect()
+	var local_top_left: Vector2 = rect.position - discrepancy_line_layer.global_position
+	var width: float = rect.size.x
+	var height: float = rect.size.y
+
+	var line := Line2D.new()
+	line.default_color = Color(0.7, 0.13, 0.13, 0.85) # Crimson red china marker
+	line.width = 3.0
+	line.joint_mode = Line2D.LINE_JOINT_ROUND
+	line.begin_cap_mode = Line2D.LINE_CAP_ROUND
+	line.end_cap_mode = Line2D.LINE_CAP_ROUND
+
+	# Underline path with slight organic wobble
+	var start_pt: Vector2 = local_top_left + Vector2(4.0, height + 1.0)
+	var mid_pt1: Vector2 = local_top_left + Vector2(width * 0.35, height + randf_range(0.0, 3.0))
+	var mid_pt2: Vector2 = local_top_left + Vector2(width * 0.7, height + randf_range(-1.0, 2.0))
+	var end_pt: Vector2 = local_top_left + Vector2(width - 4.0, height + 1.0)
+
+	line.add_point(start_pt)
+	line.add_point(mid_pt1)
+	line.add_point(mid_pt2)
+	line.add_point(end_pt)
+
+	discrepancy_line_layer.add_child(line)
+
+
+func _clear_discrepancy_lines() -> void:
+	if discrepancy_line_layer != null:
+		for c in discrepancy_line_layer.get_children():
+			c.queue_free()
 
 
 func _on_pocket_bribe_pressed() -> void:
@@ -417,12 +582,32 @@ func apply_stamp_visual_at(target_pos: Vector2, stamp_rot: float, approved: bool
 	stamp_overlay.scale = Vector2(2.4, 2.4)
 	stamp_overlay.modulate.a = 0.0
 
+	var ink_col: Color
 	if approved:
 		stamp_label.text = tr("UI_STAMP_APPROVED")
 		stamp_label.set("theme_override_colors/font_color", Color(0.12, 0.75, 0.38, 1))
+		ink_col = Color(0.12, 0.55, 0.28, 1.0)
+		var app_decal := "res://assets/sprites/documents/stamp_decal_approve.png"
+		if stamp_decal != null and ResourceLoader.exists(app_decal):
+			stamp_decal.texture = load(app_decal)
 	else:
 		stamp_label.text = tr("UI_STAMP_REJECTED")
 		stamp_label.set("theme_override_colors/font_color", Color(0.92, 0.22, 0.22, 1))
+		ink_col = Color(0.85, 0.18, 0.18, 1.0)
+		var rej_decal := "res://assets/sprites/documents/stamp_decal_reject.png"
+		if stamp_decal != null and ResourceLoader.exists(rej_decal):
+			stamp_decal.texture = load(rej_decal)
+
+	# Configure ink absorption & drying shader
+	if stamp_decal != null and stamp_decal.material is ShaderMaterial:
+		var sm := stamp_decal.material as ShaderMaterial
+		sm.set_shader_parameter("ink_color", ink_col)
+		sm.set_shader_parameter("dry_progress", 0.0)
+		var bleed_tween := create_tween()
+		bleed_tween.tween_method(func(val: float):
+			if is_instance_valid(sm):
+				sm.set_shader_parameter("dry_progress", val)
+		, 0.0, 1.0, 1.2)
 
 	var tween := create_tween().set_parallel(true)
 	tween.tween_property(stamp_overlay, "scale", Vector2(1.0, 1.0), 0.22).set_trans(
@@ -460,6 +645,8 @@ func set_uv_blacklight(active: bool) -> void:
 	is_uv_active = active
 	if uv_overlay != null:
 		uv_overlay.visible = active
+		if uv_overlay.material is ShaderMaterial:
+			uv_overlay.material.set_shader_parameter("uv_active", active)
 	_update_uv_watermarks()
 
 

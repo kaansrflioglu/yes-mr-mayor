@@ -241,6 +241,7 @@ func accept_deal() -> void:
 		hotline_mgr.resolve_call(active_call, true, cur_day)
 		if should_reveal:
 			whistleblower_tip_revealed.emit()
+			inspector_tip_requested.emit()
 		active_call = null
 	else:
 		# Fallback legacy behavior
