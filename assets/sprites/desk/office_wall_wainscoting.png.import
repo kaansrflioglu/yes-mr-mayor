@@ -2,12 +2,17 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c8n5rrda1pp7q"
-valid=false
+uid="uid://d323c0mos1oyx"
+path.s3tc="res://.godot/imported/office_wall_wainscoting.png-1d2ff920c3d5447f489b739a629ed84a.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
 
 [deps]
 
 source_file="res://assets/sprites/desk/office_wall_wainscoting.png"
+dest_files=["res://.godot/imported/office_wall_wainscoting.png-1d2ff920c3d5447f489b739a629ed84a.s3tc.ctex"]
 
 [params]
 

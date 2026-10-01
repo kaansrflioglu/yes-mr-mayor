@@ -1,7 +1,28 @@
-[gd_scene load_steps=19 format=3 uid="uid://skylineview001"]
+[gd_scene load_steps=29 format=3 uid="uid://skylineview001"]
 
 [ext_resource type="Script" path="res://scripts/desk/SkylineView.gd" id="1_sky"]
 [ext_resource type="Script" path="res://scripts/desk/PoliceFlasher.gd" id="2_flasher"]
+[ext_resource type="Shader" path="res://assets/shaders/sky_gradient.gdshader" id="3_skyshader"]
+[ext_resource type="Shader" path="res://assets/shaders/window_rain.gdshader" id="4_rainshader"]
+[ext_resource type="Texture2D" path="res://assets/sprites/skyline/skyline_far_silhouette.png" id="5_silhouette"]
+[ext_resource type="Texture2D" path="res://assets/sprites/skyline/landmark_clock_tower.png" id="6_clock"]
+[ext_resource type="Texture2D" path="res://assets/sprites/skyline/clock_hand_hour.png" id="7_hand_h"]
+[ext_resource type="Texture2D" path="res://assets/sprites/skyline/clock_hand_minute.png" id="8_hand_m"]
+[ext_resource type="Texture2D" path="res://assets/sprites/skyline/landmark_factory_stacks.png" id="9_factory"]
+[ext_resource type="Texture2D" path="res://assets/sprites/skyline/landmark_luxury_towers.png" id="10_luxury"]
+[ext_resource type="Texture2D" path="res://assets/sprites/skyline/window_mullion_frame.png" id="11_frame"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sky"]
+shader = ExtResource("3_skyshader")
+shader_parameter/zenith_color = Color(0.18, 0.35, 0.65, 1)
+shader_parameter/horizon_color = Color(0.72, 0.85, 0.95, 1)
+shader_parameter/pollution_tint = Color(0.8, 0.6, 0.4, 0)
+shader_parameter/pollution_amount = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rain"]
+shader = ExtResource("4_rainshader")
+shader_parameter/rain_intensity = 0.0
+shader_parameter/rain_speed = 1.2
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sun"]
 bg_color = Color(1, 0.95, 0.6, 0.85)
@@ -11,7 +32,7 @@ corner_radius_bottom_right = 60
 corner_radius_bottom_left = 60
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_base_city"]
-bg_color = Color(0.18, 0.22, 0.3, 1)
+bg_color = Color(0.12, 0.15, 0.22, 0.8)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 
@@ -21,24 +42,6 @@ border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_color = Color(0.3, 0.35, 0.45, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_luxury_towers"]
-bg_color = Color(0.1, 0.2, 0.32, 0.95)
-border_width_left = 2
-border_width_top = 3
-border_width_right = 2
-border_color = Color(0.35, 0.75, 0.95, 0.9)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_historic_clock"]
-bg_color = Color(0.28, 0.22, 0.18, 1)
-border_width_left = 2
-border_width_top = 4
-border_width_right = 2
-border_color = Color(0.65, 0.55, 0.4, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_historic_rubble"]
 bg_color = Color(0.22, 0.2, 0.18, 1)
@@ -115,6 +118,7 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 4
 
 [node name="SkylineView" type="Control"]
+clip_contents = true
 custom_minimum_size = Vector2(1920, 480)
 layout_mode = 3
 anchors_preset = 10
@@ -129,6 +133,7 @@ unique_name_in_owner = true
 
 [node name="SkyRect" type="ColorRect" parent="LayerSky"]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_sky")
 offset_right = 1920.0
 offset_bottom = 480.0
 mouse_filter = 2
@@ -147,18 +152,18 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_sun")
 unique_name_in_owner = true
 position = Vector2(960, -10)
 emitting = false
-amount = 120
-lifetime = 1.0
+amount = 140
+lifetime = 0.9
 emission_shape = 3
 emission_rect_extents = Vector2(960, 5)
 direction = Vector2(-0.15, 1)
 spread = 2.0
 gravity = Vector2(0, 980)
-initial_velocity_min = 400.0
-initial_velocity_max = 600.0
+initial_velocity_min = 450.0
+initial_velocity_max = 650.0
 scale_amount_min = 1.5
 scale_amount_max = 2.5
-color = Color(0.75, 0.85, 1, 0.4)
+color = Color(0.75, 0.85, 1, 0.45)
 
 [node name="SmogOverlay" type="ColorRect" parent="LayerSky"]
 unique_name_in_owner = true
@@ -169,6 +174,15 @@ color = Color(0.45, 0.48, 0.35, 0)
 
 [node name="LayerDistant" type="CanvasGroup" parent="."]
 unique_name_in_owner = true
+
+[node name="DistantSkylineBackdrop" type="TextureRect" parent="LayerDistant"]
+offset_top = 80.0
+offset_right = 1920.0
+offset_bottom = 480.0
+mouse_filter = 2
+texture = ExtResource("5_silhouette")
+expand_mode = 1
+stretch_mode = 6
 
 [node name="BaseSkyline" type="Control" parent="LayerDistant"]
 layout_mode = 3
@@ -255,75 +269,72 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 3
 anchors_preset = 0
-offset_top = 80.0
-offset_right = 1920.0
+offset_left = 220.0
+offset_top = 120.0
+offset_right = 500.0
 offset_bottom = 480.0
 mouse_filter = 2
 
-[node name="LuxTower1" type="Panel" parent="LayerDistant/PropLuxuryTowers"]
-layout_mode = 0
-offset_left = 160.0
-offset_right = 290.0
-offset_bottom = 400.0
+[node name="LuxuryTexture" type="TextureRect" parent="LayerDistant/PropLuxuryTowers"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_luxury_towers")
-
-[node name="LuxTower2" type="Panel" parent="LayerDistant/PropLuxuryTowers"]
-layout_mode = 0
-offset_left = 310.0
-offset_top = 40.0
-offset_right = 430.0
-offset_bottom = 400.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_luxury_towers")
-
-[node name="LuxTower3" type="Panel" parent="LayerDistant/PropLuxuryTowers"]
-layout_mode = 0
-offset_left = 450.0
-offset_top = 90.0
-offset_right = 550.0
-offset_bottom = 400.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_luxury_towers")
-
-[node name="LuxIcons" type="Label" parent="LayerDistant/PropLuxuryTowers"]
-layout_mode = 0
-offset_left = 170.0
-offset_top = 10.0
-offset_right = 540.0
-offset_bottom = 50.0
-theme_override_font_sizes/font_size = 20
-text = "🏢 🚁 💎"
-horizontal_alignment = 1
+texture = ExtResource("10_luxury")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="PropHistoricClockTower" type="Control" parent="LayerDistant"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 3
 anchors_preset = 0
-offset_top = 140.0
-offset_right = 1920.0
-offset_bottom = 480.0
+offset_left = 560.0
+offset_top = 100.0
+offset_right = 760.0
+offset_bottom = 460.0
 mouse_filter = 2
 
-[node name="ClockBody" type="Panel" parent="LayerDistant/PropHistoricClockTower"]
-layout_mode = 0
-offset_left = 610.0
-offset_top = 60.0
-offset_right = 710.0
-offset_bottom = 340.0
+[node name="TowerTexture" type="TextureRect" parent="LayerDistant/PropHistoricClockTower"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_historic_clock")
+texture = ExtResource("6_clock")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="ClockIcon" type="Label" parent="LayerDistant/PropHistoricClockTower"]
-layout_mode = 0
-offset_left = 610.0
-offset_top = 10.0
-offset_right = 710.0
-offset_bottom = 70.0
-theme_override_font_sizes/font_size = 32
-text = "🕰️"
-horizontal_alignment = 1
+[node name="ClockCenter" type="Control" parent="LayerDistant/PropHistoricClockTower"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 0.0
+offset_top = -24.0
+offset_right = 0.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ClockHourHand" type="Sprite2D" parent="LayerDistant/PropHistoricClockTower/ClockCenter"]
+unique_name_in_owner = true
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("7_hand_h")
+offset = Vector2(0, -32)
+
+[node name="ClockMinuteHand" type="Sprite2D" parent="LayerDistant/PropHistoricClockTower/ClockCenter"]
+unique_name_in_owner = true
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("8_hand_m")
+offset = Vector2(0, -45)
 
 [node name="PropHistoricRubble" type="Control" parent="LayerDistant"]
 unique_name_in_owner = true
@@ -359,31 +370,34 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 3
 anchors_preset = 0
-offset_top = 200.0
-offset_right = 1920.0
-offset_bottom = 480.0
+offset_left = 1380.0
+offset_top = 160.0
+offset_right = 1720.0
+offset_bottom = 460.0
 mouse_filter = 2
 
-[node name="ChimneyIcons" type="Label" parent="LayerDistant/PropToxicChimneys"]
-layout_mode = 0
-offset_left = 1420.0
-offset_top = 80.0
-offset_right = 1680.0
-offset_bottom = 180.0
-theme_override_font_sizes/font_size = 56
-text = "🏭 🧪 ☣️"
-horizontal_alignment = 1
+[node name="FactoryTexture" type="TextureRect" parent="LayerDistant/PropToxicChimneys"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("9_factory")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="ChimneySmokeParticles" type="CPUParticles2D" parent="LayerDistant/PropToxicChimneys"]
 unique_name_in_owner = true
-position = Vector2(1550, 70)
+position = Vector2(170, 20)
 emitting = false
-amount = 40
-lifetime = 2.4
+amount = 45
+lifetime = 2.5
 emission_shape = 3
-emission_rect_extents = Vector2(110, 10)
+emission_rect_extents = Vector2(90, 8)
 direction = Vector2(-0.35, -1)
-spread = 22.0
+spread = 20.0
 gravity = Vector2(-15, -45)
 initial_velocity_min = 25.0
 initial_velocity_max = 55.0
@@ -822,6 +836,17 @@ mouse_filter = 2
 color = Color(0.1, 0.35, 1, 0.9)
 script = ExtResource("2_flasher")
 
+[node name="RainOverlay" type="ColorRect" parent="."]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_rain")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
 [node name="WindowMullions" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -830,6 +855,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="WindowFrameTexture" type="TextureRect" parent="WindowMullions"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("11_frame")
+expand_mode = 1
+stretch_mode = 1
 
 [node name="BarV1" type="ColorRect" parent="WindowMullions"]
 layout_mode = 0

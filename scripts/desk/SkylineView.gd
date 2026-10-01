@@ -19,6 +19,9 @@ extends Control
 @onready var sun_glow: Panel = %SunGlow
 @onready var smog_overlay: ColorRect = %SmogOverlay
 @onready var rain_particles: CPUParticles2D = %RainParticles
+@onready var rain_overlay: ColorRect = %RainOverlay if has_node("%RainOverlay") else null
+@onready var clock_hour_hand: Sprite2D = %ClockHourHand if has_node("%ClockHourHand") else null
+@onready var clock_minute_hand: Sprite2D = %ClockMinuteHand if has_node("%ClockMinuteHand") else null
 
 # -----------------------------------------------------------------------------
 # 3. Distant Layer Props & Particles
@@ -179,12 +182,19 @@ func update_skyline() -> void:
 		if sun_glow:
 			_sky_tween.tween_property(sun_glow, "position:y", target_sun_y, 0.8)
 
+		if sky_rect.material is ShaderMaterial:
+			var sm := sky_rect.material as ShaderMaterial
+			var pol: float = 0.6 if has_smog else (0.3 if flags.get("add_concrete_tower", false) else 0.0)
+			sm.set_shader_parameter("pollution_amount", pol)
+			sm.set_shader_parameter("zenith_color", target_sky_color.darkened(0.25))
+			sm.set_shader_parameter("horizon_color", target_sky_color.lightened(0.15))
+
 	# 3. Distant Layer Prop States
 	_set_prop_state(prop_concrete_towers, flags.get("add_concrete_tower", false))
 	_set_prop_state(prop_luxury_towers, flags.get("add_luxury_towers", false))
 	_set_prop_state(
 		prop_historic_clock_tower,
-		flags.get("historic_clock_tower", false) and not flags.get("historic_rubble", false)
+		flags.get("historic_clock_tower", true) and not flags.get("historic_rubble", false)
 	)
 	_set_prop_state(prop_historic_rubble, flags.get("historic_rubble", false))
 	_set_prop_state(prop_toxic_chimneys, flags.get("toxic_smog", false))
@@ -237,9 +247,13 @@ func update_skyline() -> void:
 
 ## Updates 2D particle emitter states based on environmental conditions
 func _update_particles(flags: Dictionary, protest_active: bool, is_flooded: bool) -> void:
+	var should_rain: bool = is_flooded or flags.get("weather_rain", false)
 	if rain_particles:
-		var should_rain: bool = is_flooded or flags.get("weather_rain", false)
 		rain_particles.emitting = should_rain
+
+	if rain_overlay and rain_overlay.material is ShaderMaterial:
+		var rm := rain_overlay.material as ShaderMaterial
+		rm.set_shader_parameter("rain_intensity", 0.75 if should_rain else 0.0)
 
 	if chimney_smoke_particles:
 		var should_smoke: bool = flags.get("toxic_smog", false)
@@ -247,6 +261,16 @@ func _update_particles(flags: Dictionary, protest_active: bool, is_flooded: bool
 
 	if torch_fire_particles:
 		torch_fire_particles.emitting = protest_active
+
+
+## Synchronizes municipal clock hands with desk shift minutes
+func update_clock_visual(minutes_since_midnight: int) -> void:
+	var hours: float = float(minutes_since_midnight) / 60.0
+	var mins: float = float(minutes_since_midnight % 60)
+	if clock_hour_hand:
+		clock_hour_hand.rotation = deg_to_rad(hours * 30.0)
+	if clock_minute_hand:
+		clock_minute_hand.rotation = deg_to_rad(mins * 6.0)
 
 
 func _set_prop_state(prop: Control, is_active: bool) -> void:

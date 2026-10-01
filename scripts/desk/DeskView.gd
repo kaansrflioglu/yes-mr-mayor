@@ -880,6 +880,8 @@ func get_formatted_shift_time() -> String:
 func _update_clock_ui() -> void:
 	if top_bar_hud != null and top_bar_hud.has_method("set_shift_time"):
 		top_bar_hud.set_shift_time(get_formatted_shift_time(), is_overtime)
+	if skyline_view != null and skyline_view.has_method("update_clock_visual"):
+		skyline_view.update_clock_visual(current_shift_minutes)
 
 
 ## Toggles tactical UV blacklight on the active document

@@ -1,36 +1,16 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/desk/DeskShredder.gd" id="1_shredder"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/shredder_chassis.png" id="2_chassis"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_casing"]
-bg_color = Color(0.12, 0.13, 0.16, 0.98)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.28, 0.3, 0.36, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-shadow_color = Color(0, 0, 0, 0.45)
-shadow_size = 12
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot"]
-bg_color = Color(0.06, 0.07, 0.08, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.18, 0.2, 0.24, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_slot"]
 
 [sub_resource type="Curve" id="Curve_shred"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.2), 0.0, 0.0, 0, 0]
 point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_paper"]
+colors = PackedColorArray(0.95, 0.93, 0.88, 1, 0.85, 0.82, 0.75, 0.8)
 
 [node name="DeskShredder" type="Control"]
 custom_minimum_size = Vector2(220, 180)
@@ -40,75 +20,59 @@ offset_right = 220.0
 offset_bottom = 180.0
 script = ExtResource("1_shredder")
 
-[node name="CasingPanel" type="PanelContainer" parent="."]
+[node name="ChassisTexture" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_casing")
+mouse_filter = 2
+texture = ExtResource("2_chassis")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="Margin" type="MarginContainer" parent="CasingPanel"]
-layout_mode = 2
-theme_override_constants/margin_left = 12
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 12
-theme_override_constants/margin_bottom = 10
-
-[node name="VBox" type="VBoxContainer" parent="CasingPanel/Margin"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="HeaderHBox" type="HBoxContainer" parent="CasingPanel/Margin/VBox"]
-layout_mode = 2
-theme_override_constants/separation = 6
-
-[node name="StatusLED" type="ColorRect" parent="CasingPanel/Margin/VBox/HeaderHBox"]
+[node name="StatusLED" type="ColorRect" parent="."]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(10, 10)
-layout_mode = 2
-size_flags_vertical = 4
+layout_mode = 0
+offset_left = 46.0
+offset_top = 84.0
+offset_right = 58.0
+offset_bottom = 96.0
+mouse_filter = 2
 color = Color(0.2, 0.9, 0.3, 1)
 
-[node name="TitleLabel" type="Label" parent="CasingPanel/Margin/VBox/HeaderHBox"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.85, 0.88, 0.92, 1)
-theme_override_font_sizes/font_size = 13
-text = "UI_SHREDDER_TOOL"
-
-[node name="IconLabel" type="Label" parent="CasingPanel/Margin/VBox/HeaderHBox"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 14
-text = "✂️"
-
-[node name="SlotButton" type="Button" parent="CasingPanel/Margin/VBox"]
+[node name="SlotButton" type="Button" parent="."]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 72)
-layout_mode = 2
-focus_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.75, 0.82, 1)
-theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = SubResource("StyleBoxFlat_slot")
-text = "UI_SHREDDER_READY"
+layout_mode = 0
+offset_left = 32.0
+offset_top = 30.0
+offset_right = 188.0
+offset_bottom = 66.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_slot")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_slot")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_slot")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_slot")
+flat = true
 
 [node name="ShredParticles" type="CPUParticles2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(110, 95)
+position = Vector2(110, 50)
 emitting = false
-amount = 24
-lifetime = 0.6
+amount = 32
+lifetime = 0.65
 one_shot = true
-explosiveness = 0.8
+explosiveness = 0.85
 emission_shape = 3
-emission_rect_extents = Vector2(80, 4)
+emission_rect_extents = Vector2(65, 3)
 direction = Vector2(0, 1)
-spread = 20.0
-gravity = Vector2(0, 400)
+spread = 15.0
+gravity = Vector2(0, 500)
 initial_velocity_min = 60.0
 initial_velocity_max = 140.0
 scale_amount_min = 2.0
-scale_amount_max = 5.0
+scale_amount_max = 4.5
 scale_amount_curve = SubResource("Curve_shred")
-color = Color(0.95, 0.95, 0.9, 1)
+color_ramp = SubResource("Gradient_paper")

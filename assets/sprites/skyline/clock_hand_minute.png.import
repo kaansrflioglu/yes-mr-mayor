@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7rrmvlmo3dx0"
-path="res://.godot/imported/stamp_rack_brass.png-82b679f4f279bddb001e043fd1183383.ctex"
+uid="uid://bjlepxjp8vij8"
+path="res://.godot/imported/clock_hand_minute.png-6b38677af4d650ed9aa902ea8a8e7411.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/props/stamp_rack_brass.png"
-dest_files=["res://.godot/imported/stamp_rack_brass.png-82b679f4f279bddb001e043fd1183383.ctex"]
+source_file="res://assets/sprites/skyline/clock_hand_minute.png"
+dest_files=["res://.godot/imported/clock_hand_minute.png-6b38677af4d650ed9aa902ea8a8e7411.ctex"]
 
 [params]
 

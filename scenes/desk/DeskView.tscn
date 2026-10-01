@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://deskview001"]
+[gd_scene load_steps=38 format=3 uid="uid://deskview001"]
 
 [ext_resource type="Script" path="res://scripts/desk/DeskView.gd" id="1_desk"]
 [ext_resource type="PackedScene" path="res://scenes/hud/TopBarHUD.tscn" id="2_hud"]
@@ -17,6 +17,23 @@
 [ext_resource type="PackedScene" path="res://scenes/desk/DistrictMapModal.tscn" id="15_map"]
 [ext_resource type="PackedScene" path="res://scenes/hud/CampaignTrackerHUD.tscn" id="16_campaign"]
 [ext_resource type="PackedScene" path="res://scenes/summary/ElectionNightModal.tscn" id="17_election"]
+[ext_resource type="Texture2D" path="res://assets/sprites/desk/office_wall_wainscoting.png" id="18_officewall"]
+[ext_resource type="Texture2D" path="res://assets/sprites/desk/desk_mahogany_surface.png" id="19_deskwood"]
+[ext_resource type="Texture2D" path="res://assets/sprites/desk/blotter_leather_9patch.png" id="20_blotter"]
+[ext_resource type="Texture2D" path="res://assets/sprites/desk/brass_corner_clamp.png" id="21_clamp"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/bell_brass_normal.png" id="22_bell"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/espresso_cup_saucer.png" id="23_espresso"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/cigar_humidor_closed.png" id="24_cigar"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/brochure_luxury_yacht.png" id="25_yacht"]
+[ext_resource type="Shader" path="res://assets/shaders/desk_lighting.gdshader" id="26_desklamp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_desklamp"]
+shader = ExtResource("26_desklamp")
+shader_parameter/lamp_center = Vector2(0.5, 0.62)
+shader_parameter/lamp_radius = 0.65
+shader_parameter/lamp_intensity = 1.2
+shader_parameter/ambient_darkness = Color(0.02, 0.03, 0.06, 0.45)
+shader_parameter/lamp_tint = Color(1, 0.94, 0.82, 0.15)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_map_btn"]
 bg_color = Color(0.08, 0.22, 0.38, 0.95)
@@ -262,14 +279,38 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="DeskBackground" type="Panel" parent="ShakeRoot"]
+[node name="DeskBackground" type="Control" parent="ShakeRoot"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_desk_bg")
+mouse_filter = 2
+
+[node name="OfficeWallTexture" type="TextureRect" parent="ShakeRoot/DeskBackground"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 440.0
+grow_horizontal = 2
+mouse_filter = 2
+texture = ExtResource("18_officewall")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="DeskSurfaceTexture" type="TextureRect" parent="ShakeRoot/DeskBackground"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 280.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("19_deskwood")
+expand_mode = 1
+stretch_mode = 6
 
 [node name="SkylineView" parent="ShakeRoot" instance=ExtResource("3_sky")]
 unique_name_in_owner = true
@@ -277,13 +318,80 @@ layout_mode = 1
 offset_top = 72.0
 offset_bottom = 440.0
 
-[node name="LeatherBlotter" type="Panel" parent="ShakeRoot"]
+[node name="LeatherBlotter" type="NinePatchRect" parent="ShakeRoot"]
 layout_mode = 0
 offset_left = 460.0
 offset_top = 100.0
 offset_right = 1460.0
 offset_bottom = 1020.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_blotter")
+texture = ExtResource("20_blotter")
+patch_margin_left = 24
+patch_margin_top = 24
+patch_margin_right = 24
+patch_margin_bottom = 24
+
+[node name="CornerClampTL" type="TextureRect" parent="ShakeRoot/LeatherBlotter"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 56.0
+offset_bottom = 56.0
+mouse_filter = 2
+texture = ExtResource("21_clamp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CornerClampTR" type="TextureRect" parent="ShakeRoot/LeatherBlotter"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -56.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = 56.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("21_clamp")
+expand_mode = 1
+stretch_mode = 5
+flip_h = true
+
+[node name="CornerClampBL" type="TextureRect" parent="ShakeRoot/LeatherBlotter"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -56.0
+offset_right = 56.0
+offset_bottom = -4.0
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("21_clamp")
+expand_mode = 1
+stretch_mode = 5
+flip_v = true
+
+[node name="CornerClampBR" type="TextureRect" parent="ShakeRoot/LeatherBlotter"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -56.0
+offset_top = -56.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("21_clamp")
+expand_mode = 1
+stretch_mode = 5
+flip_h = true
+flip_v = true
 
 [node name="DocumentDropZone" type="Control" parent="ShakeRoot"]
 unique_name_in_owner = true
@@ -322,7 +430,9 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.92, 0.8, 1)
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_coffee_btn")
-text = "☕ SABAH KAHVESİ (ODAK)"
+text = " SABAH KAHVESİ (ODAK)"
+icon = ExtResource("23_espresso")
+expand_icon = true
 
 [node name="CoffeeSteamLabel" type="Label" parent="ShakeRoot/MorningRitualContainer/RitualActionsHBox/DeskCoffeeMug"]
 unique_name_in_owner = true
@@ -345,7 +455,9 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.18, 0.12, 0.04, 1)
 theme_override_font_sizes/font_size = 15
 theme_override_styles/normal = SubResource("StyleBoxFlat_brass_bell")
-text = "🛎️ DOCKET ÇAĞIR [SPACE]"
+text = " DOCKET ÇAĞIR [SPACE]"
+icon = ExtResource("22_bell")
+expand_icon = true
 
 [node name="Rulebook" parent="ShakeRoot" instance=ExtResource("6_rulebook")]
 unique_name_in_owner = true
@@ -654,11 +766,13 @@ theme_override_constants/margin_bottom = 8
 layout_mode = 2
 alignment = 1
 
-[node name="CigarIcon" type="Label" parent="ShakeRoot/CigarBoxProp/CigarMargin/CigarVBox"]
+[node name="CigarIcon" type="TextureRect" parent="ShakeRoot/CigarBoxProp/CigarMargin/CigarVBox"]
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "🪵 🚬"
-horizontal_alignment = 1
+mouse_filter = 2
+texture = ExtResource("24_cigar")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="CigarLabel" type="Label" parent="ShakeRoot/CigarBoxProp/CigarMargin/CigarVBox"]
 layout_mode = 2
@@ -695,11 +809,13 @@ theme_override_constants/margin_bottom = 6
 layout_mode = 2
 alignment = 1
 
-[node name="YachtIcon" type="Label" parent="ShakeRoot/YachtBrochureProp/YachtMargin/YachtVBox"]
+[node name="YachtIcon" type="TextureRect" parent="ShakeRoot/YachtBrochureProp/YachtMargin/YachtVBox"]
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
-text = "🛥️ 🌴"
-horizontal_alignment = 1
+mouse_filter = 2
+texture = ExtResource("25_yacht")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="YachtLabel" type="Label" parent="ShakeRoot/YachtBrochureProp/YachtMargin/YachtVBox"]
 layout_mode = 2
@@ -729,11 +845,13 @@ theme_override_constants/margin_bottom = 6
 layout_mode = 2
 alignment = 1
 
-[node name="EspressoIcon" type="Label" parent="ShakeRoot/PropEspressoMachine/EspressoMargin/EspressoVBox"]
+[node name="EspressoIcon" type="TextureRect" parent="ShakeRoot/PropEspressoMachine/EspressoMargin/EspressoVBox"]
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "☕ ♨️"
-horizontal_alignment = 1
+mouse_filter = 2
+texture = ExtResource("23_espresso")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="EspressoLabel" type="Label" parent="ShakeRoot/PropEspressoMachine/EspressoMargin/EspressoVBox"]
 layout_mode = 2
@@ -822,6 +940,16 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_stamp_green")
 text = "Next Day"
+
+[node name="DeskLightingOverlay" type="ColorRect" parent="ShakeRoot"]
+material = SubResource("ShaderMaterial_desklamp")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="TopBarHUD" parent="." instance=ExtResource("2_hud")]
 layout_mode = 1

@@ -16,12 +16,15 @@ const CONSULT_FEE: int = 1000
 @onready var message_label: Label = %MessageLabel
 @onready var btn_accept: Button = %BtnAccept
 @onready var btn_hangup: Button = %BtnHangup
+@onready var handset_sprite: TextureRect = %HandsetSprite if has_node("%HandsetSprite") else null
+@onready var indicator_light: ColorRect = %IndicatorLight if has_node("%IndicatorLight") else null
 
 var hotline_mgr: HotlineManager
 var active_call: HotlineCallData = null
 var is_ringing: bool = false
 var is_consultation_mode: bool = false
 var _wobble_tween: Tween
+var _light_tween: Tween
 
 
 func _ready() -> void:
@@ -118,6 +121,38 @@ func _start_wobble_animation() -> void:
 	_wobble_tween.tween_property(phone_button, "rotation", -0.08, 0.06)
 	_wobble_tween.tween_property(phone_button, "rotation", 0.0, 0.04)
 
+	if indicator_light:
+		indicator_light.visible = true
+		if _light_tween and _light_tween.is_valid():
+			_light_tween.kill()
+		_light_tween = create_tween().set_loops()
+		_light_tween.tween_property(indicator_light, "modulate:a", 0.2, 0.25)
+		_light_tween.tween_property(indicator_light, "modulate:a", 1.0, 0.25)
+
+
+func _stop_ringing_effects() -> void:
+	is_ringing = false
+	ring_badge.visible = false
+	if _wobble_tween and _wobble_tween.is_valid():
+		_wobble_tween.kill()
+	if _light_tween and _light_tween.is_valid():
+		_light_tween.kill()
+	if indicator_light:
+		indicator_light.visible = false
+	phone_button.rotation = 0.0
+
+
+func _set_handset_lifted(lifted: bool) -> void:
+	if not handset_sprite:
+		return
+	var tw := create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	if lifted:
+		tw.tween_property(handset_sprite, "position", Vector2(12.0, -38.0), 0.2)
+		tw.parallel().tween_property(handset_sprite, "rotation", deg_to_rad(-10.0), 0.2)
+	else:
+		tw.tween_property(handset_sprite, "position", Vector2(12.0, -2.0), 0.2)
+		tw.parallel().tween_property(handset_sprite, "rotation", 0.0, 0.2)
+
 
 func _on_phone_clicked() -> void:
 	if is_ringing:
@@ -129,11 +164,7 @@ func _on_phone_clicked() -> void:
 ## Public method to answer the ringing hotline
 func answer_call() -> void:
 	if is_ringing:
-		is_ringing = false
-		ring_badge.visible = false
-		if _wobble_tween and _wobble_tween.is_valid():
-			_wobble_tween.kill()
-		phone_button.rotation = 0.0
+		_stop_ringing_effects()
 		is_consultation_mode = false
 		_open_call_dialog()
 
@@ -142,12 +173,15 @@ func answer_call() -> void:
 func open_consultation_dialog() -> void:
 	if dialog_panel.visible:
 		dialog_panel.visible = false
+		_set_handset_lifted(false)
 		return
 	is_consultation_mode = true
 	_open_call_dialog()
 
 
 func _open_call_dialog() -> void:
+	_stop_ringing_effects()
+	_set_handset_lifted(true)
 	dialog_panel.visible = true
 	_update_locale_texts()
 	_ensure_dialog_on_screen()
@@ -186,6 +220,7 @@ func consult_inspector() -> bool:
 		return false
 	dialog_panel.visible = false
 	is_consultation_mode = false
+	_set_handset_lifted(false)
 	GameManager.city_budget -= CONSULT_FEE
 	GameManager.stats_changed.emit()
 	if AudioManager.has_method("play_phone_dial"):
@@ -197,6 +232,7 @@ func consult_inspector() -> bool:
 ## Public method to accept the hotline deal
 func accept_deal() -> void:
 	dialog_panel.visible = false
+	_set_handset_lifted(false)
 	AudioManager.play_cash_register()
 
 	var cur_day: int = GameManager.current_day if GameManager != null else 1
@@ -223,6 +259,7 @@ func _on_hangup_pressed() -> void:
 ## Public method to reject the hotline deal
 func reject_deal() -> void:
 	dialog_panel.visible = false
+	_set_handset_lifted(false)
 	if AudioManager != null and AudioManager.has_method("play_phone_receiver_slam"):
 		AudioManager.play_phone_receiver_slam()
 

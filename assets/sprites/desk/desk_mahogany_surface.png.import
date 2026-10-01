@@ -2,12 +2,17 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c6i0wvg6de0n6"
-valid=false
+uid="uid://ydykdyneps03"
+path.s3tc="res://.godot/imported/desk_mahogany_surface.png-9f615172d058d39a09530bf719fc926d.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
 
 [deps]
 
 source_file="res://assets/sprites/desk/desk_mahogany_surface.png"
+dest_files=["res://.godot/imported/desk_mahogany_surface.png-9f615172d058d39a09530bf719fc926d.s3tc.ctex"]
 
 [params]
 

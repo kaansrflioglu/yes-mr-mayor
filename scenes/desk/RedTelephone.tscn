@@ -1,30 +1,27 @@
-[gd_scene load_steps=6 format=3 uid="uid://redtelephone001"]
+[gd_scene load_steps=8 format=3 uid="uid://redtelephone001"]
 
 [ext_resource type="Script" path="res://scripts/desk/RedTelephone.gd" id="1_phone"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/telephone_rotary_base.png" id="2_base"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/telephone_handset.png" id="3_handset"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_phone_btn"]
-bg_color = Color(0.72, 0.12, 0.12, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 6
-border_color = Color(0.45, 0.08, 0.08, 1)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
-shadow_color = Color(0, 0, 0, 0.4)
-shadow_size = 10
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_phone"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ring_badge"]
-bg_color = Color(0.95, 0.8, 0.1, 1)
+bg_color = Color(0.95, 0.2, 0.2, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.9, 0.4, 1)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dialog"]
-bg_color = Color(0.12, 0.14, 0.18, 0.98)
+bg_color = Color(0.08, 0.1, 0.14, 0.98)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
@@ -47,53 +44,76 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [node name="RedTelephone" type="Control"]
-custom_minimum_size = Vector2(160, 140)
+custom_minimum_size = Vector2(170, 160)
 layout_mode = 3
 anchors_preset = 0
-offset_right = 160.0
-offset_bottom = 140.0
+offset_right = 170.0
+offset_bottom = 160.0
 script = ExtResource("1_phone")
 
 [node name="PhoneButton" type="Button" parent="."]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(150, 120)
+custom_minimum_size = Vector2(160, 150)
 layout_mode = 0
-offset_right = 150.0
-offset_bottom = 120.0
-pivot_offset = Vector2(75, 60)
-theme_override_styles/normal = SubResource("StyleBoxFlat_phone_btn")
+offset_right = 160.0
+offset_bottom = 150.0
+pivot_offset = Vector2(80, 80)
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_phone")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_phone")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_phone")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_phone")
+flat = true
 
-[node name="PhoneVBox" type="VBoxContainer" parent="PhoneButton"]
+[node name="BaseSprite" type="TextureRect" parent="PhoneButton"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 15.0
 grow_horizontal = 2
 grow_vertical = 2
-alignment = 1
+mouse_filter = 2
+texture = ExtResource("2_base")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="IconLabel" type="Label" parent="PhoneButton/PhoneVBox"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 42
-text = "☎️"
-horizontal_alignment = 1
+[node name="IndicatorLight" type="ColorRect" parent="PhoneButton"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 74.0
+offset_top = 88.0
+offset_right = 86.0
+offset_bottom = 100.0
+mouse_filter = 2
+color = Color(1, 0.15, 0.15, 0.95)
 
-[node name="NameLabel" type="Label" parent="PhoneButton/PhoneVBox"]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.9, 0.9, 1)
-theme_override_font_sizes/font_size = 12
-text = "HOTLINE"
-horizontal_alignment = 1
+[node name="HandsetSprite" type="TextureRect" parent="PhoneButton"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 12.0
+offset_top = -2.0
+offset_right = 148.0
+offset_bottom = 78.0
+pivot_offset = Vector2(68, 40)
+mouse_filter = 2
+texture = ExtResource("3_handset")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="RingBadge" type="Label" parent="."]
 unique_name_in_owner = true
 visible = false
+z_index = 5
 layout_mode = 0
-offset_left = 80.0
+offset_left = 85.0
 offset_top = -14.0
-offset_right = 160.0
+offset_right = 165.0
 offset_bottom = 14.0
-theme_override_colors/font_color = Color(0.1, 0.1, 0.1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 13
 theme_override_styles/normal = SubResource("StyleBoxFlat_ring_badge")
 text = "RINGS!"
