@@ -2,8 +2,19 @@ extends Control
 
 ## DistrictMapModal.gd - Interactive fold-out architectural blueprint modal.
 ## Visualizes the 5 Municipal Districts and 5-Faction Political Standings.
+## Includes interactive heatmap filters (Crime, Economy, Faction Influence).
 
 signal closed
+
+enum HeatmapMode { ALL, CRIME, ECONOMY, FACTIONS }
+
+const DISTRICT_STAMPS: Dictionary = {
+	"DIST_CENTRAL": "res://assets/sprites/map/district_stamp_central.png",
+	"DIST_RIVERBED": "res://assets/sprites/map/district_stamp_riverbed.png",
+	"DIST_INDUSTRIAL": "res://assets/sprites/map/district_stamp_industrial.png",
+	"DIST_HISTORIC": "res://assets/sprites/map/district_stamp_historic.png",
+	"DIST_SUBURBS": "res://assets/sprites/map/district_stamp_suburbs.png"
+}
 
 @onready var modal_container: Control = %ModalContainer
 @onready var btn_close: Button = %BtnClose
@@ -11,15 +22,30 @@ signal closed
 @onready var districts_container: VBoxContainer = %DistrictsContainer
 @onready var faction_mgr: Node = get_node_or_null("/root/FactionManager")
 
+@onready var btn_filter_all: Button = (
+	%BtnFilterAll if has_node("%BtnFilterAll") else null
+)
+@onready var btn_filter_crime: Button = (
+	%BtnFilterCrime if has_node("%BtnFilterCrime") else null
+)
+@onready var btn_filter_economy: Button = (
+	%BtnFilterEconomy if has_node("%BtnFilterEconomy") else null
+)
+@onready var btn_filter_factions: Button = (
+	%BtnFilterFactions if has_node("%BtnFilterFactions") else null
+)
+
 var _active_tween: Tween = null
 var faction_rows: Dictionary = {}
 var district_cards: Dictionary = {}
+var current_mode: HeatmapMode = HeatmapMode.ALL
 
 
 func _ready() -> void:
 	if btn_close != null:
 		btn_close.pressed.connect(close_modal)
 
+	_setup_filter_buttons()
 	_populate_factions()
 	_populate_districts()
 
@@ -28,6 +54,19 @@ func _ready() -> void:
 			faction_mgr.faction_standing_changed.connect(_on_faction_standing_changed)
 		if faction_mgr.has_signal("district_updated"):
 			faction_mgr.district_updated.connect(_on_district_updated)
+
+
+func _setup_filter_buttons() -> void:
+	if btn_filter_all != null:
+		btn_filter_all.pressed.connect(func(): _set_heatmap_mode(HeatmapMode.ALL))
+	if btn_filter_crime != null:
+		btn_filter_crime.pressed.connect(func(): _set_heatmap_mode(HeatmapMode.CRIME))
+	if btn_filter_economy != null:
+		btn_filter_economy.pressed.connect(func(): _set_heatmap_mode(HeatmapMode.ECONOMY))
+	if btn_filter_factions != null:
+		btn_filter_factions.pressed.connect(
+			func(): _set_heatmap_mode(HeatmapMode.FACTIONS)
+		)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -53,7 +92,9 @@ func open_modal() -> void:
 		modal_container.modulate.a = 0.0
 
 		_active_tween = create_tween().set_parallel(true)
-		_active_tween.tween_property(modal_container, "scale", Vector2.ONE, 0.2).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		_active_tween.tween_property(
+			modal_container, "scale", Vector2.ONE, 0.2
+		).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 		_active_tween.tween_property(modal_container, "modulate:a", 1.0, 0.15)
 
 	if btn_close != null:
@@ -69,7 +110,9 @@ func close_modal() -> void:
 
 	if modal_container != null:
 		_active_tween = create_tween().set_parallel(true)
-		_active_tween.tween_property(modal_container, "scale", Vector2(0.9, 0.9), 0.15).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+		_active_tween.tween_property(
+			modal_container, "scale", Vector2(0.9, 0.9), 0.15
+		).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 		_active_tween.tween_property(modal_container, "modulate:a", 0.0, 0.15)
 		_active_tween.finished.connect(func():
 			visible = false
@@ -89,6 +132,29 @@ func refresh_all() -> void:
 
 	for d_id in faction_mgr.districts:
 		_update_district_card(d_id)
+
+
+func _set_heatmap_mode(mode: HeatmapMode) -> void:
+	current_mode = mode
+	_update_filter_button_styles()
+	if faction_mgr != null:
+		for d_id in faction_mgr.districts:
+			_update_district_card(d_id)
+
+
+func _update_filter_button_styles() -> void:
+	var buttons: Array = [
+		[btn_filter_all, HeatmapMode.ALL],
+		[btn_filter_crime, HeatmapMode.CRIME],
+		[btn_filter_economy, HeatmapMode.ECONOMY],
+		[btn_filter_factions, HeatmapMode.FACTIONS]
+	]
+	for pair in buttons:
+		var btn: Button = pair[0]
+		var mode: HeatmapMode = pair[1]
+		if btn != null:
+			var active: bool = (mode == current_mode)
+			btn.modulate = Color(1.0, 1.0, 1.0, 1.0) if active else Color(0.7, 0.85, 1.0, 0.7)
 
 
 func _populate_factions() -> void:
@@ -127,9 +193,9 @@ func _create_faction_row(f_id: String, f_data: Dictionary) -> Control:
 
 	var name_lbl := Label.new()
 	name_lbl.text = tr(f_data.get("name_key", f_id.capitalize()))
-	name_lbl.custom_minimum_size = Vector2(170, 0)
+	name_lbl.custom_minimum_size = Vector2(160, 0)
 	name_lbl.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	name_lbl.add_theme_font_size_override("font_size", 15)
+	name_lbl.add_theme_font_size_override("font_size", 14)
 	name_lbl.add_theme_color_override("font_color", Color(0.9, 0.95, 1.0))
 	name_lbl.name = "NameLabel"
 	hbox.add_child(name_lbl)
@@ -155,7 +221,7 @@ func _create_faction_row(f_id: String, f_data: Dictionary) -> Control:
 
 	var val_lbl := Label.new()
 	val_lbl.text = "%d%%" % int(bar.value)
-	val_lbl.custom_minimum_size = Vector2(50, 0)
+	val_lbl.custom_minimum_size = Vector2(48, 0)
 	val_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	val_lbl.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	val_lbl.add_theme_font_size_override("font_size", 14)
@@ -163,7 +229,7 @@ func _create_faction_row(f_id: String, f_data: Dictionary) -> Control:
 	hbox.add_child(val_lbl)
 
 	var status_lbl := Label.new()
-	status_lbl.custom_minimum_size = Vector2(85, 0)
+	status_lbl.custom_minimum_size = Vector2(80, 0)
 	status_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	status_lbl.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	status_lbl.add_theme_font_size_override("font_size", 12)
@@ -224,7 +290,7 @@ func _populate_districts() -> void:
 
 func _create_district_card(d_id: String, d_data: Dictionary) -> Control:
 	var card := PanelContainer.new()
-	card.custom_minimum_size = Vector2(0, 72)
+	card.custom_minimum_size = Vector2(0, 78)
 
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0.04, 0.1, 0.18, 0.9)
@@ -236,9 +302,26 @@ func _create_district_card(d_id: String, d_data: Dictionary) -> Control:
 	style.corner_radius_bottom_left = 4
 	card.add_theme_stylebox_override("panel", style)
 
+	var root_hbox := HBoxContainer.new()
+	root_hbox.add_theme_constant_override("separation", 12)
+	card.add_child(root_hbox)
+
+	# Architectural sector stamp icon
+	if DISTRICT_STAMPS.has(d_id):
+		var stamp_tex = load(DISTRICT_STAMPS[d_id]) as Texture2D
+		if stamp_tex != null:
+			var stamp_rect := TextureRect.new()
+			stamp_rect.texture = stamp_tex
+			stamp_rect.custom_minimum_size = Vector2(50, 50)
+			stamp_rect.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+			stamp_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			stamp_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			root_hbox.add_child(stamp_rect)
+
 	var vbox := VBoxContainer.new()
 	vbox.add_theme_constant_override("separation", 6)
-	card.add_child(vbox)
+	vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	root_hbox.add_child(vbox)
 
 	var title_lbl := Label.new()
 	title_lbl.text = tr(d_data.get("name_key", d_id))
@@ -252,21 +335,29 @@ func _create_district_card(d_id: String, d_data: Dictionary) -> Control:
 	vbox.add_child(hbox)
 
 	# Metric 1: Prosperity
-	var prosp_box := _create_metric_display("Prosperity", Color(0.3, 0.85, 0.4), "ProspVal")
+	var prosp_box := _create_metric_display(
+		"Prosperity", Color(0.3, 0.85, 0.4), "ProspVal"
+	)
 	hbox.add_child(prosp_box)
 
 	# Metric 2: Pollution
-	var poll_box := _create_metric_display("Pollution", Color(0.9, 0.6, 0.2), "PollVal")
+	var poll_box := _create_metric_display(
+		"Pollution", Color(0.9, 0.6, 0.2), "PollVal"
+	)
 	hbox.add_child(poll_box)
 
 	# Metric 3: Unrest
-	var unrest_box := _create_metric_display("Unrest", Color(0.95, 0.3, 0.3), "UnrestVal")
+	var unrest_box := _create_metric_display(
+		"Unrest", Color(0.95, 0.3, 0.3), "UnrestVal"
+	)
 	hbox.add_child(unrest_box)
 
 	return card
 
 
-func _create_metric_display(label_text: String, col: Color, val_node_name: String) -> Control:
+func _create_metric_display(
+	label_text: String, col: Color, val_node_name: String
+) -> Control:
 	var cont := HBoxContainer.new()
 	cont.add_theme_constant_override("separation", 6)
 	cont.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -293,16 +384,58 @@ func _update_district_card(d_id: String) -> void:
 	var card: Control = district_cards[d_id]
 	var stats: Dictionary = faction_mgr.districts.get(d_id, {})
 
+	var prosp: float = float(stats.get("prosperity", 50.0))
+	var poll: float = float(stats.get("pollution", 20.0))
+	var unrest: float = float(stats.get("unrest", 10.0))
+
 	var prosp_lbl = card.find_child("ProspVal", true, false) as Label
 	var poll_lbl = card.find_child("PollVal", true, false) as Label
 	var unrest_lbl = card.find_child("UnrestVal", true, false) as Label
 
 	if prosp_lbl != null:
-		prosp_lbl.text = "%d%%" % int(stats.get("prosperity", 50.0))
+		prosp_lbl.text = "%d%%" % int(prosp)
 	if poll_lbl != null:
-		poll_lbl.text = "%d%%" % int(stats.get("pollution", 20.0))
+		poll_lbl.text = "%d%%" % int(poll)
 	if unrest_lbl != null:
-		unrest_lbl.text = "%d%%" % int(stats.get("unrest", 10.0))
+		unrest_lbl.text = "%d%%" % int(unrest)
+
+	# Apply dynamic heatmap styling
+	var style: StyleBoxFlat = card.get_theme_stylebox("panel") as StyleBoxFlat
+	if style != null:
+		match current_mode:
+			HeatmapMode.ALL:
+				style.border_color = Color(0.2, 0.6, 0.85, 0.7)
+				style.bg_color = Color(0.04, 0.1, 0.18, 0.9)
+			HeatmapMode.CRIME:
+				if unrest >= 35.0:
+					style.border_color = Color(0.95, 0.25, 0.25, 0.95)
+					style.bg_color = Color(0.18, 0.05, 0.08, 0.92)
+				elif unrest >= 15.0:
+					style.border_color = Color(0.9, 0.55, 0.2, 0.85)
+					style.bg_color = Color(0.14, 0.08, 0.05, 0.9)
+				else:
+					style.border_color = Color(0.2, 0.45, 0.65, 0.5)
+					style.bg_color = Color(0.03, 0.07, 0.14, 0.85)
+			HeatmapMode.ECONOMY:
+				if prosp >= 60.0:
+					style.border_color = Color(0.25, 0.9, 0.45, 0.95)
+					style.bg_color = Color(0.04, 0.15, 0.08, 0.92)
+				elif prosp >= 35.0:
+					style.border_color = Color(0.3, 0.7, 0.85, 0.85)
+					style.bg_color = Color(0.04, 0.1, 0.18, 0.9)
+				else:
+					style.border_color = Color(0.85, 0.65, 0.2, 0.85)
+					style.bg_color = Color(0.15, 0.11, 0.04, 0.9)
+			HeatmapMode.FACTIONS:
+				var dom_f: String = stats.get("dominant_faction", "")
+				if faction_mgr.factions.has(dom_f):
+					style.border_color = faction_mgr.factions[dom_f].get(
+						"color", Color.CYAN
+					)
+					style.bg_color = Color(0.06, 0.1, 0.16, 0.92)
+				else:
+					style.border_color = Color(0.2, 0.6, 0.85, 0.7)
+					style.bg_color = Color(0.04, 0.1, 0.18, 0.9)
 
 
 func _on_faction_standing_changed(f_id: String, _new_val: float) -> void:

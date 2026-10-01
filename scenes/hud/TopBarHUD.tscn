@@ -1,37 +1,73 @@
-[gd_scene format=3 uid="uid://topbarhud001"]
+[gd_scene load_steps=18 format=3 uid="uid://topbarhud001"]
 
 [ext_resource type="Script" path="res://scripts/ui/TopBarHUD.gd" id="1_hud"]
+[ext_resource type="Texture2D" path="res://assets/sprites/hud/hud_header_frame.png" id="2_frame"]
+[ext_resource type="Texture2D" path="res://assets/sprites/hud/city_emblem_badge.png" id="3_crest"]
+[ext_resource type="Texture2D" path="res://assets/sprites/hud/dial_approval_gauge.png" id="4_dial"]
+[ext_resource type="Texture2D" path="res://assets/sprites/hud/gauge_needle.png" id="5_needle"]
+[ext_resource type="Texture2D" path="res://assets/sprites/hud/coin_stack_icon.png" id="6_coin"]
+[ext_resource type="Texture2D" path="res://assets/sprites/hud/offshore_safe_icon.png" id="7_safe"]
+[ext_resource type="Shader" path="res://assets/shaders/suspicion_pulse.gdshader" id="8_pulse_shader"]
+[ext_resource type="Texture2D" path="res://assets/sprites/hud/suspicion_tube_bg.png" id="9_tube_bg"]
+[ext_resource type="Texture2D" path="res://assets/sprites/hud/suspicion_tube_fill.png" id="10_tube_fill"]
+[ext_resource type="Texture2D" path="res://assets/sprites/hud/icon_blueprint_map.png" id="11_icon_map"]
+[ext_resource type="Texture2D" path="res://assets/sprites/hud/icon_broadcast_antenna.png" id="12_icon_twitch"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hud"]
-bg_color = Color(0.09, 0.11, 0.14, 0.94)
-border_width_bottom = 2
-border_color = Color(0.24, 0.28, 0.35, 1)
-shadow_color = Color(0, 0, 0, 0.4)
-shadow_size = 6
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hud"]
+texture = ExtResource("2_frame")
+texture_margin_left = 16.0
+texture_margin_top = 4.0
+texture_margin_right = 16.0
+texture_margin_bottom = 6.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_bg"]
-bg_color = Color(0.15, 0.18, 0.22, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mini_bg"]
+bg_color = Color(0.12, 0.14, 0.18, 0.9)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_fill"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mini_fill"]
 bg_color = Color(0.18, 0.65, 0.45, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_susp_fill"]
-bg_color = Color(0.85, 0.25, 0.2, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pulse"]
+shader = ExtResource("8_pulse_shader")
+shader_parameter/pulse_intensity = 0.0
+shader_parameter/glow_color = Color(1, 0.18, 0.12, 0.9)
+shader_parameter/speed = 5.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tube_bg"]
+texture = ExtResource("9_tube_bg")
+texture_margin_left = 8.0
+texture_margin_top = 2.0
+texture_margin_right = 8.0
+texture_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tube_fill"]
+texture = ExtResource("10_tube_fill")
+texture_margin_left = 8.0
+texture_margin_top = 2.0
+texture_margin_right = 8.0
+texture_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_map_btn"]
+bg_color = Color(0.1, 0.22, 0.35, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.75, 1, 0.9)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_twitch_btn"]
-bg_color = Color(0.38, 0.22, 0.65, 0.9)
+bg_color = Color(0.32, 0.18, 0.55, 0.9)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
@@ -60,78 +96,142 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 72.0
 grow_horizontal = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_hud")
+theme_override_styles/panel = SubResource("StyleBoxTexture_hud")
 script = ExtResource("1_hud")
 
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 2
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 8
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 6
 
 [node name="HBox" type="HBoxContainer" parent="Margin"]
 layout_mode = 2
-theme_override_constants/separation = 24
+theme_override_constants/separation = 16
 
-[node name="DayLabel" type="Label" parent="Margin/HBox"]
+[node name="CityEmblemBadge" type="TextureRect" parent="Margin/HBox"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("3_crest")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ShiftClockBox" type="VBoxContainer" parent="Margin/HBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="DayLabel" type="Label" parent="Margin/HBox/ShiftClockBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.88, 0.45, 1)
-theme_override_font_sizes/font_size = 20
-text = "Day: 1"
+theme_override_font_sizes/font_size = 16
+text = "1. Ay / 48"
 vertical_alignment = 1
 
-[node name="ClockLabel" type="Label" parent="Margin/HBox"]
+[node name="ClockLabel" type="Label" parent="Margin/HBox/ShiftClockBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.92, 1, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 14
 text = "🕒 09:00 AM"
 vertical_alignment = 1
 
 [node name="Sep1" type="VSeparator" parent="Margin/HBox"]
 layout_mode = 2
 
-[node name="ApprovalBox" type="VBoxContainer" parent="Margin/HBox"]
-custom_minimum_size = Vector2(220, 0)
+[node name="ApprovalMeterBox" type="HBoxContainer" parent="Margin/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="DialControl" type="Control" parent="Margin/HBox/ApprovalMeterBox"]
+custom_minimum_size = Vector2(98, 56)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="DialFace" type="TextureRect" parent="Margin/HBox/ApprovalMeterBox/DialControl"]
+layout_mode = 0
+offset_right = 98.0
+offset_bottom = 63.0
+texture = ExtResource("4_dial")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ApprovalNeedle" type="Sprite2D" parent="Margin/HBox/ApprovalMeterBox/DialControl"]
+unique_name_in_owner = true
+position = Vector2(49, 58.8)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("5_needle")
+centered = false
+offset = Vector2(-8, -56)
+
+[node name="ApprovalDetails" type="VBoxContainer" parent="Margin/HBox/ApprovalMeterBox"]
+custom_minimum_size = Vector2(105, 0)
 layout_mode = 2
 alignment = 1
 
-[node name="ApprovalLabel" type="Label" parent="Margin/HBox/ApprovalBox"]
+[node name="ApprovalLabel" type="Label" parent="Margin/HBox/ApprovalMeterBox/ApprovalDetails"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 13
 text = "Approval: 50.0%"
 
-[node name="ApprovalBar" type="ProgressBar" parent="Margin/HBox/ApprovalBox"]
+[node name="ApprovalBar" type="ProgressBar" parent="Margin/HBox/ApprovalMeterBox/ApprovalDetails"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 14)
+custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
-theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
-theme_override_styles/fill = SubResource("StyleBoxFlat_bar_fill")
+theme_override_styles/background = SubResource("StyleBoxFlat_mini_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_mini_fill")
 value = 50.0
 show_percentage = false
 
 [node name="Sep2" type="VSeparator" parent="Margin/HBox"]
 layout_mode = 2
 
-[node name="BudgetLabel" type="Label" parent="Margin/HBox"]
+[node name="TreasuryBox" type="HBoxContainer" parent="Margin/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="CoinIcon" type="TextureRect" parent="Margin/HBox/TreasuryBox"]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("6_coin")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BudgetLabel" type="Label" parent="Margin/HBox/TreasuryBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.4, 0.9, 0.6, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 text = "City Budget: $100,000"
 vertical_alignment = 1
 
 [node name="Sep3" type="VSeparator" parent="Margin/HBox"]
 layout_mode = 2
 
-[node name="OffshoreLabel" type="Label" parent="Margin/HBox"]
+[node name="OffshoreBox" type="HBoxContainer" parent="Margin/HBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="SafeIcon" type="TextureRect" parent="Margin/HBox/OffshoreBox"]
+custom_minimum_size = Vector2(36, 36)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("7_safe")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="OffshoreLabel" type="Label" parent="Margin/HBox/OffshoreBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.75, 0.25, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 16
 text = "Offshore Funds: $0"
 vertical_alignment = 1
 
@@ -139,22 +239,23 @@ vertical_alignment = 1
 layout_mode = 2
 
 [node name="SuspicionBox" type="VBoxContainer" parent="Margin/HBox"]
-custom_minimum_size = Vector2(220, 0)
+custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
 alignment = 1
 
 [node name="SuspicionLabel" type="Label" parent="Margin/HBox/SuspicionBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 12
 text = "Federal Suspicion: 0.0%"
 
 [node name="SuspicionBar" type="ProgressBar" parent="Margin/HBox/SuspicionBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 14)
+material = SubResource("ShaderMaterial_pulse")
+custom_minimum_size = Vector2(180, 18)
 layout_mode = 2
-theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
-theme_override_styles/fill = SubResource("StyleBoxFlat_susp_fill")
+theme_override_styles/background = SubResource("StyleBoxTexture_tube_bg")
+theme_override_styles/fill = SubResource("StyleBoxTexture_tube_fill")
 value = 0.0
 show_percentage = false
 
@@ -175,19 +276,31 @@ layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 2
 
+[node name="BtnMap" type="Button" parent="Margin/HBox/SettingsBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(110, 36)
+layout_mode = 2
+tooltip_text = "Municipal Blueprint Map (M)"
+theme_override_colors/font_color = Color(0.85, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("StyleBoxFlat_map_btn")
+icon = ExtResource("11_icon_map")
+text = "Map [M]"
+
 [node name="BtnTwitch" type="Button" parent="Margin/HBox/SettingsBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(95, 36)
+custom_minimum_size = Vector2(98, 36)
 layout_mode = 2
 tooltip_text = "Twitch Chat Polling (T)"
 theme_override_colors/font_color = Color(0.9, 0.82, 1, 1)
 theme_override_font_sizes/font_size = 13
 theme_override_styles/normal = SubResource("StyleBoxFlat_twitch_btn")
-text = "🟣 Twitch"
+icon = ExtResource("12_icon_twitch")
+text = "Twitch"
 
 [node name="BtnPause" type="Button" parent="Margin/HBox/SettingsBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(105, 36)
+custom_minimum_size = Vector2(96, 36)
 layout_mode = 2
 tooltip_text = "Menu / Pause (ESC)"
 theme_override_colors/font_color = Color(1, 0.88, 0.45, 1)
@@ -198,7 +311,7 @@ text = "⏸️ Menu"
 [node name="BtnSettings" type="Button" parent="Margin/HBox/SettingsBox"]
 unique_name_in_owner = true
 visible = false
-custom_minimum_size = Vector2(115, 36)
+custom_minimum_size = Vector2(105, 36)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.88, 0.45, 1)
 theme_override_font_sizes/font_size = 14

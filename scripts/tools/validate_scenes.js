@@ -8,7 +8,11 @@ const scenes = [
   'scenes/desk/DeskShredder.tscn',
   'scenes/desk/DocumentItem.tscn',
   'scenes/desk/PhysicalStampRack.tscn',
-  'scenes/desk/PhysicalStampHandle.tscn'
+  'scenes/desk/PhysicalStampHandle.tscn',
+  'scenes/hud/TopBarHUD.tscn',
+  'scenes/desk/DistrictMapModal.tscn',
+  'scenes/hud/CampaignTrackerHUD.tscn',
+  'scenes/hud/TwitchVoteOverlay.tscn'
 ];
 
 let hasErrors = false;

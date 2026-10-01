@@ -2,6 +2,7 @@ extends PanelContainer
 
 ## CampaignTrackerHUD.gd - Heads-Up Display polling widget during Days 23-30.
 ## Displays the live electoral battle between the Mayor and their rival candidate.
+## Animates polling swings with smooth interpolated transitions.
 
 @onready var poll_bar: ProgressBar = %PollBar
 @onready var incumbent_label: Label = %IncumbentLabel
@@ -9,6 +10,8 @@ extends PanelContainer
 @onready var election_badge: Label = %ElectionBadge
 
 @onready var election_mgr: Node = get_node_or_null("/root/ElectionManager")
+
+var _poll_tween: Tween = null
 
 
 func _ready() -> void:
@@ -25,36 +28,54 @@ func _ready() -> void:
 func _check_initial_visibility() -> void:
 	if election_mgr != null and election_mgr.is_campaign_active:
 		visible = true
-		_update_display(election_mgr.incumbent_poll, election_mgr.rival_poll)
+		_update_display(election_mgr.incumbent_poll, election_mgr.rival_poll, false)
 
 
 func _on_campaign_started(_r_id: String, _r_name: String) -> void:
 	visible = true
 	if election_mgr != null:
-		_update_display(election_mgr.incumbent_poll, election_mgr.rival_poll)
+		_update_display(election_mgr.incumbent_poll, election_mgr.rival_poll, true)
 
 
 func _on_polling_updated(incumbent_pct: float, rival_pct: float) -> void:
 	if not visible:
 		visible = true
-	_update_display(incumbent_pct, rival_pct)
+	_update_display(incumbent_pct, rival_pct, true)
 
 
-func _update_display(incumbent_pct: float, rival_pct: float) -> void:
+func _update_display(
+	incumbent_pct: float, rival_pct: float, animate: bool = true
+) -> void:
 	if poll_bar != null:
-		poll_bar.value = incumbent_pct
+		if animate:
+			if _poll_tween and _poll_tween.is_valid():
+				_poll_tween.kill()
+			_poll_tween = create_tween()
+			_poll_tween.tween_property(
+				poll_bar, "value", incumbent_pct, 0.4
+			).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		else:
+			poll_bar.value = incumbent_pct
 
 	if incumbent_label != null:
-		incumbent_label.text = "🏛️ %s: %d%%" % [tr("UI_INCUMBENT_SHORT"), int(round(incumbent_pct))]
+		incumbent_label.text = "🏛️ %s: %d%%" % [
+			tr("UI_INCUMBENT_SHORT"), int(round(incumbent_pct))
+		]
 
 	if rival_label != null:
-		var r_name: String = election_mgr.get_rival_name() if election_mgr != null else "Rival"
+		var r_name: String = (
+			election_mgr.get_rival_name() if election_mgr != null else "Rival"
+		)
 		rival_label.text = "🎯 %s: %d%%" % [r_name, int(round(rival_pct))]
 
 	if election_badge != null and GameManager != null:
-		var months_left: int = maxi(GameManager.MAX_MONTHS - GameManager.current_month, 0)
+		var months_left: int = maxi(
+			GameManager.MAX_MONTHS - GameManager.current_month, 0
+		)
 		var badge_pattern: String = tr("UI_ELECTION_COUNTDOWN_MONTH")
 		if badge_pattern != "UI_ELECTION_COUNTDOWN_MONTH" and "{months}" in badge_pattern:
 			election_badge.text = badge_pattern.format({"months": months_left})
 		else:
-			election_badge.text = tr("UI_ELECTION_COUNTDOWN").format({"days": months_left}).replace("Gün", "Ay").replace("Days", "Months")
+			election_badge.text = tr("UI_ELECTION_COUNTDOWN").format(
+				{"days": months_left}
+			).replace("Gün", "Ay").replace("Days", "Months")

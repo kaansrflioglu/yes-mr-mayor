@@ -111,8 +111,14 @@ func test_criterion_3_red_telephone_flow() -> void:
 	var initial_budget: int = GameManager.city_budget
 	var initial_suspicion: float = GameManager.suspicion_meter
 
-	# Trigger ring
-	phone.ring_telephone()
+	# Trigger ring with Party Boss call
+	var party_call: HotlineCallData = null
+	if phone.hotline_mgr != null:
+		for c in phone.hotline_mgr.all_calls:
+			if c.id == "CALL_PARTY_PAC":
+				party_call = c
+				break
+	phone.ring_telephone(party_call)
 	var ringing: bool = phone.is_ringing
 
 	# Click phone to answer
