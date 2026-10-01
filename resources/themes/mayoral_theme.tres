@@ -1,0 +1,137 @@
+[gd_resource type="Theme" load_steps=18 format=3]
+
+[ext_resource type="FontFile" path="res://assets/fonts/Inter-Medium.ttf" id="1_font_inter"]
+[ext_resource type="FontFile" path="res://assets/fonts/Inter-Bold.ttf" id="2_font_inter_bold"]
+[ext_resource type="FontFile" path="res://assets/fonts/Cinzel-Bold.ttf" id="3_font_cinzel"]
+[ext_resource type="FontFile" path="res://assets/fonts/SpecialElite-Regular.ttf" id="4_font_specialelite"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/slices/btn_brass_normal.png" id="5_btn_normal"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/slices/btn_brass_hover.png" id="6_btn_hover"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/slices/btn_brass_pressed.png" id="7_btn_pressed"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/slices/btn_brass_disabled.png" id="8_btn_disabled"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/slices/panel_parchment_9patch.png" id="9_panel_parchment"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/slices/panel_leather_9patch.png" id="10_panel_leather"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ui/slices/panel_modal_frame.png" id="11_panel_modal"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_normal"]
+texture = ExtResource("5_btn_normal")
+texture_margin_left = 6.0
+texture_margin_top = 6.0
+texture_margin_right = 6.0
+texture_margin_bottom = 6.0
+modulate_color = Color(0.831373, 0.686275, 0.215686, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_hover"]
+texture = ExtResource("6_btn_hover")
+texture_margin_left = 6.0
+texture_margin_top = 6.0
+texture_margin_right = 6.0
+texture_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_pressed"]
+texture = ExtResource("7_btn_pressed")
+texture_margin_left = 6.0
+texture_margin_top = 8.0
+texture_margin_right = 6.0
+texture_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_disabled"]
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 6.0
+bg_color = Color(0.145098, 0.152941, 0.172549, 0.5)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.235294, 0.247059, 0.27451, 0.5)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_parchment"]
+content_margin_left = 14.0
+content_margin_top = 14.0
+content_margin_right = 14.0
+content_margin_bottom = 14.0
+texture = ExtResource("9_panel_parchment")
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_leather"]
+content_margin_left = 14.0
+content_margin_top = 14.0
+content_margin_right = 14.0
+content_margin_bottom = 14.0
+texture = ExtResource("10_panel_leather")
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_modal_frame"]
+content_margin_left = 18.0
+content_margin_top = 18.0
+content_margin_right = 18.0
+content_margin_bottom = 18.0
+bg_color = Color(0.0784314, 0.101961, 0.141176, 0.96)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.831373, 0.686275, 0.215686, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 32
+
+[resource]
+default_font = ExtResource("1_font_inter")
+default_font_size = 16
+
+Button/colors/font_color = Color(0.956863, 0.921569, 0.85098, 1)
+Button/colors/font_hover_color = Color(1, 0.960784, 0.615686, 1)
+Button/colors/font_pressed_color = Color(0.831373, 0.686275, 0.215686, 1)
+Button/colors/font_disabled_color = Color(0.501961, 0.501961, 0.501961, 0.5)
+Button/fonts/font = ExtResource("1_font_inter")
+Button/font_sizes/font_size = 16
+Button/styles/normal = SubResource("StyleBoxTexture_btn_normal")
+Button/styles/hover = SubResource("StyleBoxTexture_btn_hover")
+Button/styles/pressed = SubResource("StyleBoxTexture_btn_pressed")
+Button/styles/disabled = SubResource("StyleBoxFlat_btn_disabled")
+Button/styles/focus = SubResource("StyleBoxTexture_btn_hover")
+
+Label/fonts/font = ExtResource("1_font_inter")
+Label/font_sizes/font_size = 16
+Label/colors/font_color = Color(0.956863, 0.921569, 0.85098, 1)
+
+LabelTypewriter/base_type = &"Label"
+LabelTypewriter/fonts/font = ExtResource("4_font_specialelite")
+LabelTypewriter/font_sizes/font_size = 15
+LabelTypewriter/colors/font_color = Color(0.117647, 0.121569, 0.133333, 1)
+
+LabelDecreeHeader/base_type = &"Label"
+LabelDecreeHeader/fonts/font = ExtResource("3_font_cinzel")
+LabelDecreeHeader/font_sizes/font_size = 22
+LabelDecreeHeader/colors/font_color = Color(0.101961, 0.066667, 0.043137, 1)
+
+LabelHUDValue/base_type = &"Label"
+LabelHUDValue/fonts/font = ExtResource("2_font_inter_bold")
+LabelHUDValue/font_sizes/font_size = 18
+LabelHUDValue/colors/font_color = Color(0.956863, 0.921569, 0.85098, 1)
+
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_parchment")
+
+panel_parchment/base_type = &"PanelContainer"
+panel_parchment/styles/panel = SubResource("StyleBoxTexture_parchment")
+
+panel_dark_leather/base_type = &"PanelContainer"
+panel_dark_leather/styles/panel = SubResource("StyleBoxTexture_leather")
+
+panel_modal_frame/base_type = &"PanelContainer"
+panel_modal_frame/styles/panel = SubResource("StyleBoxFlat_modal_frame")

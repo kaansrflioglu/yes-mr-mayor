@@ -39,3 +39,8 @@ $RECYCLE.BIN/
 *.sublime-workspace
 *.swp
 *~
+
+# Node Tools & Dependencies
+node_modules/
+package.json
+package-lock.json
